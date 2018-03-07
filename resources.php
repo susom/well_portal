@@ -70,21 +70,20 @@ $cats           = array();
 $url = $_SERVER['REQUEST_URI'];
 $domain_page = $url[strlen($url)-1];
 
-
+$pageTitle = "Well v2 Resource Links";
+$bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
     <div class="main-container">
         <div class="main wrapper clearfix">
-          <div class = domains>
+          <div class="domains">
                 <?php  
                 if(!is_numeric($domain_page)){
                     foreach($radar_domains as $key=>$val){
                   ?>
-                    <section>
-                        <figure>
-                            <img src = assets/img/0<?php echo $key;?>-domain.jpg> 
-                        </figure>
-                        <a href = "resources.php?nav=resources-<?php echo $key; ?>" style = "font-size: 13px;"> 
+                    <section class="domain_big">
+                        <a href = "resources.php?nav=resources-<?php echo $key; ?>"> 
+                          <img src = assets/img/0<?php echo $key;?>-domain.jpg> 
                           <?php echo $radar_domains[$key]; ?>
                         </a>
                     </section>
@@ -112,5 +111,19 @@ section{
 img{
   max-width: 126px;
   max-height: 168px;
+}
+
+
+.domain_big {
+    margin:30px 0;
+}
+.domain_big a{
+  display:block; 
+  text-align:center; 
+  font-size:15px;
+}
+.domain_big a img {
+  display:block;
+  margin:0 auto;
 }
 </style>

@@ -1,54 +1,5 @@
 <!doctype html>
-<div class = "sidenav"><!-- 
-	<div class = "content-field">
-		<img class = "sideImages" src = "assets/img/00-domain.jpg">
-		<a href="resources.php?nav=resources-0">Exploration and Creativity</a>
-	</div>
-	<a href="resources.php?nav=resources-1">Lifestyle Behaviors</a>
-	<a href="resources.php?nav=resources-2">Social Connectedness</a>
-	<a href="resources.php?nav=resources-3">Stress and Resilience</a>
-	<a href="resources.php?nav=resources-4">Experience of Emotions</a>
-	<a href="resources.php?nav=resources-5">Sense of Self</a>
-	<a href="resources.php?nav=resources-6">Physical Health</a>
-	<a href="resources.php?nav=resources-7">Purpose and Meaning</a>
-	<a href="resources.php?nav=resources-8">Financial Security</a>
-	<a href="resources.php?nav=resources-9">Spirituality and Religion</a> -->
-	<li>
-		<ul>
-			<img class = "sideImages" src = "assets/img/00-domain.jpg">
-			<a href="resources.php?nav=resources-0">Exploration and Creativity</a>
-		</ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/01-domain.jpg">
-			<a href="resources.php?nav=resources-1">Lifestyle Behaviors</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/02-domain.jpg">
-			<a href="resources.php?nav=resources-2">Social Connectedness</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/03-domain.jpg">
-			<a href="resources.php?nav=resources-3">Stress and Resilience</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/04-domain.jpg">
-			<a href="resources.php?nav=resources-4">Experience of Emotions</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/05-domain.jpg">
-			<a href="resources.php?nav=resources-5">Sense of Self</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/06-domain.jpg">
-			<a href="resources.php?nav=resources-6">Physical Health</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/07-domain.jpg">
-			<a href="resources.php?nav=resources-7">Purpose and Meaning</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/08-domain.jpg">
-			<a href="resources.php?nav=resources-8">Financial Security</a></ul>
-		<ul>
-			<img class = "sideImages" src = "assets/img/09-domain.jpg">
-			<a href="resources.php?nav=resources-9">Spirituality and Religion</a></ul>
-	</li>
-</div>
-
-<div id = "main">
+<article>
 	<?php
 	$empty_flag = True; 
 	foreach($cats as $domainEntry){
@@ -69,7 +20,45 @@
 		echo "No current resources";
 	}
 	?>
-</div>
+</article>
+
+<aside class = "sidenav">
+	<ul>
+		<li>
+			<img class = "sideImages" src = "assets/img/00-domain.jpg">
+			<a href="resources.php?nav=resources-0">Exploration and Creativity</a>
+		</li>
+		<li>
+			<img class = "sideImages" src = "assets/img/01-domain.jpg">
+			<a href="resources.php?nav=resources-1">Lifestyle Behaviors</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/02-domain.jpg">
+			<a href="resources.php?nav=resources-2">Social Connectedness</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/03-domain.jpg">
+			<a href="resources.php?nav=resources-3">Stress and Resilience</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/04-domain.jpg">
+			<a href="resources.php?nav=resources-4">Experience of Emotions</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/05-domain.jpg">
+			<a href="resources.php?nav=resources-5">Sense of Self</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/06-domain.jpg">
+			<a href="resources.php?nav=resources-6">Physical Health</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/07-domain.jpg">
+			<a href="resources.php?nav=resources-7">Purpose and Meaning</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/08-domain.jpg">
+			<a href="resources.php?nav=resources-8">Financial Security</a></li>
+		<li>
+			<img class = "sideImages" src = "assets/img/09-domain.jpg">
+			<a href="resources.php?nav=resources-9">Spirituality and Religion</a></li>
+	</ul>
+</aside>
+
+
 
 <style>
 .resourceEntry{
@@ -87,19 +76,16 @@ ul,li{
 	max-height: 40px;
 	max-width: 40px;
 	display:inline-block;
-	float left;
 }
 .sidenav{
 	width: 300px;;
 	z-index: 1;
 	left:0;
 	overflow-x:hidden;
-	padding-top:20px;
-	position:fixed;
 }
 
 .sidenav a{
-	font-size:13px;
+	font-size:16px;
 	color:black;
 	display:inline-block;
 
@@ -108,8 +94,12 @@ ul,li{
 	background-color: #f2f2f2;
 
 }
+.sidenav li {
+	margin-bottom:15px; 
+}
 
-#main{
+
+article{
 
 	width:70%;
 	float:right;
