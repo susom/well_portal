@@ -11,7 +11,7 @@
 					<?php echo $domainEntry["pic"];?>
 				</figure>
 				<p> <?php echo $domainEntry["content"]; ?></p>
-				<a href="<?php echo $domainEntry["link"];?>">LINK</a>
+				<a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a>
 			</div>
 	<?php
 		} //if
@@ -66,6 +66,9 @@
 	width:100%;
 	height:70px;
 	font-size: 13px;
+	background-color: #f2f2f2;
+	margin:10px;
+	border-radius: 10px;
 }
 
 ul,li{

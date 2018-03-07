@@ -55,12 +55,12 @@ foreach($events as $event){
     }
       $order = intval($event["well_cms_displayord"]);
 
-  
     $cats[$order] = array(
         "pic"      => $eventpic
         ,"link"     => $event["well_cms_event_link"] 
         ,"domain"   => $event["well_cms_domain"]
         ,"content" => $event["well_cms_content"]
+        ,"link-text" => $event["well_cms_text_link"]
     );
 }
 ksort($cats);

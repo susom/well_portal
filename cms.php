@@ -123,8 +123,8 @@ include("models/inc/gl_header.php");
         $labels       = array_column($results, 'field_label'); 
         $mon_display  = array(3,4,5,8,11);
         $evt_display  = array(9,6,3,4,5,8,11);
-        $res_display  = array(9,6,12,4,5,8,11); //4
-//        print_rr($fields); probably edit some of these out for res
+        $res_display  = array(9,6,7,12,4,5,8,11); //4
+        //print_rr($fields); //probably edit some of these out for res
         $extra_params = array(
           'content'   => 'record',
           'format'    => 'json'
@@ -204,6 +204,7 @@ include("models/inc/gl_header.php");
                 }elseif ($cat == 2){
                   $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
                   $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
+                  $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
                   $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
                   $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
                 }
