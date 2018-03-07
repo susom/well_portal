@@ -76,6 +76,8 @@ foreach($cats as $cat){
 }
 
 //CALCULATE WELL SCORES
+$long_scores = array();
+$short_scores = array();
 if($core_surveys_complete){
   if(!$user_short_scale){
     // CHECK IF EXISTING LONG SCORE
@@ -320,7 +322,7 @@ if($core_surveys_complete){
     $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
 
     // ONLY WANT TO SHOW IT IF AT LEAST THE 1st anniversary WAS COMPLETED
-    if( !count($user_ws) ){
+    if( !count($user_ws)  || 1){
       //CALCULATE WELL_SCORE FOR CURRENT USER IF NOT ALREADY STORED
       //SHORT SCALE SCORE
       $short_q_fields  = array(
@@ -431,7 +433,7 @@ if(isset($_GET["survey_complete"])){
 
     if(!isset($all_survey_keys[$index+1])){ 
       //TODO PUT THIS INTO A FUNCTION OR SOMEWHERE
-      $get_well_score = $user_short_scale ? $short_score : $long_scores;
+      $get_well_score = $user_short_scale ? $short_scores : $long_scores;
       if($user_short_scale){
         $for_popup        = array_slice($get_well_score, -1);
         $new_well_score   = round((array_sum($for_popup[$user_event_arm])/50)*100);
