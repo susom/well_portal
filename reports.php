@@ -260,7 +260,7 @@ details {
     vertical-align: bottom;
     padding-left:48px;
     height:32px;
-    background:url(../PDF/ico_cert_completion.png) 0 0 no-repeat;
+    background:url(PDF/ico_cert_completion.png) 0 0 no-repeat;
     background-size:37px 30px;
     line-height:170%;
 }
