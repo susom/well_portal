@@ -33,37 +33,37 @@ $loc            = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
 $cats           = array();
 
 
-  $filterlogic                    = array();
-  $filterlogic[]                  = '[well_cms_loc] = "'.$loc.'"';
-  $filterlogic[]                  = '[well_cms_catagory] = "'."2".'"';
-  $filterlogic[]                  = '[well_cms_active] = "1"';
-  $extra_params["filterLogic"]    = implode(" and ", $filterlogic);
-  $events                         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
-      //is resources
-      $cats = array();
+$filterlogic                    = array();
+$filterlogic[]                  = '[well_cms_loc] = "'.$loc.'"';
+$filterlogic[]                  = '[well_cms_catagory] = "'."2".'"';
+$filterlogic[]                  = '[well_cms_active] = "1"';
+$extra_params["filterLogic"]    = implode(" and ", $filterlogic);
+$events                         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
+//is resources
+$cats = array();
 
-      foreach($events as $event){
-          $recordid   = $event["id"];
-          $eventpic   = "";
-          $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
-          if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
-            $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
-            $mime     = $split[0];
-            $split2   = explode('"',$split[1]);
-            $imgname  = $split2[1];
-            $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
-          }
-            $order = intval($event["well_cms_displayord"]);
+foreach($events as $event){
+    $recordid   = $event["id"];
+    $eventpic   = "";
+    $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
+    if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+      $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
+      $mime     = $split[0];
+      $split2   = explode('"',$split[1]);
+      $imgname  = $split2[1];
+      $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
+    }
+      $order = intval($event["well_cms_displayord"]);
 
-        
-          $cats[$order] = array(
-              "pic"      => $eventpic
-              ,"link"     => $event["well_cms_event_link"] 
-              ,"domain"   => $event["well_cms_domain"]
-              ,"content" => $event["well_cms_content"]
-          );
-      }
-      ksort($cats);
+  
+    $cats[$order] = array(
+        "pic"      => $eventpic
+        ,"link"     => $event["well_cms_event_link"] 
+        ,"domain"   => $event["well_cms_domain"]
+        ,"content" => $event["well_cms_content"]
+    );
+}
+ksort($cats);
 
 // if( then render)
 // $default = "?domain=creativity" 

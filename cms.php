@@ -266,7 +266,7 @@ include("models/inc/gl_header.php");
                         $value_label  = explode(", ",$pair);
                         $key          = trim($value_label[0]); 
                         $val          = trim($value_label[1]); 
-                        $fields[]     = "<option value='".$key."' $selected>".$val."</option>";
+                        $fields[]     = "<option value='".$key."' >".$val."</option>";
                       }
                       $fields[] = "</select>";
                       $fields[] = "</label>";
