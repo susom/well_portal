@@ -26,8 +26,9 @@
                   $linksid        = $surveycomplete ? $umbrella_sid : $surveyid;
                   $surveylink     = "survey.php?sid=" . $linksid;
 
+                  $longorshort    = $user_short_scale ? "Brief WELL for Life Scale" : "Stanford WELL for Life Scale";
                   //every one of the core surveys will be labled "wellbeing_questions"
-                  $surveyname     = isset($title_trans[$_SESSION["use_lang"]][$umbrella_sid]) ?  $title_trans[$_SESSION["use_lang"]][$umbrella_sid] : "Stanford WELL for Life Scale";
+                  $surveyname     = isset($title_trans[$_SESSION["use_lang"]][$umbrella_sid]) ?  $title_trans[$_SESSION["use_lang"]][$umbrella_sid] : $longorshort;
 
                   $completeclass  = ($surveycomplete ? "completed":"");
                   $hreflink       = (is_null($new) || $surveycomplete ? "href" : "rel");
