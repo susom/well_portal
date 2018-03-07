@@ -40,7 +40,7 @@ $cats           = array();
   $extra_params["filterLogic"]    = implode(" and ", $filterlogic);
   $events                         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
       //is resources
-      $cats[2] = array();
+      $cats = array();
 
       foreach($events as $event){
           $recordid   = $event["id"];
@@ -56,13 +56,14 @@ $cats           = array();
             $order = intval($event["well_cms_displayord"]);
 
         
-          $cats[2][$order] = array(
+          $cats[$order] = array(
               "pic"      => $eventpic
               ,"link"     => $event["well_cms_event_link"] 
               ,"domain"   => $event["well_cms_domain"]
+              ,"content" => $event["well_cms_content"]
           );
       }
-      ksort($cats[2]);
+      ksort($cats);
 
 // if( then render)
 // $default = "?domain=creativity" 
@@ -91,45 +92,12 @@ include_once("models/inc/gl_head.php");
                     }//foreach
                 }//if isset
                 else{
-                  print_rr("Implement second page here");
-                  switch($domain_page){
-                    case 0:
-                      ?> <li>nice</li> <?php
-                      break;
-                    case 1:
-                      break;
-                    case 2:
-                      break;
-                    case 3:
-                      break;
-                    case 4:
-                      break;
-                    case 5:
-                      break;
-                    case 6:
-                      break;
-                    case 7:
-                      break;
-                    case 8:
-                      break;
-                    case 9:
-                      break;
-                    default:
-
-                  }
+                   include_once("models/inc/gl_domainSideNav.php");
                 }
                 ?>
-          
-
-            <?php 
-           // include_once("models/inc/gl_surveynav.php");
-            ?>
           </div>
         </div> <!-- #main -->
     </div> <!-- #main-container -->
-<?php 
-include_once("models/inc/gl_foot.php");
-?>
 
 <style>
 li{

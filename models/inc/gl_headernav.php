@@ -22,6 +22,7 @@
     <div class="wrapper clearfix">
         <?php  
         if(isset($cats[1])){
+            if(isset($cats[1]["subject"]) && isset($cats[1]["content"])){
         ?>
         <h2><?php echo $cats[1]["subject"]?></h2>
         <blockquote>
@@ -35,6 +36,7 @@
         </style>
         <?php 
         }
+    }
         ?>
     </div>
 </div>
