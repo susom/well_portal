@@ -23,6 +23,7 @@
 </article>
 
 <aside class = "sidenav">
+	<h4>My Resources</h4>
 	<ul>
 		<li>
 			<img class = "sideImages" src = "assets/img/00-domain.jpg">
@@ -119,5 +120,9 @@ figure{
 	float:left;
 	display:inline-block;
 }
-
+h4{
+	color:chocolate;
+	text-align:center;
+	font-size: 135%;
+}
 </style>
