@@ -21,7 +21,7 @@
 </article>
 
 <aside class = "sidenav">
-	<h3>My Resources</h3>
+	<h4>My Resources</h4>
 	<ul>
 		<li>
 			<img class = "sideImages" src = "assets/img/00-domain.jpg">
@@ -119,5 +119,10 @@ a{
 	max-width:126px;
 	max-height:126px;
 	margin:10px;
+}
+h4{
+	color:chocolate;
+	text-align:left;
+	font-size: 150%;
 }
 </style>
