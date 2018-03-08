@@ -182,24 +182,31 @@ include_once("models/inc/gl_head.php");
 
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
-                                echo "<blockquote>Your ".$armyears[$sid_arm]." Brief* WELL for Life Scale Score <b>".($brief_score*2)."/100</b> </blockquote>";
-                                echo "<i>*Because of the shortened scale we are only able to provide an overall well-being score, not individual domain scores. Make sure to take the standard WELL for Life Scale next year for a full report. If you wish to compare your overall well-being scores, please use the “Compare” feature found in the Reports tab.</i>";
+                                if(!empty($brief_score)){
+                                  echo "<blockquote>Your ".$armyears[$sid_arm]." Brief* WELL for Life Scale Score <b>".($brief_score*2)."/100</b> </blockquote>";
+                                  echo "<i>*Because of the shortened scale we are only able to provide an overall well-being score, not individual domain scores. Make sure to take the standard WELL for Life Scale next year for a full report. If you wish to compare your overall well-being scores, please use the “Compare” feature found in the Reports tab.</i>";
+                                }else{
+                                  echo "<p>Sorry, we did not have enough data to calculate a Brief Well for Life Scale Score for this year.</p><p>Please be sure to fully complete the surveys in the future.</p>";
+                                }
                               }else{
                                 $long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
-                                //createResultsFile(); put the following code within funcs general and include later
-                                $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
-                                $csv_data = "group, axis, value, description\n";
-                                $ct = 0;
-                                foreach ($long_scores as $key => $value){
-                                  $ct++;
-                                  $csv_data .= "User, ". $key .", ". $value .", ". $domain_desc[$ct] ."\n";
+                                if(!empty($long_scores)){
+                                  //createResultsFile(); put the following code within funcs general and include later
+                                  $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
+                                  $csv_data = "group, axis, value, description\n";
+                                  $ct = 0;
+                                  foreach ($long_scores as $key => $value){
+                                    $ct++;
+                                    $csv_data .= "User, ". $key .", ". $value .", ". $domain_desc[$ct] ."\n";
+                                  }
+                                  file_put_contents($users_file_csv, $csv_data);
+                                  $sum_long_score = round(array_sum($long_scores));
+                                  ?>
+                                  <object type = "text/html" data = "radar_chart_template.php?well_long_score=<?php echo $sum_long_score?>&id=<?php echo $loggedInUser->id?>" width = 100%></object>
+                                  <?php
+                                }else{
+                                  echo "<p>Sorry, we did not have enough data to calculate a Well for Life Scale Score for this year.</p><p>Please be sure to fully complete the surveys in the future.</p>";
                                 }
-                                file_put_contents($users_file_csv, $csv_data);
-                                $sum_long_score = round(array_sum($long_scores));
-                                
-                                ?>
-                                <object type = "text/html" data = "radar_chart_template.php?well_long_score=<?php echo $sum_long_score?>&id=<?php echo $loggedInUser->id?>" width = 100%></object>
-                                <?php
                               }
                             break;
 
@@ -260,7 +267,7 @@ details {
     vertical-align: bottom;
     padding-left:48px;
     height:32px;
-    background:url(../PDF/ico_cert_completion.png) 0 0 no-repeat;
+    background:url(PDF/ico_cert_completion.png) 0 0 no-repeat;
     background-size:37px 30px;
     line-height:170%;
 }
