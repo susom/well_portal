@@ -265,7 +265,7 @@ include("models/inc/gl_header.php");
 					foreach ($password_reset_pairs as $i => $pair){
 					?>
 						<div class="form-group">
-							<label for="<?php echo $pair["question"] ?>" class="control-label col-sm-3"><?php echo lang("FORGOTPASS_SEC_Q") ?> <?php echo $i  ?>:</label>
+							<label for="<?php echo $pair["question"] ?>" class="control-label col-sm-3"><?php echo lang("FORGOTPASS_SEC_Q") ?> :</label>
 							<div class="col-sm-8">
 								<p><?php echo ($i == 3 ? $user_qs[$i] : $template_security_questions[$user_qs[$i]]); ?></p>
 								<input type="text" placeholder="<?php echo lang("FORGOTPASS_RECOVERY_ANSWER") ?>" class="form-control" aria-label="password recovery answer" name="<?php echo $pair["answer"] ?>" id="<?php echo $pair["answer"] ?>">

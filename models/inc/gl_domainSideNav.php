@@ -7,10 +7,8 @@
 			$empty_flag=False;
 	?> 
 			<div class = "resourceEntry">
-				<figure>
-					<?php echo $domainEntry["pic"];?>
-				</figure>
-				<p> <?php echo $domainEntry["content"]; ?></p>
+				<?php echo $domainEntry["pic"];?>
+				<h2> <?php echo $domainEntry["content"]; ?></h2>
 				<a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a>
 			</div>
 	<?php
@@ -65,16 +63,15 @@
 .resourceEntry{
 	display:block;
 	width:100%;
-	height:70px;
-	font-size: 13px;
 	background-color: #f2f2f2;
 	margin:10px;
 	border-radius: 10px;
+	overflow:hidden;
 }
 
 ul,li{
 	list-style: none;
-	padding-left: none;
+	padding-left: 0;
 }
 .sideImages{
 	max-height: 40px;
@@ -116,13 +113,16 @@ a{
 
 }
 
-figure{
+.event_img{
 	float:left;
 	display:inline-block;
+	max-width:126px;
+	max-height:126px;
+	margin:10px;
 }
 h4{
 	color:chocolate;
-	text-align:center;
-	font-size: 135%;
+	text-align:left;
+	font-size: 150%;
 }
 </style>

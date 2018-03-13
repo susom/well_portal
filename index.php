@@ -440,7 +440,7 @@ if(isset($_GET["survey_complete"])){
       }else{
         $new_well_score   = round(array_sum($get_well_score)) . "/100";
       }
-      $show_well_score  = "<p>Your WELL Score for $current_year is $new_well_score</p>";
+      $show_well_score  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$new_well_score</b></p>";
 
       // will pass $arm_year into the include
       require_once('PDF/fpdf181/fpdf.php');
