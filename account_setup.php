@@ -130,7 +130,7 @@ include("models/inc/gl_header.php");
 				foreach ($password_reset_pairs as $i => $pair){
 				?>
 					<div class="form-group">
-						<label for="sec_q<?php echo $i ?>" class="control-label col-sm-3"><?php echo lang("FORGOTPASS_SEC_Q") ?> <?php echo $i ?>:</label>
+						<label for="sec_q<?php echo $i ?>" class="control-label col-sm-3"><?php echo lang("FORGOTPASS_SEC_Q") ?> :</label>
 						<div class="col-sm-8">
 							<?php 
 								if($i == 3){

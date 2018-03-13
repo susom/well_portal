@@ -1480,7 +1480,13 @@ footer .li a{
     background-position: 0 -1105px !important;
 }
 
-
+.alert b.wellscore{
+    display: block;
+    width: 50px;
+    margin: 20px auto;
+    font-size: 300%;
+    color: orange;
+}
 
 
 
