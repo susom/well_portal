@@ -235,23 +235,23 @@ function getLongScores($domain_fields, $user_completed_fields){
       case "well_score_creativity" :
       case "well_score_religion" :
       case "well_score_financial" :
-        $denom = $domain == "well_score_financial" ? 6 : 5;
+        $denom = $domain == "well_score_financial" ? 5 : 4;
         $field = array_pop($fields);
-        $score[$domain] = round(10*$user_completed_fields[$field]/$denom,2);
+        $score[$domain] = round(10*($user_completed_fields[$field] - 1)/$denom,2);
       break;
             
       case "well_score_health" :
         $domain_items = array();
         foreach($fields as $field){
-          $denom          = $field == "core_fitness_level" ? 6 : 5;
+          $denom          = $field == "core_fitness_level" ? 5 : 4;
           if(!isset($user_completed_fields[$field])){
             continue;
           }
 
           if($field == "core_interfere_life"){
-            $domain_items[] = (6-$user_completed_fields[$field])/$denom;
+            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
           }else{
-            $domain_items[] = $user_completed_fields[$field]/$denom;
+            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
         $temp_score     = 2*array_sum($domain_items);
@@ -265,8 +265,8 @@ function getLongScores($domain_fields, $user_completed_fields){
           if(!isset($user_completed_fields[$field])){
             continue;
           }
-          $denom = 5;
-          $domain_items[] = $user_completed_fields[$field]/$denom;
+          $denom = 4;
+          $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
         }
         $weight = $domain == "well_score_senseself" ? 2 : 5;
         $temp_score     = $weight*array_sum($domain_items);
@@ -280,11 +280,11 @@ function getLongScores($domain_fields, $user_completed_fields){
             continue;
           }
 
-          $denom = 5;
+          $denom = 4;
           if($field == "core_drained" || $field == "core_frustrated" || $field == "core_hopeless" || $field == "core_sad" || $field == "core_worried"){
-            $domain_items[] = (6-$user_completed_fields[$field])/$denom;
+            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
           }else{
-            $domain_items[] = $user_completed_fields[$field]/$denom;
+            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
         $temp_score     = (10/11)*(array_sum($domain_items));
@@ -297,11 +297,11 @@ function getLongScores($domain_fields, $user_completed_fields){
           if(!isset($user_completed_fields[$field])){
             continue;
           }
-          $denom = 5;
+          $denom = 4;
           if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy"){
-            $domain_items[] = (6-$user_completed_fields[$field])/$denom;
+            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
           }else{
-            $domain_items[] = $user_completed_fields[$field]/$denom;
+            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
         $temp_score     = (10/14)*(array_sum($domain_items));
@@ -314,11 +314,11 @@ function getLongScores($domain_fields, $user_completed_fields){
           if(!isset($user_completed_fields[$field])){
             continue;
           }
-          $denom = 5;
+          $denom = 4;
           if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
-            $domain_items[] = (6-$user_completed_fields[$field])/$denom;
+            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
           }else{
-            $domain_items[] = $user_completed_fields[$field]/$denom;
+            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
         $temp_score     = (10/13)*(array_sum($domain_items));
@@ -329,7 +329,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         $domain_items = array();
 
         //physical activity
-        $domain_items["well_score_ls_pa"] = round(2*$user_completed_fields["core_lpaq"]/6,2);
+        $domain_items["well_score_ls_pa"] = round(2*($user_completed_fields["core_lpaq"]-1)/5,2);
 
         //sleep
         $sleep_score = array();
@@ -338,23 +338,24 @@ function getLongScores($domain_fields, $user_completed_fields){
           $sleep_score[]      = $core_sleep_total > 420 && $core_sleep_total <= 540 ? 5/5 : 1/5;
         }
         if(isset($user_completed_fields["core_fallasleep_min"])){
-          $sleep_score[]      = (8-$user_completed_fields["core_fallasleep_min"])/7;
+          $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
         }
         if(isset($user_completed_fields["core_fallasleep"])){
-          $sleep_score[]      = (6-$user_completed_fields["core_fallasleep"])/5;
+          $sleep_score[]      = (5-$user_completed_fields["core_fallasleep"])/4;
         }
         if(isset($user_completed_fields["core_wokeup"])){
-          $sleep_score[]      = (6-$user_completed_fields["core_wokeup"])/5;
+          $sleep_score[]      = (5-$user_completed_fields["core_wokeup"])/4;
         }
         if(isset($user_completed_fields["core_wokeup_early"])){
-          $sleep_score[]      = (6-$user_completed_fields["core_wokeup_early"])/5;
+          $sleep_score[]      = (5-$user_completed_fields["core_wokeup_early"])/4;
         }
         if(isset($user_completed_fields["core_wokeup_unrefresh"])){
-          $sleep_score[]      = (6-$user_completed_fields["core_wokeup_unrefresh"])/5;
+          $sleep_score[]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
         }
-        if(isset($user_completed_fields["core_wokeup_unrefresh"])){
-          $sleep_score[]      = $user_completed_fields["core_wokeup_unrefresh"]/4;
+        if(isset($user_completed_fields["core_sleep_quality"])){
+          $sleep_score[]      = ($user_completed_fields["core_sleep_quality"]-1)/3;
         }
+
         $temp_score         = (2/7)*array_sum($sleep_score); 
         $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),2);
 
