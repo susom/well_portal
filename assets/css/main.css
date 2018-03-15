@@ -384,9 +384,9 @@ nav a:visited {
     list-style:none;
 }
 .main > aside li li{
-    padding-left:30px;
-    padding-top:8px;
-    padding-bottom: 8px;
+    padding-left:40px;
+    padding-top:12px;
+    padding-bottom: 16px;
     position:relative;
 }
 .main > aside li li:hover,
@@ -396,7 +396,7 @@ nav a:visited {
 }
 .main > aside li li:before{
     position:absolute;
-    left:5px; 
+    left:15px; 
     top:50%;
     transform: translateY(-50%);
     content:"";
@@ -459,33 +459,44 @@ nav a:visited {
 }
 
 
-
+.main > aside li li.fitness.food:before{
+    background:url(../img/ico_eat.png) 0 0  no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.running:before{
+    background:url(../img/ico_mat.png) 0 0 no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.biking:before{
+    background:url(../img/ico_met.png) 0 0 no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.weightlifting:before{
+    background:url(../img/ico_stress.png) 0 0 no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.cardio:before{
+    background:url(../img/ico_sleep.png) 0 0  no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.tbone:before{
+    background:url(../img/ico_chinesemed.png) 0 0  no-repeat;
+    background-size:contain;
+}
+.main > aside li li.fitness.carrot:before{
+    background:url(../img/ico_ipaq.png) 0 0  no-repeat;
+    background-size:contain;
+}
 .main > aside li li.fitness:before{
     position:absolute;
     left:5px; 
     top:50%;
     transform: translateY(-50%);
     content:"";
-    background:url(../img/ico_fitness_sprites.png) 2px 1px no-repeat;
-    background-size:180%;
-    width:20px;
-    height:20px;
+    width:30px;
+    height:30px;
 }
-.main > aside li li.fitness.biking:before{
-    background-position: 2px -19px;
-}
-.main > aside li li.fitness.weightlifting:before{
-    background-position:2px -35px;
-}
-.main > aside li li.fitness.cardio:before{
-    background-position:2px -51px;
-}
-.main > aside li li.fitness.tbone:before{
-    background-position:1px -71px;
-}
-.main > aside li li.fitness.carrot:before{
-    background-position:2px -90px;
-}
+
 
 /*THIS IS FOR NOT AVAIALBLE*/
 .main > aside li li.fitness.na:before {
