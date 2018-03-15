@@ -11,22 +11,22 @@
 				if(isset($domainEntry["image-catagory"])){
 					switch($domainEntry["image-catagory"]){
 						case 1:
-							echo "<img src = 'assets/img/01image-catagory.jpg' >";
+							echo "<img src = 'assets/img/01image-catagory.png' >";
 							break;
 						case 2:
-							echo "<img src = 'assets/img/02image-catagory.jpg' >";
+							echo "<img src = 'assets/img/02image-catagory.png' >";
 							break;
 						case 3:
-							echo "<img src = 'assets/img/03image-catagory.jpg' >";
+							echo "<img src = 'assets/img/03image-catagory.png' >";
 							break;
 						case 4:
-							echo "<img src = 'assets/img/04image-catagory.jpg' >";
+							echo "<img src = 'assets/img/04image-catagory.png' >";
 							break;
 						case 5:
-							echo "<img src = 'assets/img/05image-catagory.jpg' >";
+							echo "<img src = 'assets/img/05image-catagory.png' >";
 							break;
 						case 6:
-							echo "<img src = 'assets/img/06image-catagory.jpg' >";
+							echo "<img src = 'assets/img/06image-catagory.png' >";
 							break;
 					}
 
@@ -51,35 +51,35 @@
 	<h4>My Resources</h4>
 	<ul>
 		<li>
-			<img class = "sideImages" src = "assets/img/00-domain.jpg">
+			<img class = "sideImages" src = "assets/img/00-domain.png">
 			<a href="resources.php?nav=resources-0">Exploration and Creativity</a>
 		</li>
 		<li>
-			<img class = "sideImages" src = "assets/img/01-domain.jpg">
+			<img class = "sideImages" src = "assets/img/01-domain.png">
 			<a href="resources.php?nav=resources-1">Lifestyle Behaviors</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/02-domain.jpg">
+			<img class = "sideImages" src = "assets/img/02-domain.png">
 			<a href="resources.php?nav=resources-2">Social Connectedness</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/03-domain.jpg">
+			<img class = "sideImages" src = "assets/img/03-domain.png">
 			<a href="resources.php?nav=resources-3">Stress and Resilience</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/04-domain.jpg">
+			<img class = "sideImages" src = "assets/img/04-domain.png">
 			<a href="resources.php?nav=resources-4">Experience of Emotions</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/05-domain.jpg">
+			<img class = "sideImages" src = "assets/img/05-domain.png">
 			<a href="resources.php?nav=resources-5">Sense of Self</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/06-domain.jpg">
+			<img class = "sideImages" src = "assets/img/06-domain.png">
 			<a href="resources.php?nav=resources-6">Physical Health</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/07-domain.jpg">
+			<img class = "sideImages" src = "assets/img/07-domain.png">
 			<a href="resources.php?nav=resources-7">Purpose and Meaning</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/08-domain.jpg">
+			<img class = "sideImages" src = "assets/img/08-domain.png">
 			<a href="resources.php?nav=resources-8">Financial Security</a></li>
 		<li>
-			<img class = "sideImages" src = "assets/img/09-domain.jpg">
+			<img class = "sideImages" src = "assets/img/09-domain.png">
 			<a href="resources.php?nav=resources-9">Spirituality and Religion</a></li>
 	</ul>
 </aside>
