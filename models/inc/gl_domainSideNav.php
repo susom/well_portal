@@ -7,7 +7,34 @@
 			$empty_flag=False;
 	?> 
 			<div class = "resourceEntry">
-				<?php echo $domainEntry["pic"];?>
+				<?php 
+				if(isset($domainEntry["image-catagory"])){
+					switch($domainEntry["image-catagory"]){
+						case 1:
+							echo "<img src = 'assets/img/01image-catagory.jpg' >";
+							break;
+						case 2:
+							echo "<img src = 'assets/img/02image-catagory.jpg' >";
+							break;
+						case 3:
+							echo "<img src = 'assets/img/03image-catagory.jpg' >";
+							break;
+						case 4:
+							echo "<img src = 'assets/img/04image-catagory.jpg' >";
+							break;
+						case 5:
+							echo "<img src = 'assets/img/05image-catagory.jpg' >";
+							break;
+						case 6:
+							echo "<img src = 'assets/img/06image-catagory.jpg' >";
+							break;
+					}
+
+				}
+
+
+				echo $domainEntry["pic"];
+				?>
 				<h2> <?php echo $domainEntry["content"]; ?></h2>
 				<a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a>
 			</div>

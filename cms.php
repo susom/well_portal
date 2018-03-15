@@ -36,6 +36,15 @@ $radar_domains = array(
   "9" => "Spirituality and Religion"
 );
 
+$image_catagory = array(
+  "0" => "Podcast",
+  "1" => "Video",
+  "2" => "Article",
+  "3" => "Scientific Publication",
+  "4" => "WELL content",
+  "5" => "Partner content"
+);
+
 $lang_req     = isset($_GET["lang"]) ? "?lang=".$_GET["lang"] : "";
 $pg_title     = "$websiteName";
 $body_classes = "cms";
@@ -147,7 +156,8 @@ include("models/inc/gl_header.php");
           $labels       = array_column($results, 'field_label'); 
           $mon_display  = array(3,4,5,8,11);
           $evt_display  = array(9,6,3,4,5,8,11);
-          $res_display  = array(9,6,7,12,4,5,8,11); //4
+         // $res_display  = array(9,6,7,12,4,5,8,11); //4
+          $res_display  = array(9,6,7,12,4,13,8,11); //4
           //print_rr($fields); //probably edit some of these out for res
           $extra_params = array(
             'content'   => 'record',
@@ -219,28 +229,39 @@ include("models/inc/gl_header.php");
                     $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
                     $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
                     $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                    $trs[] = "<td class='pic'>$eventpic";
+                    $trs[] = "<form class='edit_img' action='cms.php' method='post' enctype='multipart/form-data'>";
+                    $trs[] = "<input type='hidden' name='action' value='edit_img'/>";
+                    $trs[] = "<input type='hidden' name='id' value='$recordid'/>";
+                    $trs[] = "<input type='file' name='well_cms_pic'/>";
+                    $trs[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
+                    $trs[] = "</form>";
+                    $trs[] = "</td>";
                   }elseif ($cat == 1){ //monthly goals
                     if(!$monthly_active && $active == "Yes"){
                       $monthly_active = true;
                     }
                     $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
                     $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                    $trs[] = "<td class='pic'>$eventpic";
+                    $trs[] = "<form class='edit_img' action='cms.php' method='post' enctype='multipart/form-data'>";
+                    $trs[] = "<input type='hidden' name='action' value='edit_img'/>";
+                    $trs[] = "<input type='hidden' name='id' value='$recordid'/>";
+                    $trs[] = "<input type='file' name='well_cms_pic'/>";
+                    $trs[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
+                    $trs[] = "</form>";
+                    $trs[] = "</td>";
                   }elseif ($cat == 2){
                     $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
                     $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
                     $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
                     $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
                     $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                    $trs[] = "<td class='link'><input type='text' name='well_cms_image_catagory' value='".$image_catagory[$event["well_cms_image_catagory"]-1] ."'/></td>";
+
                   }
 
-                  $trs[] = "<td class='pic'>$eventpic";
-                  $trs[] = "<form class='edit_img' action='cms.php' method='post' enctype='multipart/form-data'>";
-                  $trs[] = "<input type='hidden' name='action' value='edit_img'/>";
-                  $trs[] = "<input type='hidden' name='id' value='$recordid'/>";
-                  $trs[] = "<input type='file' name='well_cms_pic'/>";
-                  $trs[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
-                  $trs[] = "</form>";
-                  $trs[] = "</td>";
+
                   $trs[] = "<td class='active'><select name='well_cms_active'>";
                   $trs[] = "<option value='0' ".$selected["No"].">No</option>";
                   $trs[] = "<option value='1' ".$selected["Yes"].">Yes</option>";

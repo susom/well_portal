@@ -61,6 +61,7 @@ foreach($events as $event){
         ,"domain"   => $event["well_cms_domain"]
         ,"content" => $event["well_cms_content"]
         ,"link-text" => $event["well_cms_text_link"]
+        ,"image-catagory" => $event["well_cms_image_catagory"]
     );
 }
 ksort($cats);
@@ -125,5 +126,7 @@ img{
 .domain_big a img {
   display:block;
   margin:0 auto;
+  max-width: 72px;
+  fmax-height: 
 }
 </style>
