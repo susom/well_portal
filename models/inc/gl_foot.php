@@ -27,7 +27,6 @@
 <script src="assets/js/roundslider.js"></script>
 <script src="assets/js/verify.notify.min.js"></script>
 <script src="assets/js/underscore-min.js"></script>
-<script src="assets/js/main.js"></script>
 </body>
 </html>
 <script>
