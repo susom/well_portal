@@ -549,6 +549,24 @@ function getUserByUsername($username) {
 	}	
 }
 
+function getUserByRecordID($record_id) {
+	$params = array(
+		'fields' => array(
+			REDCAP_FIRST_FIELD, 
+		)
+	);
+	$params["events"] 		= REDCAP_PORTAL_EVENT;
+	$params["filterLogic"] 	= "[id] = '$record_id'";
+	$result = RC::callApi($params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+	
+	if (!empty($result)) {
+		$user = new RedcapPortalUser($record_id);
+		return $user;
+	}else{
+		return false;
+	}	
+}
+
 // Look up a user by email address - return false or user object
 function getUsernameByParticipantID($portal_participant_id) {
 	$params = array(
@@ -560,7 +578,6 @@ function getUsernameByParticipantID($portal_participant_id) {
 		)
 	);
 	$result = RC::callApi($params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
-	
 	$errors 	= array();
 	$matches 	= array();
 	foreach ($result as $idx => $record) {

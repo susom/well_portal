@@ -1,6 +1,28 @@
 <?php
 require_once("models/config.php");
 
+if(isset($_GET["user_record_id"]) ){
+  $checkuser = getUserByRecordID($_GET["user_record_id"]);
+
+  if($checkuser){
+    // LETS ADD a NEW SESSION TO MEMBER THE ADMIN USER IN CASE THEY GO VIEW AND COME BACK
+    $_SESSION["admin_user"] = $loggedInUser;
+
+    //NOW LETS RESET THE "current user" TO BE THE ID
+    setSessionUser($checkuser);
+    header("location:index.php");
+    exit;
+  }
+  addSessionMessage( "User Id Not Found" , "alert");
+  $_REQUEST["cat"] = 3;
+}
+
+if(isset($_SESSION["admin_user"])){
+  $loggedInUser = $_SESSION["admin_user"];
+  setSessionUser($loggedInUser);
+  unset($_SESSION["admin_user"]);
+}
+
 $radar_domains = array(
   "0" => "Exploration and Creativity",
   "1" => "Lifestyle Behaviors",
@@ -90,7 +112,7 @@ if(!empty($_POST) && isset($_POST["action"])){
 $loc          = isset($_REQUEST["loc"]) ? $_REQUEST["loc"] : "1";
 $cat          = isset($_REQUEST["cat"]) ? $_REQUEST["cat"] : "1";
 
-$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources");
+$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Other");
 $locs         = array(1 => "US", 2 => "Taiwan");
 
 include("models/inc/gl_header.php");
@@ -109,228 +131,246 @@ include("models/inc/gl_header.php");
           <li><a href="?cat=1"  data-val=1 class="<?php if($cat == 1) echo "on"?>"><?php echo $types[1] ?></a></li>
           <li><a href="?cat=0"  data-val=0 class="<?php if($cat == 0) echo "on"?>"><?php echo $types[0] ?></a></li>
           <li><a href="?cat=2" data-val=2 class="<?php if($cat == 2) echo "on"?>"><?php echo $types[2] ?></a></li>
+          <li><a href="?cat=3" data-val=3 class="<?php if($cat == 3) echo "on"?>"><?php echo $types[3] ?></a></li>
         </ul>
 
         <?php
-        $api_url      = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-        $api_token    = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
-        $extra_params = array(
-          'content'   => 'metadata',
-          'format'    => 'json'
-        );
-        $results      = RC::callApi($extra_params, true, $api_url, $api_token); 
-        $fields       = array_column($results, 'field_name'); 
-        $labels       = array_column($results, 'field_label'); 
-        $mon_display  = array(3,4,5,8,11);
-        $evt_display  = array(9,6,3,4,5,8,11);
-        $res_display  = array(9,6,7,12,4,5,8,11); //4
-        //print_rr($fields); //probably edit some of these out for res
-        $extra_params = array(
-          'content'   => 'record',
-          'format'    => 'json'
-        );
-        $filterlogic  = array();
-        if($loc){
-          $filterlogic[] = '[well_cms_loc] = "'.$loc.'"';
-        }
-        if($cat || $cat === "0"){
-          $filterlogic[] = '[well_cms_catagory] = "'.$cat.'"';
-        }
-        if(count($filterlogic)){
-          $extra_params["filterLogic"] = implode(" and ", $filterlogic);
-        }
-        $events       = RC::callApi($extra_params, true, $api_url, $api_token); 
-        ?>
-        <table id="ed_items">
-          <thead>
-            <tr>
-              <?php
-              $display = $cat;
-              // == 0 ? $evt_display : $mon_display;
-              switch($display){
-                case 0:
-                  $display = $evt_display;
-                  break;
-                case 1:
-                  $display = $mon_display;
-                  break;
-                case 2:
-                  $display = $res_display;
-                  break;
-                default:
-                  $display = $mon_display;
-              }
-             // print_r($labels);
-              foreach($display as $item){
-                echo "<th>".$labels[$item]."</th>\n";
-              }
-              ?>
-            <th class='actions'></th>
-            </tr> 
-          </thead>
-          <tbody>
-              <?php
-              $trs            = array();
-              $monthly_active = false;
-
-              foreach($events as $event){
-                $eventpic   = "";
-                $recordid   = $event["id"];
-                $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
-                if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
-                  $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
-                  $mime     = $split[0];
-                  $split2   = explode('"',$split[1]);
-                  $imgname  = $split2[1];
-                  $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
-                }
-                $selected = array("Yes" => "", "No" => "");
-
-                $trs[]    = "<tr data-id='$recordid' class='editable'>";
-                $active   = $event["well_cms_active"] ? "Yes" : "No";
-                $selected[$active] = "selected";
-
-                if($cat == 0){ //event 
-                  $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
-                  $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
-                  $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
-                  $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
-                }elseif ($cat == 1){ //monthly goals
-                  if(!$monthly_active && $active == "Yes"){
-                    $monthly_active = true;
-                  }
-                  $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
-                  $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
-                }elseif ($cat == 2){
-                  $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
-                  $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
-                  $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
-                  $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
-                  $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
-                }
-
-                $trs[] = "<td class='pic'>$eventpic";
-                $trs[] = "<form class='edit_img' action='cms.php' method='post' enctype='multipart/form-data'>";
-                $trs[] = "<input type='hidden' name='action' value='edit_img'/>";
-                $trs[] = "<input type='hidden' name='id' value='$recordid'/>";
-                $trs[] = "<input type='file' name='well_cms_pic'/>";
-                $trs[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
-                $trs[] = "</form>";
-                $trs[] = "</td>";
-                $trs[] = "<td class='active'><select name='well_cms_active'>";
-                $trs[] = "<option value='0' ".$selected["No"].">No</option>";
-                $trs[] = "<option value='1' ".$selected["Yes"].">Yes</option>";
-                $trs[] = "</select></td>";
-                $trs[] = "<td class='updated'>".$event["well_cms_update_ts"]."</td>";
-               // $trs[] = "<td class='domain'>".$event["well_cms_domain"]."</td>";
-                $trs[] = "<td class='editbtns'><a href='#' class='deleteid btn btn-danger' data-id='".$event["id"]."'>Delete</a></td>";
-                $trs[] = "</tr>";
-              }
-              echo implode("\n",$trs);
-              ?>
-          </tbody>
-          <tfoot>
-            <tr class="addnew">
-            <td colspan="<?php echo count($display) + 1 ?>">
-              <a id="additem" href="#">+ add item to <?php echo $types[$cat] ?></a>
-              
-              <form id="newevent" action="cms.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="newevent"/>
-                <input type="hidden" name="well_cms_loc" value="<?php echo $loc?>"/>
-                <input type="hidden" name="well_cms_catagory" value="<?php echo $cat?>"/>
-                <input type="hidden" name="loc" value="<?php echo $loc?>"/>
-                <input type="hidden" name="cat" value="<?php echo $cat?>"/>
-                <fieldset>
-                <h3>New <?php echo substr($types[$cat],0,strlen($types[$cat]) - 1) ?> for <?php echo $locs[$loc] ?></h3>
+        if($cat != 3){
+          $api_url      = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+          $api_token    = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+          $extra_params = array(
+            'content'   => 'metadata',
+            'format'    => 'json'
+          );
+          $results      = RC::callApi($extra_params, true, $api_url, $api_token); 
+          $fields       = array_column($results, 'field_name'); 
+          $labels       = array_column($results, 'field_label'); 
+          $mon_display  = array(3,4,5,8,11);
+          $evt_display  = array(9,6,3,4,5,8,11);
+          $res_display  = array(9,6,7,12,4,5,8,11); //4
+          //print_rr($fields); //probably edit some of these out for res
+          $extra_params = array(
+            'content'   => 'record',
+            'format'    => 'json'
+          );
+          $filterlogic  = array();
+          if($loc){
+            $filterlogic[] = '[well_cms_loc] = "'.$loc.'"';
+          }
+          if($cat || $cat === "0"){
+            $filterlogic[] = '[well_cms_catagory] = "'.$cat.'"';
+          }
+          if(count($filterlogic)){
+            $extra_params["filterLogic"] = implode(" and ", $filterlogic);
+          }
+          $events       = RC::callApi($extra_params, true, $api_url, $api_token); 
+          ?>
+          <table id="ed_items">
+            <thead>
+              <tr>
                 <?php
-                $fields     = array();
-                $new_fields = $display;
-                array_pop($new_fields);
-                foreach($new_fields as $idx){
-                  $field = $results[$idx];
-                  $label = $field["field_label"];
-                  $varid = $field["field_name"];
-                  $type  = $field["field_type"];
-                  $setan = $field["select_choices_or_calculations"];
-                  // https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css
-                  // https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js
-
-                  $fields[] = "<div class='newevent_item'>";
-                  switch($type){
-                    case "dropdown":
-                      $split = explode("|",$setan);
-                      
-                      $fields[] = "<label name='$varid'>";
-                      $fields[] = "<span>$label</span>";
-                      $fields[] = "<select name='$varid'>";
-                      foreach($split as $pair){
-                        $value_label  = explode(", ",$pair);
-                        $key          = trim($value_label[0]); 
-                        $val          = trim($value_label[1]); 
-                        $fields[]     = "<option value='".$key."' >".$val."</option>";
-                      }
-                      $fields[] = "</select>";
-                      $fields[] = "</label>";
+                $display = $cat;
+                // == 0 ? $evt_display : $mon_display;
+                switch($display){
+                  case 0:
+                    $display = $evt_display;
                     break;
-
-                    case "truefalse":
-                      $checked  = array("y" => "", "n" => "");
-                      $disabled = "";
-                      if($cat == 1 && $varid == "well_cms_active" && $monthly_active){
-                        $checked["n"] = "checked";
-                        $disabled = "disabled=true";
-                      }else{
-                        $checked["y"] = "checked";
-                      }
-                      $fields[] = "<label name='$varid'>";
-                      $fields[] = "<span>$label</span>";
-                      $fields[] = "<em><input name='$varid' type='radio' ".$checked["y"]." $disabled value='1'> Yes</em>";
-                      $fields[] = "<em><input name='$varid' type='radio' ".$checked["n"]." $disabled value='0'> No</em>";
-                      $fields[] = "</label>";
+                  case 1:
+                    $display = $mon_display;
                     break;
-
-                    case "notes":
-                      $fields[] = "<label name='$varid'>";
-                      $fields[] = "<span>$label</span>";
-                      $fields[] = "<textarea name='$varid'></textarea>";
-                      $fields[] = "</label>";
+                  case 2:
+                    $display = $res_display;
                     break;
-
-                    case "file":
-                      $fields[] = "<label name='$varid'>";
-                      $fields[] = "<span>$label</span>";
-                      $fields[] = "<input type='file' name='$varid'/>";
-                      if($varid == "well_cms_pic"){
-                        $fields[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
-                      }
-                      $fields[] = "</label>";
-                    break;
-
-                    default: //text
-                      if($varid == "well_cms_displayord"){
-                        $type = "number";
-                        $val  = count($events) + 1;
-                      }else{
-                        $type = "text";
-                        $val  = "";
-                      }
-                      $fields[] = "<label name='$varid'>";
-                      $fields[] = "<span>$label</span>";
-                      $fields[] = "<input type='$type' name='$varid' value='$val'/>";
-                      $fields[] = "</label>";
-                    break;
-                  }
-                  $fields[] = "</div>";
+                  default:
+                    $display = $mon_display;
                 }
-                print(implode("\n",$fields));
+               // print_r($labels);
+                foreach($display as $item){
+                  echo "<th>".$labels[$item]."</th>\n";
+                }
                 ?>
-                </fieldset>
-                <input type="submit" name="submit" class="btn btn-success" value="Save to <?php echo $types[$cat]?>"/>
-              </form>
-            </td>
-            </tr>
-          </tfoot>
-        </table>
+              <th class='actions'></th>
+              </tr> 
+            </thead>
+            <tbody>
+                <?php
+                $trs            = array();
+                $monthly_active = false;
+
+                foreach($events as $event){
+                  $eventpic   = "";
+                  $recordid   = $event["id"];
+                  $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
+                  if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+                    $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
+                    $mime     = $split[0];
+                    $split2   = explode('"',$split[1]);
+                    $imgname  = $split2[1];
+                    $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
+                  }
+                  $selected = array("Yes" => "", "No" => "");
+
+                  $trs[]    = "<tr data-id='$recordid' class='editable'>";
+                  $active   = $event["well_cms_active"] ? "Yes" : "No";
+                  $selected[$active] = "selected";
+
+                  if($cat == 0){ //event 
+                    $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
+                    $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
+                    $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
+                    $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                  }elseif ($cat == 1){ //monthly goals
+                    if(!$monthly_active && $active == "Yes"){
+                      $monthly_active = true;
+                    }
+                    $trs[] = "<td class='subject'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"]  ."'/></td>";
+                    $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                  }elseif ($cat == 2){
+                    $trs[] = "<td class='order'><input type='number' name='well_cms_displayord' value='".$event["well_cms_displayord"] ."'/></td>";
+                    $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
+                    $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
+                    $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
+                    $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
+                  }
+
+                  $trs[] = "<td class='pic'>$eventpic";
+                  $trs[] = "<form class='edit_img' action='cms.php' method='post' enctype='multipart/form-data'>";
+                  $trs[] = "<input type='hidden' name='action' value='edit_img'/>";
+                  $trs[] = "<input type='hidden' name='id' value='$recordid'/>";
+                  $trs[] = "<input type='file' name='well_cms_pic'/>";
+                  $trs[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
+                  $trs[] = "</form>";
+                  $trs[] = "</td>";
+                  $trs[] = "<td class='active'><select name='well_cms_active'>";
+                  $trs[] = "<option value='0' ".$selected["No"].">No</option>";
+                  $trs[] = "<option value='1' ".$selected["Yes"].">Yes</option>";
+                  $trs[] = "</select></td>";
+                  $trs[] = "<td class='updated'>".$event["well_cms_update_ts"]."</td>";
+                 // $trs[] = "<td class='domain'>".$event["well_cms_domain"]."</td>";
+                  $trs[] = "<td class='editbtns'><a href='#' class='deleteid btn btn-danger' data-id='".$event["id"]."'>Delete</a></td>";
+                  $trs[] = "</tr>";
+                }
+                echo implode("\n",$trs);
+                ?>
+            </tbody>
+            <tfoot>
+              <tr class="addnew">
+              <td colspan="<?php echo count($display) + 1 ?>">
+                <a id="additem" href="#">+ add item to <?php echo $types[$cat] ?></a>
+                
+                <form id="newevent" action="cms.php" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="action" value="newevent"/>
+                  <input type="hidden" name="well_cms_loc" value="<?php echo $loc?>"/>
+                  <input type="hidden" name="well_cms_catagory" value="<?php echo $cat?>"/>
+                  <input type="hidden" name="loc" value="<?php echo $loc?>"/>
+                  <input type="hidden" name="cat" value="<?php echo $cat?>"/>
+                  <fieldset>
+                  <h3>New <?php echo substr($types[$cat],0,strlen($types[$cat]) - 1) ?> for <?php echo $locs[$loc] ?></h3>
+                  <?php
+                  $fields     = array();
+                  $new_fields = $display;
+                  array_pop($new_fields);
+                  foreach($new_fields as $idx){
+                    $field = $results[$idx];
+                    $label = $field["field_label"];
+                    $varid = $field["field_name"];
+                    $type  = $field["field_type"];
+                    $setan = $field["select_choices_or_calculations"];
+                    // https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css
+                    // https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js
+
+                    $fields[] = "<div class='newevent_item'>";
+                    switch($type){
+                      case "dropdown":
+                        $split = explode("|",$setan);
+                        
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label</span>";
+                        $fields[] = "<select name='$varid'>";
+                        foreach($split as $pair){
+                          $value_label  = explode(", ",$pair);
+                          $key          = trim($value_label[0]); 
+                          $val          = trim($value_label[1]); 
+                          $fields[]     = "<option value='".$key."' >".$val."</option>";
+                        }
+                        $fields[] = "</select>";
+                        $fields[] = "</label>";
+                      break;
+
+                      case "truefalse":
+                        $checked  = array("y" => "", "n" => "");
+                        $disabled = "";
+                        if($cat == 1 && $varid == "well_cms_active" && $monthly_active){
+                          $checked["n"] = "checked";
+                          $disabled = "disabled=true";
+                        }else{
+                          $checked["y"] = "checked";
+                        }
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label</span>";
+                        $fields[] = "<em><input name='$varid' type='radio' ".$checked["y"]." $disabled value='1'> Yes</em>";
+                        $fields[] = "<em><input name='$varid' type='radio' ".$checked["n"]." $disabled value='0'> No</em>";
+                        $fields[] = "</label>";
+                      break;
+
+                      case "notes":
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label</span>";
+                        $fields[] = "<textarea name='$varid'></textarea>";
+                        $fields[] = "</label>";
+                      break;
+
+                      case "file":
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label</span>";
+                        $fields[] = "<input type='file' name='$varid'/>";
+                        if($varid == "well_cms_pic"){
+                          $fields[] = "<i>WxH must be 3:4 ratio (ie. 300px by 400px)</i>";
+                        }
+                        $fields[] = "</label>";
+                      break;
+
+                      default: //text
+                        if($varid == "well_cms_displayord"){
+                          $type = "number";
+                          $val  = count($events) + 1;
+                        }else{
+                          $type = "text";
+                          $val  = "";
+                        }
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label</span>";
+                        $fields[] = "<input type='$type' name='$varid' value='$val'/>";
+                        $fields[] = "</label>";
+                      break;
+                    }
+                    $fields[] = "</div>";
+                  }
+                  print(implode("\n",$fields));
+                  ?>
+                  </fieldset>
+                  <input type="submit" name="submit" class="btn btn-success" value="Save to <?php echo $types[$cat]?>"/>
+                </form>
+              </td>
+              </tr>
+            </tfoot>
+          </table>
+          <?php 
+          }else{
+            ?>
+            <form id="viewas" method="GET">
+              <fieldset>
+                <h3>View portal as a User:</h3>
+                <label>
+                  <b>User Id:</b>
+                  <input type="number" name="user_record_id"/>
+                  <input type="submit"  value="Go"/>
+                </label>
+              </fieldset>
+            </form>
+            <?php
+          }
+          ?>
       </div>  
     </div>
   </div>
@@ -402,6 +442,11 @@ $(document).ready(function(){
 });
 </script>
 <style>
+  #viewas {
+    clear:both;
+    margin:20px;
+  }
+
   #main-content .well {
     background-size:7%;
     padding-top:88px;

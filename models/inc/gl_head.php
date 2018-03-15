@@ -23,6 +23,11 @@
 <?php
   print getSessionMessages();
 ?>
+<?php
+if(isset($_SESSION["admin_user"])){
+	echo "<a href='cms.php' id='returnadmin'>Return to admin</a>";
+}
+?>
 <div id="outter_rim">
 <div id="inner_rim">
 	<?php include("gl_headernav.php"); ?>
