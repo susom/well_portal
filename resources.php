@@ -109,9 +109,11 @@ section{
   height: 100px;
   display: inline-block;
 }
-img{
-  max-width: 126px;
-  max-height: 168px;
+.resourcetype{
+  float:left; 
+  margin:20px;
+  max-width: 80px;
+  max-height: 80px;
 }
 
 

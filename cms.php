@@ -37,12 +37,12 @@ $radar_domains = array(
 );
 
 $image_catagory = array(
-  "0" => "Podcast",
-  "1" => "Video",
-  "2" => "Article",
-  "3" => "Scientific Publication",
-  "4" => "WELL content",
-  "5" => "Partner content"
+  "1" => "Podcast",
+  "2" => "Video",
+  "3" => "Article",
+  "4" => "Scientific Publication",
+  "5" => "WELL content",
+  "6" => "Partner content"
 );
 
 $lang_req     = isset($_GET["lang"]) ? "?lang=".$_GET["lang"] : "";
@@ -257,8 +257,14 @@ include("models/inc/gl_header.php");
                     $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
                     $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
                     $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
-                    $trs[] = "<td class='link'><input type='text' name='well_cms_image_catagory' value='".$image_catagory[$event["well_cms_image_catagory"]-1] ."'/></td>";
-
+                    $selected_image_type = isset($event["well_cms_image_catagory"]) ? $event["well_cms_image_catagory"] : null;
+                    
+                    $trs[] = "<td ><select name='well_cms_image_catagory'";
+                    foreach($image_catagory as $idx => $imgtype){
+                      $imgselected = $selected_image_type && $selected_image_type == $idx ? "selected" : "";
+                      $trs[] = "<option value='$idx' $imgselected>$imgtype</option>";
+                    }
+                    $trs[] = "</select></td>";
                   }
 
 
