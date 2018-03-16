@@ -84,7 +84,7 @@ include_once("models/inc/gl_head.php");
                   ?>
                     <section class="domain_big">
                         <a href = "resources.php?nav=resources-<?php echo $key; ?>"> 
-                          <img src = assets/img/0<?php echo $key;?>-domain.jpg> 
+                          <img src = assets/img/0<?php echo $key;?>-domain.png> 
                           <?php echo $radar_domains[$key]; ?>
                         </a>
                     </section>
