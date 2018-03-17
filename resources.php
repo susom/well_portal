@@ -56,11 +56,11 @@ foreach($events as $event){
       $order = intval($event["well_cms_displayord"]);
 
     $cats[$order] = array(
-        "pic"      => $eventpic
-        ,"link"     => $event["well_cms_event_link"] 
-        ,"domain"   => $event["well_cms_domain"]
-        ,"content" => $event["well_cms_content"]
-        ,"link-text" => $event["well_cms_text_link"]
+         "pic"            => $eventpic
+        ,"link"           => $event["well_cms_event_link"] 
+        ,"domain"         => $event["well_cms_domain"]
+        ,"content"        => $event["well_cms_content"]
+        ,"link-text"      => $event["well_cms_text_link"]
         ,"image-catagory" => $event["well_cms_image_catagory"]
     );
 }
@@ -102,7 +102,6 @@ include_once("models/inc/gl_head.php");
 <style>
 li{
   display: block;
-  font-size: 12px;
 }
 section{
   width:200px;
@@ -123,7 +122,7 @@ section{
 .domain_big a{
   display:block; 
   text-align:center; 
-  font-size:15px;
+  color:#333;
 }
 .domain_big a img {
   display:block;
