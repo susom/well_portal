@@ -448,7 +448,7 @@ include("models/inc/gl_header.php");
                     $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
                     $selected_image_type = isset($event["well_cms_image_catagory"]) ? $event["well_cms_image_catagory"] : null;
                     
-                    $trs[] = "<td ><select name='well_cms_image_catagory'";
+                    $trs[] = "<td ><select name='well_cms_image_catagory'>";
                     foreach($image_catagory as $idx => $imgtype){
                       $imgselected = $selected_image_type && $selected_image_type == $idx ? "selected" : "";
                       $trs[] = "<option value='$idx' $imgselected>$imgtype</option>";
