@@ -72,10 +72,13 @@ if(!empty($_POST) && isset($_POST["action"])){
       $data["well_cms_active"] = "0";
     }
     $result = RC::writeToApi($data, array("forceAutoNumber" => "true", "returnContent" => "auto_ids", "overwriteBehavior" => "overwite", "type" => "flat"), $API_URL, $API_TOKEN);
+    
     //import the picture file
     $split  = explode(",",$result[0]);
     $new_id = $split[0];
-    RC::writeFileToApi($_FILES["well_cms_pic"], $new_id, "well_cms_pic", null, $API_URL, $API_TOKEN);
+    if(!empty($_FILES["well_cms_pic"])){
+      RC::writeFileToApi($_FILES["well_cms_pic"], $new_id, "well_cms_pic", null, $API_URL, $API_TOKEN);
+    }
   }elseif($_POST["action"] == "delete"){
     if(!empty($_POST["id"])){
       $data = array(
@@ -126,6 +129,192 @@ $locs         = array(1 => "US", 2 => "Taiwan");
 
 include("models/inc/gl_header.php");
 ?>
+<style>
+  #viewas {
+    clear:both;
+    margin:20px;
+  }
+
+  #main-content .well {
+    background-size:7%;
+    padding-top:88px;
+  }
+  #cms h2{
+    font-size:200%;
+    margin-bottom:60px;
+  }
+  #cms a{
+    text-decoration:none;
+  }
+  #ed_items{
+    width:calc(100% - 20px); margin:10px;
+    border-top:1px solid #333;
+    border-right:1px solid #333;
+  }
+  #ed_items th, #ed_items td {
+    border-bottom:1px solid #333;
+    border-left:1px solid #333;
+    padding:5px 8px;
+    font-size:77%;
+    vertical-align: top;
+  }
+  
+
+  #loc {
+    float:right;
+    margin:68px 10px 0;
+  }
+  #folders{
+    margin:0; padding:10px;
+    float:left;
+  }
+  #folders li {
+    display:inline-block;
+    list-style:none;
+    margin-left:20px;
+  }
+  #folders li:first-child{
+    margin-left:0;
+  }
+  #folders a{
+    display:inline-block;
+    text-align:center;
+    width:120px;
+    height:80px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    box-shadow:1px 1px 3px #ccc;
+    line-height:80px;
+  }
+  #folders a.on{
+    background:#efefef;
+    box-shadow:1px 1px 3px #333;
+  }
+
+  #newevent {
+    margin:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+  }
+  #newevent fieldset {
+    padding:10px;
+  }
+
+  #additem {
+    width:200px;
+    display:block;
+    margin:0 auto;
+    font-weight:bold;
+    text-decoration: none;
+    transition:.5s opacity;
+    opacity: 1;
+  }
+  #additem.fadeout {
+    opacity:0;
+  }
+
+  #newevent{
+    display:none;
+  }
+  #newevent h3{
+    text-transform:capitalize;
+    font-size:180%;
+    margin-bottom:20px;
+  }
+  #newevent input[type="submit"]{
+    display:block;
+    width:200px;
+    margin:20px auto;
+    border-radius:5px;
+  }
+
+  .newevent_item{
+    margin-bottom:15px;
+  }
+  .newevent_item label{
+    display:block;
+  }
+  .newevent_item label span{
+    display:block;
+  }
+
+  .edit_img i,
+  .newevent_item label i{
+    color:red;
+    font-weight:normal;
+    font-style:italic;
+  }
+  .newevent_item input[type="text"],
+  .newevent_item textarea{
+    width:50%;
+    border-radius:5px;
+  }
+  .newevent_item label em {
+    display:inline-block;
+    margin-right:10px;
+    font-style:normal;
+  }
+
+  .content textarea,
+  .active select,
+  .order input,
+  .link input,
+  .subject input {
+    width:100%;
+    border:1px solid transparent;
+    padding:0 5px; 
+    background:none;
+    cursor:pointer;
+    height:30px;
+  }
+  
+  .content textarea:focus,
+  .active select:focus,
+  .order input:focus,
+  .link input:focus,
+  .subject input:focus{
+    border:1px solid yellow;
+    box-shadow:0 0 5px 5px yellow;
+  }
+  
+  .content textarea.edited,
+  .active select.edited,
+  .order input.edited,
+  .link input.edited,
+  .subject input.edited{
+    border:1px solid yellow;
+    box-shadow:0 0 3px 5px lightgreen;
+  }
+
+  .content textarea {
+    padding:4px 5px;
+  }
+  .active select{
+    width:50px;
+  }
+  .order input {
+    width:40px;
+  }
+
+  
+  #ed_items th {
+    vertical-align: bottom
+  }
+  .order{
+    width:58px;
+  }
+  .active {
+    width:68px;
+  }
+  .actions{
+    width:82px;
+  }
+
+
+  .well .event_img {
+    max-width:200px;
+  }
+</style>
 <div id="content" class="container" role="main" tabindex="0">
   <div class="row"> 
     <div id="main-content" class="col-md-12" role="main">
@@ -468,189 +657,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<style>
-  #viewas {
-    clear:both;
-    margin:20px;
-  }
 
-  #main-content .well {
-    background-size:7%;
-    padding-top:88px;
-  }
-  #cms h2{
-    font-size:200%;
-    margin-bottom:60px;
-  }
-  #cms a{
-    text-decoration:none;
-  }
-  #ed_items{
-    width:calc(100% - 20px); margin:10px;
-    border-top:1px solid #333;
-    border-right:1px solid #333;
-  }
-  #ed_items th, #ed_items td {
-    border-bottom:1px solid #333;
-    border-left:1px solid #333;
-    padding:5px 8px;
-    font-size:77%;
-    vertical-align: top;
-  }
-  
-
-  #loc {
-    float:right;
-    margin:68px 10px 0;
-  }
-  #folders{
-    margin:0; padding:10px;
-    float:left;
-  }
-  #folders li {
-    display:inline-block;
-    list-style:none;
-    margin-left:20px;
-  }
-  #folders li:first-child{
-    margin-left:0;
-  }
-  #folders a{
-    display:inline-block;
-    text-align:center;
-    width:120px;
-    height:80px;
-    border:1px solid #ccc;
-    border-radius:5px;
-    box-shadow:1px 1px 3px #ccc;
-    line-height:80px;
-  }
-  #folders a.on{
-    background:#efefef;
-    box-shadow:1px 1px 3px #333;
-  }
-
-  #newevent {
-    margin:10px;
-    border:1px solid #ccc;
-    border-radius:5px;
-  }
-  #newevent fieldset {
-    padding:10px;
-  }
-
-  #additem {
-    width:200px;
-    display:block;
-    margin:0 auto;
-    font-weight:bold;
-    text-decoration: none;
-    transition:.5s opacity;
-    opacity: 1;
-  }
-  #additem.fadeout {
-    opacity:0;
-  }
-
-  #newevent{
-    display:none;
-  }
-  #newevent h3{
-    text-transform:capitalize;
-    font-size:180%;
-    margin-bottom:20px;
-  }
-  #newevent input[type="submit"]{
-    display:block;
-    width:200px;
-    margin:20px auto;
-    border-radius:5px;
-  }
-
-  .newevent_item{
-    margin-bottom:15px;
-  }
-  .newevent_item label{
-    display:block;
-  }
-  .newevent_item label span{
-    display:block;
-  }
-
-  .edit_img i,
-  .newevent_item label i{
-    color:red;
-    font-weight:normal;
-    font-style:italic;
-  }
-  .newevent_item input[type="text"],
-  .newevent_item textarea{
-    width:50%;
-    border-radius:5px;
-  }
-  .newevent_item label em {
-    display:inline-block;
-    margin-right:10px;
-    font-style:normal;
-  }
-
-  .content textarea,
-  .active select,
-  .order input,
-  .link input,
-  .subject input {
-    width:100%;
-    border:1px solid transparent;
-    padding:0 5px; 
-    background:none;
-    cursor:pointer;
-    height:30px;
-  }
-  
-  .content textarea:focus,
-  .active select:focus,
-  .order input:focus,
-  .link input:focus,
-  .subject input:focus{
-    border:1px solid yellow;
-    box-shadow:0 0 5px 5px yellow;
-  }
-  
-  .content textarea.edited,
-  .active select.edited,
-  .order input.edited,
-  .link input.edited,
-  .subject input.edited{
-    border:1px solid yellow;
-    box-shadow:0 0 3px 5px lightgreen;
-  }
-
-  .content textarea {
-    padding:4px 5px;
-  }
-  .active select{
-    width:50px;
-  }
-  .order input {
-    width:40px;
-  }
-
-  
-  #ed_items th {
-    vertical-align: bottom
-  }
-  .order{
-    width:58px;
-  }
-  .active {
-    width:68px;
-  }
-  .actions{
-    width:82px;
-  }
-
-
-  .well .event_img {
-    max-width:200px;
-  }
-</style>
