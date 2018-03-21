@@ -433,21 +433,40 @@ if(isset($_GET["survey_complete"])){
 
     if(!isset($all_survey_keys[$index+1])){ 
       //TODO PUT THIS INTO A FUNCTION OR SOMEWHERE
-      $get_well_score = $user_short_scale ? $short_scores : $long_scores;
-      if($user_short_scale){
-        $for_popup        = array_slice($get_well_score, -1);
-        $new_well_score   = round((array_sum($for_popup[$user_event_arm])/50)*100);
-      }else{
-        $new_well_score   = round(array_sum($get_well_score)) . "/100";
-      }
-      $show_well_score  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$new_well_score</b></p>";
+      $extra_params = array(
+        'content'     => 'record',
+        'records'     => array($loggedInUser->id) ,
+        'fields'      => array("id","well_score","well_score_long")
+      );
+      $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+      $user_arms      = array_flip(array_column($user_ws,"redcap_event_name"));
+      $long_scores    = array_column($user_ws,"well_score_long");
+      $short_scores   = array_column($user_ws,"well_score");
 
-      // will pass $arm_year into the include
+      $success_arr    = array();
+      $success_arr[]  = $lang["CONGRATS_FRUITS"];
+      
+      // will pass $current_year into the include
       require_once('PDF/fpdf181/fpdf.php');
       require_once('PDF/FPDI-2.0.1/src/autoload.php');
       include_once("PDF/generatePDFcertificate.php");
     
-      $success_msg    = $lang["CONGRATS_FRUITS"] . "$show_well_score<a target='blank' href='$filename'>[Click here to download your certificate!]</a>";
+      $success_arr[]  = "<a target='blank' href='$filename'>[Click here to download your certificate!]</a>";
+
+      if($current_arm == "enrollment_arm_1"){
+        // if this is the first one just show the orange ball, otherwise show comparison graph
+        $well_score     = $long_scores[$user_arms[$current_arm]];
+        $success_arr[]  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$well_score</b></p>";
+      }else{
+        $user_scores = array();
+        foreach($armyears as $arm => $armyear){
+          $well_score   = strpos($arm, "short") > -1 ? $short_scores[$user_arms[$arm]] : $long_scores[$user_arms[$arm]];
+          $user_scores[$arm] = array("year" => $armyear, "well_score" => $well_score);
+        }
+        $success_arr[]  = printWELLOverTime($user_scores);
+      }
+
+      $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }
   }
@@ -495,3 +514,92 @@ include_once("models/inc/gl_head.php");
 <?php 
 include_once("models/inc/gl_foot.php");
 ?>
+<style>
+.well_scores{
+  margin:20px 0 20px;
+  text-align:left;
+}
+.well_scores .anchor {
+  border-top:3px dashed #ccc;
+  color:#8a6d3b;
+  font-weight:bold;
+  padding-top:5px;
+  position:relative;
+}
+.well_scores .anchor:after{
+  position: absolute;
+  content: "";
+  top: -12px;
+  right: -2px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ccc;
+}
+.well_scores .hundred{
+  float:right;
+}
+.well_scores .fifty{
+  position:absolute;
+  left:50%;
+  top:5px;
+}
+.well_score{
+  margin-bottom:10px;
+  height:30px;
+  background:#efefef;
+}
+.well_score b{
+  display:inline-block; 
+  vertical-align:middle;
+  position: absolute;
+}
+.well_score span {
+  display:inline-block;
+  height:30px;
+  vertical-align:middle;
+  margin-right:10px;
+  min-width:46px;
+}
+
+.well_score span i {
+  font-style: normal;
+  font-weight:bold;
+  font-size:120%;
+  color:#fff;
+  line-height: 160%;
+  margin-left: 5px;
+  display: inline-block;
+}
+
+.user_score span{
+  background:#0BA5A3;
+  box-shadow:0 0 5px #28D1D8;
+}
+.user_score.yearx span{
+  background:#FEC83B;
+  box-shadow:0 0 5px #9ABC46;
+}
+.user_score.yearxx span{
+  background:#126C97;
+  box-shadow:0 0 5px #9ABC46;
+}
+.user_score.yearxxx span{
+  background:#E02141;
+  box-shadow:0 0 5px #9ABC46;
+}
+.user_score.yearxxxx span{
+  background:#328443;
+  box-shadow:0 0 5px #9ABC46;
+}
+
+.other_score span{
+  background:#FEC83B;
+  box-shadow:0 0 5px #9ABC46;
+}
+
+.alert.text-center ul {
+  margin:20px 40px 20px;
+}
+</style>

@@ -190,25 +190,31 @@ function printWELLOverTime($user_scores){
   global $loggedInUser, $lang;
 
   $year_css = "year";
-  $arm_year = substr($loggedInUser->consent_ts,0,strpos($loggedInUser->consent_ts,"-"));
-
-  echo "<div class='well_scores'>";
+  $html_arr = array();
+  $html_arr[] = "<div class='well_scores'>";
   foreach($user_scores as $arm => $score){
-    $user_score       = !empty($score) ? round(array_sum($score)) : array();
-    $user_score_txt   = !empty($user_score) ? ($user_score/50)*100 . "%" : $lang["NOT_ENOUGH_OTHER_DATA"];
-    $user_bar         = !empty($user_score) ? ($user_score*100)/50 : "0%";
-    echo "<div class='well_score user_score $year_css'><span style='width:$user_bar%'><i>$arm_year</i></span><b>$user_score_txt</b></div>";
+    $score_year       = $score["year"];
+    $user_score       = !empty($score["well_score"]) ? round($score["well_score"]) : array();
+
+    if(strpos($arm, "short") > -1){
+      $user_score_txt   = !empty($user_score) ? round(($user_score/50)*100) . "%" : $lang["NOT_ENOUGH_OTHER_DATA"];
+      $user_bar         = !empty($user_score) ? round(($user_score/50)*100) : "0%";
+    }else{
+      $user_score_txt   = !empty($user_score) ? round(($user_score/70)*100) . "%" : $lang["NOT_ENOUGH_OTHER_DATA"];
+      $user_bar         = !empty($user_score) ? round(($user_score/70)*100) : "0%";
+    }
+    $html_arr[]       = "<div class='well_score user_score $year_css'><span style='width:$user_bar%'><i>$score_year</i></span><b>$user_score_txt</b></div>";
     
-    //TODO IS THIS OK?
     $year_css = $year_css . "x";
-    $arm_year++;
   }
-  echo "<div class='anchor'>
-    <span class='zero'>0% (".$lang["LOWER_WELLBEING"].")</span>
-    <span class='fifty'>50%</span>
-    <span class='hundred'> (".$lang["HIGHER_WELLBEING"].") 100%</span>
-  </div>";
-  echo "</div>";
+  $html_arr[] = "<div class='anchor'>";
+  $html_arr[] = "<span class='zero'>0% (".$lang["LOWER_WELLBEING"].")</span>";
+  $html_arr[] = "<span class='fifty'>50%</span>";
+  $html_arr[] = "<span class='hundred'> (".$lang["HIGHER_WELLBEING"].") 100%</span>";
+  $html_arr[] = "</div>";
+  $html_arr[] = "</div>";
+
+  return implode("",$html_arr);
 }
 
 function getAvgWellScoreOthers($others_scores){

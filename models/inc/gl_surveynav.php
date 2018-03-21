@@ -89,7 +89,7 @@
                     
                     $titletext    = $core_surveys_complete ? $tooltips[$supp_instrument_id] : $lang["COMPLETE_CORE_FIRST"];
                     $surveylink   = $core_surveys_complete ? "survey.php?sid=". $supp_instrument_id. "&project=" . $supp_instrument["project"] : "#";
-                    $na           = $core_surveys_complete ? "" : "na";
+                    $na           = $core_surveys_complete ? "" : ""; //"na"
                     $icon_update  = " icon_update";
                     $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' title='$titletext'>$surveyname</a>";
                     
