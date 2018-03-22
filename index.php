@@ -453,7 +453,7 @@ if(isset($_GET["survey_complete"])){
     
       $success_arr[]  = "<a target='blank' href='$filename'>[Click here to download your certificate!]</a>";
 
-      if($current_arm == "enrollment_arm_1"){
+      if(!$user_short_scale){
         // if this is the first one just show the orange ball, otherwise show comparison graph
         $well_score     = $long_scores[$user_arms[$current_arm]];
         $success_arr[]  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$well_score</b></p>";
