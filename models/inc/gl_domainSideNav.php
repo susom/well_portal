@@ -35,8 +35,9 @@
 
 				echo $domainEntry["pic"];
 				?>
-				<h2> <?php echo $domainEntry["content"]; ?></h2>
-				<a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a>
+				<h2><a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
+				<p> <?php echo $domainEntry["content"]; ?></p>
+				
 			</div>
 	<?php
 		} //if
@@ -96,6 +97,12 @@
 	overflow:hidden;
 }
 
+.resourceEntry h2 {
+	margin:10px 0 0;
+}
+.resourceEntry p{
+
+}
 ul,li{
 	list-style: none;
 	padding-left: 0;
