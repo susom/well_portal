@@ -75,17 +75,14 @@
                   }
                 }
                 
-                $fitness    = SurveysConfig::$fitness;
-                $index      = -1;
+                $fitness    = SurveysConfig::$supp_icons;
                 foreach($supp_instruments as $supp_instrument_id => $supp_instrument){
-                    $index++;
-                    
                     //if bucket is A make sure that three other ones are complete before showing.
                     $projnotes    = json_decode($supp_instrument["project_notes"],1);
                     $title_trans  = $projnotes["translations"];
                     $tooltips     = $projnotes["tooltips"];
                     $surveyname   = isset($title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $title_trans[$_SESSION["use_lang"]][$supp_instrument_id] : $supp_instrument["label"];
-                    $iconcss      = $fitness[$index];
+                    $iconcss      = $fitness[$supp_instrument_id];
                     
                     $titletext    = $core_surveys_complete ? $tooltips[$supp_instrument_id] : $lang["COMPLETE_CORE_FIRST"];
                     $surveylink   = $core_surveys_complete ? "survey.php?sid=". $supp_instrument_id. "&project=" . $supp_instrument["project"] : "#";
