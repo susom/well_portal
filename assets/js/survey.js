@@ -509,6 +509,7 @@ function customMET_BS(_this){
       $("#met_results").addClass("disclaimed");
     });
     $("body").append(reqmsg);
+    reqmsg.css("opacity",1);
   }
   return;
 }
