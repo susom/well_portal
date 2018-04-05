@@ -106,23 +106,28 @@ if(isset($_GET["survey_complete"])){
     
       $success_arr[]  = "<a target='blank' href='$filename'>[Click here to download your certificate!]</a>";
 
-      if(!$user_short_scale){
-        // if this is the first one just show the orange ball, otherwise show comparison graph
-        $success_arr[]  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$long_score</b></p>";
+      // CUSTOM FLOW FOR UO1 Pilot STUDY
+      if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+        // DONOTHING HERE?
       }else{
-        $extra_params = array(
-          'content'     => 'record',
-          'records'     => array($loggedInUser->id) ,
-          'fields'      => array("id","well_score")
-        );
-        $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-        $user_scores    = array();
-        foreach($user_ws as $arm_score){
-          $user_scores[$arm_score["redcap_event_name"]]  = array("year" => $armyears[$arm_score["redcap_event_name"]], "well_score" => $arm_score["well_score"]);
+        if(!$user_short_scale){
+          $long_score     = empty($long_score) ? "N/A" : $long_score;
+          // if this is the first one just show the orange ball, otherwise show comparison graph
+          $success_arr[]  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$long_score</b></p>";
+        }else{
+          $extra_params = array(
+            'content'     => 'record',
+            'records'     => array($loggedInUser->id) ,
+            'fields'      => array("id","well_score")
+          );
+          $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+          $user_scores    = array();
+          foreach($user_ws as $arm_score){
+            $user_scores[$arm_score["redcap_event_name"]]  = array("year" => $armyears[$arm_score["redcap_event_name"]], "well_score" => $arm_score["well_score"]);
+          }
+          $success_arr[]  = printWELLOverTime($user_scores);
         }
-        $success_arr[]  = printWELLOverTime($user_scores);
       }
-
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }

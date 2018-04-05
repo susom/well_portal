@@ -287,6 +287,7 @@ if(!empty($sid)){
 
 // IF SUPP SURVEY GET PROJECT TOO
 $pid = $project = isset($_REQUEST["project"]) ? $_REQUEST["project"] : "";
+
 if(!empty($pid)){
     if(array_key_exists($pid, SurveysConfig::$projects)){
         $supp_project = $supp_surveys[$pid]->getSingleInstrument($sid);
@@ -300,6 +301,15 @@ if(!empty($pid)){
 }else{
     //ITS A CORESURVEY, FIND THE LATEST INCOMPLETE ONE
     foreach($surveys as $surveyid => $survey){
+      // CUSTOM FLOW FOR UO1 Pilot STUDY
+      if($surveyid == "your_sleep_habits" && isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+        $result     = RC::callApi(array(
+          "hash"    => $surveys["your_sleep_habits"]["survey_hash"], 
+          "format"  => "csv"
+        ), true, $custom_surveycomplete_API, REDCAP_API_TOKEN);
+
+        continue;
+      }
       $surveycomplete = $survey["survey_complete"];
       if(!$surveycomplete){
         $sid = $current_surveyid = $surveyid;
@@ -317,8 +327,7 @@ if($user_short_scale && $sid == "wellbeing_questions"){
 }
 
 if(array_key_exists($sid, $surveys)){
-    $survey_data  = $surveys[$sid];
-    
+    $survey_data    = $surveys[$sid];
     if($survey_data["project"] == "REDCAP_PORTAL"){
       $survey_num   = array_search($sid, array_keys($surveys)) + 1;
       $survey_count = count($surveys);
@@ -413,7 +422,6 @@ include_once("models/inc/gl_foot.php");
 <script src="assets/js/custom_assessments.js"></script>
 <script>
 <?php
-  //TODO : MOVE THE FRUIT GIVING TO SURVEY PAGES
   $index      = array_search($current_surveyid, $all_survey_keys);
   $nextsurvey = $project == "Supp" ? null : (isset($all_survey_keys[$index+1]) ? $all_survey_keys[$index+1] : null);
   echo "$('#customform').attr('data-next','". $nextsurvey ."');\n\n";
@@ -527,6 +535,14 @@ include_once("models/inc/gl_foot.php");
       $("body").append(reqmsg);
       $("section.vbox").addClass("blur");
   }
+
+
+  // CUSTOM FLOW FOR UO1 Pilot STUDY
+  $("#core_group_id").on("change",function(){
+    if(this.value == 1001){
+
+    }
+  });
 </script>
 <script src="assets/js/survey.js"></script>
 <?php

@@ -236,7 +236,6 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     $remapped_long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
     $long_score = round(array_sum($remapped_long_scores),4);
   }
-
   return $long_score;
 }
 

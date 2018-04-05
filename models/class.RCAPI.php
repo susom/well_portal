@@ -19,7 +19,9 @@ class RC {
 		// logIt(json_encode($params,1),"DEBUG");
 		$raw = self::http_post($api_url, $params);
 		// logIt('call API Raw result: ' . print_r($raw, true), "DEBUG");	
-	
+	if($api_url == "http://redcap.irvins.loc/plugins/api_methods/survey_status.php"){
+		print_rr($raw);
+	}
 		if ( $json_expected ) {
 			$result = json_decode($raw,true);
 			if (isset($result["error"])) {

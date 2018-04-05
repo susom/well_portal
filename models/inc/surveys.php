@@ -136,7 +136,7 @@ if(isset($_SESSION["supplemental_surveys"])){
 	$supp_surveys = array();
 	$supp_proj    = SurveysConfig::$projects;
 	foreach($supp_proj as $proj_name => $project){
-	  if(in_array($proj_name,array($_CFG->SESSION_NAME,"SHORT_SCALE","Studies","taiwan_admin","miniintervention","foodquestions")) ){
+	  if(in_array($proj_name,array($_CFG->SESSION_NAME,"SHORT_SCALE","ADMIN_CMS","Studies","taiwan_admin","miniintervention","foodquestions")) ){
 	    continue;
 	  }
 
@@ -158,6 +158,7 @@ foreach($_SESSION["supplemental_surveys"] as $projname => $supp_project){
 } 
 
 $supp_surveys_keys 		= array_keys($supp_instruments);
+// print_rr($supp_surveys_keys);
 $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : SurveysConfig::$core_surveys;
 
 // print_rr($user_short_scale->getActiveAll(),1);

@@ -17,7 +17,7 @@ $pdf->SetFontSize(24);
 $pdf->SetTextColor(0, 0, 0);
 $_w     = $pdf->GetPageWidth();
 $_h     = $pdf->GetPageHeight();
-$txt    = $loggedInUser->firstname . " " . $loggedInUser->lastname . " on " . date("l") . ", " . date("M d Y");
+$txt    = ucfirst($loggedInUser->firstname) . " " . ucfirst($loggedInUser->lastname) . " on " . date("l") . ", " . date("M d Y");
 $_wtext = $pdf->GetStringWidth($txt);
 
 $pdf->SetXY(($_w/2)-($_wtext/2), ($_h/2));

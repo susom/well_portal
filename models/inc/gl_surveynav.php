@@ -62,18 +62,19 @@
                 }
                 echo implode("",$core_surveys);
                 
-                $proj_name    = "foodquestions";
-                $ffq_project  = new PreGenAccounts($loggedInUser
-                  , $proj_name , SurveysConfig::$projects[$proj_name]["URL"]
-                  , SurveysConfig::$projects[$proj_name]["TOKEN"]);
-                $ffq = $ffq_project->getAccount();
-                if(!array_key_exists("error",$ffq)){
-                  $nutrilink      = $portal_test ? "#" : "https://www.nutritionquest.com/login/index.php?username=".$ffq["ffq_username"]."&password=".$ffq["ffq_password"]."&BDDSgroup_id=747&Submit=Submit";
-                  $a_nutrilink    = "<a href='$nutrilink' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
-                  if($_SESSION["use_lang"] !== "sp"){
-                    $suppsurvs[]         = "<li class='fitness food'>".$a_nutrilink."</li>";
+                
+
+                // CUSTOM FLOW FOR UO1 Pilot STUDY
+                $uo1 = array(  "stopbang"
+                              ,"how_well_do_you_sleep"
+                              ,"find_out_your_body_type_according_to_chinese_medic");
+                $uo1_completes = array();
+                foreach($uo1 as $supp_instrument_id){
+                  if(isset($supp_instruments[$supp_instrument_id]) && $supp_instruments[$supp_instrument_id]["survey_complete"]){
+                    $uo1_completes[] = 1;
                   }
                 }
+                $uo1_complete = array_sum($uo1_completes) == 3 ? true : false;
                 
                 $fitness    = SurveysConfig::$supp_icons;
                 foreach($supp_instruments as $supp_instrument_id => $supp_instrument){
@@ -84,19 +85,57 @@
                     $surveyname   = isset($title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $title_trans[$_SESSION["use_lang"]][$supp_instrument_id] : $supp_instrument["label"];
                     $iconcss      = $fitness[$supp_instrument_id];
                     
-                    $titletext    = $core_surveys_complete ? $tooltips[$supp_instrument_id] : $lang["COMPLETE_CORE_FIRST"];
-                    $surveylink   = $core_surveys_complete ? "survey.php?sid=". $supp_instrument_id. "&project=" . $supp_instrument["project"] : "#";
-                    $na           = $core_surveys_complete ? "" : ""; //"na"
+                    // CUSTOM FLOW FOR UO1 Pilot STUDY
+                    if($core_surveys_complete && isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+                      $custom_flow = true;
+                      if($uo1_complete){
+                        $custom_flow = false; 
+                      }else{
+                        if(in_array($supp_instrument_id,$uo1)){
+                          $custom_flow = false; 
+                        }
+                      }
+                    }else{
+                      if($supp_instrument_id == "stopbang"){
+                        continue;
+                      }
+                      $custom_flow = false;
+                    }
+
+                    $titletext    = $core_surveys_complete && !$custom_flow ? $tooltips[$supp_instrument_id] : $lang["COMPLETE_CORE_FIRST"];
+                    $surveylink   = $core_surveys_complete && !$custom_flow ? "survey.php?sid=". $supp_instrument_id. "&project=" . $supp_instrument["project"] : "#";
+                    $na           = $core_surveys_complete && !$custom_flow ? "" : "na"; //"na"
+
                     $icon_update  = " icon_update";
                     $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' title='$titletext'>$surveyname</a>";
                     
                     $incomplete_complete = $supp_instrument["survey_complete"] ? "completed_surveys" : "suppsurvs";
  
-                    array_push($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]."'>
+                    if(!empty($na)){
+                      array_push($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]."'>
                                         ".$survey_alinks[$supp_instrument_id]." 
                                     </li>");
+                    }else{
+                      array_unshift($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]."'>
+                                        ".$survey_alinks[$supp_instrument_id]." 
+                                    </li>");
+                    }
+                   
                 }
-                
+
+                $proj_name    = "foodquestions";
+                $ffq_project  = new PreGenAccounts($loggedInUser
+                  , $proj_name , SurveysConfig::$projects[$proj_name]["URL"]
+                  , SurveysConfig::$projects[$proj_name]["TOKEN"]);
+                $ffq = $ffq_project->getAccount();
+                if(!array_key_exists("error",$ffq)){
+                  $na             = $core_surveys_complete ? "" : "na"; //"na"
+                  $nutrilink      = $portal_test ? "#" : "https://www.nutritionquest.com/login/index.php?username=".$ffq["ffq_username"]."&password=".$ffq["ffq_password"]."&BDDSgroup_id=747&Submit=Submit";
+                  $a_nutrilink    = "<a href='$nutrilink' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
+                  if($_SESSION["use_lang"] !== "sp"){
+                    array_unshift($suppsurvs ,"<li class='fitness $na food'>".$a_nutrilink."</li>");
+                  }
+                }
                 echo implode("",$suppsurvs);
                 ?>  
             </ol>

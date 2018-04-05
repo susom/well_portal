@@ -460,36 +460,45 @@ nav a:visited {
 
 
 .main > aside li li.fitness.food:before{
-    background:url(../img/ico_eat.png) 0 0  no-repeat;
-    background-size:contain;
+    background:url(../img/ico_eat.png) top left  no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.running:before{
-    background:url(../img/ico_mat.png) 0 0 no-repeat;
-    background-size:contain;
+    background:url(../img/ico_mat.png) top left no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.biking:before{
-    background:url(../img/ico_met.png) 0 0 no-repeat;
-    background-size:contain;
+    background:url(../img/ico_met.png) top left no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.weightlifting:before{
-    background:url(../img/ico_stress.png) 0 0 no-repeat;
-    background-size:contain;
+    background:url(../img/ico_stress.png) top left no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.cardio:before{
-    background:url(../img/ico_sleep.png) 0 0  no-repeat;
-    background-size:contain;
+    background:url(../img/ico_sleep.png) top left  no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.tbone:before{
-    background:url(../img/ico_chinesemed.png) 0 0  no-repeat;
-    background-size:contain;
+    background:url(../img/ico_chinesemed.png) top left  no-repeat;
+    background-size:200%;
 }
 .main > aside li li.fitness.carrot:before{
-    background:url(../img/ico_ipaq.png) 0 0  no-repeat;
+    background:url(../img/ico_ipaq.png) top left  no-repeat;
+    background-size:200%;
+}
+.main > aside li li.fitness.snoring:before{
+    background:url(../img/ico_snoring.png) top left  no-repeat;
     background-size:contain;
 }
+
+.main > aside li li.fitness.na:before{
+    background-position:top right;
+}
+
 .main > aside li li.fitness:before{
     position:absolute;
-    left:5px; 
+    left:6px; 
     top:50%;
     transform: translateY(-50%);
     content:"";
@@ -497,11 +506,6 @@ nav a:visited {
     height:30px;
 }
 
-
-/*THIS IS FOR NOT AVAIALBLE*/
-.main > aside li li.fitness.na:before {
-    background-position-x:-18px !important;
-}
 
 .footer-container footer {
     color: #000;
