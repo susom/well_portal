@@ -126,9 +126,9 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     //MAKE SURE THAT AT LEAST 70% OF THE FIELDS IN EACH DOMAIN IS COMPLETE OR ELSE CANCEL THE SCORING
     $minimumData = true;
     foreach($domain_fields as $domain => $fields){
-      $dq_threshold   = ceil(count($fields) * .3);
+      $dq_threshold   = count($fields) * .3; 
       $missing_keys   = array_diff($fields, array_keys($user_completed_keys)) ;
-      if(count($missing_keys) >= $dq_threshold
+      if(count($missing_keys) > $dq_threshold
          || (!isset($user_completed_keys["core_lpaq"]) 
             || (!isset($user_completed_keys["core_bngdrink_female_freq"]) && !isset($user_completed_keys["core_bngdrink_male_freq"]) 
             || (!isset($user_completed_keys["core_smoke_100"]) || (isset($user_completed_keys["core_smoke_100"]) && $user_completed_keys["core_smoke_100"] != 0 && !isset($user_completed_keys["core_smoke_freq"]))   ) ))
@@ -833,6 +833,13 @@ function getLongScores($domain_fields, $user_completed_fields){
   }
   return $score;
 }
+
+
+
+
+
+
+
 
 // NO USE RIGHT NOW
 function printWELLComparison($eventarm, $user_score, $other_score){

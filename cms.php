@@ -551,7 +551,7 @@ include("models/inc/gl_header.php");
                       $disabled = "";
                       if($cat == 1 && $varid == "well_cms_active" && $monthly_active){
                         $checked["n"] = "checked";
-                        $disabled = "disabled=true";
+                        // $disabled = "disabled=true";
                       }else{
                         $checked["y"] = "checked";
                       }
