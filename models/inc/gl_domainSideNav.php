@@ -43,7 +43,7 @@
 		} //if
 	}//for
 	if($empty_flag){
-		echo "No current resources";
+		echo lang("RESOURCE_NONE");
 	}
 	?>
 </article>
@@ -53,35 +53,35 @@
 	<ul>
 		<li>
 			<img class = "sideImages" src = "assets/img/00-domain.png">
-			<a href="resources.php?nav=resources-0">Exploration and Creativity</a>
+			<a href="resources.php?nav=resources-0"><?php echo lang("RESOURCE_CREATIVITY") ?></a>
 		</li>
 		<li>
 			<img class = "sideImages" src = "assets/img/01-domain.png">
-			<a href="resources.php?nav=resources-1">Lifestyle Behaviors</a></li>
+			<a href="resources.php?nav=resources-1"><?php echo lang("RESOURCE_LIFESTYLE") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/02-domain.png">
-			<a href="resources.php?nav=resources-2">Social Connectedness</a></li>
+			<a href="resources.php?nav=resources-2"><?php echo lang("RESOURCE_SOCIAL") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/03-domain.png">
-			<a href="resources.php?nav=resources-3">Stress and Resilience</a></li>
+			<a href="resources.php?nav=resources-3"><?php echo lang("RESOURCE_STRESS") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/04-domain.png">
-			<a href="resources.php?nav=resources-4">Experience of Emotions</a></li>
+			<a href="resources.php?nav=resources-4"><?php echo lang("RESOURCE_EMOTIONS") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/05-domain.png">
-			<a href="resources.php?nav=resources-5">Sense of Self</a></li>
+			<a href="resources.php?nav=resources-5"><?php echo lang("RESOURCE_SELF") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/06-domain.png">
-			<a href="resources.php?nav=resources-6">Physical Health</a></li>
+			<a href="resources.php?nav=resources-6"><?php echo lang("RESOURCE_PHYSICAL") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/07-domain.png">
-			<a href="resources.php?nav=resources-7">Purpose and Meaning</a></li>
+			<a href="resources.php?nav=resources-7"><?php echo lang("RESOURCE_PURPOSE") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/08-domain.png">
-			<a href="resources.php?nav=resources-8">Financial Security</a></li>
+			<a href="resources.php?nav=resources-8"><?php echo lang("RESOURCE_FINANCIAL") ?></a></li>
 		<li>
 			<img class = "sideImages" src = "assets/img/09-domain.png">
-			<a href="resources.php?nav=resources-9">Spirituality and Religion</a></li>
+			<a href="resources.php?nav=resources-9"><?php echo lang("RESOURCE_RELIGION") ?></a></li>
 	</ul>
 </aside>
 

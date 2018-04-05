@@ -1,19 +1,19 @@
 <nav>
     <ul>
-        <li class="<?php echo $navon["home"]; ?>"><a href="index.php?nav=home">Home</a></li>
-        <li class="<?php echo $navon["reports"]; ?>"><a href="reports.php?nav=reports">Reports</a></li>
-        <li class="<?php echo $navon["resources"]; ?>"><a href="resources.php?nav=resources">Resources</a></li>
-        <li class="<?php echo $navon["game"]; ?>"><a href="game.php?nav=game">Game</a></li>
+        <li class="<?php echo $navon["home"]; ?>"><a href="index.php?nav=home"><?php echo lang("NAV_HOME") ?></a></li>
+        <li class="<?php echo $navon["reports"]; ?>"><a href="reports.php?nav=reports"><?php echo lang("NAV_REPORTS") ?></a></li>
+        <li class="<?php echo $navon["resources"]; ?>"><a href="resources.php?nav=resources"><?php echo lang("NAV_RESOURCES") ?></a></li>
+        <li class="<?php echo $navon["game"]; ?>"><a href="game.php?nav=game"><?php echo lang("NAV_GAME") ?></a></li>
 
     </ul>
 </nav>
 <div class="header-container">
     <header class="wrapper clearfix">
-        <h1 class="title">WELL for Life</h1>
+        <h1 class="title"><?php echo lang("WELL_FOR_LIFE") ?></h1>
         <a id="account_drop" href="#"><span></span> <?php  echo $loggedInUser->firstname . " " . $loggedInUser->lastname?> <b class="caret"></b></a>
         <ul id="drop_menu">
-            <li><a href="profile.php">Profile</a></li>
-            <li><a href="index.php?logout=1">Logout</a></li>
+            <li><a href="profile.php"><?php echo lang("MY_PROFILE") ?></a></li>
+            <li><a href="index.php?logout=1"><?php echo lang("LOGOUT") ?></a></li>
         </ul>
         <a href="#" class="hamburger"></a>
     </header>

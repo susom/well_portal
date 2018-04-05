@@ -61,7 +61,7 @@ include_once("models/inc/gl_head.php");
     <div class="main-container">
         <div class="main wrapper clearfix">   
             <aside>
-                <h3>My Reports</h3>
+                <h3><?php echo lang("CORE_SURVEYS") ?></h3>
                 <ul class="nav">
                     <li class="surveys">
                         <ol>
@@ -70,13 +70,13 @@ include_once("models/inc/gl_head.php");
                             $viewlink   = array();
                      
                             foreach($events as $armname => $supp_instruments_event){
-                              $fitness  = SurveysConfig::$fitness;
+                              $fitness  = SurveysConfig::$supp_icons;
                               $index    = -1;
                               $armyear  = $armyears[$armname];
                               $suppsurvs[$armyear][]  = "<ol>";
 
                               $is_nav_on  = $supp_surveys_keys[$armname]["wellbeing_questions"];
-                              $WELL_SCALE = strpos($armname,"short") > -1 ? "Brief WELL for Life Scale" : "Stanford WELL for Life Scale";
+                              $WELL_SCALE = strpos($armname,"short") > -1 ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
                               $survey_alinks["wellbeing_questions"] = "<a class='assessments' href='reports.php?sid=wellbeing_questions&arm=$armname' data-year=$armyear>$WELL_SCALE</a>";
                               $suppsurvs[$armyear][]  = "<li class='assesments fruits $is_nav_on'>
                                                   ".$survey_alinks["wellbeing_questions"]." 
@@ -95,7 +95,7 @@ include_once("models/inc/gl_head.php");
                                 $title_trans  = $projnotes["translations"];
                                 $tooltips     = $projnotes["tooltips"];
                                 $surveyname   = isset($title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $title_trans[$_SESSION["use_lang"]][$supp_instrument_id] : $supp_instrument["label"];
-                                $iconcss      = $fitness[$index];
+                                $iconcss      = $fitness[$supp_instrument_id];
                                 $titletext    = $tooltips[$supp_instrument_id];
                                 $surveylink   = "?sid=". $supp_instrument_id ."&arm=$armname" ;
                                 $icon_update  = " icon_update";
@@ -136,7 +136,7 @@ include_once("models/inc/gl_head.php");
                             ?>
                         </ol>
 
-                        <h4>Certificates</h4>
+                        <h4><?php echo lang("CERTIFICATES") ?></h4>
                         <ol>
                           <?php
                             $filename         = array();
@@ -183,10 +183,10 @@ include_once("models/inc/gl_head.php");
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
-                                  echo "<blockquote>Your ".$armyears[$sid_arm]." Brief* WELL for Life Scale Score <b>".($brief_score*2)."/100</b> </blockquote>";
-                                  echo "<i>*Because of the shortened scale we are only able to provide an overall well-being score, not individual domain scores. Make sure to take the standard WELL for Life Scale next year for a full report. If you wish to compare your overall well-being scores, please use the “Compare” feature found in the Reports tab.</i>";
+                                  echo "<blockquote>".lang("BREIF_DISCLAIMER",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
+                                  echo lang("BREIF_DISCLAIMER");
                                 }else{
-                                  echo "<p>Sorry, we did not have enough data to calculate a Brief Well for Life Scale Score for this year.</p><p>Please be sure to fully complete the surveys in the future.</p>";
+                                  echo lang("BRIEF_SORRY_NA");
                                 }
                               }else{
                                 $long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
@@ -205,7 +205,7 @@ include_once("models/inc/gl_head.php");
                                   <object type = "text/html" data = "radar_chart_template.php?well_long_score=<?php echo $sum_long_score?>&id=<?php echo $loggedInUser->id?>" width = 100%></object>
                                   <?php
                                 }else{
-                                  echo "<p>Sorry, we did not have enough data to calculate a Well for Life Scale Score for this year.</p><p>Please be sure to fully complete the surveys in the future.</p>";
+                                  echo lang("WELL_SCORE_NA");
                                 }
                               }
                             break;
@@ -223,7 +223,7 @@ include_once("models/inc/gl_head.php");
                                 $ipaq           = isset($result[0]["ipaq_total_overall"]) ? $result[0]["ipaq_total_overall"] : "N/A";
                                 ?>
                                 <div id="ipaq_results">
-                                    <h3>Your physical activity MET-minutes/week score is: <b><?php echo $ipaq ?></b></h3>
+                                    <h3><?php echo lang("YOUR_MET") ?>: <b><?php echo $ipaq ?></b></h3>
                                 </div>
                                 <?php
                             break;

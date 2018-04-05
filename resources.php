@@ -3,16 +3,16 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 
 $radar_domains = array(
-  "0" => "Exploration and Creativity",
-  "1" => "Lifestyle Behaviors",
-  "2" => "Social Connectedness",
-  "3" => "Stress and Resilience",
-  "4" => "Experience of Emotions",
-  "5" => "Sense of Self",
-  "6" => "Physical Health",
-  "7" => "Purpose and Meaning",
-  "8" => "Financial Security",
-  "9" => "Spirituality and Religion"
+  "0" => lang("RESOURCE_CREATIVITY"),
+  "1" => lang("RESOURCE_LIFESTYLE"),
+  "2" => lang("RESOURCE_SOCIAL"),
+  "3" => lang("RESOURCE_STRESS"),
+  "4" => lang("RESOURCE_EMOTIONS"),
+  "5" => lang("RESOURCE_SELF"),
+  "6" => lang("RESOURCE_PHYSICAL"),
+  "7" => lang("RESOURCE_PURPOSE"),
+  "8" => lang("RESOURCE_FINANCIAL"),
+  "9" => lang("RESOURCE_RELIGION")
 );
 
 //SITE NAV

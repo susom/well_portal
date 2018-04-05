@@ -20,14 +20,21 @@ $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 $extra_params   = array();
 $loc            = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
 $cats           = array(0,1);
+$languages = array(
+  "en" => 1,
+  "sp" => 2,
+  "cn" => 3,
+  "tw" => 4,
+);
+
 foreach($cats as $cat){
     $filterlogic                    = array();
     $filterlogic[]                  = '[well_cms_loc] = "'.$loc.'"';
     $filterlogic[]                  = '[well_cms_catagory] = "'.$cat.'"';
     $filterlogic[]                  = '[well_cms_active] = "1"';
+    $filterlogic[]                  = '[well_cms_lang] = "'.$languages[isset($_SESSION["use_lang"]) ? $_SESSION["use_lang"] : "en"].'"';
     $extra_params["filterLogic"]    = implode(" and ", $filterlogic);
     $events                         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
-    
     if($cat == 0){
         //is events
         $cats[0] = array();
@@ -57,21 +64,23 @@ foreach($cats as $cat){
         }
         ksort($cats[0]);
     }else{
-        $recordid   = $events[0]["id"];
-        $eventpic   = "";
-        $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
-        if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
-          $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
-          $mime     = $split[0];
-          $split2   = explode('"',$split[1]);
-          $imgname  = $split2[1];
-          $eventpic = "data:".$mime.";base64,". base64_encode($file_curl["file_body"]);
+        if(!empty($events)){
+          $recordid   = $events[0]["id"];
+          $eventpic   = "";
+          $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
+          if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+            $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
+            $mime     = $split[0];
+            $split2   = explode('"',$split[1]);
+            $imgname  = $split2[1];
+            $eventpic = "data:".$mime.";base64,". base64_encode($file_curl["file_body"]);
+          }
+          $cats[1] = array(
+               "subject"  => $events[0]["well_cms_subject"] 
+              ,"content"  => $events[0]["well_cms_content"] 
+              ,"pic"      => $eventpic 
+          );
         }
-        $cats[1] = array(
-             "subject"  => $events[0]["well_cms_subject"] 
-            ,"content"  => $events[0]["well_cms_content"] 
-            ,"pic"      => $eventpic 
-        );
     }
 }
 
@@ -141,7 +150,7 @@ include_once("models/inc/gl_head.php");
     <div class="main-container">
         <div class="main wrapper clearfix">
             <article>
-                <h3>How can I enhance my wellbeing?</h3>
+                <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
                 <?php  
                 if(isset($cats[0])){
                     foreach($cats[0] as $event){
@@ -155,7 +164,7 @@ include_once("models/inc/gl_head.php");
                                 <?php
                                 if(!empty($event["link"])){
                                 ?>
-                                <a href="<?php echo $event["link"] ?>">Read More</a>
+                                <a href="<?php echo $event["link"] ?>"><?php echo lang("READ_MORE") ?></a>
                                 <?php
                                 }
                                 ?>

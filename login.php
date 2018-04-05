@@ -115,10 +115,10 @@ include("models/inc/gl_header.php");
 <div id="content" class="container" role="main" tabindex="0">
   <div class="row"> 
     <div id="main-content" class="col-md-8 col-md-offset-2 logpass" role="main">
-		<?php
-			include("models/inc/language_select.php");
-		?>
 		<div class="well row">
+			<?php
+				include("models/inc/language_select.php");
+			?>
 			<form id="loginForm" name="loginForm" class="form-horizontal loginForm col-md-6 " action="login.php" method="post" novalidate="novalidate">
 				<input type="hidden" name="use_lang" value="<?php echo $_SESSION["use_lang"] ?>"/>
 				<h2><?php echo lang("ACCOUNT_LOGIN_CONTINUE") ?></h2>

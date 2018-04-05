@@ -1,8 +1,8 @@
 <aside>
-    <h3>MyWELL</h3>
+    <h3><?php echo lang("MY_WELL") ?></h3>
     <ul class="nav">
         <li class="surveys">
-            <h4>Surveys</h4>
+            <h4><?php echo lang("CORE_SURVEYS") ?></h4>
             <ol>
                 <?php
                 $new = null;
@@ -26,7 +26,7 @@
                   $linksid        = $surveycomplete ? $umbrella_sid : $surveyid;
                   $surveylink     = "survey.php?sid=" . $linksid;
 
-                  $longorshort    = $user_short_scale ? "Brief WELL for Life Scale" : "Stanford WELL for Life Scale";
+                  $longorshort    = $user_short_scale ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
                   //every one of the core surveys will be labled "wellbeing_questions"
                   $surveyname     = isset($title_trans[$_SESSION["use_lang"]][$umbrella_sid]) ?  $title_trans[$_SESSION["use_lang"]][$umbrella_sid] : $longorshort;
 
@@ -139,7 +139,7 @@
                 echo implode("",$suppsurvs);
                 ?>  
             </ol>
-            <h4>Completed Surveys</h4>
+            <h4><?php echo lang("COMPLETED_SURVEYS") ?></h4>
             <ol class="completed">
             <?php
               echo implode("",$completed_surveys);
