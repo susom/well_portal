@@ -344,7 +344,7 @@ function checkValidation(){
 }
 
 function saveFormData(elem){
-  var dataURL = "survey.php?ajax=1";
+  var dataURL = "ajax_handler.php?ajax=1";
   var for_branch_name = elem.prop("name");
   var for_branch_val  = elem.val();
 
