@@ -183,7 +183,7 @@ include_once("models/inc/gl_head.php");
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
-                                  echo "<blockquote>".lang("BREIF_DISCLAIMER",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
+                                  echo "<blockquote>".lang("BRIEF_SCORE",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
                                   echo lang("BREIF_DISCLAIMER");
                                 }else{
                                   echo lang("BRIEF_SORRY_NA");
