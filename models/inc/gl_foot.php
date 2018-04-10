@@ -46,3 +46,6 @@ $("a.disabled").click(function(){
 $(".alert").css("opacity",1);
 </script>
 <?php
+$end_time = microtime(true) - $start_time;
+// print_r($end_time . " seconds");
+// exit;

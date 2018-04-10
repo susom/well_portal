@@ -676,7 +676,7 @@ function showMATScoring(qinput){
         }
 
         if(uselang == "sp"){
-          $("#pa_info_sheet").attr("src","pa_info_sheet_sp.jpg");
+          $("#pa_info_sheet").attr("src","pa_info/pa_info_sheet_sp.jpg");
         }
 
 

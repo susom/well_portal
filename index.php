@@ -142,6 +142,8 @@ if(isset($_GET["survey_complete"])){
     }
   }
 }
+// $end_time = microtime(true) - $start_time;
+// print_r($end_time . " seconds");
 
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
