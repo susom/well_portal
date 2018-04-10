@@ -229,7 +229,9 @@
 		,"RESOURCE_FINANCIAL" 						=> "Financial Security"
 		,"RESOURCE_RELIGION" 						=> "Spirituality and Religion"
 		,"RESOURCE_NONE"							=> "No Current Resources"
-		
+		,"YOUR_MET"									=> "Your physical activity MET-minutes/week score is"
+		,"CERT_DL"									=> "Click here to download your certificate!"
+		,"YOUR_WELL_SCORE"							=> "Your WELL Score"	
 	));
 
 	$template_security_questions = array(

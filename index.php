@@ -113,7 +113,7 @@ if(isset($_GET["survey_complete"])){
       require_once('PDF/FPDI-2.0.1/src/autoload.php');
       include_once("PDF/generatePDFcertificate.php");
     
-      $success_arr[]  = "<a target='blank' href='$filename'>[Click here to download your certificate!]</a>";
+      $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
       // CUSTOM FLOW FOR UO1 Pilot STUDY
       if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
@@ -122,7 +122,7 @@ if(isset($_GET["survey_complete"])){
         if(!$user_short_scale){
           $long_score     = empty($long_score) ? "N/A" : $long_score;
           // if this is the first one just show the orange ball, otherwise show comparison graph
-          $success_arr[]  = "<p>Your WELL Score for $current_year is <b class='wellscore'>$long_score</b></p>";
+          $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, $long_score))."</p>";
         }else{
           $extra_params = array(
             'content'     => 'record',
