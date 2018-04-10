@@ -62,8 +62,6 @@
                 }
                 echo implode("",$core_surveys);
                 
-                
-
                 // CUSTOM FLOW FOR UO1 Pilot STUDY
                 $uo1 = array(  "stopbang"
                               ,"how_well_do_you_sleep"
@@ -120,20 +118,28 @@
                                         ".$survey_alinks[$supp_instrument_id]." 
                                     </li>");
                     }
-                   
                 }
 
-                $proj_name    = "foodquestions";
-                $ffq_project  = new PreGenAccounts($loggedInUser
-                  , $proj_name , SurveysConfig::$projects[$proj_name]["URL"]
-                  , SurveysConfig::$projects[$proj_name]["TOKEN"]);
-                $ffq = $ffq_project->getAccount();
-                if(!array_key_exists("error",$ffq)){
-                  $na             = $core_surveys_complete ? "" : "na"; //"na"
-                  $nutrilink      = $portal_test ? "#" : "https://www.nutritionquest.com/login/index.php?username=".$ffq["ffq_username"]."&password=".$ffq["ffq_password"]."&BDDSgroup_id=747&Submit=Submit";
-                  $a_nutrilink    = "<a href='$nutrilink' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
-                  if($_SESSION["use_lang"] !== "sp"){
-                    array_unshift($suppsurvs ,"<li class='fitness $na food'>".$a_nutrilink."</li>");
+                $proj_name  = "foodquestions";
+                
+                if(!$core_surveys_complete){
+                  // JUST PUSH DUMMY TEXT
+                  $a_nutrilink = "<a href='#' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
+                  array_unshift($suppsurvs ,"<li class='fitness na food'>".$a_nutrilink."</li>");
+                }else{
+                  // THIS IS EXPENSIVE OPERATION, DONT DO IT EVERYTIME, AND DONT BOTHER UNLESS CORE SURVEY IS COMPLETE
+                  if(isset($_SESSION[$proj_name])){
+                    $ffq = $_SESSION[$proj_name];
+                  }else{
+                    $ffq_project  = new PreGenAccounts($loggedInUser, $proj_name, SurveysConfig::$projects[$proj_name]["URL"], SurveysConfig::$projects[$proj_name]["TOKEN"]);
+                    $_SESSION[$proj_name] = $ffq = $ffq_project->getAccount();
+                  }
+                  if(!array_key_exists("error",$ffq)){
+                    $nutrilink      = $portal_test ? "#" : "https://www.nutritionquest.com/login/index.php?username=".$ffq["ffq_username"]."&password=".$ffq["ffq_password"]."&BDDSgroup_id=747&Submit=Submit";
+                    $a_nutrilink    = "<a href='$nutrilink' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
+                    if($_SESSION["use_lang"] !== "sp"){
+                      array_unshift($suppsurvs ,"<li class='fitness food'>".$a_nutrilink."</li>");
+                    }
                   }
                 }
                 echo implode("",$suppsurvs);

@@ -6,7 +6,7 @@
 <!-- Bootstrap -->
 <script src="assets/js/bootstrap.js"></script>
 <script src="assets/js/jquery.maskedinput.min.js"></script>
- <script src="assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/js/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
 <script src="assets/js/charts/sparkline/jquery.sparkline.min.js"></script>
 <script src="assets/js/charts/flot/jquery.flot.min.js"></script>
@@ -45,7 +45,3 @@ $("a.disabled").click(function(){
 // this will wait to show alert boxes until after page loads
 $(".alert").css("opacity",1);
 </script>
-<?php
-$end_time = microtime(true) - $start_time;
-// print_r($end_time . " seconds");
-// exit;

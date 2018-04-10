@@ -3,6 +3,7 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
+// GLOBAL NAV SET STATE
 $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "");
 $navon[$nav] = "on";
@@ -27,6 +28,12 @@ $languages = array(
   "tw" => 4,
 );
 
+// LOAD THE CMS EDITORIAL CONTENT FOR THE HOME PAGE
+if(isset($_SESSION['LAST_CMS_LOAD']) && (time() - $_SESSION['LAST_CMS_LOAD'] > 600)) {
+     $_SESSION['LAST_CMS_LOAD'] = time();
+     unset($_SESSION['monthly_goals']);
+     unset($_SESSION['editorial_events']);
+}
 foreach($cats as $cat){
     $filterlogic                    = array();
     $filterlogic[]                  = '[well_cms_loc] = "'.$loc.'"';
@@ -34,10 +41,14 @@ foreach($cats as $cat){
     $filterlogic[]                  = '[well_cms_active] = "1"';
     $filterlogic[]                  = '[well_cms_lang] = "'.$languages[isset($_SESSION["use_lang"]) ? $_SESSION["use_lang"] : "en"].'"';
     $extra_params["filterLogic"]    = implode(" and ", $filterlogic);
-    $events                         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
-    if($cat == 0){
-        //is events
-        $cats[0] = array();
+    
+    if($cat == 0 ){
+      // EVENTS RESOURCES
+      if(isset($_SESSION['editorial_events'])){
+        $cats[0]  = $_SESSION['editorial_events'];
+      }else{
+        $events   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
+        $cats[0]  = array();
         foreach($events as $event){
             $recordid   = $event["id"];
             $eventpic   = "";
@@ -63,7 +74,16 @@ foreach($cats as $cat){
             );
         }
         ksort($cats[0]);
-    }else{
+        $_SESSION['editorial_events'] = $cats[0];
+      }
+    }
+
+    if($cat == 1){
+      // MONTHLY GOALS
+      if(isset($_SESSION['monthly_goals'])){
+        $cats[1]    = $_SESSION['monthly_goals'];
+      }else{
+        $events     = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
         if(!empty($events)){
           $recordid   = $events[0]["id"];
           $eventpic   = "";
@@ -81,18 +101,9 @@ foreach($cats as $cat){
               ,"pic"      => $eventpic 
           );
         }
+        $_SESSION['monthly_goals'] = $cats[1];
+      }
     }
-}
-
-//CALCULATE WELL SCORES
-if($core_surveys_complete){
-  // CaLCULATE SHORT SCORE FOR LONG AND SHORT YEARS, SAVE TO the well_score sum variable but in the correct ARM
-  $short_score  = calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey_data);
-
-  // ONLY CALCULATE LONG SCORE DURING LONG YEARS
-  if(!$user_short_scale){
-    $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
-  }
 }
 
 //NEEDS TO GO BELOW SHORTSCALE WORK FOR NOW
@@ -104,6 +115,17 @@ if(isset($_GET["survey_complete"])){
     $survey = $surveys[$surveyid];
 
     if(!isset($all_survey_keys[$index+1])){ 
+      //CALCULATE WELL SCORES
+      if($core_surveys_complete){
+        // CaLCULATE SHORT SCORE FOR LONG AND SHORT YEARS, SAVE TO the well_score sum variable but in the correct ARM
+        $short_score  = calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey_data);
+
+        // ONLY CALCULATE LONG SCORE DURING LONG YEARS
+        if(!$user_short_scale){
+          $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
+        }
+      }
+
       //TODO ONLY  USE BREIF SCALE CALCULATION from "well_score"  
       $success_arr    = array();
       $success_arr[]  = $lang["CONGRATS_FRUITS"];
@@ -142,8 +164,6 @@ if(isset($_GET["survey_complete"])){
     }
   }
 }
-// $end_time = microtime(true) - $start_time;
-// print_r($end_time . " seconds");
 
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
@@ -276,3 +296,5 @@ include_once("models/inc/gl_foot.php");
   margin:20px 40px 20px;
 }
 </style>
+<?php
+markPageLoadTime("end page load");
