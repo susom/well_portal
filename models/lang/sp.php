@@ -231,7 +231,7 @@
 		,"RESOURCE_NONE"							=> "No Current Resources"
 		,"YOUR_MET"									=> "Your physical activity MET-minutes/week score is"
 		,"CERT_DL"									=> "Click here to download your certificate!"
-		,"YOUR_WELL_SCORE"							=> "Your WELL Score"	
+		,"WELL_SCORE_YEAR"							=> "Your WELL Score for %m1% is <b class='wellscore'>%m2%</b>"	
 	));
 
 	$template_security_questions = array(
