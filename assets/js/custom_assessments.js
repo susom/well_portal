@@ -28,7 +28,7 @@ function showTCMScoring(all_answers, cb){
   var user_ans_flat = _.pluck(user_answers,"name");
   var compare       = _.intersection(user_ans_flat, tcm_required_flat);
   var difference    = _.difference(tcm_required_flat, compare);
-  var dataURL       = "TCM_bodytype.php?&uselang="+uselang;
+  var dataURL       = "supp_feedback/TCM_bodytype.php?&uselang="+uselang;
   $.ajax({
     url:  dataURL,
     type:'POST',
@@ -56,7 +56,7 @@ $.fn.roundSlider.prototype.defaults.create = function () {
 }
 
 function showSleepScoring(all_answers, cb){
-  var dataURL     = "SLEEP_PSQI.php";
+  var dataURL     = "supp_feedback/SLEEP_PSQI.php";
   
   var adapter     = [];
   for(var name in all_answers){
@@ -124,7 +124,7 @@ function showMETScoring(all_answers, cb){
   if(age > 0 && bmi > 0 && !isEmpty(gender) && !isEmpty(isSmoker) && !isEmpty(PA_level)) {
     var METScore    =  getMETScore(ughgender,age,bmi,isSmoker,PA_level);
 
-    var dataURL         = "MET_detail.php?gender=" + ughgender + "&metscore=" + METScore + "&age=" + age +  "&uselang=" + uselang;
+    var dataURL         = "supp_feedback/MET_detail.php?gender=" + ughgender + "&metscore=" + METScore + "&age=" + age +  "&uselang=" + uselang;
     $.ajax({
       url:  dataURL,
       type:'POST',
@@ -198,7 +198,7 @@ function showGRITScoring(all_answers,cb){
     adapter.push({"name" : name, "value" : value}); 
   }
 
-  var dataURL     = "GRIT_sisyphus.php";
+  var dataURL     = "supp_feedback/GRIT_sisyphus.php";
   $.ajax({
     url:  dataURL,
     type:'POST',
@@ -251,7 +251,7 @@ function showMATScoring(all_answers,cb){
     }
 
     // then ajax to compute the score
-    var dataURL = "MAT_assessment.php";
+    var dataURL = "supp_feedback/MAT_assessment.php";
     $.ajax({
       url:  dataURL,
       type:'POST',

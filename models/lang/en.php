@@ -162,7 +162,7 @@
 		,"ADDITIONAL_SURVEYS" 						=> "Additional Surveys"
 		,"SEE_PA_DATA" 								=> "Fill out the 'Your Physical Activity' part of the survey to see your data graphed here!"
 		,"HOW_DO_YOU_COMPARE" 						=> "How Do You Compare With Other Survey Takers?"
-		,"SHORT_SCORE_OVER_TIME"					=> "Your WELLbeing Score"
+		,"SHORT_SCORE_OVER_TIME"					=> "Your WELL Score"
 		,"OTHERS_WELL_SCORES"						=> "Other's WELL Score over time"
 		,"OTHERS_SCORE"								=> "Average Participant Score"
 		,"USERS_SCORE"								=> "Your Score"
@@ -232,7 +232,8 @@
 		,"RESOURCE_RELIGION" 						=> "Spirituality and Religion"
 		,"RESOURCE_NONE"							=> "No Current Resources"
 		,"YOUR_MET"									=> "Your physical activity MET-minutes/week score is"
-
+		,"CERT_DL"									=> "Click here to download your certificate!"
+		,"WELL_SCORE_YEAR"							=> "Your WELL Score for %m1% is <b class='wellscore'>%m2%</b>"	
 	));
 
 	$template_security_questions = array(

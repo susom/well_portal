@@ -94,11 +94,11 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="old">
 				<p>Our cardiorespiratory fitness naturally declines as we age. Over the next several years, your body will begin to experience changes that may begin to limit your physical abilities. While we cannot prevent aging, we can help to prepare for aging and combat some of its common negative effects by <a class="offsite" href='https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/'>eating healthy</a> and <a class="offsite" href='https://go4life.nia.nih.gov/'>staying active</a>.</p>
 				<p>It’s important to distinguish between normal aging and abnormal declines in your health. Consider checking out <a class="offsite" href="http://www.apa.org/pi/aging/resources/guides/older.aspx">this guide</a> prepared by the American Psychological Association to learn more about some of the truths and common myths associated with aging.</p>
-				<p>Make sure physical activity is right for you; before starting, take this <a target="blank" href='pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
+				<p>Make sure physical activity is right for you; before starting, take this <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
 			</div>
 			<div class="really_old">
 				<p>Our cardiorespiratory fitness naturally declines as we age. While we cannot prevent aging, we can help to combat some of the negative effects we tend to see with aging by continuing to eat <a class="offsite" href='https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/'>healthy</a> and by <a class="offsite" href='https://go4life.nia.nih.gov/'>staying active</a>. For more information about healthy aging, visit <a class="offsite" href='http://www.hhs.gov/aging/healthy-aging/'>http://www.hhs.gov/aging/healthy-aging/</a>. Taking steps now to help to preserve your cardiorespiratory fitness can help to reduce your risk of heart disease.</p>
-				<p>Make sure physical activity is right for you; before starting, take this <a target="blank" href='pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
+				<p>Make sure physical activity is right for you; before starting, take this <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
 			</div>
 		</aside>
 		<aside class="lang sp">
@@ -121,11 +121,11 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="old">
 				<p>我们的心肺适应性随着年龄的增长自然下降。在接下来的几年，你的身体将会开始体验到限制你的身体功能的变化。虽然我们不能防止衰老，但我们可以为衰老做准备，预防那些负面的影响。</p>
 				<p>重要的是要区分正常的老化和你的健康的异常下降。您可参考 <a class="offsite" href="http://www.apa.org/pi/aging/resources/guides/older.aspx">本指南</a> 由美国心理学协会提供， 来了解更多关于老化的事实与相关的话题。</p>
-				<p>在确保任何身体活动适合你之前，请先参与此测试 <a target="blank" href='pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
+				<p>在确保任何身体活动适合你之前，请先参与此测试 <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
 			</div>
 			<div class="really_old">
 				<p>我们的心肺适应性随着年龄的增长自然下降。虽然我们不能防止衰老，但我们可以透过饮食来消除一些老龄化所带来的负面影响，請參考： <a class="offsite" href='https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/'>饮食健康</a> 和 <a class="offsite" href='https://go4life.nia.nih.gov/'>保持活力</a>.</p>
-				<p>在确保任何身体活动适合你之前，请先参与此测试 <a target="blank" href='pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
+				<p>在确保任何身体活动适合你之前，请先参与此测试 <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
 			</div>
 		</aside>
 		<aside class="lang tw">
@@ -134,11 +134,11 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="old">
 				<p>我們的心肺適應性隨著年齡的增長自然下降。在接下來的幾年，您的身體將會開始體驗到限制您身體功能的變化。雖然我們不能防止衰老，但我們可以為衰老做準備，預防那些負面的影響。</p>
 				<p>重要的是要區分正常的老化和您的健康異常下降。您可參考 <a class="offsite" href="http://health99.hpa.gov.tw/educZone/edu_detail.aspx?CatId=21808">本指南</a> 由美國心理學協會提供，來了解更多關於老化的事實與相關的話題。</p>
-				<p>在確保任何身體活動適合您之前，請先參與此測試 <a target="blank" href='pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
+				<p>在確保任何身體活動適合您之前，請先參與此測試 <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
 			</div>
 			<div class="really_old">
 				<p>我們的心肺適應性隨著年齡的增長自然下降。雖然我們不能防止衰老，但我們可以透過飲食來消除一些老化所帶來的負面影響，請參考： <a class="offsite" href='http://health99.hpa.gov.tw/educZone/edu_detail.aspx?CatId=21498'>飲食健康</a> 和 <a class="offsite" href='http://health99.hpa.gov.tw/educZone/edu_detail.aspx?CatId=50246'>保持活力</a>.</a>.</p>
-				<p>在確保任何身體活動適合您之前，請先參與此測試 <a target="blank" href='pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
+				<p>在確保任何身體活動適合您之前，請先參與此測試 <a target="blank" href='pa_info/pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
 			</div>
 		</aside>
 	</div>
@@ -271,16 +271,16 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="funfact"><p><i>Did you know that being physically active can help to improve your mental health and mood?</i></p></div>
 			<div class="pa_1">
 				<p>Physical activity is one of the many ways you can help to improve both your wellbeing and your cardiorespiratory fitness. Finding physical activities you enjoy and committing to being and remaining active are important first steps towards increasing your physical activity level.</p>
-				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a class="offsite" href='pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
-				<p>Make sure physical activity is right for you; before starting, take this <a taret="blank"  href='pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
+				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a class="offsite" href='pa_info/pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
+				<p>Make sure physical activity is right for you; before starting, take this <a taret="blank"  href='pa_info/pa_readiness_questionaire.pdf'>self-evaluation questionnaire</a> or talk to a healthcare provider.</p>
 			</div>
 			<div class="pa_2 pa_3">
 				<p>Physical activity is one of the many ways you can help to improve both your wellbeing and your cardiorespiratory fitness. Continuing to be involved in physical activities you enjoy, exploring new physical activities, and committing to remaining active are important first steps towards increasing your physical activity level.</p> 
-				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a target="blank"  href='pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
+				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
 			</div>
 			<div class="pa_4">
 				<p>Physical activity is one of the many ways you can help to improve both your wellbeing, and your cardiorespiratory fitness. Continuing to be involved in physical activities you enjoy and committing to remaining active are extremely important to maintaining your health and wellbeing.</p>
-				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a target="blank"  href='pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite"  href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a> for tips on potentially increasing your level of physical activity.</p>
+				<p>You can check out the 2008 Physical Activity Guidelines for Americans <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>HERE</a>, or see the complete guide at <a class="offsite"  href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a> for tips on potentially increasing your level of physical activity.</p>
 			</div>
 			<div class="pa_5">
 				<p>Good job! Physical activity is one of many ways to maintain your wellbeing and your cardiorespiratory fitness. Continue to be involved with the physical activities you enjoy and commit to <a class="offsite"  href='http://health.gov/paguidelines/'>remaining active</a>.</p>
@@ -312,16 +312,16 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="funfact"><p><i>你知道常做体能活动可以帮助改善你的心理健康和心情吗？</i></p></div>
 			<div class="pa_1">
 				<p>体能活动是您可以帮助改善你的健康和你的心肺健康的许多方法之一。找到你喜欢的体能活动，并保持活跃，是增加你的体能活动力的重要的第一步。</p>
-				<p>您可以参考出2008年美国的体能活动准则 <a class="offsite" href='pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
-				<p>在确保任何身体活动适合你之前，请先参与此测试 <a taret="blank"  href='pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
+				<p>您可以参考出2008年美国的体能活动准则 <a class="offsite" href='pa_info/pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
+				<p>在确保任何身体活动适合你之前，请先参与此测试 <a taret="blank"  href='pa_info/pa_readiness_questionaire.pdf'>自我评估问卷</a> 或先与医务人员交谈。</p>
 			</div>
 			<div class="pa_2 pa_3">
 				<p>体能活动是您可以帮助改善你的健康和你的心肺健康的许多方法之一。找到你喜欢的体能活动，并保持活跃，是增加你的体能活动力的重要的第一步。</p> 
-				<p>您可以参考出2008年美国的体能活动准则 <a target="blank"  href='pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
+				<p>您可以参考出2008年美国的体能活动准则 <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite" href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a>.</p>
 			</div>
 			<div class="pa_4">
 				<p>体能活动是您可以帮助改善你的健康和你的心肺健康的许多方法之一。 继续你喜欢的体能活动，并保持活跃，是维持你身体健康及全人幸福非常重要的一步。</p>
-				<p>您可以参考出2008年美国的体能活动准则 <a target="blank"  href='pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite"  href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a> 可能增加你的体能活动的小提示。</p>
+				<p>您可以参考出2008年美国的体能活动准则 <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>请点击这里</a>, 或参考这完整指南 <a class="offsite"  href='http://health.gov/paguidelines/'>http://health.gov/paguidelines/</a> 可能增加你的体能活动的小提示。</p>
 			</div>
 			<div class="pa_5">
 				<p>做得好！体能活动是保持你的健康和你的心肺健康的许多方式之一。继续参与你喜欢的体能活动并持续下去。 <a class="offsite"  href='http://health.gov/paguidelines/'>参考这里。</a>.</p>
@@ -332,16 +332,16 @@ $suggest = $suggestion[$level][$uselang];
 			<div class="funfact"><p><i>您知道常做體能活動可以幫助改善您的心理健康和心情嗎？</i></p></div>
 			<div class="pa_1">
 				<p>體能活動是您可以幫助改善您健康和您心肺健康的許多方法之一。找到您喜歡的體能活動，並保持活躍，是增加您的體能活動力重要的第一步。</p>
-				<p>您可以參考出2008年美國的體能活動準則 <a class="offsite" href='pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite" href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a>.</p>
-				<p>在確保任何體能活動適合您之前，請先參與此測試 <a taret="blank"  href='pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
+				<p>您可以參考出2008年美國的體能活動準則 <a class="offsite" href='pa_info/pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite" href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a>.</p>
+				<p>在確保任何體能活動適合您之前，請先參與此測試 <a taret="blank"  href='pa_info/pa_readiness_questionaire.pdf'>自我評估問卷</a> 或先與醫務人員交談。</p>
 			</div>
 			<div class="pa_2 pa_3">
 				<p>體能活動是您可以幫助改善您健康和您心肺健康的許多方法之一。找到您喜歡的體能活動，並保持活躍，是增加您的體能活動力重要的第一步。</p> 
-				<p>您可以參考出2008年美國的體能活動準則 <a target="blank"  href='pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite" href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a>.</p>
+				<p>您可以參考出2008年美國的體能活動準則 <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite" href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a>.</p>
 			</div>
 			<div class="pa_4">
 				<p>體能活動是您可以幫助改善您健康和您心肺健康的許多方法之一。 繼續您喜歡的體能活動，並保持活躍，是維持您身體健康及整體幸福非常重要的一步。</p>
-                                <p>您可以參考出2008年美國的體能活動準則 <a target="blank"  href='pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite"  href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a> 可能增加您體能活動的小提示。</p>
+                                <p>您可以參考出2008年美國的體能活動準則 <a target="blank"  href='pa_info/pa_fact_sheet_adults.pdf'>請點擊這裡</a>, 或參考這完整指南 <a class="offsite"  href='http://health99.hpa.gov.tw/Default.aspx'>http://health99.hpa.gov.tw/Default.aspx</a> 可能增加您體能活動的小提示。</p>
 			</div>
 			<div class="pa_5">
 				<p>很好！體能活動是保持您健康和您心肺健康的許多方式之一。繼續參與您喜歡的體能活動並持續下去。<a class="offsite"  href='http://health99.hpa.gov.tw/Default.aspx'>參考這裡。</a></p>

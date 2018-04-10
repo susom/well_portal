@@ -31,15 +31,15 @@ img{
 <p>You can learn about the importance of sleep, and steps you can take to improve your sleep by clicking on the sleep topic links below.</p>
 
 <ul>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#slee_deprivation'>Sleep Deficiency and its Consequences</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#diet'>Diet, Caffeine and Alcohol</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#light'>Natural and Artificial Light</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#body_temp'>Body Temperature </a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#noise'>Noise Pollution and White Noise</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#bedroom'>The Bedroom and Bedding</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#sleep'>Maintaining a Sleep Routine</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#exercise'>When to Exercise or Nap</a></li>
-<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='sleep_tips.php#insomnia'>Addressing Insomnia and Sleep Apnea</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#slee_deprivation'>Sleep Deficiency and its Consequences</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#diet'>Diet, Caffeine and Alcohol</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#light'>Natural and Artificial Light</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#body_temp'>Body Temperature </a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#noise'>Noise Pollution and White Noise</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#bedroom'>The Bedroom and Bedding</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#sleep'>Maintaining a Sleep Routine</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#exercise'>When to Exercise or Nap</a></li>
+<li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#insomnia'>Addressing Insomnia and Sleep Apnea</a></li>
 </ul>
 
 <img src="images/sleepy_kid.png"/>

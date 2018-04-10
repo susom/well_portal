@@ -439,9 +439,9 @@ include_once("models/inc/gl_foot.php");
                 return false;
               }
               if(letters_matched){
-                PlaySound("Ding.mp3");
+                PlaySound("assets/sounds/Ding.mp3");
               }else{
-                PlaySound("Buzzer.mp3");
+                PlaySound("assets/sounds/Buzzer.mp3");
               }
               var points_earned = letters_matched * pointmult;
             }
@@ -471,7 +471,7 @@ include_once("models/inc/gl_foot.php");
     $("#solveit").click(function(){
       var solve = prompt("Solve the Puzzle!");
       if (solve.toLowerCase() == window.activepuzzle.toLowerCase()) {
-          PlaySound("solved.mp3");
+          PlaySound("assets/sounds/solved.mp3");
           spawnPartices();
           statusLabel.innerHTML = 'You\'ve Solved the Puzzle!';
 
@@ -483,7 +483,7 @@ include_once("models/inc/gl_foot.php");
             resetLetters();
           });
       }else{
-          PlaySound("Buzzer.mp3");
+          PlaySound("assets/sounds/Buzzer.mp3");
           statusLabel.innerHTML = 'Sorry, that is not the right answer.';
       }
       return false;

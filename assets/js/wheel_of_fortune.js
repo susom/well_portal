@@ -12,7 +12,7 @@ function initDrawingCanvas() {
         var random_velo = Math.floor(Math.random() * ((y-x) + 1) + x);
         console.log(random_velo);
         wheel.body.angularVelocity = random_velo;
-        PlaySound("wheel_of_fortune.mp3");
+        PlaySound("assets/sounds/wheel_of_fortune.mp3");
         if (wheelSpinning === false && wheelStopped === true) {
             if ( Math.abs(wheel.body.angularVelocity) > 7.5) {
                 wheelSpinning = true;
@@ -48,7 +48,7 @@ function checkStartDrag(e) {
 }
 
 function checkEndDrag(e) {
-    PlaySound("wheel_of_fortune.mp3");
+    PlaySound("assets/sounds/wheel_of_fortune.mp3");
     if (mouseConstraint) {
         world.removeConstraint(mouseConstraint);
         mouseConstraint = null;
@@ -227,7 +227,7 @@ Wheel.prototype = {
         window.musico.pause();
 
         if(curpoints == "Bankrupt"){
-            PlaySound("bankrupt.mp3");
+            PlaySound("assets/sounds/bankrupt.mp3");
             statusLabel.innerHTML   = 'Woops, you\'ve bankrupted';
             $("#totalpoints b").text(0);
             $("#guessvalue b").text(0);

@@ -574,7 +574,7 @@ function showMETScoring(){
     });
 
     var nextSection = $("#customform section:eq(1)");
-    var dataURL         = "MET_detail.php?gender=" + ughgender + "&metscore=" + METScore + "&age=" + age+"&uselang="+uselang;
+    var dataURL         = "supp_feedback/MET_detail.php?gender=" + ughgender + "&metscore=" + METScore + "&age=" + age+"&uselang="+uselang;
     $.ajax({
       url:  dataURL,
       type:'POST',
@@ -652,7 +652,7 @@ function showMATScoring(qinput){
     var nextSection = $("#customform section").last().prev().prev();
     
     // then ajax to compute the score
-    var dataURL = "MAT_assessment.php";
+    var dataURL = "supp_feedback/MAT_assessment.php";
     $.ajax({
       url:  dataURL,
       type:'POST',
@@ -676,7 +676,7 @@ function showMATScoring(qinput){
         }
 
         if(uselang == "sp"){
-          $("#pa_info_sheet").attr("src","pa_info_sheet_sp.jpg");
+          $("#pa_info_sheet").attr("src","pa_info/pa_info_sheet_sp.jpg");
         }
 
 
@@ -723,7 +723,7 @@ function showTCMScoring(){
 
   if($("#customform input[name='tcm_gender']:checked").val() !== "") {    
     var nextSection = $("#customform section:last").prev();
-    var dataURL     = "TCM_bodytype.php?uselang="+uselang;
+    var dataURL     = "supp_feedback/TCM_bodytype.php?uselang="+uselang;
 
     $.ajax({
       url:  dataURL,
@@ -752,7 +752,7 @@ function showTCMScoring(){
 function showGRITScoring(){
   var all_answers = $("#customform").serializeArray();
   var nextSection = $("#customform section:last").prev();
-  var dataURL     = "GRIT_sisyphus.php";
+  var dataURL     = "supp_feedback/GRIT_sisyphus.php";
 
   $.ajax({
     url:  dataURL,
@@ -777,7 +777,7 @@ function showSleepScoring(){
     nextSection.find("h2").after(psqi_container);
   }
 
-  var dataURL     = "SLEEP_PSQI.php";
+  var dataURL     = "supp_feedback/SLEEP_PSQI.php";
   $.ajax({
     url:  dataURL,
     type:'POST',
