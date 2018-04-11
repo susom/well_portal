@@ -10,8 +10,9 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
   $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
   
   $long_score   = 0;
-  if(!isset($user_ws[0]) || (isset($user_ws[0]) && empty($user_ws[0]["well_long_score_json"])) ){
+  if(!isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
     //10 DOMAINS TO CALCULATE THE WELL LONG SCORE
+   
     $domain_mapping = array(
        "well_score_creativity" => "Exploration and Creativity"
       ,"well_score_religion"   => "Spirituality and Religion"

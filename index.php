@@ -141,28 +141,28 @@ if(isset($_GET["survey_complete"])){
     
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
-      // CUSTOM FLOW FOR UO1 Pilot STUDY
-      // if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
-      //   // DONOTHING HERE?
-      // }else{
-        if(!$user_short_scale){
-          $long_score     = empty($long_score) ? "N/A" : $long_score;
-          // if this is the first one just show the orange ball, otherwise show comparison graph
-          $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
-        }else{
-          $extra_params = array(
-            'content'     => 'record',
-            'records'     => array($loggedInUser->id) ,
-            'fields'      => array("id","well_score")
-          );
-          $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-          $user_scores    = array();
-          foreach($user_ws as $arm_score){
-            $user_scores[$arm_score["redcap_event_name"]]  = array("year" => $armyears[$arm_score["redcap_event_name"]], "well_score" => $arm_score["well_score"]);
-          }
-          $success_arr[]  = printWELLOverTime($user_scores);
+      if(!$user_short_scale){
+        $long_score     = empty($long_score) ? "N/A" : $long_score;
+        // if this is the first one just show the orange ball, otherwise show comparison graph
+        $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
+      }else{
+        $extra_params = array(
+          'content'     => 'record',
+          'records'     => array($loggedInUser->id) ,
+          'fields'      => array("id","well_score")
+        );
+        $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+        $user_scores    = array();
+        foreach($user_ws as $arm_score){
+          $user_scores[$arm_score["redcap_event_name"]]  = array("year" => $armyears[$arm_score["redcap_event_name"]], "well_score" => $arm_score["well_score"]);
         }
-      // }
+        $success_arr[]  = printWELLOverTime($user_scores);
+      }
+
+       // CUSTOM FLOW FOR UO1 Pilot STUDY
+      if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+        $success_arr[]  = "<p class='alert_reminder'>".lang("UO1_REMINDER")."</p>";
+      }
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }
@@ -298,6 +298,16 @@ include_once("models/inc/gl_foot.php");
 
 .alert.text-center ul {
   margin:20px 40px 20px;
+}
+
+.alert_reminder{
+      background: #ffc;
+    border-radius: 5px;
+    padding: 10px 5px;
+    line-height: 120%;
+    font-size: 24px;
+    color: darkorange;
+    font-weight: normal;
 }
 </style>
 <?php

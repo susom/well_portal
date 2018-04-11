@@ -365,7 +365,7 @@ if(isset($_GET["survey_complete"])){
       }
     }
 
-    if(array_key_exists($surveyid,$supp_surveys)){
+    if(isset($supp_surveys) && array_key_exists($surveyid,$supp_surveys)){
       $index  = array_search($surveyid, $supp_surveys_keys);
       $survey = $supp_surveys[$surveyid];
       $success_msg  = $lang["FITNESS_BADGE"]. ": <span class='fitness " . SurveysConfig::$fitness[$index] . "'></span>" ;

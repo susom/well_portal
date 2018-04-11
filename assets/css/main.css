@@ -489,7 +489,7 @@ nav a:visited {
 }
 .main > aside li li.fitness.snoring:before{
     background:url(../img/ico_snoring.png) top left  no-repeat;
-    background-size:contain;
+    background-size:200%;
 }
 
 .main > aside li li.fitness.na:before{

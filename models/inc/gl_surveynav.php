@@ -71,7 +71,7 @@
                     $uo1_completes[] = 1;
                   }
                 }
-                $uo1_complete = array_sum($uo1_completes) == 3 ? true : false;
+                $uo1_complete = array_sum($uo1_completes) == 2 ? true : false;
                 
                 $fitness    = SurveysConfig::$supp_icons;
                 foreach($supp_instruments as $supp_instrument_id => $supp_instrument){

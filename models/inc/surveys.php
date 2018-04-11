@@ -1,5 +1,5 @@
 <?php
-// markPageLoadTime("start surveys.php");
+markPageLoadTime("start surveys.php");
 //DETERMINE WHICH ARM TO BE IN BY CHECKING DAYS SINCE REGISTERED
 $consent_date		= strToTime($loggedInUser->consent_ts);
 $datediff    		= time() - $consent_date;
@@ -75,13 +75,13 @@ if(isset($_SESSION["user_short_scale"])){
 }
 // markPageLoadTime("END CHECK FOR SHORTSCALE");
 
-// markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
+markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
 if(isset($_SESSION["user_survey_data"])){
 	//THE BULK OF IT HAS BEEN CALLED ONCE, NOW JUST REFRESH THE NECESSARY DATA
-	// markPageLoadTime("BEGIN REFRESH user_survey_data");
+	markPageLoadTime("BEGIN REFRESH user_survey_data");
 	$user_survey_data = $_SESSION["user_survey_data"];
 	$user_survey_data->refreshData();
-	// markPageLoadTime("END REFRESH user_survey_data");
+	markPageLoadTime("END REFRESH user_survey_data");
 }else{
 	if ($user_short_scale){
 		$api_url 	= SurveysConfig::$projects["SHORT_SCALE"]["URL"];
@@ -116,7 +116,7 @@ if(isset($_SESSION["user_survey_data"])){
 	$_SESSION["user_survey_data"] 	= $user_survey_data;
 	// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 
 }
-// markPageLoadTime("END  _SESSION[user_survey_data]");
+markPageLoadTime("END  _SESSION[user_survey_data]");
 
 // markPageLoadTime("BEGIN  _SESSION[long_survey_data]");
 // if(isset($_SESSION["long_survey_data"])){
@@ -141,9 +141,8 @@ $core_surveys_complete 	= $user_survey_data->getUserActiveComplete();
 $all_survey_keys  		= array_keys($surveys); 
 $fruits  				= SurveysConfig::$fruits;
 
-// markPageLoadTime("BEGIN  _SESSION[supplemental_surveys]");
+markPageLoadTime("BEGIN  _SESSION[supplemental_surveys]");
 //SUPPLEMENTAL PROJECTS
-// print_rr($_SESSION["supplemental_surveys"]);
 $supp_instruments  = array();
 if(!$core_surveys_complete){
 	// IF NOT COMPLETE THEN JUST GET THE STUB DATA
@@ -166,16 +165,16 @@ if(!$core_surveys_complete){
 		$_SESSION["supplemental_surveys"] = $supp_instruments;
 	}	
 }else{
-	if(isset($_SESSION["supplemental_surveys"]) && !array_key_exists("raw",current($_SESSION["supplemental_surveys"])) ){
+	if(isset($_SESSION["supplemental_surveys"]) && array_key_exists("Supp",$_SESSION["supplemental_surveys"]) ){
 		//THE BULK OF IT HAS BEEN CALLED ONCE, NOW JUST REFRESH THE NECESSARY DATA
 		$supp_surveys  = $_SESSION["supplemental_surveys"];
-		// markPageLoadTime("BEGIN REFRESH supplemental_surveys");
+		markPageLoadTime("BEGIN REFRESH supplemental_surveys");
 		foreach($supp_surveys as $supp_survey){
 			$supp_survey->refreshData();
 			$supp_branching 	= $supp_survey->getAllInstrumentsBranching();
 			$all_branching 		= array_merge($all_branching,$supp_branching);
 		}
-		// markPageLoadTime("END REFRESH supplemental_surveys");
+		markPageLoadTime("END REFRESH supplemental_surveys");
 	}else{
 		$proj_name 	 				= "Supp";
 		$supp_surveys 				= array();
@@ -196,7 +195,7 @@ if(!$core_surveys_complete){
 		$supp_instruments 	= array_merge( $supp_instruments,  $supp_project->getActiveAll() );
 	} 
 }
-// markPageLoadTime("END  _SESSION[supplemental_surveys]");
+markPageLoadTime("END  _SESSION[supplemental_surveys]");
 
 $supp_surveys_keys 		= array_keys($supp_instruments);
 $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : SurveysConfig::$core_surveys;
@@ -205,4 +204,4 @@ $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : Su
 // print_rr($supp_instruments,1);
 // print_rr($supp_surveys,1);
 // print_rr($surveys ,1);
-// markPageLoadTime("end surveys.php");
+markPageLoadTime("end surveys.php");
