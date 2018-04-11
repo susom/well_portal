@@ -75,13 +75,13 @@ if(isset($_SESSION["user_short_scale"])){
 }
 // markPageLoadTime("END CHECK FOR SHORTSCALE");
 
-markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
+// markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
 if(isset($_SESSION["user_survey_data"])){
 	//THE BULK OF IT HAS BEEN CALLED ONCE, NOW JUST REFRESH THE NECESSARY DATA
-	markPageLoadTime("BEGIN REFRESH user_survey_data");
+	// markPageLoadTime("BEGIN REFRESH user_survey_data");
 	$user_survey_data = $_SESSION["user_survey_data"];
 	$user_survey_data->refreshData();
-	markPageLoadTime("END REFRESH user_survey_data");
+	// markPageLoadTime("END REFRESH user_survey_data");
 }else{
 	if ($user_short_scale){
 		$api_url 	= SurveysConfig::$projects["SHORT_SCALE"]["URL"];
@@ -116,7 +116,7 @@ if(isset($_SESSION["user_survey_data"])){
 	$_SESSION["user_survey_data"] 	= $user_survey_data;
 	// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 
 }
-markPageLoadTime("END  _SESSION[user_survey_data]");
+// markPageLoadTime("END  _SESSION[user_survey_data]");
 
 // markPageLoadTime("BEGIN  _SESSION[long_survey_data]");
 // if(isset($_SESSION["long_survey_data"])){
@@ -205,4 +205,4 @@ $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : Su
 // print_rr($supp_instruments,1);
 // print_rr($supp_surveys,1);
 // print_rr($surveys ,1);
-markPageLoadTime("end surveys.php");
+// markPageLoadTime("end surveys.php");

@@ -301,4 +301,4 @@ include_once("models/inc/gl_foot.php");
 }
 </style>
 <?php
-markPageLoadTime("end page load");
+// markPageLoadTime("end page load");
