@@ -169,13 +169,13 @@ if(!$core_surveys_complete){
 	if(isset($_SESSION["supplemental_surveys"]) && !array_key_exists("raw",current($_SESSION["supplemental_surveys"])) ){
 		//THE BULK OF IT HAS BEEN CALLED ONCE, NOW JUST REFRESH THE NECESSARY DATA
 		$supp_surveys  = $_SESSION["supplemental_surveys"];
-		markPageLoadTime("BEGIN REFRESH supplemental_surveys");
+		// markPageLoadTime("BEGIN REFRESH supplemental_surveys");
 		foreach($supp_surveys as $supp_survey){
 			$supp_survey->refreshData();
 			$supp_branching 	= $supp_survey->getAllInstrumentsBranching();
 			$all_branching 		= array_merge($all_branching,$supp_branching);
 		}
-		markPageLoadTime("END REFRESH supplemental_surveys");
+		// markPageLoadTime("END REFRESH supplemental_surveys");
 	}else{
 		$proj_name 	 				= "Supp";
 		$supp_surveys 				= array();
