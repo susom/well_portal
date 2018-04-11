@@ -32,7 +32,6 @@ $default_replace 			= array( $_CFG->WEBSITE["Name"]
 // Start Session and determine if we are authenticated
 // Authenticated means user+pass has matched, but does NOT mean the account is active
 session_start();
-$_SESSION['LAST_CMS_LOAD'] = isset($_SESSION['LAST_CMS_LOAD']) ? $_SESSION['LAST_CMS_LOAD'] : time(); //SECONDS
 
 $loggedInUser = getSessionUser($_CFG->SESSION_NAME);
 if( !empty($loggedInUser) ){

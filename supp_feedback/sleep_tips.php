@@ -95,7 +95,7 @@ img{
 <a target="_blank" href='https://www.nhlbi.nih.gov/health/health-topics/topics/sdd/atrisk'>National Heart, Lung, and Blood Institute. (updated 2017). Who Is at Risk for Sleep Deprivation and Deficiency?</a><br>
 <a target="_blank" href='https://www.nhlbi.nih.gov/health/health-topics/topics/sdd/why'>National Heart, Lung, and Blood Institute (updated 2017).  Why is sleep important?</a><br>
 <a target="_blank" href='https://sleepfoundation.org/sleep-topics/drowsy-driving-vs-drunk-driving-how-similar-are-they'>National Sleep Foundation. (2017). Drowsy Driving vs. Drunk Driving: How Similar Are They?</a><br><br>
-<img src="images/sleep_def.png"/>
+<img src="../assets/img/sleep_def.png"/>
 
 <a name='diet'/>
 <hr/>
@@ -127,7 +127,7 @@ img{
 <a target="_blank" href='https://sleepfoundation.org/bedroom/'>Inside your bedroom, use your senses! (2012-2016).</a><br>
 <a target="_blank" href='http://sleepeducation.org/news/2007/06/18/the-sleep-diet-a-link-between-sleep-weight-loss-'>The sleep diet: a link between sleep & weight loss?</a><br>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/diet.png"/>
+<img src="../assets/img/diet.png"/>
 
 
 
@@ -157,7 +157,7 @@ img{
 <a target="_blank" href='http://well.blogs.nytimes.com/2015/04/07/can-orange-glasses-help-you-sleep-better/?_r=0'>Galbraith, K. (2015, April 7). Can orange glasses help you sleep better?</a><br>
 <a target="_blank" href='https://sleepfoundation.org/bedroom/'>Inside your bedroom, use your senses! (2012-2016).</a><br>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/nature.png"/>
+<img src="../assets/img/nature.png"/>
 
 
 
@@ -181,7 +181,7 @@ img{
 <h3>Sources</h3>
 <a target="_blank" href='https://sleepfoundation.org/bedroom/'>Inside your bedroom, use your senses! (2012-2016).</a><br>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/temp.png"/>
+<img src="../assets/img/temp.png"/>
 
 <a name='noise'/>
 <hr/>
@@ -206,7 +206,7 @@ img{
 <h4>Sources</h4>
 <a target="_blank" href='https://sleepfoundation.org/bedroom/'>Inside your bedroom, use your senses! (2012-2016).</a><br>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/noise.png"/>
+<img src="../assets/img/noise.png"/>
 
 <a name='bedroom'/>
 <hr/>
@@ -239,7 +239,7 @@ img{
 <h4>Sources</h4>
 <a target="_blank" href='https://sleepfoundation.org/bedroom/'>Inside your bedroom, use your senses! (2012-2016).</a><br>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/bedroom.png"/>
+<img src="../assets/img/bedroom.png"/>
 
 <a name='sleep'/>
 <hr/>
@@ -256,7 +256,7 @@ img{
 
 <h4>Sources</h4>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/routine.png"/>
+<img src="../assets/img/routine.png"/>
 
 <a name='exercise'/>
 <hr/>
@@ -274,7 +274,7 @@ img{
 
 <h4>Sources</h4>
 <a target="_blank" href='http://healthysleep.med.harvard.edu/healthy/getting/overcoming/tips'>Twelve Simple Tips to Improve Your Sleep. (2007, December).</a><br><br>
-<img src="images/exercise.png"/>
+<img src="../assets/img/exercise.png"/>
 
 
 <a name='insomnia'/>
@@ -310,4 +310,4 @@ img{
 <a target="_blank" href='http://sleepdisorders.sleepfoundation.org/chapter-2-insomnia/cbt-overview/cbt-cognitive-therapy/'>National Sleep Foundation. (updated 2016). The Sleep Disorders, Chapter 2: Insomnia.</a><br>
 <a target="_blank" href='https://sleepfoundation.org/insomnia/content/what-is-insomnia'>National Sleep Foundation. (updated 2017) What is Insomnia?</a><br><br>
 
-<img src="images/insomnia.png"/>
+<img src="../assets/img/insomnia.png"/>

@@ -29,10 +29,14 @@ $languages = array(
 );
 
 // LOAD THE CMS EDITORIAL CONTENT FOR THE HOME PAGE
-if(isset($_SESSION['LAST_CMS_LOAD']) && (time() - $_SESSION['LAST_CMS_LOAD'] > 600)) {
-     $_SESSION['LAST_CMS_LOAD'] = time();
-     unset($_SESSION['monthly_goals']);
-     unset($_SESSION['editorial_events']);
+if(isset($_SESSION['LAST_CMS_LOAD'])) {
+  if((time() - $_SESSION['LAST_CMS_LOAD'] > 600)){
+    $_SESSION['LAST_CMS_LOAD'] = time();
+    unset($_SESSION['monthly_goals']);
+    unset($_SESSION['editorial_events']);
+  }
+}else{
+  $_SESSION['LAST_CMS_LOAD'] = time();
 }
 foreach($cats as $cat){
     $filterlogic                    = array();
@@ -138,13 +142,13 @@ if(isset($_GET["survey_complete"])){
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
       // CUSTOM FLOW FOR UO1 Pilot STUDY
-      if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
-        // DONOTHING HERE?
-      }else{
+      // if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+      //   // DONOTHING HERE?
+      // }else{
         if(!$user_short_scale){
           $long_score     = empty($long_score) ? "N/A" : $long_score;
           // if this is the first one just show the orange ball, otherwise show comparison graph
-          $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, $long_score))."</p>";
+          $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
         }else{
           $extra_params = array(
             'content'     => 'record',
@@ -158,7 +162,7 @@ if(isset($_GET["survey_complete"])){
           }
           $success_arr[]  = printWELLOverTime($user_scores);
         }
-      }
+      // }
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }

@@ -234,6 +234,7 @@
 		,"YOUR_MET"									=> "Your physical activity MET-minutes/week score is"
 		,"CERT_DL"									=> "Click here to download your certificate!"
 		,"WELL_SCORE_YEAR"							=> "Your WELL Score for %m1% is <b class='wellscore'>%m2%</b>"	
+		,"UO1_REMINDER"								=> "Please remember to complete the TCIM, and SLEEP Surveys"
 	));
 
 	$template_security_questions = array(

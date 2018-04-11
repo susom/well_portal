@@ -302,14 +302,13 @@ if(!empty($pid)){
     //ITS A CORESURVEY, FIND THE LATEST INCOMPLETE ONE
     foreach($surveys as $surveyid => $survey){
       // CUSTOM FLOW FOR UO1 Pilot STUDY
-      if($surveyid == "your_sleep_habits" && isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
-        $result     = RC::callApi(array(
-          "hash"    => $surveys["your_sleep_habits"]["survey_hash"], 
-          "format"  => "csv"
-        ), true, $custom_surveycomplete_API, REDCAP_API_TOKEN);
-
-        continue;
-      }
+      // if($surveyid == "your_sleep_habits" && isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
+      //   $result     = RC::callApi(array(
+      //     "hash"    => $surveys["your_sleep_habits"]["survey_hash"], 
+      //     "format"  => "csv"
+      //   ), true, $custom_surveycomplete_API, REDCAP_API_TOKEN);
+      //   continue;
+      // }
       $surveycomplete = $survey["survey_complete"];
       if(!$surveycomplete){
         $sid = $current_surveyid = $surveyid;
@@ -538,11 +537,10 @@ include_once("models/inc/gl_foot.php");
 
 
   // CUSTOM FLOW FOR UO1 Pilot STUDY
-  $("#core_group_id").on("change",function(){
-    if(this.value == 1001){
-
-    }
-  });
+  // $("#core_group_id").on("change",function(){
+  //   if(this.value == 1001){
+  //   }
+  // });
 </script>
 <script src="assets/js/survey.js"></script>
 <?php
