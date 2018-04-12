@@ -325,6 +325,7 @@ function checkRequired(){
         var reqmsg  = $("<div>").addClass("required_message alert alert-danger").html("<ul><li>You have left some fields empty.  If this was intentional please click Submit/Next again or go back and provide the missing information.</li></ul>");
         reqmsg.append($("<button>").addClass("btn btn-alert").text("Close"));
         $("body").append(reqmsg);
+        reqmsg.css("opacity",1);
         return;
       }
     }
@@ -658,7 +659,7 @@ function showMATScoring(qinput){
       type:'POST',
       data: "&mat_answers=" + JSON.stringify(mat_map),
       success:function(result){
-        var data = JSON.parse(result);
+        var data      = JSON.parse(result);
         var matscore  = data.value;
 
         if(matscore < 40){

@@ -63,8 +63,7 @@
                 echo implode("",$core_surveys);
                 
                 // CUSTOM FLOW FOR UO1 Pilot STUDY
-                $uo1 = array(  "stopbang"
-                              ,"how_well_do_you_sleep"
+                $uo1 = array(  "how_well_do_you_sleep"
                               ,"find_out_your_body_type_according_to_chinese_medic");
                 $uo1_completes = array();
                 foreach($uo1 as $supp_instrument_id){
@@ -72,7 +71,7 @@
                     $uo1_completes[] = 1;
                   }
                 }
-                $uo1_complete = array_sum($uo1_completes) == 3 ? true : false;
+                $uo1_complete = array_sum($uo1_completes) == 2 ? true : false;
                 
                 $fitness    = SurveysConfig::$supp_icons;
                 foreach($supp_instruments as $supp_instrument_id => $supp_instrument){
@@ -94,9 +93,6 @@
                         }
                       }
                     }else{
-                      if($supp_instrument_id == "stopbang"){
-                        continue;
-                      }
                       $custom_flow = false;
                     }
 
@@ -121,7 +117,6 @@
                 }
 
                 $proj_name  = "foodquestions";
-                
                 if(!$core_surveys_complete){
                   // JUST PUSH DUMMY TEXT
                   $a_nutrilink = "<a href='#' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 

@@ -42,7 +42,7 @@ img{
 <li><a onclick='window.open(this.href,"sleep_resources","width=780,height=980, left=450, top=100, toolbar=0, menubar=0, status=1"); return false;' href='supp_feedback/sleep_tips.php#insomnia'>Addressing Insomnia and Sleep Apnea</a></li>
 </ul>
 
-<img src="images/sleepy_kid.png"/>
+<img src="../assets/img/sleepy_kid.png"/>
 <hr/>
 
 <h3>Additional Sleep Resources</h3>
@@ -85,7 +85,7 @@ img{
 <td width='20'></td>
 <td valign='top'>
 
-<img src="images/sleep_expert.png"/>
+<img src="../assets/img/sleep_expert.png"/>
 <br>
 <h4>Expert Interview</h4>
 <p><a href='https://youtu.be/sFJIMzBVnW0' target='blank'>Check out our interview</a> with Stanford sleep expert, Maurice Ohayon, Director at the Stanford Sleep Epidemiology Research Center (SSERC)</p>

@@ -872,12 +872,14 @@ function print_rr($d,$exit=false){
 }
 
 function markPageLoadTime($msg=null){
-	global $start_time;
+	global $start_time, $_GET;
 	
-	echo "<h6>";
-	if($msg){
-		echo $msg ."<br>";
+	if(isset($_GET["irvin"])){
+		echo "<h6>";
+		if($msg){
+			echo $msg ."<br>";
+		}
+		echo microtime(true) - $start_time;
+		echo "</h6>";
 	}
-	echo microtime(true) - $start_time;
-	echo "</h6>";
 }

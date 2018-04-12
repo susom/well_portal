@@ -131,7 +131,7 @@
 	$lang = array_merge($lang, array(
 		 "WELL_FOR_LIFE" 							=> "WELL人生"
 		,"MY_DASHBOARD" 							=> "信息中心"
-		,"CORE_SURVEYS" 							=> "主要问卷"
+		,"CORE_SURVEYS" 							=> "我的问卷"
 		,"COMPLETED_SURVEYS" 						=> "已完成的问卷"
 		,"LOGOUT" 									=> "登出"
 		,"MY_WELL"									=> "我的幸福感"
@@ -213,7 +213,7 @@
 		,"NAV_REPORTS"								=> "报告"
 		,"NAV_GAME" 								=> "游戏"
 		,"READ_MORE"								=> "更多"
-		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感"
+		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感？"
 		,"BRIEF_WELL" 								=> " Stanford幸福感问卷（简版）"
 		,"STANFORD_WELL" 							=> " Stanford幸福感问卷"
 		,"CERTIFICATES" 							=> "证书"
@@ -233,8 +233,9 @@
 		,"RESOURCE_RELIGION" 						=> "Spirituality and Religion"
 		,"RESOURCE_NONE"							=> "No Current Resources"
 		,"YOUR_MET"									=> "Your physical activity MET-minutes/week score is"
-		,"CERT_DL"									=> "Click here to download your certificate!"
-		,"WELL_SCORE_YEAR"							=> "Your WELL Score for %m1% is <b class='wellscore'>%m2%</b>"	
+		,"CERT_DL"									=> "点击此处下载您的证书！"
+		,"WELL_SCORE_YEAR"							=> "您的 Stanford幸福感指数for %m1% is <b class='wellscore'>%m2%</b>"	
+		,"UO1_REMINDER"								=> "请记得完成以下中医体質及睡眠品质问卷"
 	));
 
 	$template_security_questions = array(

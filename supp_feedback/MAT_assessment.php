@@ -1,5 +1,5 @@
 <?php
-include require_once( dirname(__FILE__) . "/supp_feedback/MAT_scoring.php");
+include( dirname(__FILE__) . "/MAT_scoring.php");
 $mat_answers  = $_REQUEST["mat_answers"] ?: null;
 $mat_answers  = json_decode($mat_answers,1);
 
@@ -19,6 +19,7 @@ $data[]   = array(
 );
 $data   = array_shift($data);
 $data["matstring"] = $matstring;
+
 print_r( json_encode($data) );
 exit;
 ?>
