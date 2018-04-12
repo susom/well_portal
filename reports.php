@@ -202,6 +202,7 @@ include_once("models/inc/gl_head.php");
                                       $max = $score;
                                   foreach ($long_scores as $key => $value){
                                     $value = (10/$max)*$value;
+                                    $value = number_format($value, 2, '.', '');
                                     $ct++;
                                     $csv_data .= "User, ". $key .", ". $value .", ". $domain_desc[$ct] ."\n";
                                   }
