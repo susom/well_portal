@@ -195,7 +195,13 @@ include_once("models/inc/gl_head.php");
                                   $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
                                   $csv_data = "group, axis, value, description\n";
                                   $ct = 0;
+                                  $max = -1;
+                                  
+                                  foreach($long_scores as $score)
+                                    if($max < $score)
+                                      $max = $score;
                                   foreach ($long_scores as $key => $value){
+                                    $value = (10/$max)*$value;
                                     $ct++;
                                     $csv_data .= "User, ". $key .", ". $value .", ". $domain_desc[$ct] ."\n";
                                   }
