@@ -1,5 +1,5 @@
 <?php
-// markPageLoadTime("start surveys.php");
+markPageLoadTime("start surveys.php");
 //DETERMINE WHICH ARM TO BE IN BY CHECKING DAYS SINCE REGISTERED
 $consent_date		= strToTime($loggedInUser->consent_ts);
 $datediff    		= time() - $consent_date;
@@ -9,7 +9,7 @@ $this_year      	= Date("Y");
 $user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
 $user_short_scale 	= false;
 
-// markPageLoadTime("BEGIN arm_years");
+markPageLoadTime("BEGIN arm_years");
 // MAP EVENTS TO CALENDAR YEARs, DIFFERENT FOR EVERY USER
 if(isset($_SESSION["arm_years"])){
 	$armyears = $_SESSION["arm_years"];
@@ -35,9 +35,9 @@ if(isset($_SESSION["arm_years"])){
 $yeararms = array_flip($armyears);
 $current_year = end($armyears);
 $current_arm  = end($yeararms);
-// markPageLoadTime("END arm_years");
+markPageLoadTime("END arm_years");
 
-// markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
+markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
 if(isset($_SESSION["user_short_scale"])){
 	$user_short_scale = $_SESSION["user_short_scale"];
@@ -73,9 +73,9 @@ if(isset($_SESSION["user_short_scale"])){
 	}
 	$_SESSION["user_short_scale"] = $user_short_scale;
 }
-// markPageLoadTime("END CHECK FOR SHORTSCALE");
+markPageLoadTime("END CHECK FOR SHORTSCALE");
 
-// markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
+markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
 if(isset($_SESSION["user_survey_data"])){
 	//THE BULK OF IT HAS BEEN CALLED ONCE, NOW JUST REFRESH THE NECESSARY DATA
 	// markPageLoadTime("BEGIN REFRESH user_survey_data");
@@ -116,7 +116,7 @@ if(isset($_SESSION["user_survey_data"])){
 	$_SESSION["user_survey_data"] 	= $user_survey_data;
 	// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 
 }
-// markPageLoadTime("END  _SESSION[user_survey_data]");
+markPageLoadTime("END  _SESSION[user_survey_data]");
 
 // markPageLoadTime("BEGIN  _SESSION[long_survey_data]");
 // if(isset($_SESSION["long_survey_data"])){
@@ -141,7 +141,7 @@ $core_surveys_complete 	= $user_survey_data->getUserActiveComplete();
 $all_survey_keys  		= array_keys($surveys); 
 $fruits  				= SurveysConfig::$fruits;
 
-// markPageLoadTime("BEGIN  _SESSION[supplemental_surveys]");
+markPageLoadTime("BEGIN  _SESSION[supplemental_surveys]");
 //SUPPLEMENTAL PROJECTS
 $supp_instruments  = array();
 if(!$core_surveys_complete){
@@ -195,7 +195,7 @@ if(!$core_surveys_complete){
 		$supp_instruments 	= array_merge( $supp_instruments,  $supp_project->getActiveAll() );
 	} 
 }
-// markPageLoadTime("END  _SESSION[supplemental_surveys]");
+markPageLoadTime("END  _SESSION[supplemental_surveys]");
 
 $supp_surveys_keys 		= array_keys($supp_instruments);
 $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : SurveysConfig::$core_surveys;
@@ -204,4 +204,4 @@ $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : Su
 // print_rr($supp_instruments,1);
 // print_rr($supp_surveys,1);
 // print_rr($surveys ,1);
-// markPageLoadTime("end surveys.php");
+markPageLoadTime("end surveys.php");
