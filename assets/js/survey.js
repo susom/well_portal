@@ -658,7 +658,7 @@ function showMATScoring(qinput){
       type:'POST',
       data: "&mat_answers=" + JSON.stringify(mat_map),
       success:function(result){
-        var data = JSON.parse(result);
+        var data      = JSON.parse(result);
         var matscore  = data.value;
 
         if(matscore < 40){
