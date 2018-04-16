@@ -374,7 +374,7 @@ console.log(config.h + config.paddingY);
     // show tooltip of vertices
     function verticesTooltipShow(d) {
       vis.verticesTooltip.style("opacity", 0.9)
-        .html("<strong>Value</strong>: " + d.value + "<br />" +
+        .html("<strong>Value</strong>: " + d.save + "<br />" +
           "<strong>Description</strong>: " + d.description + "<br />")
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");
