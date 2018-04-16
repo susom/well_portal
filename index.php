@@ -49,7 +49,9 @@ foreach($cats as $cat){
     
     if($cat == 0 ){
       // EVENTS RESOURCES
-      if(!isset($_SESSION['editorial_events'])){
+      if(isset($_SESSION['editorial_events'])){
+        $cats[0]  = $_SESSION['editorial_events'];
+      }else{
         $events   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
         $cats[0]  = array();
         foreach($events as $event){
@@ -61,7 +63,12 @@ foreach($cats as $cat){
               $mime     = $split[0];
               $split2   = explode('"',$split[1]);
               $imgname  = $split2[1];
-              $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
+              
+              $file     = "temp/" . $imgname;
+              if(!file_exists($file)){
+                file_put_contents($file, $file_curl["file_body"]);
+              }
+              $eventpic = "<a href='$file' target='blank'><img class='event_img' src='$file'></a>";
             }
 
             $order = intval($event["well_cms_displayord"]) - 1;
@@ -77,25 +84,7 @@ foreach($cats as $cat){
             );
         }
         ksort($cats[0]);
-
-        $content_html = array();
-        foreach($cats[0] as $event){
-          $content_html[] = "<section>";
-          $content_html[] = "<figure>";
-          
-          $content_html[] = $event["pic"];
-
-          $content_html[] = "<figcaption>";
-          $content_html[] = "<h2>".$event["subject"]."</h2>";
-          $content_html[] = "<p>".$event["content"]."</p>";
-          if(!empty($event["link"])){
-            $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
-          }
-          $content_html[] = "</figcaption>";
-          $content_html[] = "</figure>";
-          $content_html[] = "</section>";
-        }
-        $_SESSION['editorial_events'] = implode("\r\n",$content_html);
+        $_SESSION['editorial_events'] = $cats[0];
       }
     }
 
@@ -197,12 +186,30 @@ include_once("models/inc/gl_head.php");
                 <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
                 <?php  
                 markPageLoadTime("BEGIN CONTENT AREA");
-                if(isset($_SESSION['editorial_events'])){
-                    echo $_SESSION['editorial_events'];
+                if(isset($cats[0])){
+                    $content_html = array();
+                    foreach($cats[0] as $event){
+                      $content_html[] = "<section>";
+                      $content_html[] = "<figure>";
+                      
+                      $content_html[] = $event["pic"];
+
+                      $content_html[] = "<figcaption>";
+                      $content_html[] = "<h2>".$event["subject"]."</h2>";
+                      $content_html[] = "<p>".$event["content"]."</p>";
+                      if(!empty($event["link"])){
+                        $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
+                      }
+                      $content_html[] = "</figcaption>";
+                      $content_html[] = "</figure>";
+                      $content_html[] = "</section>";
+                    }
+                    echo implode("\r\n",$content_html);
                 }
                 markPageLoadTime("END CONTENT AREA");
                 ?>
             </article>
+
             <?php 
             include_once("models/inc/gl_surveynav.php");
             ?>
