@@ -182,26 +182,24 @@ include_once("models/inc/gl_head.php");
                 <?php  
                 markPageLoadTime("BEGIN CONTENT AREA");
                 if(isset($cats[0])){
+                    $content_html = array();
                     foreach($cats[0] as $event){
-                ?>
-                    <section>
-                        <figure>
-                            <?php echo $event["pic"] ?>
-                            <figcaption>
-                                <h2><?php echo $event["subject"] ?></h2>
-                                <p><?php echo $event["content"] ?></p>
-                                <?php
-                                if(!empty($event["link"])){
-                                ?>
-                                <a href="<?php echo $event["link"] ?>"><?php echo lang("READ_MORE") ?></a>
-                                <?php
-                                }
-                                ?>
-                            </figcaption>
-                        </figure>
-                    </section>
-                <?php 
+                      $content_html[] = "<section>";
+                      $content_html[] = "<figure>";
+                      
+                      $content_html[] = $event["pic"];
+
+                      $content_html[] = "<figcaption>";
+                      $content_html[] = "<h2>".$event["subject"]."/h2>";
+                      $content_html[] = "<p>".$event["content"]."</p>";
+                      if(!empty($event["link"])){
+                        $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
+                      }
+                      $content_html[] = "</figcaption>";
+                      $content_html[] = "</figure>";
+                      $content_html[] = "</section>";
                     }
+                    echo implode("\r\n",$content_html);
                 }
                 markPageLoadTime("END CONTENT AREA");
                 ?>

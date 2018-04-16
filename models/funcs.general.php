@@ -874,7 +874,7 @@ function print_rr($d,$exit=false){
 function markPageLoadTime($msg=null){
 	global $start_time, $_GET;
 	
-	if(isset($_GET["irvin"])){
+	if(isset($_GET["debug_pageload"])){
 		echo "<h6>";
 		if($msg){
 			echo $msg ."<br>";
