@@ -125,9 +125,10 @@ var RadarChart = {
     // update configuration parameters
     function updateConfig() {
       // adjust config parameters
-      config.maxValue = Math.max(config.maxValue, d3.max(data, function(d) {
-        return d3.max(d.axes, function(o) { return o.value; });
-      }));
+      // config.maxValue = Math.max(config.maxValue, d3.max(data, function(d) {
+      //   return d3.max(d.axes, function(o) { return o.value; });
+      // }));
+      config.maxValue = 10;
       config.w *= config.levelScale;
       config.h *= config.levelScale;
       config.paddingX = config.w * config.levelScale;
@@ -374,7 +375,7 @@ console.log(config.h + config.paddingY);
     // show tooltip of vertices
     function verticesTooltipShow(d) {
       vis.verticesTooltip.style("opacity", 0.9)
-        .html("<strong>Value</strong>: " + d.save + "<br />" +
+        .html("<strong>Value</strong>: " + d.value + "<br />" +
           "<strong>Description</strong>: " + d.description + "<br />")
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");

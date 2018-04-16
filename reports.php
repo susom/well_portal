@@ -193,22 +193,16 @@ include_once("models/inc/gl_head.php");
                                 if(!empty($long_scores)){
                                   //createResultsFile(); put the following code within funcs general and include later
                                   $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
-                                  $csv_data = "group, axis, value, description, save\n";
+                                  $csv_data = "group, axis, value, description\n";
                                   $ct = 0;
-                                  $max = -1;
-                                  
-                                  foreach($long_scores as $score)
-                                    if($max < $score)
-                                      $max = $score;
+                       
                                   foreach ($long_scores as $key => $value){
                                     $display = $value;
-                                    $scaled_value = (10/$max)*$value;
                                     $display = number_format($display,2,".","");
-                                    $scaled_value = number_format($scaled_value, 2, '.', '');
                                     $ct++;
-                                    $csv_data .= "User, ". $key .", ". $scaled_value .", ". $domain_desc[$ct] .", ". $display ."\n";
+                                    $csv_data .= "User, ". $key .", ". $display .", ". $domain_desc[$ct]."\n";
                                   }
-                                  file_put_contents($users_file_csv, $csv_data);
+                                 file_put_contents($users_file_csv, $csv_data);
                                   $sum_long_score = round(array_sum($long_scores));
                                   ?>
                                   <object type = "text/html" data = "radar_chart_template.php?well_long_score=<?php echo $sum_long_score?>&id=<?php echo $loggedInUser->id?>" width = 100%></object>
