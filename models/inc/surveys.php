@@ -9,34 +9,6 @@ $this_year      	= Date("Y");
 $user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
 $user_short_scale 	= false;
 
-markPageLoadTime("BEGIN arm_years");
-// MAP EVENTS TO CALENDAR YEARs, DIFFERENT FOR EVERY USER
-if(isset($_SESSION["arm_years"])){
-	$armyears = $_SESSION["arm_years"];
-}else{
-	$extra_params = array(
-	  'content'   => 'event',
-	);
-	$result = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
-	$events = array();
-	foreach($result as $event){
-		$events[$event["unique_event_name"]] = 1;
-		if($event["unique_event_name"] == $user_event_arm){
-			break;
-		}
-	}
-	$armyears  = array();
-	foreach(array_keys($events) as $armname){
-	  $armyears[$armname] = $first_year;
-	  $first_year++;
-	}
-	$_SESSION["arm_years"] = $armyears;
-}
-$yeararms = array_flip($armyears);
-$current_year = end($armyears);
-$current_arm  = end($yeararms);
-markPageLoadTime("END arm_years");
-
 markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
 if(isset($_SESSION["user_short_scale"])){
@@ -66,14 +38,45 @@ if(isset($_SESSION["user_short_scale"])){
 		unset($_SESSION["user_survey_data"]);
 		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_2));
 		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_2;
+
+		// print_rr("wtf ". REDCAP_PORTAL_EVENT_2);
 	}
 
 	if (strpos($user_event_arm, "short") > -1){
 		$user_short_scale = true;
 	}
 	$_SESSION["user_short_scale"] = $user_short_scale;
+	// print_rr("user event arm = $user_event_arm/ days active = " . $days_active);
 }
 markPageLoadTime("END CHECK FOR SHORTSCALE");
+
+markPageLoadTime("BEGIN arm_years");
+// MAP EVENTS TO CALENDAR YEARs, DIFFERENT FOR EVERY USER
+if(isset($_SESSION["arm_years"])){
+	$armyears = $_SESSION["arm_years"];
+}else{
+	$extra_params = array(
+	  'content'   => 'event',
+	);
+	$result = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+	$events = array();
+	foreach($result as $event){
+		$events[$event["unique_event_name"]] = 1;
+		if($event["unique_event_name"] == $user_event_arm){
+			break;
+		}
+	}
+	$armyears  = array();
+	foreach(array_keys($events) as $armname){
+	  $armyears[$armname] = $first_year;
+	  $first_year++;
+	}
+	$_SESSION["arm_years"] = $armyears;
+}
+$yeararms = array_flip($armyears);
+$current_year = end($armyears);
+$current_arm  = end($yeararms);
+markPageLoadTime("END arm_years");
 
 markPageLoadTime("BEGIN  _SESSION[user_survey_data]");
 if(isset($_SESSION["user_survey_data"])){
