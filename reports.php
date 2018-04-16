@@ -193,7 +193,7 @@ include_once("models/inc/gl_head.php");
                                 if(!empty($long_scores)){
                                   //createResultsFile(); put the following code within funcs general and include later
                                   $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
-                                  $csv_data = "group, axis, value, description\n";
+                                  $csv_data = "group, axis, value, description, save\n";
                                   $ct = 0;
                                   $max = -1;
                                   
@@ -201,10 +201,12 @@ include_once("models/inc/gl_head.php");
                                     if($max < $score)
                                       $max = $score;
                                   foreach ($long_scores as $key => $value){
-                                    $value = (10/$max)*$value;
-                                    $value = number_format($value, 2, '.', '');
+                                    $display = $value;
+                                    $scaled_value = (10/$max)*$value;
+                                    $display = number_format($display,2,".","");
+                                    $scaled_value = number_format($scaled_value, 2, '.', '');
                                     $ct++;
-                                    $csv_data .= "User, ". $key .", ". $value .", ". $domain_desc[$ct] ."\n";
+                                    $csv_data .= "User, ". $key .", ". $scaled_value .", ". $domain_desc[$ct] .", ". $display ."\n";
                                   }
                                   file_put_contents($users_file_csv, $csv_data);
                                   $sum_long_score = round(array_sum($long_scores));

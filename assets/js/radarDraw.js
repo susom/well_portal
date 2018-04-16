@@ -34,7 +34,8 @@ function radarDraw(scope, element) {
           d.axes.push({
             axis: record.axis,
             value: parseFloat(record.value),
-            description: record.description
+            description: record.description,
+            save: record.save
           });
         }
       });
