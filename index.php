@@ -8,6 +8,7 @@ $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "");
 $navon[$nav] = "on";
 
+markPageLoadTime("BEGIN HEAD AREA");
 $avail_surveys      = $available_instruments;
 $first_core_survey  = array_splice($avail_surveys,0,1);
 $surveyon           = array();
@@ -168,6 +169,7 @@ if(isset($_GET["survey_complete"])){
     }
   }
 }
+markPageLoadTime("END HEAD AREA");
 
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
@@ -178,6 +180,7 @@ include_once("models/inc/gl_head.php");
             <article>
                 <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
                 <?php  
+                markPageLoadTime("BEGIN CONTENT AREA");
                 if(isset($cats[0])){
                     foreach($cats[0] as $event){
                 ?>
@@ -200,6 +203,7 @@ include_once("models/inc/gl_head.php");
                 <?php 
                     }
                 }
+                markPageLoadTime("END CONTENT AREA");
                 ?>
             </article>
 

@@ -5,6 +5,7 @@
             <h4><?php echo lang("CORE_SURVEYS") ?></h4>
             <ol>
                 <?php
+                markPageLoadTime("BEGIN GL_surveynav");
                 $new = null;
                 $core_surveys           = array();
                 $supp_surveys           = array();
@@ -144,6 +145,7 @@
             <ol class="completed">
             <?php
               echo implode("",$completed_surveys);
+              markPageLoadTime("END GL_surveynav");
             ?>
             </ol>
         </li>
