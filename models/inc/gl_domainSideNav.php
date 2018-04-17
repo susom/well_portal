@@ -98,7 +98,7 @@
 }
 
 .resourceEntry h2 {
-	margin:10px 0 0;
+	margin:10px 0 0 120px;
 }
 .resourceEntry p{
 
