@@ -548,7 +548,8 @@ function printWELLOverTime($user_scores){
 }
 
 function scaleDomainScore($domain_score, $q_answered, $q_max){
-  return $domain_score*$q_max/$q_answered;
+  return $domain_score;
+  // return $domain_score*$q_max/$q_answered;
 }
 
 function getLongScores($domain_fields, $user_completed_fields){
