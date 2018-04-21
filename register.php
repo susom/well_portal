@@ -185,7 +185,8 @@ if(!empty($_POST['submit_new_user'])){
 $username_validation  = $portal_config['useEmailAsUsername'] ? "required: true, email: true" : "required: true";
 
 $pg_title 		= "Register | $websiteName";
-$body_classes 	= "login register";
+$bodyClass 		= "login register";
+$trackpage 		= "register";
 include("models/inc/gl_header.php");
 ?>
 <div id="content" class="container" role="main" tabindex="0">

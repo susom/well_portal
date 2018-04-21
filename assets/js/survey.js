@@ -99,6 +99,9 @@ $(document).ready(function(){
     if(isIPAQ){
       showIPAQScoring();
     }
+    if(isStopBang){
+      showStopBangScoring();
+    }
 
     //THE REST IS JUST FIGURING OUT THIS PROGRESS BAR
     var completed_count = 0;
@@ -197,6 +200,9 @@ $(document).ready(function(){
   }
   if(isIPAQ){
     showIPAQScoring();
+  }
+  if(isStopBang){
+    showStopBangScoring();
   }
 
   //BMI POPUP
@@ -762,6 +768,24 @@ function showGRITScoring(){
     success:function(result){
       if($("#grit_results").length > 0){
         $("#grit_results").remove();
+      }
+      nextSection.find("h2").after(result);
+    }
+  });
+}
+
+function showStopBangScoring(){
+  var all_answers = $("#customform").serializeArray();
+  var nextSection = $("#customform section:last");
+  var dataURL     = "supp_feedback/stopbang.php";
+
+  $.ajax({
+    url:  dataURL,
+    type:'POST',
+    data: "&stopbang=" + JSON.stringify($("#customform").serializeArray()) + "&gender=" +  all_completed["core_gender"],
+    success:function(result){
+      if($("#stopbang_results").length > 0){
+        $("#stopbang_results").remove();
       }
       nextSection.find("h2").after(result);
     }

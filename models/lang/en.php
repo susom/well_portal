@@ -209,6 +209,7 @@
 
 		,"NAV_HOME" 								=> "Home"
 		,"NAV_RESOURCES"							=> "Resources"
+		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "Reports"
 		,"NAV_GAME" 								=> "Game"
 		,"READ_MORE"								=> "Read More"

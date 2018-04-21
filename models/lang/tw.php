@@ -209,6 +209,7 @@
 
 		,"NAV_HOME" 								=> "首頁"
 		,"NAV_RESOURCES"							=> "資源"
+		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "報告"
 		,"NAV_GAME" 								=> "遊戲"
 		,"READ_MORE"								=> "更多"

@@ -210,6 +210,7 @@
 
 		,"NAV_HOME" 								=> "首页"
 		,"NAV_RESOURCES"							=> "资源"
+		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "报告"
 		,"NAV_GAME" 								=> "游戏"
 		,"READ_MORE"								=> "更多"

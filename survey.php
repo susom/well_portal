@@ -6,6 +6,32 @@ include("models/class.Survey.php");
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 
+//SPECIAL STOPBANG SCORING
+if(isset($_REQUEST["STOPBANG"])){
+  $project_name = $_REQUEST["project"] ?: null;
+  $projects     = SurveysConfig::$projects;
+  $API_TOKEN    = $projects[$project_name]["TOKEN"];
+  $API_URL      = $projects[$project_name]["URL"];
+
+  $data         = array();
+  $record_id    = $project_name !== $_CFG->SESSION_NAME ? $loggedInUser->{$project_name} : $loggedInUser->id;
+  $event_name   = $project_name !== $_CFG->SESSION_NAME ? null : $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];
+
+  $survey_id    = $_REQUEST["sid"] ?: null;
+  $value        = $_REQUEST["met_score"] ?: null;
+
+  $data[] = array(
+      "record"            => $record_id,
+      "field_name"        => 'tcm_score',
+      "value"             => $value
+    );
+
+  if($event_name){
+    $data[0]["redcap_event_name"] = $event_name;
+  }
+  $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+}
+
 //SPECIAL CUSTOM MAT SCORINGCAPTURE
 if(isset($_REQUEST["TCM"])){
   $project_name = $_REQUEST["project"] ?: null;
@@ -431,12 +457,14 @@ include_once("models/inc/gl_foot.php");
   $isGRIT   = $sid == "how_resilient_are_you_to_stress"                     ? "true" : "false";
   $isSleep  = $sid == "how_well_do_you_sleep"                               ? "true" : "false";
   $isIPAQ   = $sid == "international_physical_activity_questionnaire"       ? "true" : "false";
+  $isStopBang  = $sid == "stopbang"                                         ? "true" : "false";
   echo "var isMET               = $isMET ;\n";
   echo "var isMAT               = $isMAT ;\n";
   echo "var isTCM               = $isTCM ;\n";
   echo "var isGRIT              = $isGRIT ;\n";
   echo "var isSleep             = $isSleep ;\n";
   echo "var isIPAQ              = $isIPAQ ;\n";
+  echo "var isStopBang          = $isStopBang ;\n";
   echo "var uselang             = ".(isset($_SESSION["use_lang"]) ? "'".$_SESSION["use_lang"]."'" : "'en'").";\n";
 
   //THIS IS A CONFusINg FUNCTION

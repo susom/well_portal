@@ -241,7 +241,8 @@ if(!empty($_POST['saveResetPassword'])){
 
 
 $pg_title 		= lang("FORGOTPASS_RESET"). " | $websiteName";
-$body_classes 	= "login register reset";
+$bodyClass 		= "login register reset";
+$trackpage 		= "forgot_password";
 include("models/inc/gl_header.php");
 ?>
 <div id="content" class="container" role="main" tabindex="0">

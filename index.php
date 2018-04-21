@@ -178,6 +178,7 @@ markPageLoadTime("END HEAD AREA");
 
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
+$trackpage = "dashboard_home";
 include_once("models/inc/gl_head.php");
 ?>
     <div class="main-container">

@@ -54,7 +54,7 @@ $languages = array(
 
 $lang_req     = isset($_GET["lang"]) ? "?lang=".$_GET["lang"] : "";
 $pg_title     = "$websiteName";
-$body_classes = "cms";
+$bodyClass    = "cms";
 
 $API_URL      = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
@@ -133,6 +133,7 @@ $cat          = isset($_REQUEST["cat"]) ? $_REQUEST["cat"] : "1";
 
 $types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Other");
 $locs         = array(1 => "US", 2 => "Taiwan");
+
 
 include("models/inc/gl_header.php");
 ?>

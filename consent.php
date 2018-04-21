@@ -13,7 +13,7 @@ if(isUserLoggedIn() && isUserActive()) {
 }
 
 $pg_title 		= "Consent | $websiteName";
-$body_classes 	= "consent";
+$bodyClass 		= "consent";
 include("models/inc/gl_header.php");
 ?>
 <div id="content" class="container" role="main" tabindex="0">

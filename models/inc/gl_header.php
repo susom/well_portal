@@ -76,13 +76,29 @@
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700' rel='stylesheet' type='text/css'>
 <script src="https://www.google.com/recaptcha/api.js"></script>
+
+<!-- Facebook Pixel Code -->
+<?php
+$trackpage = isset($trackpage) ? $trackpage : $bodyClass;
+?>
+<script>
+!function(f,b,e,v,n,t,s){
+if(f.fbq)return;n=f.fbq=function(){n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)};
+if(!f._fbq) f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '411269625926334');
+fbq('track', '<?php echo $trackpage; ?>');
+</script>
+<noscript>
+<img height="1" width="1" src="https://www.facebook.com/tr?id=411269625926334&ev=<?php echo $trackpage; ?>&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
 </head>
 <?php
 if($portal_test){
 	echo "<div id='testserver'>Test Server</div>";
 }
 ?>
-<body class="<?php echo $body_classes ?>">
+<body class="<?php echo $bodyClass ?>">
 <?php
   print getSessionMessages();
 ?>

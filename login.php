@@ -109,7 +109,7 @@ $disabled = ($attempts_remaining < 1 ? "disabled=disabled" : null);
 $username_validation  = $portal_config['useEmailAsUsername'] ? "required: true, email: true" : "required: true";
 
 $pg_title 		= "Login : " .$_CFG->WEBSITE["Name"];
-$body_classes 	= "login";
+$bodyClass 		= "login";
 include("models/inc/gl_header.php");
 ?>
 <div id="content" class="container" role="main" tabindex="0">

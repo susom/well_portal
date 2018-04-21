@@ -93,7 +93,8 @@ if( !isset($_POST['consented']) ){
 }
 
 $pg_title 		= "Account Setup | $websiteName";
-$body_classes 	= "login register setup";
+$bodyClass 		= "login register setup";
+$trackpage 		= "account_setup";
 include("models/inc/gl_header.php");
 ?>
 <div id="content" class="container" role="main" tabindex="0">
