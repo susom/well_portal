@@ -213,6 +213,7 @@
 		,"NAV_REPORTS"								=> "報告"
 		,"NAV_GAME" 								=> "遊戲"
 		,"READ_MORE"								=> "更多"
+		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感？"
 		,"BRIEF_WELL" 								=> "Stanford幸福感問卷（簡版）"
 		,"STANFORD_WELL" 							=> "Stanford幸福感問卷"

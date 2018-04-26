@@ -213,6 +213,7 @@
 		,"NAV_REPORTS"								=> "Reports"
 		,"NAV_GAME" 								=> "Game"
 		,"READ_MORE"								=> "Read More"
+		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "How can I enhance my wellbeing?"
 		,"BRIEF_WELL" 								=> "Brief WELL for Life Scale"
 		,"STANFORD_WELL" 							=> "Stanford WELL for Life Scale"

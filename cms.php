@@ -72,9 +72,18 @@ if($_POST["action"] == "newevent"){
       ,"well_cms_update_ts" => $ts
       ,"id" => "whatever_required_but_wont_be_used"
     );
+
   foreach($_POST as $key => $val){
+    if($key == "surveylink_well_cms_event_link"){
+      continue;
+    }
     $data[$key] = $val;
   }
+
+  if(empty($_POST["well_cms_event_link"])){
+    $data["well_cms_event_link"] = $_POST["surveylink_well_cms_event_link"];
+  }
+
   if(!isset($data["well_cms_active"])){
     $data["well_cms_active"] = "0";
   }
@@ -133,7 +142,6 @@ $cat          = isset($_REQUEST["cat"]) ? $_REQUEST["cat"] : "1";
 
 $types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Other");
 $locs         = array(1 => "US", 2 => "Taiwan");
-
 
 include("models/inc/gl_header.php");
 ?>
@@ -348,10 +356,29 @@ include("models/inc/gl_header.php");
           'content'   => 'metadata',
           'format'    => 'json'
         );
+
         $results      = RC::callApi($extra_params, true, $api_url, $api_token); 
+
         $fields       = array_column($results, 'field_name'); 
         $labels       = array_column($results, 'field_label'); 
         
+        // [0] => id
+        // [1] => well_cms_catagory
+        // [2] => well_cms_loc
+        // [3] => well_cms_lang
+        // [4] => well_cms_subject
+        // [5] => well_cms_content
+        // [6] => well_cms_pic
+        // [7] => well_cms_event_link
+        // [8] => well_cms_text_link
+        // [9] => well_cms_active
+        // [10] => well_cms_displayord
+        // [11] => well_cms_create_ts
+        // [12] => well_cms_update_ts
+        // [13] => well_cms_domain
+        // [14] => well_cms_image_catagory
+        // [15] => well_cms_surveylink
+
         $mon_display  = array(3,4,5,6,9,12);
         $evt_display  = array(10,3,7,4,5,6,9,12);
         $res_display  = array(10,3,7,4,5,13,14,9,12);
@@ -477,7 +504,7 @@ include("models/inc/gl_header.php");
                   $trs[] = "</select></td>";
 
                   $trs[] = "<td class='link'><input type='text' name='well_cms_event_link' value='".$event["well_cms_event_link"] ."'/></td>";
-                  $trs[] = "<td class='link'><input type='text' name='well_cms_text_link' value='".$event["well_cms_text_link"] ."'/></td>";
+                  $trs[] = "<td class='link'><input type='text' name='well_cms_subject' value='".$event["well_cms_subject"] ."'/></td>";
                   $trs[] = "<td class='content'><textarea name='well_cms_content'>".$event["well_cms_content"]."</textarea></td>";
                   $trs[] = "<td class='domain'>".$radar_domains[$event["well_cms_domain"]-1]."</td>";
                   $selected_image_type = isset($event["well_cms_image_catagory"]) ? $event["well_cms_image_catagory"] : null;
@@ -520,14 +547,13 @@ include("models/inc/gl_header.php");
                 $fields     = array();
                 $new_fields = $display;
                 array_pop($new_fields);
+
                 foreach($new_fields as $idx){
                   $field = $results[$idx];
                   $label = $field["field_label"];
                   $varid = $field["field_name"];
                   $type  = $field["field_type"];
                   $setan = $field["select_choices_or_calculations"];
-                  // https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css
-                  // https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js
 
                   $fields[] = "<div class='newevent_item'>";
                   switch($type){
@@ -581,17 +607,31 @@ include("models/inc/gl_header.php");
                     break;
 
                     default: //text
+                      $type = "text";
+                      $val  = "";
                       if($varid == "well_cms_displayord"){
                         $type = "number";
                         $val  = count($events) + 1;
-                      }else{
-                        $type = "text";
-                        $val  = "";
+                      }elseif($cat==0 && $varid == "well_cms_event_link"){
+                        $fields[] = "<fieldset style='border:1px solid #333'>";
+                        $fields[] = "<label name='$varid'>";
+                        $fields[] = "<span>$label/Survey Link</span>";
+                        $fields[] = "<select name='surveylink_$varid'>";
+                        $fields[] = "<option>-</option>";
+                        foreach(SurveysConfig::$supp_surveys as $suppname => $supplabel){
+                          $fields[]     = "<option value='".$suppname."' >".$supplabel."</option>";
+                        }
+                        $fields[] = "</select>";
+                        $fields[] = "</label>";
+                        $label    = "<b>OR</b> Event Link:";
                       }
                       $fields[] = "<label name='$varid'>";
                       $fields[] = "<span>$label</span>";
                       $fields[] = "<input type='$type' name='$varid' value='$val'/>";
                       $fields[] = "</label>";
+                      if($cat==0 && $varid == "well_cms_event_link"){
+                        $fields[] = "</fieldset>";
+                      }
                     break;
                   }
                   $fields[] = "</div>";

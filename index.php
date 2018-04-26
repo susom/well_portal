@@ -199,7 +199,11 @@ include_once("models/inc/gl_head.php");
                       $content_html[] = "<h2>".$event["subject"]."</h2>";
                       $content_html[] = "<p>".$event["content"]."</p>";
                       if(!empty($event["link"])){
-                        $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
+                        if(in_array($event["link"], $supp_surveys_keys )){
+                          $content_html[] = "<a href='survey.php?sid=".$event["link"]."'>".lang("GO_TO_SURVEY")."</a>";
+                        }else{
+                          $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
+                        }
                       }
                       $content_html[] = "</figcaption>";
                       $content_html[] = "</figure>";

@@ -214,6 +214,7 @@
 		,"NAV_REPORTS"								=> "报告"
 		,"NAV_GAME" 								=> "游戏"
 		,"READ_MORE"								=> "更多"
+		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感？"
 		,"BRIEF_WELL" 								=> " Stanford幸福感问卷（简版）"
 		,"STANFORD_WELL" 							=> " Stanford幸福感问卷"
