@@ -18,7 +18,7 @@ $radar_domains = array(
 
 // GLOBAL NAV SET STATE
 $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "";
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
 $navon[$nav] = "on";
 
 markPageLoadTime("BEGIN HEAD AREA");

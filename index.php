@@ -5,7 +5,7 @@ include("models/inc/scoring_functions.php");
 
 // GLOBAL NAV SET STATE
 $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
 $navon[$nav] = "on";
 
 markPageLoadTime("BEGIN HEAD AREA");

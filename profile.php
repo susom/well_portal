@@ -2,7 +2,7 @@
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
 
-$navon          = array("home" => "", "reports" => "", "game" => "");
+$navon          = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 

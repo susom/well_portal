@@ -4,8 +4,7 @@ include("models/inc/checklogin.php");
 include("models/domain_descriptions.php");
 
 //SITE NAV
-$navon = array("home" => "", "reports" => "on", "game" => "", "resources" => "");
-
+$navon  = array("home" => "", "reports" => "on", "game" => "", "resources" => "", "rewards" => "");
 
 //GET ALL DATA FOR SUPP INSTRUMENTS IN ALL AVAILABLE ARMS
 $extra_params = array(

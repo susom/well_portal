@@ -2,9 +2,9 @@
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
 
-$navon          = array("home" => "", "reports" => "", "game" => "");
-$nav            = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
-$navon[$nav]   = "on";
+$navon          = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
+$nav            = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "game";
+$navon[$nav]    = "on";
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 
