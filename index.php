@@ -214,7 +214,6 @@ include_once("models/inc/gl_head.php");
                 markPageLoadTime("END CONTENT AREA");
                 ?>
             </article>
-
             <?php 
             include_once("models/inc/gl_surveynav.php");
             ?>
