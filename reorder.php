@@ -17,7 +17,7 @@ $radar_domains = array(
 );
 
 // GLOBAL NAV SET STATE
-$nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
+$nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "";
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "");
 $navon[$nav] = "on";
 
@@ -29,9 +29,10 @@ $surveynav          = array_merge($first_core_survey, $supp_surveys_keys);
 foreach($surveynav as $surveyitem){
     $surveyon[$surveyitem] = "";
 }
+
+$pageTitle = "Domain Prioritization";
+$bodyClass = "reorder";
 include_once("models/inc/gl_head.php");
-
-
 ?>
 <html>
 	<head>		
@@ -127,6 +128,8 @@ include_once("models/inc/gl_foot.php");
   max-width: 50%;
   left:24%;
   position: relative;
+  padding:10px 0;
+  cursor:pointer;
   box-shadow: 5px 5px 5px gray;
 }
 #items li:first-child{
