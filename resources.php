@@ -16,7 +16,7 @@ $radar_domains = array(
 );
 
 //SITE NAV
-$navon = array("home" => "", "reports" => "", "game" => "", "articles" => "on");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "on", "rewards" => "");
 
 $avail_surveys      = $available_instruments;
 $first_core_survey  = array_splice($avail_surveys,0,1);
