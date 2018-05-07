@@ -42,7 +42,7 @@ include_once("models/inc/gl_head.php");
         	<div class="main_wrapper">
         		<div class ="reorganize">
 	        		<h4><strong>Please order (drag-drop) these 10 well-being domains from most important to least important, 
-	        		according to how important they are to you.<strong></h4>
+	        		according to how important they are to you.</strong></h4>
 	        		<div id = "center">
 		        		<div id = "least_greatest">
 							<p>Most Important</p>
@@ -144,7 +144,6 @@ include_once("models/inc/gl_foot.php");
 	width:500px;
 	display: inline-block;
 	position: relative;
-	margin-top:30px;
 }
 
 #fin{
@@ -185,7 +184,7 @@ include_once("models/inc/gl_foot.php");
   color:black;
   font-weight: bold;
   position: relative;
-  padding:10px 0;
+  padding:1px 0;
   cursor:pointer;
   box-shadow: 5px 5px 5px gray;
 }
