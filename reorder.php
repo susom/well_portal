@@ -40,49 +40,62 @@ include_once("models/inc/gl_head.php");
 		<div class="main-container">
         	<div class="main_wrapper">
         		<div class ="reorganize">
-	        		<h3>Please order these categories in order of importance</h3>
-					<ul id = "items" >
-						<li id = "<?php echo $radar_domains[0]; ?>">
-							<img src = assets/img/00-domain.png> 
-							<?php echo $radar_domains[0]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[1]; ?>">
-							<img src = assets/img/01-domain.png> 
-							<?php echo $radar_domains[1]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[2]; ?>">
-							<img src = assets/img/02-domain.png> 
-							<?php echo $radar_domains[2]; ?>
-						</li >
-						<li id = "<?php echo $radar_domains[3]; ?>">
-							<img src = assets/img/03-domain.png> 
-							<?php echo $radar_domains[3]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[4]; ?>">
-							<img src = assets/img/04-domain.png> 
-							<?php echo $radar_domains[4]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[5]; ?>">
-							<img src = assets/img/05-domain.png> 
-							<?php echo $radar_domains[5]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[6]; ?>">
-							<img src = assets/img/06-domain.png> 
-							<?php echo $radar_domains[6]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[7]; ?>">
-							<img src = assets/img/07-domain.png> 
-							<?php echo $radar_domains[7]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[8]; ?>">
-							<img src = assets/img/08-domain.png> 
-							<?php echo $radar_domains[8]; ?>
-						</li>	
-						<li id = "<?php echo $radar_domains[9]; ?>">
-							<img src = assets/img/09-domain.png> 
-							<?php echo $radar_domains[9]; ?>
-						</li>	
-					</ul>
+	        		<h4><strong>Please order (drag-drop) these 10 well-being domains from most important to least important, 
+	        		according to how important they are to you.<strong></h4>
+	        		<div id = "center">
+		        		<div id = "least_greatest">
+							<p>Most Important</p>
+							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
+							<p>Least Important</p>
+						</div>
+
+
+						<ul id = "items" >
+							<li id = "<?php echo $radar_domains[0]; ?>">
+								<img class = "domain" src = assets/img/00-domain.png> 
+								<?php echo $radar_domains[0]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[1]; ?>">
+								<img class = "domain" src = assets/img/01-domain.png> 
+								<?php echo $radar_domains[1]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[2]; ?>">
+								<img class = "domain" src = assets/img/02-domain.png> 
+								<?php echo $radar_domains[2]; ?>
+							</li >
+							<li id = "<?php echo $radar_domains[3]; ?>">
+								<img class = "domain" src = assets/img/03-domain.png> 
+								<?php echo $radar_domains[3]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[4]; ?>">
+								<img class = "domain" src = assets/img/04-domain.png> 
+								<?php echo $radar_domains[4]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[5]; ?>">
+								<img class = "domain" src = assets/img/05-domain.png> 
+								<?php echo $radar_domains[5]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[6]; ?>">
+								<img class = "domain" src = assets/img/06-domain.png> 
+								<?php echo $radar_domains[6]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[7]; ?>">
+								<img class = "domain" src = assets/img/07-domain.png> 
+								<?php echo $radar_domains[7]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[8]; ?>">
+								<img class = "domain" src = assets/img/08-domain.png> 
+								<?php echo $radar_domains[8]; ?>
+							</li>	
+							<li id = "<?php echo $radar_domains[9]; ?>">
+								<img class = "domain" src = assets/img/09-domain.png> 
+								<?php echo $radar_domains[9]; ?>
+							</li>	
+						</ul>
+					</div>
+					<div id = "fin">
+						<button id = "finish" class = "btn-success">Save My Result</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -99,50 +112,95 @@ include_once("models/inc/gl_foot.php");
     $(document).ready(function(){
         $("#items").sortable({
         	appendTo: document.body,
-        	cursor: "move",
-        	stop: function(event, ui){
-        		console.log($("#items").sortable("toArray", {attribute: 'id'}));
-
-        	}
+        	cursor: "move"
         });
     });//ready
     
+    $("#finish").click(function(){
+    	var domains = JSON.stringify($("#items").sortable("toArray",{attribute:'id'}));
+    	$.ajax({
+          url:  "reorderPost.php",
+          type:'POST',
+          data: "&domains="+ domains,
+          success:function(result){
+            console.log(result);
+          }        
+            //THIS JUST STORES IS 
+          },function(err){
+          console.log("ERRROR");
+          console.log(err);
+        });
+
+    });
    
 
 </script>
 
 <style>
+
+#center{
+	text-align:center;
+	width:500px;
+	display: inline-block;
+	position: relative;
+	margin-top:30px;
+}
+
+#fin{
+	margin-top: 20px;
+}
+#finish{
+	margin: 5px;
+	width: 150px;
+	height: 40px;
+	text-align: center;
+}
+
+#least_greatest{
+	display:block;
+	position:absolute;
+	margin-top: 2%;
+	left: -60px;
+}
 .reorganize{
 	text-align: center;
+	margin-top: 25px;
+	display: block;
+	position:relative;
+}
+#items{
+	display:inline-block;
+	margin: 0;
+	padding:0;
+	list-style: none;
+	width:350px;
+	margin-top:25px;
 }
 #items li{
   background-color:#f2f2f2;
   display: block;
   border:solid;
   border-width: 1px;
-  text-align: center;
   color:black;
   font-weight: bold;
-  line-height: 40px;
-  max-width: 50%;
-  left:24%;
   position: relative;
   box-shadow: 5px 5px 5px gray;
 }
 #items li:first-child{
 	border-top-right-radius: 12px;
 	border-top-left-radius:12px;
-	margin-top: 25px;
 }
 #items li:last-child{
 	border-bottom-left-radius: 12px;
 	border-bottom-right-radius:12px;
 } 
 
-img{
+.domain{
 	max-width: 40px;
 	max-height: 40px;
 	margin:5px;
 }
+
+
 
 </style>

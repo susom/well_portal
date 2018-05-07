@@ -19,6 +19,7 @@
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="assets/js/main.js"></script>
+<script type="assets/js/jquery.ui.touch-punch.min.js"></script>
 
 <!-- Facebook Pixel Code -->
 <?php
