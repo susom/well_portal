@@ -15,23 +15,19 @@ $radar_domains = array(
   "8" => lang("RESOURCE_FINANCIAL"),
   "9" => lang("RESOURCE_RELIGION")
 );
+$API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+$API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+$data = array(
+    	  'content'     => 'record',
+          'records'     => array($loggedInUser->id),
+          'fields'      => array("domain_order")
+);
+$result = RC::callApi($data, true, $API_URL , $API_TOKEN);
 
-// GLOBAL NAV SET STATE
-$nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "";
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
-$navon[$nav] = "on";
+if(!empty($result))
+	$dom = json_decode($result[0]["domain_order"]); 
 
-markPageLoadTime("BEGIN HEAD AREA");
-$avail_surveys      = $available_instruments;
-$first_core_survey  = array_splice($avail_surveys,0,1);
-$surveyon           = array();
-$surveynav          = array_merge($first_core_survey, $supp_surveys_keys);
-foreach($surveynav as $surveyitem){
-    $surveyon[$surveyitem] = "";
-}
 
-$pageTitle = "Domain Prioritization";
-$bodyClass = "reorder";
 include_once("models/inc/gl_head.php");
 ?>
 <html>
@@ -49,49 +45,59 @@ include_once("models/inc/gl_head.php");
 							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
 							<p>Least Important</p>
 						</div>
-
-
 						<ul id = "items" >
-							<li id = "<?php echo $radar_domains[0]; ?>">
-								<img class = "domain" src = assets/img/00-domain.png> 
-								<?php echo $radar_domains[0]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[1]; ?>">
-								<img class = "domain" src = assets/img/01-domain.png> 
-								<?php echo $radar_domains[1]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[2]; ?>">
-								<img class = "domain" src = assets/img/02-domain.png> 
-								<?php echo $radar_domains[2]; ?>
-							</li >
-							<li id = "<?php echo $radar_domains[3]; ?>">
-								<img class = "domain" src = assets/img/03-domain.png> 
-								<?php echo $radar_domains[3]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[4]; ?>">
-								<img class = "domain" src = assets/img/04-domain.png> 
-								<?php echo $radar_domains[4]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[5]; ?>">
-								<img class = "domain" src = assets/img/05-domain.png> 
-								<?php echo $radar_domains[5]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[6]; ?>">
-								<img class = "domain" src = assets/img/06-domain.png> 
-								<?php echo $radar_domains[6]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[7]; ?>">
-								<img class = "domain" src = assets/img/07-domain.png> 
-								<?php echo $radar_domains[7]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[8]; ?>">
-								<img class = "domain" src = assets/img/08-domain.png> 
-								<?php echo $radar_domains[8]; ?>
-							</li>	
-							<li id = "<?php echo $radar_domains[9]; ?>">
-								<img class = "domain" src = assets/img/09-domain.png> 
-								<?php echo $radar_domains[9]; ?>
-							</li>	
+							<?php
+							if(isset($dom)){ //if an ordering exists already
+								foreach($dom as $in){
+									$key = array_search($in,$radar_domains);
+									echo "<li id ='".$in."'> 
+										<img class = 'domain' src = assets/img/0".$key."-domain.png>".$in."</li>";
+								}
+							}else{
+							?>
+								<li id = "<?php echo $radar_domains[0]; ?>">
+									<img class = "domain" src = assets/img/00-domain.png> 
+									<?php echo $radar_domains[0]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[1]; ?>">
+									<img class = "domain" src = assets/img/01-domain.png> 
+									<?php echo $radar_domains[1]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[2]; ?>">
+									<img class = "domain" src = assets/img/02-domain.png> 
+									<?php echo $radar_domains[2]; ?>
+								</li >
+								<li id = "<?php echo $radar_domains[3]; ?>">
+									<img class = "domain" src = assets/img/03-domain.png> 
+									<?php echo $radar_domains[3]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[4]; ?>">
+									<img class = "domain" src = assets/img/04-domain.png> 
+									<?php echo $radar_domains[4]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[5]; ?>">
+									<img class = "domain" src = assets/img/05-domain.png> 
+									<?php echo $radar_domains[5]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[6]; ?>">
+									<img class = "domain" src = assets/img/06-domain.png> 
+									<?php echo $radar_domains[6]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[7]; ?>">
+									<img class = "domain" src = assets/img/07-domain.png> 
+									<?php echo $radar_domains[7]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[8]; ?>">
+									<img class = "domain" src = assets/img/08-domain.png> 
+									<?php echo $radar_domains[8]; ?>
+								</li>	
+								<li id = "<?php echo $radar_domains[9]; ?>">
+									<img class = "domain" src = assets/img/09-domain.png> 
+									<?php echo $radar_domains[9]; ?>
+								</li>	
+								<?php 
+							}//else
+								?>
 						</ul>
 					</div>
 					<div id = "fin">
@@ -136,9 +142,7 @@ include_once("models/inc/gl_foot.php");
    
 
 </script>
-
 <style>
-
 #center{
 	text-align:center;
 	width:500px;
@@ -203,6 +207,5 @@ include_once("models/inc/gl_foot.php");
 	margin:5px;
 }
 
-
-
 </style>
+
