@@ -600,7 +600,7 @@ footer .li a{
    Media Queries
    ========================================================================== */
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 380px) {
 
 /* ====================
     INTERMEDIATE: Menu
@@ -639,7 +639,7 @@ footer .li a{
     }
 }
 
-@media only screen and (min-width: 368px) {
+@media only screen and (min-width: 768px) {
 
 /* ====================
     WIDE: CSS3 Effects
