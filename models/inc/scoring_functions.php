@@ -88,7 +88,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                                             ,"core_help")
 
       ,"lifestyle"                => array("core_lpaq"
-                                            ,"core_sleep_total", "core_sleep_hh", "core_sleep_mm"
+                                            ,"core_sleep_hh", "core_sleep_mm"
                                             ,"core_fallasleep_min"
                                             ,"core_fallasleep"
                                             ,"core_wokeup"
@@ -663,7 +663,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         $sleep_score = array();
         if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
           $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
-          $sleep_score[]      = $core_sleep_total > 420 && $core_sleep_total <= 540 ? 5/5 : 1/5;
+          $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 1/5;
         }
         if(isset($user_completed_fields["core_fallasleep_min"])){
           $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
