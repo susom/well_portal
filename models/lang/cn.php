@@ -238,6 +238,7 @@
 		,"CERT_DL"									=> "点击此处下载您的证书！"
 		,"WELL_SCORE_YEAR"							=> "您的 Stanford幸福感指数for %m1% is <b class='wellscore'>%m2%</b>"	
 		,"UO1_REMINDER"								=> "请记得完成以下中医体質及睡眠品质问卷"
+		,"MYWELLTREE"								=> "My Well Tree"
 	));
 
 	$template_security_questions = array(
