@@ -27,7 +27,7 @@ $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
 if(!empty($result))
 	$dom = json_decode($result[0]["domain_order"]); 
 
-
+$bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
 <html>
@@ -189,10 +189,11 @@ include_once("models/inc/gl_foot.php");
   color:black;
   font-weight: bold;
   position: relative;
-  padding:1px 0;
+  padding:1px 0 1px 20px;
   cursor:pointer;
   text-align: left;
   padding-left: 10px;
+
 }
 
 .domain{
