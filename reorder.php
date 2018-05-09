@@ -37,9 +37,9 @@ include_once("models/inc/gl_head.php");
 		<div class="main-container">
         	<div class="main_wrapper">
         		<div class ="reorganize">
-	        		<h4><strong>Please order (drag-drop) these 10 well-being domains from most important to least important, 
-	        		according to how important they are to you.</strong></h4>
+	        		
 	        		<div id = "center">
+	        			<h4 style = "text-align:left"><strong>Please order (drag-drop) these 10 well-being domains from most important to least important, according to how important they are to you.</strong></h4>
 		        		<div id = "least_greatest">
 							<p>Most Important</p>
 							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
@@ -163,7 +163,7 @@ include_once("models/inc/gl_foot.php");
 #least_greatest{
 	display:block;
 	position:absolute;
-	margin-top: 2%;
+	margin-top: 8%;
 	left: -60px;
 }
 .reorganize{
@@ -184,22 +184,16 @@ include_once("models/inc/gl_foot.php");
   background-color:#f2f2f2;
   display: block;
   border:solid;
-  border-width: 1px;
+  border-width: 3px;
+  border-color:white;
   color:black;
   font-weight: bold;
   position: relative;
   padding:1px 0;
   cursor:pointer;
-  box-shadow: 5px 5px 5px gray;
+  text-align: left;
+  padding-left: 10px;
 }
-#items li:first-child{
-	border-top-right-radius: 12px;
-	border-top-left-radius:12px;
-}
-#items li:last-child{
-	border-bottom-left-radius: 12px;
-	border-bottom-right-radius:12px;
-} 
 
 .domain{
 	max-width: 40px;
