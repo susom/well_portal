@@ -185,10 +185,6 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       $temp = getLongScores($domain_fields, $user_completed_keys);
       $long_scores  = $temp["scores"];
       $sub_scores   = $temp["pos_neg_subscores"];
-          // "well_score_emotion_pos"
-          // "well_score_emotion_neg"
-          // "well_score_stress_pos" 
-          // "well_score_stress_neg" 
     }else{
       $long_scores = array();
     }
@@ -293,12 +289,10 @@ function calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey
       ,"core_energized_help"
 
       //Lifestyle BEHAVIORS
-      ,"core_vegatables_intro"
       ,"core_vegatables_intro_v2"
       ,"core_vegetables_intro_v2_1"
       ,"core_vegetables_intro_v2_2"
       ,"core_vegetables_intro_v2_3"
-      ,"core_sugar_intro"
       ,"core_sugar_intro_v2"
       ,"core_sugar_intro_v2_1"
       ,"core_sugar_intro_v2_2"
