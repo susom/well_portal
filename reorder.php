@@ -3,6 +3,9 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
+//SITE NAV
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
+
 $radar_domains = array(
   "0" => lang("RESOURCE_CREATIVITY"),
   "1" => lang("RESOURCE_LIFESTYLE"),
@@ -27,6 +30,7 @@ $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
 if(!empty($result))
 	$dom = json_decode($result[0]["domain_order"]); 
 
+$pageTitle = "Domain Order Preferences";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
