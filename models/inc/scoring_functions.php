@@ -182,7 +182,13 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
           return $v !== false && !is_null($v) && ($v != '' || $v == '0');
       });
 
-      $long_scores = getLongScores($domain_fields, $user_completed_keys);
+      $temp = getLongScores($domain_fields, $user_completed_keys);
+      $long_scores  = $temp["scores"];
+      $sub_scores   = $temp["pos_neg_subscores"];
+          // "well_score_emotion_pos"
+          // "well_score_emotion_neg"
+          // "well_score_stress_pos" 
+          // "well_score_stress_neg" 
     }else{
       $long_scores = array();
     }
@@ -233,6 +239,30 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       "redcap_event_name" => $user_event_arm
     );
     $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+  
+    //write the subscores to 
+    foreach($sub_scores as $well_var => $well_val){
+      $data = array(
+        "record"            => $loggedInUser->id,
+        "field_name"        => $well_var,
+        "value"             => $well_val,
+        "redcap_event_name" => $user_event_arm
+      );
+      $result =  RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+    }
+
+    $data = array(
+      "record"            => $loggedInUser->id,
+      "field_name"        => "well_score_long",
+      "value"             => $long_score,
+      "redcap_event_name" => $user_event_arm
+    );
+    $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+  
+          // "well_score_emotion_pos"
+          // "well_score_emotion_neg"
+          // "well_score_stress_pos" 
+          // "well_score_stress_neg"
   }else{
     $remapped_long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
     $long_score = round(array_sum($remapped_long_scores),4);
@@ -603,6 +633,8 @@ function getLongScores($domain_fields, $user_completed_fields){
       
       case "well_score_emotion" :
         $domain_items = array();
+        $pos_items    = array();
+        $neg_items    = array();
         foreach($fields as $field){
           if(!isset($user_completed_fields[$field])){
             continue;
@@ -610,29 +642,44 @@ function getLongScores($domain_fields, $user_completed_fields){
 
           $denom = 4;
           if($field == "core_drained" || $field == "core_frustrated" || $field == "core_hopeless" || $field == "core_sad" || $field == "core_worried"){
-            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
           }else{
-            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
-        $temp_score     = (10/11)*(array_sum($domain_items));
+
+        $emo_positive_dom   = (5/6)*(array_sum($pos_items));
+        $emo_negative_dom   = (5/5)*(array_sum($neg_items));
+
+        $temp_score     = $emo_positive_dom + $emo_negative_dom; //(10/11)*(array_sum($domain_items));
         $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "well_score_stress" :
         $domain_items = array();
+        $pos_items    = array();
+        $neg_items    = array();
         foreach($fields as $field){
           if(!isset($user_completed_fields[$field])){
             continue;
           }
+
           $denom = 4;
-          if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy"){
-            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+          if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy" || $field == "core_confident_psnlproblem" || $field == "core_going_way"){
+            if($field == "core_confident_psnlproblem" || $field == "core_going_way"){
+              $neg_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }else{
+              $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            }
           }else{
-            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
         }
-        $temp_score     = (10/14)*(array_sum($domain_items));
+
+        $stress_positive_dom   = (5/9)*(array_sum($pos_items));
+        $stress_negative_dom   = (5/5)*(array_sum($neg_items));
+
+        $temp_score     = $stress_positive_dom + $stress_negative_dom;//(10/14)*(array_sum($domain_items));
         $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
@@ -663,7 +710,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         $sleep_score = array();
         if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
           $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
-          $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 1/5;
+          $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 0;
         }
         if(isset($user_completed_fields["core_fallasleep_min"])){
           $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
@@ -820,8 +867,8 @@ function getLongScores($domain_fields, $user_completed_fields){
           $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
           $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
         }
-        $temp_score     = array_sum($diet_score)/60;
-        $domain_items["well_score_ls_diet"] = round(scaleDomainScore($temp_score, count($diet_score), 12),4);
+        $temp_score     = array_sum($diet_score)/count($diet_score);
+        $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
 
         //alchohol
         $domain_items["well_score_ls_alchohol"] = ((isset($user_completed_fields["core_bngdrink_male_freq"]) && $user_completed_fields["core_bngdrink_male_freq"] == 1) || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"]) ) ? 0 : 2;
@@ -833,7 +880,12 @@ function getLongScores($domain_fields, $user_completed_fields){
       break;
     }
   }
-  return $score;
+  return array("scores" => $score , "pos_neg_subscores" => array(
+     "well_score_emotion_pos" => $emo_positive_dom 
+    ,"well_score_emotion_neg" => $emo_negative_dom 
+    ,"well_score_stress_pos" => $stress_positive_dom
+    ,"well_score_stress_neg" => $stress_negative_dom
+  ));
 }
 
 

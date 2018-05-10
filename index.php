@@ -3,6 +3,7 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
+
 // GLOBAL NAV SET STATE
 $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
@@ -132,7 +133,8 @@ if(isset($_GET["survey_complete"])){
 
         // ONLY CALCULATE LONG SCORE DURING LONG YEARS
         if(!$user_short_scale){
-          $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
+          $temp = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
+          $long_scores  = $temp["scores"];
         }
       }
 
