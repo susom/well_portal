@@ -32,7 +32,6 @@
 
 				}
 
-
 				echo $domainEntry["pic"];
 				?>
 				<h2><a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
@@ -53,35 +52,35 @@
 	<ul>
 		<li>
 			<img class="sideImages" src="assets/img/00-domain.png">
-			<a href="resources.php?nav=resources-0"><?php echo lang("RESOURCE_CREATIVITY") ?></a>
+			<a href="resources.php?nav=resources-0" class="<?php echo  $domain_on["resources-0"] ?>"><?php echo lang("RESOURCE_CREATIVITY") ?></a>
 		</li>
 		<li>
 			<img class="sideImages" src="assets/img/01-domain.png">
-			<a href="resources.php?nav=resources-1"><?php echo lang("RESOURCE_LIFESTYLE") ?></a></li>
+			<a href="resources.php?nav=resources-1" class="<?php echo   $domain_on["resources-1"]?>"><?php echo lang("RESOURCE_LIFESTYLE") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/02-domain.png">
-			<a href="resources.php?nav=resources-2"><?php echo lang("RESOURCE_SOCIAL") ?></a></li>
+			<a href="resources.php?nav=resources-2" class="<?php echo   $domain_on["resources-2"]?>"><?php echo lang("RESOURCE_SOCIAL") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/03-domain.png">
-			<a href="resources.php?nav=resources-3"><?php echo lang("RESOURCE_STRESS") ?></a></li>
+			<a href="resources.php?nav=resources-3" class="<?php echo   $domain_on["resources-3"]?>"><?php echo lang("RESOURCE_STRESS") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/04-domain.png">
-			<a href="resources.php?nav=resources-4"><?php echo lang("RESOURCE_EMOTIONS") ?></a></li>
+			<a href="resources.php?nav=resources-4" class="<?php echo  $domain_on["resources-4"] ?>"><?php echo lang("RESOURCE_EMOTIONS") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/05-domain.png">
-			<a href="resources.php?nav=resources-5"><?php echo lang("RESOURCE_SELF") ?></a></li>
+			<a href="resources.php?nav=resources-5" class="<?php echo  $domain_on["resources-5"] ?>"><?php echo lang("RESOURCE_SELF") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/06-domain.png">
-			<a href="resources.php?nav=resources-6"><?php echo lang("RESOURCE_PHYSICAL") ?></a></li>
+			<a href="resources.php?nav=resources-6" class="<?php echo  $domain_on["resources-6"] ?>"><?php echo lang("RESOURCE_PHYSICAL") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/07-domain.png">
-			<a href="resources.php?nav=resources-7"><?php echo lang("RESOURCE_PURPOSE") ?></a></li>
+			<a href="resources.php?nav=resources-7" class="<?php echo   $domain_on["resources-7"]?>"><?php echo lang("RESOURCE_PURPOSE") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/08-domain.png">
-			<a href="resources.php?nav=resources-8"><?php echo lang("RESOURCE_FINANCIAL") ?></a></li>
+			<a href="resources.php?nav=resources-8" class="<?php echo  $domain_on["resources-8"] ?>"><?php echo lang("RESOURCE_FINANCIAL") ?></a></li>
 		<li>
 			<img class="sideImages" src="assets/img/09-domain.png">
-			<a href="resources.php?nav=resources-9"><?php echo lang("RESOURCE_RELIGION") ?></a></li>
+			<a href="resources.php?nav=resources-9" class="<?php echo  $domain_on["resources-9"]?>"><?php echo lang("RESOURCE_RELIGION") ?></a></li>
 	</ul>
 </aside>
 
@@ -123,11 +122,13 @@ ul,li{
 	font-size:16px;
 	color:black;
 	display:inline-block;
-
+	width:65%;
+	padding-left:8px;
 }
+.sidenav a.on,
 .sidenav a:hover{
 	background-color: #f2f2f2;
-
+	border-radius:5px;
 }
 .sidenav li {
 	margin-bottom:15px; 

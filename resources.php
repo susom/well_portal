@@ -17,6 +17,14 @@ $radar_domains = array(
 
 //SITE NAV
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "on", "rewards" => "");
+$domain_on = array();
+for($i = 0; $i < 10; $i++){
+  $resource_n = "resources-$i";
+  $domain_on[$resource_n] = "";
+}
+if(isset($_GET["nav"]) && in_array($_GET["nav"],array_keys($domain_on) )){
+  $domain_on[$_GET["nav"]] = "on";
+}
 
 $avail_surveys      = $available_instruments;
 $first_core_survey  = array_splice($avail_surveys,0,1);

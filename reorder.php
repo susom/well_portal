@@ -197,7 +197,6 @@ include_once("models/inc/gl_foot.php");
   cursor:pointer;
   text-align: left;
   padding-left: 10px;
-
 }
 
 .domain{
