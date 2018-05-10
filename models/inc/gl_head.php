@@ -19,7 +19,7 @@
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 
 <!-- Facebook Pixel Code -->
