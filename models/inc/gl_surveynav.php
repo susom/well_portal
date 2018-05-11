@@ -152,6 +152,6 @@
     </ul>
     <h4 class = "organize">
       <img id = "reorder_img" src = "assets/img/organization_icon.svg">
-      <a id = "reorder_title" href = "reorder.php">Domain organization</a>
+      <a id = "reorder_title" href = "reorder.php">Domain Ranking</a>
     </h4>
 </aside>
