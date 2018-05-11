@@ -35,6 +35,7 @@ $redcap_variables = array(
 $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 $data = array(
+		  "redcap_event_name" => $user_event_arm,
     	  'content'     => 'record',
           'records'     => array($loggedInUser->id),
           'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",

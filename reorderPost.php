@@ -34,6 +34,7 @@ if($_POST["domains"]){
 	foreach($doms as $key => $val){
 		$in = array_search($val, $radar_domains);
 		$data[] = array(
+			"redcap_event_name" => $user_event_arm,
 	    	"record"            => $loggedInUser->id,
 	     	"field_name"        => $redcap_variables[$in],
 	      	"value"             => $key
