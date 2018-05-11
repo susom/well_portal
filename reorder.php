@@ -15,18 +15,34 @@ $radar_domains = array(
   "8" => lang("RESOURCE_FINANCIAL"),
   "9" => lang("RESOURCE_RELIGION")
 );
+
+$redcap_variables = array(
+  "0" => "domainorder_ec",
+  "1" => "domainorder_lb",
+  "2" => "domainorder_sc",
+  "3" => "domainorder_sr",
+  "4" => "domainorder_ee",
+  "5" => "domainorder_ss",
+  "6" => "domainorder_ph",
+  "7" => "domainorder_pm",
+  "8" => "domainorder_fs",
+  "9" => "domainorder_rs"
+);
+
 $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 $data = array(
     	  'content'     => 'record',
           'records'     => array($loggedInUser->id),
-          'fields'      => array("domain_order")
+          'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
+          						 "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
 );
+
 $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-
-if(!empty($result))
-	$dom = json_decode($result[0]["domain_order"]); 
-
+if(!empty($result[0]["domainorder_ec"])){
+	$dom = ($result[0]);
+	asort($dom);
+}
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
@@ -48,10 +64,10 @@ include_once("models/inc/gl_head.php");
 						<ul id = "items" >
 							<?php
 							if(isset($dom)){ //if an ordering exists already
-								foreach($dom as $in){
-									$key = array_search($in,$radar_domains);
-									echo "<li id ='".$in."'> 
-										<img class = 'domain' src = assets/img/0".$key."-domain.png>".$in."</li>";
+								foreach($dom as $k => $val){
+									 $key = array_search($k,$redcap_variables);
+									 echo "<li id ='".$radar_domains[$key]."'> 
+										   <img class = 'domain' src = assets/img/0".$key."-domain.png>".$radar_domains[$key]."</li>";
 								}
 							}else{
 							?>
