@@ -3,6 +3,9 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
+
+
 $radar_domains = array(
   "0" => lang("RESOURCE_CREATIVITY"),
   "1" => lang("RESOURCE_LIFESTYLE"),
@@ -43,6 +46,8 @@ if(!empty($result[0]["domainorder_ec"])){
 	$dom = ($result[0]);
 	asort($dom);
 }
+
+$pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
