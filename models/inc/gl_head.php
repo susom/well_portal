@@ -23,7 +23,7 @@
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 
 <!-- Facebook Pixel Code -->
-<?php
+<!-- <?php
 $trackpage = isset($trackpage) ? $trackpage : $bodyClass;
 ?>
 <script>
@@ -35,7 +35,7 @@ fbq('track', '<?php echo $trackpage; ?>');
 </script>
 <noscript>
 <img height="1" width="1" src="https://www.facebook.com/tr?id=411269625926334&ev=<?php echo $trackpage; ?>&noscript=1"/>
-</noscript>
+</noscript> -->
 <!-- End Facebook Pixel Code -->
 </head>
 <body class="<?php echo $bodyClass ?>">

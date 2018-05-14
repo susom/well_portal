@@ -145,32 +145,7 @@ include_once("models/inc/gl_foot.php");
         	appendTo: document.body,
         	cursor: "move"
         });
-  //   	document.addEventListener('touchmove', function(e) {
-  //  			e.preventDefault();
-  //   		var touch = e.touches[0];
-  //   		//alert(touch.pageX + " - " + touch.pageY);
-		// }, false);
-    });//ready
-
- 
-    
-    $("#finish").click(function(){
-    	var domains = JSON.stringify($("#items").sortable("toArray",{attribute:'id'}));
-    	$.ajax({
-          url:  "reorderPost.php",
-          type:'POST',
-          data: "&domains="+ domains,
-          success:function(result){
-            console.log(result);
-          }        
-            //THIS JUST STORES IS 
-          },function(err){
-          console.log("ERRROR");
-          console.log(err);
-        });
-
     });
-   
 
 </script>
 <style>
