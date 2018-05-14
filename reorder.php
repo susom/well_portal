@@ -53,7 +53,9 @@ $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
 <html>
-	<head>		
+	<head>	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
 	</head>
 	<body>
 		<div class="main-container">
@@ -224,5 +226,26 @@ include_once("models/inc/gl_foot.php");
 	margin:5px;
 }
 
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px){
+	#least_greatest{
+		left:2vw;
+	}
+	#least_greatest p{
+		font-size: 13px;
+	}
+	#center h4{
+		max-width: 100vw;
+		padding:0px 5px 0px 15px;
+		margin-top:-5px;
+
+	}
+	#items li{
+	  max-width: 68vw;
+	  left:8vw;
+	  font-size: 13px;
+	}
+}
 </style>
 
