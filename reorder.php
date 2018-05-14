@@ -145,7 +145,14 @@ include_once("models/inc/gl_foot.php");
         	appendTo: document.body,
         	cursor: "move"
         });
+  //   	document.addEventListener('touchmove', function(e) {
+  //  			e.preventDefault();
+  //   		var touch = e.touches[0];
+  //   		//alert(touch.pageX + " - " + touch.pageY);
+		// }, false);
     });//ready
+
+ 
     
     $("#finish").click(function(){
     	var domains = JSON.stringify($("#items").sortable("toArray",{attribute:'id'}));
@@ -245,6 +252,13 @@ and (max-device-width : 480px){
 	  max-width: 68vw;
 	  left:8vw;
 	  font-size: 13px;
+	}
+	.domain{
+		max-width:30px;
+	}
+	#finish{
+		height:9vw;
+		margin:0px;
 	}
 }
 </style>
