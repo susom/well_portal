@@ -147,6 +147,21 @@ include_once("models/inc/gl_foot.php");
         });
     });
 
+    $("#fin").click(function(){
+    	var ret = $("#items").sortable("toArray",{attribute: 'id'});
+    	$.ajax({
+          url:  "reorderPost.php",
+          type: 'POST',
+	      data: "&domains=" + JSON.stringify(ret),
+          success:function(result){
+            console.log(result);
+          }        
+            
+          },function(err){
+          		console.log(err);
+          });
+    });
+
 </script>
 <style>
 #center{

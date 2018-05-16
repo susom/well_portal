@@ -141,6 +141,11 @@
                 echo implode("",$suppsurvs);
                 ?>  
             </ol>
+            <h4>My Activity</h4>
+            <div class = "organize">
+              <img id = "reorder_img" src = "assets/img/organization_icon.svg">
+              <a id = "reorder_title" href = "reorder.php">Domain Ranking</a>
+            </div>
             <h4><?php echo lang("COMPLETED_SURVEYS") ?></h4>
             <ol class="completed">
             <?php
@@ -150,8 +155,8 @@
             </ol>
         </li>
     </ul>
-    <h4 class = "organize">
+    <!-- <h4 class = "organize">
       <img id = "reorder_img" src = "assets/img/organization_icon.svg">
       <a id = "reorder_title" href = "reorder.php">Domain Ranking</a>
-    </h4>
+    </h4> -->
 </aside>

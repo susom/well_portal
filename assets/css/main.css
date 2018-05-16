@@ -200,6 +200,7 @@ nav a:visited {
 .organize{
     padding: 10px;
     display: inline-block;
+    margin-bottom: 20px;
 }
 #reorder_img{
     max-height: 30px;
