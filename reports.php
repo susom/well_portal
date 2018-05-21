@@ -201,10 +201,13 @@ include_once("models/inc/gl_head.php");
                                     $ct++;
                                     $csv_data .= "User, ". $key .", ". $display .", ". $domain_desc[$ct]."\n";
                                   }
-                                 file_put_contents($users_file_csv, $csv_data);
+                                   file_put_contents($users_file_csv, $csv_data);
                                   $sum_long_score = round(array_sum($long_scores));
+                                  $loggedInUser->score = $sum_long_score;
                                   ?>
-                                  <object type = "text/html" data = "radar_chart_template.php?well_long_score=<?php echo $sum_long_score?>&id=<?php echo $loggedInUser->id?>" width = 100%></object>
+                                  <object type = "text/html" data = "radar_chart_template.php" width = 100%></object>
+
+
                                   <?php
                                 }else{
                                   echo lang("WELL_SCORE_NA");
