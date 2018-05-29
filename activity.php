@@ -3,7 +3,7 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "on");
 
 
 $radar_domains = array(

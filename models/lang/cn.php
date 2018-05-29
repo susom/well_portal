@@ -101,13 +101,13 @@
 		"FORGOTPASS_INVALID_TOKEN"				=> "无效链接",
 		"FORGOTPASS_REQUEST_EXISTS"				=> "忘记的密码授权电子邮件已于 %m1% 分钟前发送。<br>请检查您的电子邮件或稍后再试。",
 		"FORGOTPASS_REQUEST_SUCCESS"			=> "已启动密码重设程序。<br>已啟動密碼重設程序。 <br>請查看您的電子郵件以了解後續步驟。",
+		"FORGOTPASS_CREATED" 					=> "Password Created",
 		"FORGOTPASS_UPDATED" 					=> "密码更新",
 		"FORGOTPASS_INVALID_VALUE" 				=> "密码重置值无效",
 		"FORGOTPASS_Q_UPDATED" 					=> "恢复密码问题更新！",
 		"FORGOTPASS_SEC_Q_SETUP" 				=> "密码设置和安全性问题",
 		"FORGOTPASS_SEC_Q_ANSWERS" 				=> "为了帮助您恢复丢失或忘记的密码，请提供以下安全问题的答案。",
-		"FORGOTPASS_CHOSE_QUESTION" 			=> " 
-请从列表中选择一个问题",
+		"FORGOTPASS_CHOSE_QUESTION" 			=> "请从列表中选择一个问题",
 		"FORGOTPASS_WRITE_CUSTOM_Q" 			=> "编写自定安全性问题",
 
 		//MAIL
@@ -213,6 +213,9 @@
 		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "报告"
 		,"NAV_GAME" 								=> "游戏"
+		,"NAV_ACTIVITY" 							=> "Activty"
+		,"DOMAIN_RANKING" 							=> "Domain Ranking"
+		,"DOMAIN_RANKING_PROMPT" 					=> "Please click this link to update your domain priorites"
 		,"READ_MORE"								=> "更多"
 		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感？"

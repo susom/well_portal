@@ -5,9 +5,7 @@ include("models/inc/scoring_functions.php");
 
 
 // GLOBAL NAV SET STATE
-$nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "");
-$navon[$nav] = "on";
+$navon  = array("home" => "on", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 
 markPageLoadTime("BEGIN HEAD AREA");
 $avail_surveys      = $available_instruments;
@@ -124,7 +122,6 @@ if(isset($_GET["survey_complete"])){
   if(array_key_exists($surveyid,$surveys)){
     $index  = array_search($surveyid, $all_survey_keys);
     $survey = $surveys[$surveyid];
-
     if(!isset($all_survey_keys[$index+1])){ 
       //CALCULATE WELL SCORES
       if($core_surveys_complete){
@@ -133,8 +130,7 @@ if(isset($_GET["survey_complete"])){
 
         // ONLY CALCULATE LONG SCORE DURING LONG YEARS
         if(!$user_short_scale){
-          $temp = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
-          $long_scores  = $temp["scores"];
+          $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
         }
       }
 
@@ -167,10 +163,14 @@ if(isset($_GET["survey_complete"])){
         $success_arr[]  = printWELLOverTime($user_scores);
       }
 
+
        // CUSTOM FLOW FOR UO1 Pilot STUDY
       if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
         $success_arr[]  = "<p class='alert_reminder'>".lang("UO1_REMINDER")."</p>";
+      }else{
+       $success_arr[]   = "<hr/><p class='alert_reminder'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
       }
+
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }

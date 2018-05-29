@@ -101,6 +101,7 @@
 		"FORGOTPASS_INVALID_TOKEN"				=> "Invalid token.",
 		"FORGOTPASS_REQUEST_EXISTS"				=> "A forgotten password authorization email was sent %m1% min ago.<br>Please check your email or try again later.",
 		"FORGOTPASS_REQUEST_SUCCESS"			=> "Password reset process initiated.<br>Please check your email for further instructions.",
+		"FORGOTPASS_CREATED" 					=> "Password Created",
 		"FORGOTPASS_UPDATED" 					=> "Password Updated",
 		"FORGOTPASS_INVALID_VALUE" 				=> "Invalid password reset values for question",
 		"FORGOTPASS_Q_UPDATED" 					=> "Password recovery questions updated!",
@@ -212,6 +213,9 @@
 		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "Reports"
 		,"NAV_GAME" 								=> "Game"
+		,"NAV_ACTIVITY" 							=> "Activty"
+		,"DOMAIN_RANKING" 							=> "Domain Ranking"
+		,"DOMAIN_RANKING_PROMPT" 					=> "Please click this link to update your domain priorites"
 		,"READ_MORE"								=> "Read More"
 		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "How can I enhance my wellbeing?"

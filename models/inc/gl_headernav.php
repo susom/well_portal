@@ -4,7 +4,8 @@
         <li class="<?php echo $navon["reports"]; ?>"><a href="reports.php?nav=reports"><?php echo lang("NAV_REPORTS") ?></a></li>
         <li class="<?php echo $navon["resources"]; ?>"><a href="resources.php?nav=resources"><?php echo lang("NAV_RESOURCES") ?></a></li>
         <li class="<?php echo $navon["rewards"]; ?>"><a href="rewards.php?nav=rewards"><?php echo lang("NAV_REWARDS") ?></a></li>
-        <li class="<?php echo $navon["game"]; ?>"><a href="game.php?nav=game"><?php echo lang("NAV_GAME") ?></a></li>
+        <li class="<?php echo $navon["activity"]; ?>"><a href="activity.php?nav=activity"><?php echo lang("NAV_ACTIVITY") ?></a></li>
+        <!-- <li class="<?php echo $navon["game"]; ?>"><a href="game.php?nav=game"><?php echo lang("NAV_GAME") ?></a></li> -->
 
     </ul>
 </nav>

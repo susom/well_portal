@@ -16,7 +16,7 @@ $radar_domains = array(
 );
 
 //SITE NAV
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "on", "rewards" => "");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "on", "rewards" => "", "activity" => "");
 $domain_on = array();
 for($i = 0; $i < 10; $i++){
   $resource_n = "resources-$i";

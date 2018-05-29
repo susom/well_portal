@@ -3,7 +3,7 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 
 //SITE NAV
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "on");
+$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "on", "activity" => "");
 
 $avail_surveys      = $available_instruments;
 $first_core_survey  = array_splice($avail_surveys,0,1);

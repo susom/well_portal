@@ -36,7 +36,7 @@ if( isset($_POST['account_update']) ) {
 		if ($valid) {
 			//This function will update the hash_pw property.
 			$loggedInUser->updatePassword($entered_pass_new);
-			addSessionMessage(lang("FORGOTPASS_UPDATED"),"success");
+			addSessionMessage(lang("FORGOTPASS_CREATED"),"success");
 		}
 	} else {
 		logIt("Change Password: Invalid Request", "INFO");

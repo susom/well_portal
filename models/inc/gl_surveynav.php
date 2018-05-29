@@ -149,9 +149,9 @@
             ?>
             </ol>
 
-            <h4>My Activity</h4>
+            <h4><?php echo lang("NAV_ACTIVITY") ?></h4>
             <div class = "organize">
-              <a id = "reorder_title" href = "activity.php">Domain Ranking</a>
+              <a id = "reorder_title" href = "activity.php"><?php echo lang("DOMAIN_RANKING") ?></a>
             </div>
         </li>
     </ul>

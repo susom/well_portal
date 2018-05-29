@@ -101,6 +101,7 @@
 		"FORGOTPASS_INVALID_TOKEN"				=> "Código inválido.", 
 		"FORGOTPASS_REQUEST_EXISTS"				=> "Enviamos un mensaje a su correo electrónico hace %m1% minutos.<br>Por favor verifique su correo electrónico o intente nuevamente más tarde.", 
 		"FORGOTPASS_REQUEST_SUCCESS"			=> "El proceso para reiniciar su contraseña ha comenzado. <br> Por favor verifique su correo electrónico para instrucciones.", 
+		"FORGOTPASS_CREATED" 					=> "Password Created",
 		"FORGOTPASS_UPDATED" 					=> "Contraseña actualizada",
 		"FORGOTPASS_INVALID_VALUE" 				=> "Contraseña inválida, reinicie los valores para la pregunta", 
 		"FORGOTPASS_Q_UPDATED" 					=> "¡Las preguntas para recuperar su contraseña ahora están actualizadas!", 
@@ -210,6 +211,9 @@
 		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "Reports"
 		,"NAV_GAME" 								=> "Game"
+		,"NAV_ACTIVITY" 							=> "Activty"
+		,"DOMAIN_RANKING" 							=> "Domain Ranking"
+		,"DOMAIN_RANKING_PROMPT" 					=> "Please click this link to update your domain priorites"
 		,"READ_MORE"								=> "Read More"
 		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "How can I enhance my wellbeing?"

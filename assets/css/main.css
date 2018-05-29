@@ -183,7 +183,7 @@ nav li.on{
 nav a {
     display: inline-block;
     padding: 5px 12px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-align: center;
     text-decoration: none;
     color: #000;

@@ -101,6 +101,7 @@
 		"FORGOTPASS_INVALID_TOKEN"				=> "無效鏈接",
 		"FORGOTPASS_REQUEST_EXISTS"				=> "忘記的密碼授權電子郵件已於 %m1% 分鐘前發送。<br>請檢查您的電子郵件或稍後再試。",
 		"FORGOTPASS_REQUEST_SUCCESS"			=> "已啟動密碼重設程序。<br>請查看您的電子郵件以了解後續步驟。",
+		"FORGOTPASS_CREATED" 					=> "Password Created",
 		"FORGOTPASS_UPDATED" 					=> "密碼更新",
 		"FORGOTPASS_INVALID_VALUE" 				=> "密碼重置值無效",
 		"FORGOTPASS_Q_UPDATED" 					=> "恢復密碼問題更新！",
@@ -212,6 +213,9 @@
 		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "報告"
 		,"NAV_GAME" 								=> "遊戲"
+		,"NAV_ACTIVITY" 							=> "Activty"
+		,"DOMAIN_RANKING" 							=> "Domain Ranking"
+		,"DOMAIN_RANKING_PROMPT" 					=> "Please click this link to update your domain priorites"
 		,"READ_MORE"								=> "更多"
 		,"GO_TO_SURVEY"								=> "Go to Survey"
 		,"ENHANCE_WELLBEING"						=> "如何提升我的幸福感？"
