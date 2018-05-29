@@ -198,9 +198,23 @@ nav a:visited {
 }
 
 .organize{
-    padding: 10px;
     display: inline-block;
     margin-bottom: 20px;
+    width:100%;
+    padding-top:5px;
+    padding-bottom:5px;
+
+}
+.organize a{
+    width:100%;
+    padding: 12px 0 16px 60px;
+    border-radius: 5px;
+    background:url(../img/ico_domain_ranking.png) no-repeat;
+    background-size:contain;
+}
+.organize:hover{
+    background: #f2f2f2;
+    border-radius:5px;
 }
 #reorder_img{
     max-height: 30px;
