@@ -197,6 +197,14 @@ nav a:visited {
     background: #f2f2f2;
 }
 
+p.organize{
+    margin:auto;
+
+}
+p.organize a {
+    display:block;
+    padding-left:85px;
+}
 .organize{
     display: inline-block;
     margin-bottom: 20px;

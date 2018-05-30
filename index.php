@@ -3,7 +3,6 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
-
 // GLOBAL NAV SET STATE
 $navon  = array("home" => "on", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 
@@ -168,7 +167,7 @@ if(isset($_GET["survey_complete"])){
       if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
         $success_arr[]  = "<p class='alert_reminder'>".lang("UO1_REMINDER")."</p>";
       }else{
-       $success_arr[]   = "<hr/><p class='alert_reminder'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+       $success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
       }
 
       $success_msg      = implode($success_arr);

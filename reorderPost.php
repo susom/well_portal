@@ -27,9 +27,9 @@ $redcap_variables = array(
 );
 
 if($_POST["domains"]){
-	$doms = json_decode($_POST["domains"],1);
-	$API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-	$API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+	$doms          = json_decode($_POST["domains"],1);
+	$API_URL       = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+	$API_TOKEN     = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 	foreach($doms as $key => $val){
 		$in = array_search($val, $radar_domains);
 
@@ -43,5 +43,5 @@ if($_POST["domains"]){
 		// print_r($data);
 	}
 	$result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL , $API_TOKEN);
-	print_r($result);
+	print_r($_POST["domains"]);
 }

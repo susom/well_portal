@@ -8,7 +8,7 @@ $first_year 		= Date("Y", $consent_date);
 $this_year      	= Date("Y");
 $user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
 $user_short_scale 	= false;
-
+// print_rr($loggedInUser->user_event_arm);
 markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
 if(isset($_SESSION["user_short_scale"])){
@@ -21,9 +21,19 @@ if(isset($_SESSION["user_short_scale"])){
 	  'events'		=> array(REDCAP_PORTAL_EVENT),
 	);
 	$result 		= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-
+	// print_rr($days_active);
+	// print_rr($result);
+	// print_rr($result[0]["well_q_2_start_ts"]);
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
-	if( $days_active > 364 
+	if(
+		$days_active > 729 
+		&& $user_event_arm !== REDCAP_PORTAL_EVENT_2
+		&& !empty($result[0]["well_q_2_start_ts"]) 
+	  ){
+		unset($_SESSION["user_survey_data"]);
+		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_2));
+		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_2;
+	}else if( $days_active > 364 
 		&& $user_event_arm !== REDCAP_PORTAL_EVENT_1
 		&& !empty($result[0]["well_q_2_start_ts"]) 
 	  ){
@@ -31,15 +41,6 @@ if(isset($_SESSION["user_short_scale"])){
 		unset($_SESSION["user_survey_data"]);
 		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_1));
 		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_1;
-	}else if(
-		$days_active > 729 
-		&& $user_event_arm !== REDCAP_PORTAL_EVENT_2
-	  ){
-		unset($_SESSION["user_survey_data"]);
-		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_2));
-		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_2;
-
-		// print_rr("wtf ". REDCAP_PORTAL_EVENT_2);
 	}
 
 	if (strpos($user_event_arm, "short") > -1){
@@ -208,3 +209,4 @@ $available_instruments  = $user_short_scale ? SurveysConfig::$short_surveys : Su
 // print_rr($supp_surveys,1);
 // print_rr($surveys ,1);
 markPageLoadTime("end surveys.php");
+// print_rr($loggedInUser->user_event_arm);

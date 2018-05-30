@@ -5,7 +5,6 @@ include("models/inc/scoring_functions.php");
 
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "on");
 
-
 $radar_domains = array(
   "0" => lang("RESOURCE_CREATIVITY"),
   "1" => lang("RESOURCE_LIFESTYLE"),
@@ -35,8 +34,8 @@ $redcap_variables = array(
 $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 $data = array(
-		  "redcap_event_name" => $user_event_arm,
-    	  'content'     => 'record',
+		  'content'     => 'record',
+		  "events" 		=> $user_event_arm,
           'records'     => array($loggedInUser->id),
           'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
           						 "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
@@ -47,7 +46,6 @@ if(!empty($result[0]["domainorder_ec"])){
 	$dom = ($result[0]);
 	asort($dom);
 }
-
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
@@ -137,8 +135,6 @@ include_once("models/inc/gl_head.php");
 <?php 
 include_once("models/inc/gl_foot.php");
 ?>
-
-
 <script>
     $(document).ready(function(){
         $("#items").sortable({
@@ -147,23 +143,42 @@ include_once("models/inc/gl_foot.php");
         });
     });
 
+    function addModal(msg){
+    	var div = $("<div>").addClass("alert").addClass("alert-success").addClass("text-center").addClass("mb-30");
+    	var button = $("<button>").addClass("alert").addClass("btn-success").addClass("alert").attr("data-dismiss","").text("OK");
+		var ul = $("<ul>");
+		var li = $("<li>");
+		var strong = $("<strong>").text(msg);
+		li.append(strong);
+		var msg = ul.append(li);
+		div.append(msg);
+		div.append(button);
+		$("body").append(div);
+		$(".alert").css("opacity",1);
+		return;
+    }
     $("#fin").click(function(){
     	var ret = $("#items").sortable("toArray",{attribute: 'id'});
     	$.ajax({
-          url:  "reorderPost.php",
-          type: 'POST',
-	      data: "&domains=" + JSON.stringify(ret),
-          success:function(result){
-            console.log(result);
-          }        
-            
-          },function(err){
-          		console.log(err);
-          });
+	      url  		: "reorderPost.php",
+	      type 		: 'POST',
+	      data 		: "&domains=" + JSON.stringify(ret),
+          success 	: function(result){
+            addModal("Domain Priorities Saved!");
+          },
+          function(err){
+          	console.log(err);
+          }
+      	});
     });
 
 </script>
 <style>
+button.btn-success.alert{
+	top:78%;
+	padding-top:5px;
+	padding-bottom:5px;
+}
 #center{
 	text-align:center;
 	width:500px;
@@ -173,6 +188,9 @@ include_once("models/inc/gl_foot.php");
 
 #fin{
 	margin-top: 20px;
+}
+#fin button{
+	border-radius:5px;
 }
 #finish{
 	margin: 5px;

@@ -127,6 +127,10 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     //MAKE SURE THAT AT LEAST 70% OF THE FIELDS IN EACH DOMAIN IS COMPLETE OR ELSE CANCEL THE SCORING
     $minimumData = true;
     foreach($domain_fields as $domain => $fields){
+
+      //DO THE DQ_THRESHOLD PER DOMAIN
+      //CALCULATE AND SAVE FOR EACH DOMAIN THAT DOES PASS 
+      
       $dq_threshold   = count($fields) * .3; 
       $missing_keys   = array_diff($fields, array_keys($user_completed_keys)) ;
       if(count($missing_keys) > $dq_threshold
