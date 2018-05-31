@@ -38,7 +38,7 @@ if($_POST["domains"]){
       "redcap_event_name" => $loggedInUser->user_event_arm,
       "record"            => $loggedInUser->id,
       "field_name"        => $redcap_variables[$in],
-      "value"             => $key
+      "value"             => $key + 1
 		);
 		// print_r($data);
 	}

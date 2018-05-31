@@ -14,40 +14,35 @@ markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 if(isset($_SESSION["user_short_scale"])){
 	$user_short_scale = $_SESSION["user_short_scale"];
 }else{
-	$extra_params = array(
-	  'content'   	=> 'record',
-	  'records' 	=> array($loggedInUser->id) ,
-	  'fields'    	=> ["well_q_2_start_ts"],
-	  'events'		=> array(REDCAP_PORTAL_EVENT),
-	);
-	$result 		= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-	// print_rr($days_active);
-	// print_rr($result);
-	// print_rr($result[0]["well_q_2_start_ts"]);
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
-	if(
-		$days_active > 729 
-		&& $user_event_arm !== REDCAP_PORTAL_EVENT_2
-		&& !empty($result[0]["well_q_2_start_ts"]) 
-	  ){
+	$update_arm = false;
+	if( $days_active > 1093 ){
+		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
+			$user_event_arm = REDCAP_PORTAL_EVENT_3;
+			$update_arm = true;
+		}
+	}else if( $days_active > 729 && $days_active <= 1093 ){
+		if($user_event_arm != REDCAP_PORTAL_EVENT_2){
+			$user_event_arm = REDCAP_PORTAL_EVENT_2;
+			$update_arm = true;
+		}
+	}else if( $days_active > 364 && $days_active <= 729 ){
+		if($user_event_arm != REDCAP_PORTAL_EVENT_1 ){
+			$user_event_arm = REDCAP_PORTAL_EVENT_1;
+			$update_arm = true;
+		}
+	}
+		
+	if($update_arm){
 		unset($_SESSION["user_survey_data"]);
-		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_2));
-		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_2;
-	}else if( $days_active > 364 
-		&& $user_event_arm !== REDCAP_PORTAL_EVENT_1
-		&& !empty($result[0]["well_q_2_start_ts"]) 
-	  ){
-	  	//CLEAR SESSION DATA
-		unset($_SESSION["user_survey_data"]);
-		$loggedInUser->updateUser(array("user_event_arm" => REDCAP_PORTAL_EVENT_1));
-		$loggedInUser->user_event_arm = $user_event_arm = REDCAP_PORTAL_EVENT_1;
+		$loggedInUser->updateUser(array("user_event_arm" => $user_event_arm));
+		$loggedInUser->user_event_arm = $user_event_arm;
 	}
 
 	if (strpos($user_event_arm, "short") > -1){
 		$user_short_scale = true;
 	}
 	$_SESSION["user_short_scale"] = $user_short_scale;
-	// print_rr("user event arm = $user_event_arm/ days active = " . $days_active);
 }
 markPageLoadTime("END CHECK FOR SHORTSCALE");
 

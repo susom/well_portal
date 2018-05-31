@@ -10,7 +10,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
   $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
   
   $long_score   = 0;
-  if(!isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
+  if(true|| !isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
     //10 DOMAINS TO CALCULATE THE WELL LONG SCORE
    
     $domain_mapping = array(
@@ -142,56 +142,58 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       }
     }
 
-    if($minimumData){
-      $q_fields = array_merge($q_fields, array("core_vegetables_intro_v2_1"
-                                              ,"core_vegetables_intro_v2_2"
-                                              ,"core_vegetables_intro_v2_3"
-                                              ,"core_fruit_intro_v2_1"
-                                              ,"core_fruit_intro_v2_2"
-                                              ,"core_fruit_intro_v2_3"
-                                              ,"core_grain_intro_v2_1"
-                                              ,"core_grain_intro_v2_2"
-                                              ,"core_grain_intro_v2_3"
-                                              ,"core_bean_intro_v2_1"
-                                              ,"core_bean_intro_v2_2"
-                                              ,"core_bean_intro_v2_3"
-                                              ,"core_sweet_intro_v2_1"
-                                              ,"core_sweet_intro_v2_2"
-                                              ,"core_sweet_intro_v2_3"
-                                              ,"core_meat_intro_v2_1"
-                                              ,"core_meat_intro_v2_2"
-                                              ,"core_meat_intro_v2_3"
-                                              ,"core_nuts_intro_v2_1"
-                                              ,"core_nuts_intro_v2_2"
-                                              ,"core_nuts_intro_v2_3"
-                                              ,"core_sodium_intro_v2_1"
-                                              ,"core_sodium_intro_v2_2"
-                                              ,"core_sodium_intro_v2_3"
-                                              ,"core_sugar_intro_v2_1"
-                                              ,"core_sugar_intro_v2_2"
-                                              ,"core_sugar_intro_v2_3"
-                                              ,"core_fish_intro_v2_1"
-                                              ,"core_fish_intro_v2_2"
-                                              ,"core_fish_intro_v2_3"
-                                              ,"core_cook_intro_v2_1"
-                                              ,"core_cook_intro_v2_2"
-                                              ,"core_cook_intro_v2_3"
-                                              ,"core_fastfood_intro_v2_1"
-                                              ,"core_fastfood_intro_v2_2"
-                                              ,"core_fastfood_intro_v2_3"
-                                            ) );
+    $q_fields = array_merge($q_fields, array("core_vegetables_intro_v2_1"
+                                            ,"core_vegetables_intro_v2_2"
+                                            ,"core_vegetables_intro_v2_3"
+                                            ,"core_fruit_intro_v2_1"
+                                            ,"core_fruit_intro_v2_2"
+                                            ,"core_fruit_intro_v2_3"
+                                            ,"core_grain_intro_v2_1"
+                                            ,"core_grain_intro_v2_2"
+                                            ,"core_grain_intro_v2_3"
+                                            ,"core_bean_intro_v2_1"
+                                            ,"core_bean_intro_v2_2"
+                                            ,"core_bean_intro_v2_3"
+                                            ,"core_sweet_intro_v2_1"
+                                            ,"core_sweet_intro_v2_2"
+                                            ,"core_sweet_intro_v2_3"
+                                            ,"core_meat_intro_v2_1"
+                                            ,"core_meat_intro_v2_2"
+                                            ,"core_meat_intro_v2_3"
+                                            ,"core_nuts_intro_v2_1"
+                                            ,"core_nuts_intro_v2_2"
+                                            ,"core_nuts_intro_v2_3"
+                                            ,"core_sodium_intro_v2_1"
+                                            ,"core_sodium_intro_v2_2"
+                                            ,"core_sodium_intro_v2_3"
+                                            ,"core_sugar_intro_v2_1"
+                                            ,"core_sugar_intro_v2_2"
+                                            ,"core_sugar_intro_v2_3"
+                                            ,"core_fish_intro_v2_1"
+                                            ,"core_fish_intro_v2_2"
+                                            ,"core_fish_intro_v2_3"
+                                            ,"core_cook_intro_v2_1"
+                                            ,"core_cook_intro_v2_2"
+                                            ,"core_cook_intro_v2_3"
+                                            ,"core_fastfood_intro_v2_1"
+                                            ,"core_fastfood_intro_v2_2"
+                                            ,"core_fastfood_intro_v2_3"
+                                          ) );
 
-      // DAMNIT TOHELL, GOTTA DO THIS PROCESS AGAIN SINCE THE ABOVE ISNT USED FOR THE "minimum data"
-      $user_completed_keys = array_filter(array_intersect_key( $all_completed, array_flip($q_fields) ),function($v){
-          return $v !== false && !is_null($v) && ($v != '' || $v == '0');
-      });
+    // DAMNIT TOHELL, GOTTA DO THIS PROCESS AGAIN SINCE THE ABOVE ISNT USED FOR THE "minimum data"
+    $user_completed_keys = array_filter(array_intersect_key( $all_completed, array_flip($q_fields) ),function($v){
+        return $v !== false && !is_null($v) && ($v != '' || $v == '0');
+    });
 
-      $temp = getLongScores($domain_fields, $user_completed_keys);
-      $long_scores  = $temp["scores"];
-      $sub_scores   = $temp["pos_neg_subscores"];
-    }else{
-      $long_scores = array();
-    }
+    // TRY TO CALCULATE SUBDOMAIN SCORES REGARDLESS
+    $temp = getLongScores($domain_fields, $user_completed_keys);
+    $long_scores  = $temp["scores"];
+    $sub_scores   = $temp["pos_neg_subscores"];
+
+    // MAYBE I DONT EVEN NEED MINIMUM DATA CHECK OVERALL ANYMORE?
+    // if(!$minimumData){
+    //   $long_scores = array();
+    // }
 
     // save individual scores
     foreach($long_scores as $redcap_var => $value){
@@ -251,18 +253,18 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       $result =  RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
     }
 
-    $data = array(
-      "record"            => $loggedInUser->id,
-      "field_name"        => "well_score_long",
-      "value"             => $long_score,
-      "redcap_event_name" => $user_event_arm
-    );
-    $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
-  
-          // "well_score_emotion_pos"
-          // "well_score_emotion_neg"
-          // "well_score_stress_pos" 
-          // "well_score_stress_neg"
+    // write the pos negative thingy to REDCAP
+    // emo_positive_dom   
+    // emo_negative_dom   
+    // stress_positive_dom
+    // stress_negative_dom
+    // $data = array(
+    //   "record"            => $loggedInUser->id,
+    //   "field_name"        => "well_score_long",
+    //   "value"             => $long_score,
+    //   "redcap_event_name" => $user_event_arm
+    // );
+    // $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
   }else{
     $remapped_long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
     $long_score = round(array_sum($remapped_long_scores),4);
@@ -584,312 +586,387 @@ function getLongScores($domain_fields, $user_completed_fields){
   // 10 domains
   // Each domain counts for 10 points
   // Total score is 100
-
   $score  = array();
+  $emo_positive_dom     = null;
+  $emo_negative_dom     = null;
+  $stress_positive_dom  = null;
+  $stress_negative_dom  = null;
   foreach($domain_fields as $domain => $fields){
+    $flipped_answered = array_flip($fields);
+    $num_fields       = count($fields);
+    $num_answered     = count(array_intersect_key($flipped_answered,$user_completed_fields));
+    $non_answered     = $num_fields - $num_answered;
+    $dq_num           = ceil($num_fields*.3);
+
     switch($domain){
       case "well_score_creativity" :
       case "well_score_religion" :
       case "well_score_financial" :
-        $denom = $domain == "well_score_financial" ? 5 : 4;
-        $field = array_pop($fields);
-        $score[$domain] = round(10*($user_completed_fields[$field] - 1)/$denom,4);
+        $field        = array_pop($fields);
+        if(isset($user_completed_fields[$field])){
+          $denom = $domain == "well_score_financial" ? 5 : 4;
+          $score[$domain] = round(10*($user_completed_fields[$field] - 1)/$denom,4);
+        }
       break;
             
       case "well_score_health" :
-        $domain_items = array();
-        foreach($fields as $field){
-          $denom          = $field == "core_fitness_level" ? 5 : 4;
-          if(!isset($user_completed_fields[$field])){
-            continue;
-          }
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          foreach($fields as $field){
+            $denom          = $field == "core_fitness_level" ? 5 : 4;
+            if(!isset($user_completed_fields[$field])){
+              continue;
+            }
 
-          if($field == "core_interfere_life"){
-            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
-          }else{
-            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            if($field == "core_interfere_life"){
+              $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            }else{
+              $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }
           }
+          $temp_score     = 2*array_sum($domain_items);
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
-        $temp_score     = 2*array_sum($domain_items);
-        $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "well_score_purpose" :
       case "well_score_senseself" :
-        $domain_items = array();
-        foreach($fields as $field){
-          if(!isset($user_completed_fields[$field])){
-            continue;
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          foreach($fields as $field){
+            if(!isset($user_completed_fields[$field])){
+              continue;
+            }
+            $denom = 4;
+            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
-          $denom = 4;
-          $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+          $weight = $domain == "well_score_senseself" ? 2 : 5;
+          $temp_score     = $weight*array_sum($domain_items);
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
-        $weight = $domain == "well_score_senseself" ? 2 : 5;
-        $temp_score     = $weight*array_sum($domain_items);
-        $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "well_score_emotion" :
-        $domain_items = array();
-        $pos_items    = array();
-        $neg_items    = array();
-        foreach($fields as $field){
-          if(!isset($user_completed_fields[$field])){
-            continue;
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          $pos_items    = array();
+          $neg_items    = array();
+          foreach($fields as $field){
+            if(!isset($user_completed_fields[$field])){
+              continue;
+            }
+
+            $denom = 4;
+            if($field == "core_drained" || $field == "core_frustrated" || $field == "core_hopeless" || $field == "core_sad" || $field == "core_worried"){
+              $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            }else{
+              $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }
           }
 
-          $denom = 4;
-          if($field == "core_drained" || $field == "core_frustrated" || $field == "core_hopeless" || $field == "core_sad" || $field == "core_worried"){
-            $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
-          }else{
-            $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
-          }
+          $emo_positive_dom   = (5/6)*(array_sum($pos_items));
+          $emo_negative_dom   = (5/5)*(array_sum($neg_items));
+
+          $temp_score     = $emo_positive_dom + $emo_negative_dom; //(10/11)*(array_sum($domain_items));
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
-
-        $emo_positive_dom   = (5/6)*(array_sum($pos_items));
-        $emo_negative_dom   = (5/5)*(array_sum($neg_items));
-
-        $temp_score     = $emo_positive_dom + $emo_negative_dom; //(10/11)*(array_sum($domain_items));
-        $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "well_score_stress" :
-        $domain_items = array();
-        $pos_items    = array();
-        $neg_items    = array();
-        foreach($fields as $field){
-          if(!isset($user_completed_fields[$field])){
-            continue;
-          }
-
-          $denom = 4;
-          if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy" || $field == "core_confident_psnlproblem" || $field == "core_going_way"){
-            if($field == "core_confident_psnlproblem" || $field == "core_going_way"){
-              $neg_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
-            }else{
-              $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          $pos_items    = array();
+          $neg_items    = array();
+          foreach($fields as $field){
+            if(!isset($user_completed_fields[$field])){
+              continue;
             }
-          }else{
-            $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+
+            $denom = 4;
+            if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy" || $field == "core_confident_psnlproblem" || $field == "core_going_way"){
+              if($field == "core_confident_psnlproblem" || $field == "core_going_way"){
+                $neg_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+              }else{
+                $neg_items[] = $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+              }
+            }else{
+              $pos_items[] = $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }
           }
+
+          $stress_positive_dom   = (5/9)*(array_sum($pos_items));
+          $stress_negative_dom   = (5/5)*(array_sum($neg_items));
+
+          $temp_score     = $stress_positive_dom + $stress_negative_dom;//(10/14)*(array_sum($domain_items));
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
-
-        $stress_positive_dom   = (5/9)*(array_sum($pos_items));
-        $stress_negative_dom   = (5/5)*(array_sum($neg_items));
-
-        $temp_score     = $stress_positive_dom + $stress_negative_dom;//(10/14)*(array_sum($domain_items));
-        $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "well_score_social" :
-        $domain_items = array();
-        foreach($fields as $field){
-          if(!isset($user_completed_fields[$field])){
-            continue;
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          foreach($fields as $field){
+            if(!isset($user_completed_fields[$field])){
+              continue;
+            }
+            $denom = 4;
+            if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
+              $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            }else{
+              $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }
           }
-          $denom = 4;
-          if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
-            $domain_items[] = (5-$user_completed_fields[$field])/$denom;
-          }else{
-            $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
-          }
+          $temp_score     = (10/13)*(array_sum($domain_items));
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
-        $temp_score     = (10/13)*(array_sum($domain_items));
-        $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
       break;
       
       case "lifestyle" :
-        $domain_items = array();
+        $calc_lifestyle = true;
+        $domain_items   = array();
 
         //physical activity
-        $domain_items["well_score_ls_pa"] = round(2*($user_completed_fields["core_lpaq"]-1)/5,4);
-
-        //sleep
-        $sleep_score = array();
-        if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
-          $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
-          $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 0;
+        if(isset($user_completed_fields["core_lpaq"])){
+          $domain_items["well_score_ls_pa"] = round(2*($user_completed_fields["core_lpaq"]-1)/5,4);
+        }else{
+          $calc_lifestyle = false;
         }
-        if(isset($user_completed_fields["core_fallasleep_min"])){
-          $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
-        }
-        if(isset($user_completed_fields["core_fallasleep"])){
-          $sleep_score[]      = (5-$user_completed_fields["core_fallasleep"])/4;
-        }
-        if(isset($user_completed_fields["core_wokeup"])){
-          $sleep_score[]      = (5-$user_completed_fields["core_wokeup"])/4;
-        }
-        if(isset($user_completed_fields["core_wokeup_early"])){
-          $sleep_score[]      = (5-$user_completed_fields["core_wokeup_early"])/4;
-        }
-        if(isset($user_completed_fields["core_wokeup_unrefresh"])){
-          $sleep_score[]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
-        }
-        if(isset($user_completed_fields["core_sleep_quality"])){
-          $sleep_score[]      = ($user_completed_fields["core_sleep_quality"]-1)/3;
-        }
-
-        $temp_score         = (2/7)*array_sum($sleep_score); 
-        $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),4);
-
-        //diet
-        $diet_score = array();
-        if(isset($user_completed_fields["core_vegatables_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,0,1),
-            2 => array(2,4,6),
-            3 => array(8,9,10,10)
-          );
-          $primary_var    = "core_vegatables_intro_v2";
-          $secondary_var  = "core_vegetables_intro_v2" . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_fruit_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,0,1),
-            2 => array(2,4,6),
-            3 => array(8,10,10,10)
-          );
-          $primary_var    = "core_fruit_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_grain_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,0,1),
-            2 => array(2,4,6),
-            3 => array(8,10,10,8)
-          );
-          $primary_var    = "core_grain_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_bean_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,1,2),
-            2 => array(4,6,8),
-            3 => array(9,10,10,10)
-          );
-          $primary_var    = "core_bean_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_sweet_intro_v2"])){
-          $temp_ar = array(
-            1 => array(10,9,8),
-            2 => array(6,4,1),
-            3 => array(0,0,0,0)
-          );
-          $primary_var    = "core_sweet_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_meat_intro_v2"])){
-          $temp_ar = array(
-            1 => array(10,10,8),
-            2 => array(6,4,2),
-            3 => array(1,0,0,0)
-          );
-          $primary_var    = "core_meat_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_nuts_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,1,2),
-            2 => array(4,6,8),
-            3 => array(10,10,8,6)
-          );
-          $primary_var    = "core_nuts_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_sodium_intro_v2"])){
-          $temp_ar = array(
-            1 => array(10,9,9),
-            2 => array(6,4,2),
-            3 => array(1,0,0,0)
-          );
-          $primary_var    = "core_sodium_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_sugar_intro_v2"])){
-          $temp_ar = array(
-            1 => array(10,9,8),
-            2 => array(6,4,1),
-            3 => array(0,0,0,0)
-          );
-          $primary_var    = "core_sugar_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_fish_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,4,7),
-            2 => array(10,10,10),
-            3 => array(10,10,10,10)
-          );
-          $primary_var    = "core_fish_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_cook_intro_v2"])){
-          $temp_ar = array(
-            1 => array(0,1,1),
-            2 => array(2,4,6),
-            3 => array(8,10,10,10)
-          );
-          $primary_var    = "core_cook_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-
-        if(isset($user_completed_fields["core_fastfood_intro_v2"])){
-          $temp_ar = array(
-            1 => array(10,8,5),
-            2 => array(2,0,0),
-            3 => array(0,0,0,0)
-          );
-          $primary_var    = "core_fastfood_intro_v2";
-          $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
-          $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
-        }
-        $temp_score     = array_sum($diet_score)/count($diet_score);
-        $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
 
         //alchohol
-        $domain_items["well_score_ls_alchohol"] = ((isset($user_completed_fields["core_bngdrink_male_freq"]) && $user_completed_fields["core_bngdrink_male_freq"] == 1) || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"]) ) ? 0 : 2;
+        if(isset($user_completed_fields["core_bngdrink_male_freq"]) || isset($user_completed_fields["core_bngdrink_female_freq"])){
+          $domain_items["well_score_ls_alchohol"] = ((isset($user_completed_fields["core_bngdrink_male_freq"]) && $user_completed_fields["core_bngdrink_male_freq"] == 1) || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"]) ) ? 0 : 2;
+        }else{
+          $calc_lifestyle = false;
+        }
         
         //smoking
-        $domain_items["well_score_ls_smoke"] = ( $user_completed_fields["core_smoke_100"] == 0 || ($user_completed_fields["core_smoke_100"] == 1 && $user_completed_fields["core_smoke_freq"] == 1) ) ? 2 : 0;
-        $score[$domain] = round(array_sum($domain_items),4);
+        if(isset($user_completed_fields["core_smoke_100"])){
+          $domain_items["well_score_ls_smoke"] = ( $user_completed_fields["core_smoke_100"] == 0 || ($user_completed_fields["core_smoke_100"] == 1 && $user_completed_fields["core_smoke_freq"] == 1) ) ? 2 : 0;
+        }else{
+          $calc_lifestyle = false;
+        }
+
+        //sleep
+        $sleep_req  = array( "core_sleep_hh"                   => 1
+                            ,"core_sleep_mm"                   => 1
+                            ,"core_fallasleep_min"             => 1
+                            ,"core_fallasleep"                 => 1
+                            ,"core_wokeup"                     => 1
+                            ,"core_wokeup_early"               => 1
+                            ,"core_wokeup_unrefresh"           => 1
+                            ,"core_sleep_quality"              => 1
+                          );
+        $num_fields       = count($sleep_req);
+        $num_answered     = count(array_intersect_key($sleep_req,$user_completed_fields));
+        $non_answered     = $num_fields - $num_answered;
+        if(!isset($user_completed_fields["core_sleep_hh"]) || !isset($user_completed_fields["core_sleep_mm"])){
+          // these 2 are seperate fields but count only as 1
+          $num_fields--;
+        }
+        $dq_num           = ceil($num_fields*.3);
+        if($non_answered < $dq_num){
+          $sleep_score = array();
+          if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
+            $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
+            $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 0;
+          }
+          if(isset($user_completed_fields["core_fallasleep_min"])){
+            $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
+          }
+          if(isset($user_completed_fields["core_fallasleep"])){
+            $sleep_score[]      = (5-$user_completed_fields["core_fallasleep"])/4;
+          }
+          if(isset($user_completed_fields["core_wokeup"])){
+            $sleep_score[]      = (5-$user_completed_fields["core_wokeup"])/4;
+          }
+          if(isset($user_completed_fields["core_wokeup_early"])){
+            $sleep_score[]      = (5-$user_completed_fields["core_wokeup_early"])/4;
+          }
+          if(isset($user_completed_fields["core_wokeup_unrefresh"])){
+            $sleep_score[]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
+          }
+          if(isset($user_completed_fields["core_sleep_quality"])){
+            $sleep_score[]      = ($user_completed_fields["core_sleep_quality"]-1)/3;
+          }
+
+          $temp_score         = (2/7)*array_sum($sleep_score); 
+          $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),4);
+        }else{
+          $calc_lifestyle = false;
+        }
+          
+        //diet
+        $diet_req = array( "core_vegatables_intro_v2" => 1
+                          ,"core_fruit_intro_v2"      => 1
+                          ,"core_grain_intro_v2"      => 1
+                          ,"core_bean_intro_v2"       => 1
+                          ,"core_sweet_intro_v2"      => 1
+                          ,"core_meat_intro_v2"       => 1
+                          ,"core_nuts_intro_v2"       => 1
+                          ,"core_sodium_intro_v2"     => 1
+                          ,"core_sugar_intro_v2"      => 1
+                          ,"core_fish_intro_v2"       => 1
+                          ,"core_cook_intro_v2"       => 1
+                          ,"core_fastfood_intro_v2"   => 1
+                          );
+        $num_fields       = count($diet_req);
+        $num_answered     = count(array_intersect_key($diet_req,$user_completed_fields));
+        $non_answered     = $num_fields - $num_answered;
+        $dq_num           = ceil($num_fields*.3);
+        if($non_answered < $dq_num){
+          $diet_score = array();
+          if(isset($user_completed_fields["core_vegatables_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,0,1),
+              2 => array(2,4,6),
+              3 => array(8,9,10,10)
+            );
+            $primary_var    = "core_vegatables_intro_v2";
+            $secondary_var  = "core_vegetables_intro_v2" . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_fruit_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,0,1),
+              2 => array(2,4,6),
+              3 => array(8,10,10,10)
+            );
+            $primary_var    = "core_fruit_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_grain_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,0,1),
+              2 => array(2,4,6),
+              3 => array(8,10,10,8)
+            );
+            $primary_var    = "core_grain_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_bean_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,1,2),
+              2 => array(4,6,8),
+              3 => array(9,10,10,10)
+            );
+            $primary_var    = "core_bean_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_sweet_intro_v2"])){
+            $temp_ar = array(
+              1 => array(10,9,8),
+              2 => array(6,4,1),
+              3 => array(0,0,0,0)
+            );
+            $primary_var    = "core_sweet_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_meat_intro_v2"])){
+            $temp_ar = array(
+              1 => array(10,10,8),
+              2 => array(6,4,2),
+              3 => array(1,0,0,0)
+            );
+            $primary_var    = "core_meat_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_nuts_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,1,2),
+              2 => array(4,6,8),
+              3 => array(10,10,8,6)
+            );
+            $primary_var    = "core_nuts_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_sodium_intro_v2"])){
+            $temp_ar = array(
+              1 => array(10,9,9),
+              2 => array(6,4,2),
+              3 => array(1,0,0,0)
+            );
+            $primary_var    = "core_sodium_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_sugar_intro_v2"])){
+            $temp_ar = array(
+              1 => array(10,9,8),
+              2 => array(6,4,1),
+              3 => array(0,0,0,0)
+            );
+            $primary_var    = "core_sugar_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_fish_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,4,7),
+              2 => array(10,10,10),
+              3 => array(10,10,10,10)
+            );
+            $primary_var    = "core_fish_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_cook_intro_v2"])){
+            $temp_ar = array(
+              1 => array(0,1,1),
+              2 => array(2,4,6),
+              3 => array(8,10,10,10)
+            );
+            $primary_var    = "core_cook_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+
+          if(isset($user_completed_fields["core_fastfood_intro_v2"])){
+            $temp_ar = array(
+              1 => array(10,8,5),
+              2 => array(2,0,0),
+              3 => array(0,0,0,0)
+            );
+            $primary_var    = "core_fastfood_intro_v2";
+            $secondary_var  = $primary_var . "_" . $user_completed_fields[$primary_var];
+            $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
+          }
+          $temp_score     = array_sum($diet_score)/count($diet_score);
+          $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
+        }else{
+          $calc_lifestyle = false;
+        }
+          
+        if($calc_lifestyle){
+          $score[$domain] = round(array_sum($domain_items),4);
+        }
         $score["ls_sub_domains"] = $domain_items;
       break;
     }
   }
-  return array("scores" => $score , "pos_neg_subscores" => array(
-     "well_score_emotion_pos" => $emo_positive_dom 
-    ,"well_score_emotion_neg" => $emo_negative_dom 
-    ,"well_score_stress_pos" => $stress_positive_dom
-    ,"well_score_stress_neg" => $stress_negative_dom
-  ));
+  return array( "scores" => $score 
+               ,"pos_neg_subscores" => array( "well_score_emotion_pos"  =>  $emo_positive_dom 
+                                             ,"well_score_emotion_neg"  =>  $emo_negative_dom 
+                                             ,"well_score_stress_pos"   =>  $stress_positive_dom
+                                             ,"well_score_stress_neg"   =>  $stress_negative_dom
+                                      )
+              );
 }
-
-
-
-
-
 
 
 
