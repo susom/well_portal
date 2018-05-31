@@ -252,19 +252,6 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       );
       $result =  RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
     }
-
-    // write the pos negative thingy to REDCAP
-    // emo_positive_dom   
-    // emo_negative_dom   
-    // stress_positive_dom
-    // stress_negative_dom
-    // $data = array(
-    //   "record"            => $loggedInUser->id,
-    //   "field_name"        => "well_score_long",
-    //   "value"             => $long_score,
-    //   "redcap_event_name" => $user_event_arm
-    // );
-    // $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
   }else{
     $remapped_long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
     $long_score = round(array_sum($remapped_long_scores),4);
@@ -894,7 +881,7 @@ function getLongScores($domain_fields, $user_completed_fields){
 
           if(isset($user_completed_fields["core_sodium_intro_v2"])){
             $temp_ar = array(
-              1 => array(10,9,9),
+              1 => array(10,9,8),
               2 => array(6,4,2),
               3 => array(1,0,0,0)
             );
