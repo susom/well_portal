@@ -30,12 +30,13 @@ if($_POST["domains"]){
 	$doms          = json_decode($_POST["domains"],1);
 	$API_URL       = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 	$API_TOKEN     = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+
 	foreach($doms as $key => $val){
 		$in = array_search($val, $radar_domains);
-
     $user_event_arm = empty($loggedInUser->user_event_arm) ? REDCAP_PORTAL_EVENT : $loggedInUser->user_event_arm;
+
 		$data[] = array(
-      "redcap_event_name" => $loggedInUser->user_event_arm,
+      "redcap_event_name" => $user_event_arm,
       "record"            => $loggedInUser->id,
       "field_name"        => $redcap_variables[$in],
       "value"             => $key + 1

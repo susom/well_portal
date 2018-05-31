@@ -164,6 +164,7 @@ include_once("models/inc/gl_foot.php");
 	      type 		: 'POST',
 	      data 		: "&domains=" + JSON.stringify(ret),
           success 	: function(result){
+          	console.log(result);
             addModal("Domain Priorities Saved!");
           },
           function(err){
@@ -178,6 +179,8 @@ button.btn-success.alert{
 	top:78%;
 	padding-top:5px;
 	padding-bottom:5px;
+	width: 20%;
+    margin-left: -10%;
 }
 #center{
 	text-align:center;
