@@ -245,7 +245,7 @@ include_once("models/inc/gl_head.php");
                                   if(!empty($result[0]["domainorder_ec"])){
                                     $dom = ($result[0]);
                                     asort($dom);
-                                    echo "<h3>".lang("YOUR_DOMAIN_RANKING")."</h3>";
+                                    echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
                                     echo "<ol>";
                                     foreach($dom as $k => $val){
                                         $k--;
