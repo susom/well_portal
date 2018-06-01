@@ -3,6 +3,10 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/inc/scoring_functions.php");
 
+$success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+$success_msg      = implode($success_arr);
+addSessionMessage( $success_msg , "success");
+      
 // GLOBAL NAV SET STATE
 $navon  = array("home" => "on", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 

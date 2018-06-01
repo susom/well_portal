@@ -202,8 +202,9 @@ p.organize{
 
 }
 p.organize a {
-    display:block;
-    padding-left:85px;
+    display: inline-block;
+    padding-left: 70px;
+    width:initial;
 }
 .organize{
     display: inline-block;
