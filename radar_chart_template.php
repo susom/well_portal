@@ -25,10 +25,6 @@
 <script src="assets/js/appRadar.js"></script>
 <script src="assets/js/radar.js"></script>
 <script src="assets/js/radarDraw.js"></script>
-<script>
-  // Hack to make this example display correctly in an iframe on bl.ocks.org
-  d3.select(self.frameElement).style("height", "1000px");
-</script>
 </html>
 
 

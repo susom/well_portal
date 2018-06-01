@@ -205,10 +205,55 @@ include_once("models/inc/gl_head.php");
                                   $sum_long_score = round(array_sum($long_scores));
                                   $loggedInUser->score = $sum_long_score;
                                   ?>
-                                  <object type = "text/html" data = "radar_chart_template.php" width = 100%></object>
-
-
+                                  <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
                                   <?php
+                                  // Display their domain Ranking
+                                  $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+                                  $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+                                  $data = array(
+                                        'content'     => 'record',
+                                        "events"    => $user_event_arm,
+                                            'records'     => array($loggedInUser->id),
+                                            'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
+                                                         "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
+                                  );
+                                  $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+                                  $radar_domains = array(
+                                    "0" => lang("RESOURCE_CREATIVITY"),
+                                    "1" => lang("RESOURCE_LIFESTYLE"),
+                                    "2" => lang("RESOURCE_SOCIAL"),
+                                    "3" => lang("RESOURCE_STRESS"),
+                                    "4" => lang("RESOURCE_EMOTIONS"),
+                                    "5" => lang("RESOURCE_SELF"),
+                                    "6" => lang("RESOURCE_PHYSICAL"),
+                                    "7" => lang("RESOURCE_PURPOSE"),
+                                    "8" => lang("RESOURCE_FINANCIAL"),
+                                    "9" => lang("RESOURCE_RELIGION")
+                                  );
+                                  $redcap_variables = array(
+                                    "0" => "domainorder_ec",
+                                    "1" => "domainorder_lb",
+                                    "2" => "domainorder_sc",
+                                    "3" => "domainorder_sr",
+                                    "4" => "domainorder_ee",
+                                    "5" => "domainorder_ss",
+                                    "6" => "domainorder_ph",
+                                    "7" => "domainorder_pm",
+                                    "8" => "domainorder_fs",
+                                    "9" => "domainorder_rs"
+                                  );
+                                  if(!empty($result[0]["domainorder_ec"])){
+                                    $dom = ($result[0]);
+                                    asort($dom);
+                                    echo "<h3>".lang("YOUR_DOMAIN_RANKING")."</h3>";
+                                    echo "<ol>";
+                                    foreach($dom as $k => $val){
+                                        $k--;
+                                        $key = array_search($k,$redcap_variables);
+                                       echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
+                                    }
+                                    echo "</ol>";
+                                  }
                                 }else{
                                   echo lang("WELL_SCORE_NA");
                                 }
@@ -245,7 +290,6 @@ include_once("models/inc/gl_head.php");
                 }
                 ?>
 
-                <iframe  width="740" height="800" name="theFrame" style="border:none"></iframe>
                 </div>
             </article>
         </div> <!-- #main -->
@@ -303,6 +347,10 @@ details {
 
 summary{
   font-size:130%;
+}
+
+object{
+  height:800px !important;
 }
 </style>
 <script src="assets/js/custom_assessments.js"></script>
