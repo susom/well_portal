@@ -133,7 +133,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       
       $dq_threshold   = count($fields) * .3; 
       $missing_keys   = array_diff($fields, array_keys($user_completed_keys)) ;
-      if(count($missing_keys) > $dq_threshold{
+      if(count($missing_keys) > $dq_threshold){
         $minimumData  = false;
       }
     }
