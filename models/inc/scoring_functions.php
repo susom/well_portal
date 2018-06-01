@@ -23,7 +23,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
       ,"well_score_emotion"    => "Experience of Emotions"
       ,"well_score_stress"     => "Stress and Resilience"
       ,"well_score_social"     => "Social Connectedness"
-      ,"lifestyle"             => "Lifestyle Behaviors"
+      ,"well_score_ls"         => "Lifestyle Behaviors"
     );
 
     $domain_fields  = array(
