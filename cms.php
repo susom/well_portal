@@ -621,6 +621,7 @@ include("models/inc/gl_header.php");
                         foreach(SurveysConfig::$supp_surveys as $suppname => $supplabel){
                           $fields[]     = "<option value='".$suppname."' >".$supplabel."</option>";
                         }
+                        $fields[]     = "<option value='wellbeing_quetions' >Stanford WELL for Life</option>";
                         $fields[] = "</select>";
                         $fields[] = "</label>";
                         $label    = "<b>OR</b> Event Link:";
