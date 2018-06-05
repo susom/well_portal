@@ -201,9 +201,10 @@ include_once("models/inc/gl_head.php");
                       $content_html[] = "<p>".$event["content"]."</p>";
                       if(!empty($event["link"])){
                         if(in_array($event["link"], $supp_surveys_keys )){
-                          $content_html[] = "<a href='survey.php?sid=".$event["link"]."'>".lang("GO_TO_SURVEY")."</a>";
+                          $content_html[] = "<a href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
                         }else{
-                          $content_html[] = "<a href='".$event["link"]."'>".lang("READ_MORE")."</a>";
+                          $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
+                          $content_html[] = "<a href='".$read_more_link."'>".lang("READ_MORE")."</a>";
                         }
                       }
                       $content_html[] = "</figcaption>";
