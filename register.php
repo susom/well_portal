@@ -146,10 +146,21 @@ if(!empty($_POST['submit_new_user'])){
 	foreach ($errors as $error) {
 		addSessionAlert($error);
 	}
-
-}elseif(!empty($_GET['activation']) && !empty($_GET['uid'])){
-	$uid 		= $_GET['uid'];
+}elseif(!empty($_GET['activation'])){
 	$activation = $_GET['activation'];
+
+	$extra_params = array(
+	  'content'   		=> 'record',
+	  'fields' 			=> array("id"),
+	  'filterLogic'		=> "[portal_email_act_token] = '$activation'"
+	);
+	$find_uid 	= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+	$uid 		= null;
+	
+	if(!empty($find_uid)){
+		$result = current($find_uid);
+		$uid 	= $result["id"];
+	}
 
 	$newuser 	= new RedcapPortalUser($uid);
 	if($newuser->isEmailTokenValid($activation)){

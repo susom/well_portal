@@ -6,7 +6,7 @@ There is one more action required to activate your account.
 
 1. Click or copy and paste the link below to your browser:
 
-https://wellforlife-portal.stanford.edu/register.php?uid=#UID#&activation=#ACTIVATION#
+https://wellforlife-portal.stanford.edu/register.php?activation=#ACTIVATION#
 
 2. You should go through the "consent form" pages. -> click the "I Agree" button on the last page.
 3. You should get to the "Password Setup" page -> please setup your password and recovery questions here.
