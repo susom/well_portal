@@ -208,11 +208,12 @@ include_once("models/inc/gl_head.php");
                                   <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
                                   <?php
                                   // Display their domain Ranking
+                                  $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
                                   $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
                                   $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
                                   $data = array(
                                         'content'     => 'record',
-                                        "events"    => $user_event_arm,
+                                        "events"    => $domain_ranking_arm,
                                             'records'     => array($loggedInUser->id),
                                             'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
                                                          "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
