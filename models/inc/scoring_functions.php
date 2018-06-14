@@ -660,7 +660,7 @@ function getLongScores($domain_fields, $user_completed_fields){
             $diet_score["core_sweet_drinks"]   = $temp_ar[$user_completed_fields["core_sweet_drinks"]];
           }
 
-          if(isset($user_completed_fields["core_fastfood_day"]) && isset($user_completed_fields["core_fastfood_freq"]){
+          if(isset($user_completed_fields["core_fastfood_day"]) && isset($user_completed_fields["core_fastfood_freq"])){
             $diet_score["core_fastfood"] = 0;
             if($diet_score["core_fastfood_day"] == 1){
               if($user_completed_fields["core_fastfood_freq"] < 2){
