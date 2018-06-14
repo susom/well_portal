@@ -672,7 +672,7 @@ function getLongScores($domain_fields, $user_completed_fields){
           }
 
           $temp_score     = array_sum($diet_score)/count($diet_score);
-          $domain_items["well_score_ls_diet"] = $temp_score/2;
+          $domain_items["well_score_ls_diet_old"] = $temp_score/2;
         }else{
           $calc_lifestyle = false;
         }
