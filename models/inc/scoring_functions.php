@@ -474,6 +474,17 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
           
         //diet
+        $old_diet_req = array("core_vegatables_intro" => 1
+                              ,"core_desserts_intro" => 1
+                              ,"core_fastfood_day" => 1
+                              ,"core_sweet_drinks" => 1
+                              ,"core_processed_intro" => 1);
+        $num_fields       = count($old_diet_req);
+        $num_answered     = count(array_intersect_key($old_diet_req,$user_completed_fields));
+        $old_non_answered = $num_fields - $num_answered;
+        $old_dq_num       = ceil($num_fields*.3);
+        $old_available    = $old_non_answered < $old_dq_num ? true :false;
+
         $diet_req = array( "core_vegatables_intro_v2" => 1
                           ,"core_fruit_intro_v2"      => 1
                           ,"core_grain_intro_v2"      => 1
@@ -491,6 +502,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         $num_answered     = count(array_intersect_key($diet_req,$user_completed_fields));
         $non_answered     = $num_fields - $num_answered;
         $dq_num           = ceil($num_fields*.3);
+        // well_score_ls_diet_old
         if($non_answered < $dq_num){
           $diet_score = array();
           if(isset($user_completed_fields["core_vegatables_intro_v2"])){
@@ -626,6 +638,41 @@ function getLongScores($domain_fields, $user_completed_fields){
           }
           $temp_score     = array_sum($diet_score)/count($diet_score);
           $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
+        }elseif($old_available){
+          $diet_score = array();
+          if(isset($user_completed_fields["core_vegatables_intro"])){
+            $temp_ar = array(0,8,9,9,10,10,10,10,10,10,10);
+            $diet_score["core_vegatables_intro"]   =$temp_ar[$user_completed_fields["core_vegatables_intro"]];
+          }
+
+          if(isset($user_completed_fields["core_desserts_intro"])){
+            $temp_ar = array(10,0,0,0,0,0,0,0,0,0,0);
+            $diet_score["core_desserts_intro"]   = $temp_ar[$user_completed_fields["core_desserts_intro"]];
+          }
+
+          if(isset($user_completed_fields["core_processed_intro"])){
+            $temp_ar = array(10,6,6,4,4,2,2,1,0,0,0);
+            $diet_score["core_processed_intro"]   = $temp_ar[$user_completed_fields["core_processed_intro"]];
+          }
+
+          if(isset($user_completed_fields["core_sweet_drinks"])){
+            $temp_ar = array(0,10,6,4,1,0,0,0,0);
+            $diet_score["core_sweet_drinks"]   = $temp_ar[$user_completed_fields["core_sweet_drinks"]];
+          }
+
+          if(isset($user_completed_fields["core_fastfood_day"]) && isset($user_completed_fields["core_fastfood_freq"]){
+            $diet_score["core_fastfood"] = 0;
+            if($diet_score["core_fastfood_day"] == 1){
+              if($user_completed_fields["core_fastfood_freq"] < 2){
+                $diet_score["core_fastfood"] = 2;
+              }
+            }elseif($diet_score["core_fastfood_day"] == 0){
+              $diet_score["core_fastfood"] = 10;
+            }
+          }
+
+          $temp_score     = array_sum($diet_score)/count($diet_score);
+          $domain_items["well_score_ls_diet"] = $temp_score/2;
         }else{
           $calc_lifestyle = false;
         }

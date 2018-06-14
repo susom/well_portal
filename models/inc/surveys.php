@@ -6,6 +6,7 @@ $datediff    		= time() - $consent_date;
 $days_active 		= floor($datediff / (60 * 60 * 24));
 $first_year 		= Date("Y", $consent_date);
 $this_year      	= Date("Y");
+$update_arm 		= !empty($loggedInUser->user_event_arm) ? false : true;
 $user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
 $user_short_scale 	= false;
 // print_rr($loggedInUser->user_event_arm);
@@ -15,7 +16,6 @@ if(isset($_SESSION["user_short_scale"])){
 	$user_short_scale = $_SESSION["user_short_scale"];
 }else{
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
-	$update_arm = false;
 	if( $days_active > 1093 ){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
 			$user_event_arm = REDCAP_PORTAL_EVENT_3;

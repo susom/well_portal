@@ -214,7 +214,7 @@
 		,"NAV_REPORTS"								=> "报告"
 		,"NAV_GAME" 								=> "游戏"
 		,"NAV_ACTIVITY" 							=> "Activty"
-		,"DOMAIN_RANKING" 							=> "Rank your domain"
+		,"DOMAIN_RANKING" 							=> "Rank your domains"
 		,"DOMAIN_RANKING_PROMPT" 					=> "Click here to rank your well-being domain"
 		,"YOUR_DOMAIN_RANKING" 						=> "Your well-being domain rankings"
 		,"READ_MORE"								=> "更多"
