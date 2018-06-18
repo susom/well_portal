@@ -11,7 +11,7 @@ $extra_params = array(
   'content'   => 'event',
 );
 $result = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
-$events = array();
+
 foreach($result as $event){
   if($event["unique_event_name"] == $user_event_arm){
     //ALREADY HAVE THIS YEAR SO DONT WASTE RESOURCE GETTING IT
@@ -32,7 +32,6 @@ foreach($result as $event){
 }
 $firstyear  = Date("Y", $consent_date);
 
-
 //SET UP ARRAY OF COMPLETED REPORTS TO USE FOR NAV STATE
 $supp_surveys_keys = array();
 foreach($events as $arm=> $event){
@@ -46,6 +45,8 @@ foreach($events as $arm=> $event){
 };
 
 //IF CORE SURVEY GET THE SURVEY ID
+if($_REQUEST["arm"] == 'ALL')
+  $sid_arm = 'ALL';
 $sid_arm = isset($_REQUEST["arm"]) ? $_REQUEST["arm"] : $current_arm; 
 $sid     = $current_surveyid = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : "wellbeing_questions";
 $supp_surveys_keys[$sid_arm][$sid] = "on";
@@ -132,9 +133,11 @@ include_once("models/inc/gl_head.php");
                             }else{
                                 echo "<i>None Available</i>";
                             }
+                            //EDIT HERE
                             ?>
                         </ol>
 
+                        <a href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear>Compare Results</a> 
                         <h4><?php echo lang("CERTIFICATES") ?></h4>
                         <ol>
                           <?php
@@ -171,14 +174,27 @@ include_once("models/inc/gl_head.php");
                         switch($sid){
                             case "wellbeing_questions":
                               $well_score   = strpos($sid_arm,"short") > -1 ? "well_score" : "well_long_score_json" ;
-                              $extra_params = array(
+                              
+                              if($sid_arm == "ALL"){ //only when clicking on the compare tab: 
+                                print_rr("inside");
+                                $extra_params = array(
                                 'content'     => 'record',
                                 'records'     => array($loggedInUser->id) ,
                                 'fields'      => array("id",$well_score),
-                                'events'      => $sid_arm
-                              );
-                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+                                'events'      => array('enrollment_arm_1','anniversary_2_arm_1')
+                                );
+                              }else{
+                                $extra_params = array(
+                                  'content'     => 'record',
+                                  'records'     => array($loggedInUser->id) ,
+                                  'fields'      => array("id",$well_score),
+                                  'events'      => $sid_arm
+                                );
+                              }
 
+                              print_rr($extra_params);
+                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+                              print_rr($user_ws);
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
