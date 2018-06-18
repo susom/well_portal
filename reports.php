@@ -182,6 +182,7 @@ include_once("models/inc/gl_head.php");
                                 'fields'      => array("id",$well_score),
                                 'events'      => array('enrollment_arm_1','anniversary_2_arm_1')
                                 );
+                                $loggedInUser->compare_all = true;
                               }else{
                                 $extra_params = array(
                                   'content'     => 'record',
@@ -189,8 +190,10 @@ include_once("models/inc/gl_head.php");
                                   'fields'      => array("id",$well_score),
                                   'events'      => $sid_arm
                                 );
+                                $loggedInUser->compare_all = false;
                               }
-                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+
+                                  $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
@@ -201,11 +204,13 @@ include_once("models/inc/gl_head.php");
                                 }
                               }else{
                                 $count_year = 1;
+                                $csv_data = "group, axis, value, description\n";
                                 foreach($user_ws as $e_arms){
                                   $long_scores = json_decode($e_arms["well_long_score_json"],1);
+                                  
                                   if(!empty($long_scores)){
                                     $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
-                                    $csv_data = "group, axis, value, description\n";
+                                    
                                     $ct = 0;
                                     foreach ($long_scores as $key => $value){
                                       $display = $value;
@@ -213,12 +218,15 @@ include_once("models/inc/gl_head.php");
                                       $ct++;
                                       $csv_data .= "Year ".$count_year.", ". $key .", ". $display .", ". $domain_desc[$ct]."\n";
                                     }
-                                     file_put_contents($users_file_csv, $csv_data);
                                     $sum_long_score = round(array_sum($long_scores));
                                     $loggedInUser->score = $sum_long_score;
                                     $count_year++;
+
                                   }//ifempty
+                                  file_put_contents($users_file_csv, $csv_data);
+                                   
                                 }
+
                                   ?>
                                     <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
                                   <?php
