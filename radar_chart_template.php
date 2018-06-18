@@ -15,7 +15,7 @@
         <radar csv="radar.csv" config="radar.config"></radar>
         <i>*To review your score for each individual domain, hover over the data point with your mouse.</i>
         <?php
-          if(!$loggedInUser->compare_all){
+          if(isset($loggedInUser->compare_all) && !$loggedInUser->compare_all){
         ?>
             <h3>Overall WELL-Being Score: <b><?php echo $loggedInUser->score ?>/100</b></h3>
         <?php
