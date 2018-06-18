@@ -45,7 +45,7 @@ foreach($events as $arm=> $event){
 };
 
 //IF CORE SURVEY GET THE SURVEY ID
-if($_REQUEST["arm"] == 'ALL'){
+if(isset($_REQUEST["arm"]) && $_REQUEST["arm"] == 'ALL'){
   $compare_all = true;
   $sid_arm = $current_arm;
 }else{
