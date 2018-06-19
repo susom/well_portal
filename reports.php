@@ -141,7 +141,6 @@ include_once("models/inc/gl_head.php");
                             ?>
                         </ol>
 
-                        <a href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear>Compare Results</a> 
                         <h4><?php echo lang("CERTIFICATES") ?></h4>
                         <ol>
                           <?php
@@ -165,6 +164,10 @@ include_once("models/inc/gl_head.php");
                             echo implode("\n",$cert_year);
                           ?>
                         </ol>
+                        <h4>Compare Results</h4>
+                        <a href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear>WELL Comparison</a> 
+
+
                     </li>
                 </ul>
             </aside>
@@ -207,9 +210,9 @@ include_once("models/inc/gl_head.php");
                                   echo lang("BRIEF_SORRY_NA");
                                 }
                               }else{
-                                $count_year = 1;
                                 $csv_data = "group, axis, value, description\n";
                                 foreach($user_ws as $e_arms){
+                                  $count_year = $armyears[$e_arms["redcap_event_name"]];
                                   $long_scores = json_decode($e_arms["well_long_score_json"],1);
                                   
                                   if(!empty($long_scores)){
