@@ -47,7 +47,7 @@ if($_POST["domains"]){
  
   $result = server_pull($user_event_arm,array($loggedInUser->id),array("first_update","times_updated"));
   
-  if(!isset($result[0]['first_update'])){
+  if(empty($result[0]['first_update'])){
     array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'first_update',date("Y-m-d h:i:sa")));
   }
 
