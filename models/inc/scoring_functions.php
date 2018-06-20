@@ -8,9 +8,8 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     'events'      => $user_event_arm
   );
   $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-  
-  $long_score   = 0;
-  if(true|| !isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
+  $long_score   = null;
+  if(true || !isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
     //10 DOMAINS TO CALCULATE THE WELL LONG SCORE
    
     $domain_mapping = array(
@@ -87,7 +86,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                                             ,"core_energized_help"
                                             ,"core_help")
 
-      ,"lifestyle"                => array("core_lpaq"
+      ,"well_score_ls"                => array("core_lpaq"
                                             ,"core_sleep_hh", "core_sleep_mm"
                                             ,"core_fallasleep_min"
                                             ,"core_fallasleep"
@@ -95,6 +94,13 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                                             ,"core_wokeup_early"
                                             ,"core_wokeup_unrefresh"
                                             ,"core_sleep_quality"
+                                            
+                                            ,"core_vegatables_intro"
+                                            ,"core_desserts_intro" 
+                                            ,"core_fastfood_day" 
+                                            ,"core_sweet_drinks" 
+                                            ,"core_processed_intro"
+
                                             ,"core_vegatables_intro_v2"
                                             ,"core_fruit_intro_v2"
                                             ,"core_grain_intro_v2"
@@ -107,6 +113,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                                             ,"core_fish_intro_v2"
                                             ,"core_cook_intro_v2"
                                             ,"core_fastfood_intro_v2"
+                                            
                                             ,"core_bngdrink_female_freq"
                                             ,"core_bngdrink_male_freq"
                                             ,"core_smoke_100"
@@ -126,16 +133,46 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
 
     //MAKE SURE THAT AT LEAST 70% OF THE FIELDS IN EACH DOMAIN IS COMPLETE OR ELSE CANCEL THE SCORING
     $minimumData = true;
-    foreach($domain_fields as $domain => $fields){
+    if(!isset($user_completed_keys["core_lpaq"])){
+      $minimumData  = false;
+    }
+    if(!isset($user_completed_keys["core_bngdrink_female_freq"]) && !isset($user_completed_keys["core_bngdrink_male_freq"])){
+      $minimumData  = false;
+    }
+    if(!isset($user_completed_keys["core_smoke_100"])){
+      $minimumData  = false;
+    }
+    if(isset($user_completed_keys["core_smoke_100"]) && $user_completed_keys["core_smoke_100"] != 0 && !isset($user_completed_keys["core_smoke_freq"]) ){
+      $minimumData  = false;
+    }
 
+    $check_fields_dq = array();
+    foreach($domain_fields as $domain => $fields){
       //DO THE DQ_THRESHOLD PER DOMAIN
       //CALCULATE AND SAVE FOR EACH DOMAIN THAT DOES PASS 
-      
-      $dq_threshold   = count($fields) * .3; 
-      $missing_keys   = array_diff($fields, array_keys($user_completed_keys)) ;
-      if(count($missing_keys) > $dq_threshold){
-        $minimumData  = false;
+      if($domain == "well_score_ls"){
+        if(isset($user_completed_keys["core_sleep_hh"])){
+          $remove_index = array_search("core_sleep_mm",$fields);
+          array_splice($fields,$remove_index,1);
+        }
+        if(isset($user_completed_keys["core_sleep_mm"])){
+          $remove_index = array_search("core_sleep_hh",$fields);
+          array_splice($fields,$remove_index,1);
+        }
+        if(isset($user_completed_keys["core_bngdrink_female_freq"])){
+          $remove_index = array_search("core_bngdrink_male_freq",$fields);
+          array_splice($fields,$remove_index,1);
+        }
+        if(isset($user_completed_keys["core_bngdrink_male_freq"])){
+          $remove_index = array_search("core_bngdrink_female_freq",$fields);
+          array_splice($fields,$remove_index,1);
+        }
+        if(isset($user_completed_keys["core_smoke_100"]) && $user_completed_keys["core_smoke_100"] < 1){
+          $remove_index = array_search("core_smoke_freq",$fields);
+          array_splice($fields,$remove_index,1);
+        }       
       }
+      $check_fields_dq = array_merge($check_fields_dq, $fields);
     }
 
     $q_fields = array_merge($q_fields, array("core_vegetables_intro_v2_1"
@@ -176,82 +213,101 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                                             ,"core_fastfood_intro_v2_3"
                                           ) );
 
+    $check_user_completed_dq  = $user_completed_keys;
+    
     // DAMNIT TOHELL, GOTTA DO THIS PROCESS AGAIN SINCE THE ABOVE ISNT USED FOR THE "minimum data"
     $user_completed_keys = array_filter(array_intersect_key( $all_completed, array_flip($q_fields) ),function($v){
         return $v !== false && !is_null($v) && ($v != '' || $v == '0');
     });
 
     // TRY TO CALCULATE SUBDOMAIN SCORES REGARDLESS
-    $temp = getLongScores($domain_fields, $user_completed_keys);
-    $long_scores  = $temp["scores"];
-    $sub_scores   = $temp["pos_neg_subscores"];
+    $temp               = getLongScores($domain_fields, $user_completed_keys);
+    $long_scores        = $temp["scores"];
+    $sub_scores         = array_pop($long_scores);
+    $pos_neg_subscores  = $temp["pos_neg_subscores"];
+    $pos_neg_vals       = array_filter($pos_neg_subscores,'allowZeroFilter');
 
-    // MAYBE I DONT EVEN NEED MINIMUM DATA CHECK OVERALL ANYMORE?
-    // if(!$minimumData){
-    //   $long_scores = array();
-    // }
+    if(!empty($long_scores)){
+      // save individual scores
 
-    // save individual scores
-    if(!array_key_exists ( "well_score_ls" , $long_scores )){
-      $minimumData = false;
-    }
-    foreach($long_scores as $redcap_var => $value){
-      if($redcap_var == "ls_sub_domains"){
-        foreach($value as $rc_var => $val){
-          $data = array(
-            "record"            => $loggedInUser->id,
-            "field_name"        => $rc_var,
-            "value"             => $val,
-            "redcap_event_name" => $user_event_arm
-          );
-          $result =  RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
-        }
+      // 4 CASES WHERE WE DO NOT CALC WELL SCOre
+      // 1. ANY MISSING DOMAIN (eg < 10)
+      // 2. ANy MISSING SuB DOmAIN IN LifeSTYLE (eg < 5)
+      // 4. ANY MISSING POS/NEG SUBSCore of EMotions/Stress (eg < 4)
+      // 3. 30% missing questions total (hmm ah below, gotta branch with new or old diet)
+      if(array_key_exists("well_score_ls_diet_old",$sub_scores)){
+        $remove_from_fields = array( "core_vegatables_intro_v2"
+                ,"core_fruit_intro_v2"
+                ,"core_grain_intro_v2"
+                ,"core_bean_intro_v2"
+                ,"core_sweet_intro_v2"
+                ,"core_meat_intro_v2"
+                ,"core_nuts_intro_v2"
+                ,"core_sodium_intro_v2"
+                ,"core_sugar_intro_v2"
+                ,"core_fish_intro_v2"
+                ,"core_cook_intro_v2"
+                ,"core_fastfood_intro_v2" );
       }else{
-        $data = array(
+        $remove_from_fields = array("core_vegatables_intro"
+                ,"core_desserts_intro" 
+                ,"core_fastfood_day" 
+                ,"core_sweet_drinks" 
+                ,"core_processed_intro");
+      }
+
+      $check_fields_dq  = array_diff($check_fields_dq, $remove_from_fields);
+      $dq_threshold     = ceil(count($check_fields_dq) * .3);
+      $missing_keys     = array_diff($check_fields_dq, array_keys($check_user_completed_dq));
+      if(count($long_scores) < 10 || count($sub_scores) < 5 || count($pos_neg_vals) < 4 || count($missing_keys) >= $dq_threshold){
+        $minimumData = false;
+      }
+
+      // SAVE ALL THE SUB SCORES
+      $data         = array();
+      $save_scores  = array_merge($long_scores,$sub_scores);
+      foreach($save_scores as $well_var => $well_val){
+        $data[] = array(
           "record"            => $loggedInUser->id,
-          "field_name"        => $redcap_var,
-          "value"             => $value,
+          "field_name"        => $well_var,
+          "value"             => $well_val,
           "redcap_event_name" => $user_event_arm
         );
-        $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
       }
-    }
+      $result =  RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
 
-    // save the entire block as json
-    array_pop($long_scores);
-    $remapped_long_scores = array();
-    foreach($long_scores as $rc_var => $value){
-      $remapped_long_scores[$domain_mapping[$rc_var]] = $value;
-    }
+      // PREPARE JSON BLOCK FOR RADAR CHART MAPPING
+      $remapped_long_scores = array();
+      foreach($long_scores as $rc_var => $value){
+        $remapped_long_scores[$domain_mapping[$rc_var]] = $value;
+      }
 
-    if($minimumData){
-      $data = array(
-        "record"            => $loggedInUser->id,
-        "field_name"        => "well_long_score_json",
-        "value"             => json_encode($remapped_long_scores),
-        "redcap_event_name" => $user_event_arm
-      );
-      $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+      if($minimumData){
+        $data       = array();
+        $data[]     = array(
+          "record"            => $loggedInUser->id,
+          "field_name"        => "well_long_score_json",
+          "value"             => json_encode($remapped_long_scores),
+          "redcap_event_name" => $user_event_arm
+        );
 
-      $long_score = round(array_sum($remapped_long_scores),4);
-      $data = array(
-        "record"            => $loggedInUser->id,
-        "field_name"        => "well_score_long",
-        "value"             => $long_score,
-        "redcap_event_name" => $user_event_arm
-      );
-      $result = RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
-    }
-      
-    //write the subscores to 
-    foreach($sub_scores as $well_var => $well_val){
-      $data = array(
-        "record"            => $loggedInUser->id,
-        "field_name"        => $well_var,
-        "value"             => $well_val,
-        "redcap_event_name" => $user_event_arm
-      );
-      $result =  RC::writeToApi(array($data), array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+        $long_score = round(array_sum($remapped_long_scores),4);
+        $data[]     = array(
+          "record"            => $loggedInUser->id,
+          "field_name"        => "well_score_long",
+          "value"             => $long_score,
+          "redcap_event_name" => $user_event_arm
+        );
+      }else{
+        // ELSE SAVE AS N/A
+        $data   = array(
+          "record"            => $loggedInUser->id,
+          "field_name"        => "well_score_long",
+          "value"             => "N/A",
+          "redcap_event_name" => $user_event_arm
+        );
+      }
+      $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
     }
   }else{
     $remapped_long_scores = json_decode($user_ws[0]["well_long_score_json"],1);
@@ -264,6 +320,7 @@ function getLongScores($domain_fields, $user_completed_fields){
   // 10 domains
   // Each domain counts for 10 points
   // Total score is 100
+  
   $score  = array();
   $emo_positive_dom     = null;
   $emo_negative_dom     = null;
@@ -324,11 +381,31 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
       break;
       
+      case "well_score_social" :
+        if($non_answered < $dq_num){
+          $domain_items = array();
+          foreach($fields as $field){
+            if(!isset($user_completed_fields[$field])){
+              continue;
+            }
+            $denom = 4;
+            if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
+              $domain_items[] = (5-$user_completed_fields[$field])/$denom;
+            }else{
+              $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
+            }
+          }
+          $temp_score     = (10/13)*(array_sum($domain_items));
+          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
+        }
+      break;
+
       case "well_score_emotion" :
         if($non_answered < $dq_num){
           $domain_items = array();
           $pos_items    = array();
           $neg_items    = array();
+
           foreach($fields as $field){
             if(!isset($user_completed_fields[$field])){
               continue;
@@ -342,8 +419,8 @@ function getLongScores($domain_fields, $user_completed_fields){
             }
           }
 
-          $emo_positive_dom   = (5/6)*(array_sum($pos_items));
-          $emo_negative_dom   = (5/5)*(array_sum($neg_items));
+          $emo_positive_dom   = empty($pos_items) ? null : (5/6)*(array_sum($pos_items));
+          $emo_negative_dom   = empty($neg_items) ? null : (5/5)*(array_sum($neg_items));
 
           $temp_score     = $emo_positive_dom + $emo_negative_dom; //(10/11)*(array_sum($domain_items));
           $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
@@ -372,34 +449,15 @@ function getLongScores($domain_fields, $user_completed_fields){
             }
           }
 
-          $stress_positive_dom   = (5/9)*(array_sum($pos_items));
-          $stress_negative_dom   = (5/5)*(array_sum($neg_items));
+          $stress_positive_dom   = empty($pos_items) ? null : (5/9)*(array_sum($pos_items));
+          $stress_negative_dom   = empty($neg_items) ? null : (5/5)*(array_sum($neg_items));
 
           $temp_score     = $stress_positive_dom + $stress_negative_dom;//(10/14)*(array_sum($domain_items));
           $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
       
-      case "well_score_social" :
-        if($non_answered < $dq_num){
-          $domain_items = array();
-          foreach($fields as $field){
-            if(!isset($user_completed_fields[$field])){
-              continue;
-            }
-            $denom = 4;
-            if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
-              $domain_items[] = (5-$user_completed_fields[$field])/$denom;
-            }else{
-              $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
-            }
-          }
-          $temp_score     = (10/13)*(array_sum($domain_items));
-          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
-        }
-      break;
-      
-      case "lifestyle" :
+      case "well_score_ls" :
         $calc_lifestyle = true;
         $domain_items   = array();
 
@@ -474,7 +532,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
           
         //diet
-        $old_diet_req = array("core_vegatables_intro" => 1
+        $old_diet_req = array( "core_vegatables_intro" => 1
                               ,"core_desserts_intro" => 1
                               ,"core_fastfood_day" => 1
                               ,"core_sweet_drinks" => 1
@@ -502,7 +560,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         $num_answered     = count(array_intersect_key($diet_req,$user_completed_fields));
         $non_answered     = $num_fields - $num_answered;
         $dq_num           = ceil($num_fields*.3);
-        // well_score_ls_diet_old
+        
         if($non_answered < $dq_num){
           $diet_score = array();
           if(isset($user_completed_fields["core_vegatables_intro_v2"])){
@@ -684,13 +742,12 @@ function getLongScores($domain_fields, $user_completed_fields){
       break;
     }
   }
-  return array( "scores" => $score 
-               ,"pos_neg_subscores" => array( "well_score_emotion_pos"  =>  $emo_positive_dom 
-                                             ,"well_score_emotion_neg"  =>  $emo_negative_dom 
-                                             ,"well_score_stress_pos"   =>  $stress_positive_dom
-                                             ,"well_score_stress_neg"   =>  $stress_negative_dom
-                                      )
-              );
+  return array( "scores" => $score  ,"pos_neg_subscores" => array(
+                "well_score_emotion_pos"  =>  $emo_positive_dom 
+               ,"well_score_emotion_neg"  =>  $emo_negative_dom 
+               ,"well_score_stress_pos"   =>  $stress_positive_dom
+               ,"well_score_stress_neg"   =>  $stress_negative_dom
+  ));
 }
 
 function calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey_data){
@@ -1003,9 +1060,9 @@ function scaleDomainScore($domain_score, $q_answered, $q_max){
   // return $domain_score*$q_max/$q_answered;
 }
 
-
-
-
+function allowZeroFilter($var){
+  return ($var !== NULL && $var !== FALSE && $var !== '');
+}
 
 // NO USE RIGHT NOW
 function printWELLComparison($eventarm, $user_score, $other_score){
