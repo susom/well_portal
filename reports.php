@@ -140,34 +140,37 @@ include_once("models/inc/gl_head.php");
                             //EDIT HERE
                             ?>
                         </ol>
+                        
+                        <div class="compare_box">
+                          <h4>Compare Results</h4>
+                          <p><a class='compare_long_scores' href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear><?php echo lang("STANFORD_WELL") ?></a></p>
+                        </div>
+                        
+                        <div class='cert_box'>
+                          <h4><?php echo lang("CERTIFICATES") ?></h4>
+                          <ol>
+                            <?php
+                              $filename         = array();
+                              $filename[]       = $loggedInUser->id;
+                              $filename[]       = $loggedInUser->firstname;
+                              $filename[]       = $loggedInUser->lastname;
+                              $user_folder      = implode("_",$filename);
 
-                        <h4><?php echo lang("CERTIFICATES") ?></h4>
-                        <ol>
-                          <?php
-                            $filename         = array();
-                            $filename[]       = $loggedInUser->id;
-                            $filename[]       = $loggedInUser->firstname;
-                            $filename[]       = $loggedInUser->lastname;
-                            $user_folder      = implode("_",$filename);
-
-                            $cert_year        = array();
-                            // var comes from surveys.php
-                            while($firstyear <= $this_year){
-                              $curyear        = $firstyear;
-                              $file_cert      = "PDF/certs/$user_folder/" . $user_folder . "_$curyear.pdf";
-                              if(file_exists($file_cert)){
-                                $cert_year[] = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
+                              $cert_year        = array();
+                              // var comes from surveys.php
+                              while($firstyear <= $this_year){
+                                $curyear        = $firstyear;
+                                $file_cert      = "PDF/certs/$user_folder/" . $user_folder . "_$curyear.pdf";
+                                if(file_exists($file_cert)){
+                                  $cert_year[] = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
+                                }
+                                $firstyear++;
                               }
-                              $firstyear++;
-                            }
-                            rsort($cert_year);
-                            echo implode("\n",$cert_year);
-                          ?>
-                        </ol>
-                        <h4>Compare Results</h4>
-                        <a href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear>WELL Comparison</a> 
-
-
+                              rsort($cert_year);
+                              echo implode("\n",$cert_year);
+                            ?>
+                          </ol>
+                        </div>
                     </li>
                 </ul>
             </aside>
@@ -382,6 +385,38 @@ summary{
 object{
   height:800px !important;
 }
+
+.main > aside a.compare_long_scores{
+  display:block;
+  background:url(assets/img/well_logo_treeonly.png) no-repeat;
+  background-size:30px;
+  padding-left: 40px;
+  height: 40px;
+  line-height: 30px;
+}
+
+.cert_box{
+  margin-top:40px;
+}
+
+.cert_box ol{
+  display:none;
+}
+
+.cert_box.open ol{
+  display:block;
+}
+.cert_box h4{
+  cursor:pointer;
+}
+.cert_box h4:after{
+  content:"+";
+  color:#000;
+  margin-left:5px;
+}
+.cert_box.open h4:after{
+  content:"-";
+}
 </style>
 <script src="assets/js/custom_assessments.js"></script>
 <script>
@@ -572,5 +607,9 @@ $(document).ready(function(){
   });
 
   $(".viewassessment").trigger("click");
+
+  $(".cert_box h4").click(function(){
+    $(".cert_box").toggleClass("open");
+  });
 });
 </script>
