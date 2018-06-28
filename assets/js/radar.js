@@ -234,7 +234,7 @@ console.log(config.h + config.paddingY);
     }
 
 
-    // builds out the levels labels
+    // builds out the levels labels (the ones on the chart)
     function buildLevelsLabels() {
       for (var level = 0; level < config.levels; level++) {
         var levelFactor = vis.radius * ((level + 1) / config.levels);
@@ -249,6 +249,7 @@ console.log(config.h + config.paddingY);
           .attr("transform", "translate(" + (config.w / 2 - levelFactor + 5) + ", " + (config.h / 2 - levelFactor) + ")")
           .attr("fill", "gray")
           .attr("font-family", "sans-serif")
+          .attr("font-weight", "bold")
           .attr("font-size", 10 * config.labelScale + "px");
       }
     }
