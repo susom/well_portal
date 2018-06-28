@@ -265,7 +265,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
 
       // SAVE ALL THE SUB SCORES
       $data         = array();
-      $save_scores  = array_merge($long_scores,$sub_scores);
+      $save_scores  = array_merge($long_scores,$sub_scores, $pos_neg_vals);
       foreach($save_scores as $well_var => $well_val){
         $data[] = array(
           "record"            => $loggedInUser->id,
