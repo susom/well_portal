@@ -243,7 +243,7 @@ console.log(config.h + config.paddingY);
         vis.levels
           .data([1]).enter()
           .append("svg:text").classed("level-labels", true)
-          .text((config.maxValue * (level + 1) / config.levels).toFixed(2))
+          .text((config.maxValue * (level + 1) / config.levels).toFixed(0))
           .attr("x", function(d) { return levelFactor * (1 - Math.sin(0)); })
           .attr("y", function(d) { return levelFactor * (1 - Math.cos(0)); })
           .attr("transform", "translate(" + (config.w / 2 - levelFactor + 5) + ", " + (config.h / 2 - levelFactor) + ")")
