@@ -213,7 +213,7 @@
 		,"NAV_REWARDS"								=> "Rewards"
 		,"NAV_REPORTS"								=> "Reports"
 		,"NAV_GAME" 								=> "Game"
-		,"NAV_ACTIVITY" 							=> "Activty"
+		,"NAV_ACTIVITY" 							=> "Activity"
 		,"DOMAIN_RANKING" 							=> "Rank your domains"
 		,"DOMAIN_RANKING_PROMPT" 					=> "Click here to rank your well-being domain"
 		,"YOUR_DOMAIN_RANKING" 						=> "Your well-being domain rankings"
