@@ -45,6 +45,7 @@ foreach($events as $arm=> $event){
 };
 
 //IF CORE SURVEY GET THE SURVEY ID
+$compare_all = false;
 if(isset($_REQUEST["arm"]) && $_REQUEST["arm"] == 'ALL'){
   $compare_all = true;
   $sid_arm = $current_arm;
@@ -383,7 +384,7 @@ summary{
 }
 
 object{
-  height:800px !important;
+  height:1000px !important;
 }
 
 .main > aside a.compare_long_scores{

@@ -24,7 +24,7 @@
         w: 440,
         h: 440,
         facet: false,
-        levels: 5,
+        levels: 10,
         levelScale: 0.85,
         labelScale: 0.9,
         facetPaddingScale: 2.1,

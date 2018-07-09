@@ -15,14 +15,14 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     $domain_mapping = array(
        "well_score_creativity" => "Exploration and Creativity"
       ,"well_score_religion"   => "Spirituality and Religion"
-      ,"well_score_financial"  => "Financial Security"
+      ,"well_score_financial"  => "Finances"
       ,"well_score_purpose"    => "Purpose and Meaning"
       ,"well_score_health"     => "Physical Health"
       ,"well_score_senseself"  => "Sense of Self"
       ,"well_score_emotion"    => "Experience of Emotions"
       ,"well_score_stress"     => "Stress and Resilience"
       ,"well_score_social"     => "Social Connectedness"
-      ,"well_score_ls"         => "Lifestyle Behaviors"
+      ,"well_score_ls"         => "Lifestyle and Daily Practices"
     );
 
     $domain_fields  = array(

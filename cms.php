@@ -25,14 +25,14 @@ if(isset($_SESSION["admin_user"])){
 
 $radar_domains = array(
   "0" => "Exploration and Creativity",
-  "1" => "Lifestyle Behaviors",
+  "1" => "Lifestyle and Daily Practices",
   "2" => "Social Connectedness",
   "3" => "Stress and Resilience",
   "4" => "Experience of Emotions",
   "5" => "Sense of Self",
   "6" => "Physical Health",
   "7" => "Purpose and Meaning",
-  "8" => "Financial Security",
+  "8" => "Finances",
   "9" => "Spirituality and Religion"
 );
 
