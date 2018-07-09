@@ -874,11 +874,11 @@ function print_rr($d,$exit=false){
 function markPageLoadTime($msg=null){
 	global $start_time;
 
-	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] === 0){
+	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] == 0){
 		unset($_SESSION["debug_pageload"]);
 	}
 
-	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] === 1){
+	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] == 1){
 		$_SESSION["debug_pageload"] = true;
 	}
 
