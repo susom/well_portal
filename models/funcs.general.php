@@ -872,9 +872,17 @@ function print_rr($d,$exit=false){
 }
 
 function markPageLoadTime($msg=null){
-	global $start_time, $_GET;
-	
-	if(isset($_GET["debug_pageload"])){
+	global $start_time;
+
+	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] === 0){
+		unset($_SESSION["debug_pageload"]);
+	}
+
+	if(isset($_GET["debug_pageload"]) && $_GET["debug_pageload"] === 1){
+		$_SESSION["debug_pageload"] = true;
+	}
+
+	if(isset($_SESSION["debug_pageload"])){
 		echo "<h6>";
 		if($msg){
 			echo $msg ."<br>";
