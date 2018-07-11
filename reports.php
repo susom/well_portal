@@ -3,46 +3,29 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/domain_descriptions.php");
 
+$armyears       = getSessionEventYears();
+$current_arm    = end(array_flip($armyears));
+$yeararms       = array_flip($armyears);
+$first_year     = Date("Y", $consent_date);
+$this_year      = Date("Y");
+
 //SITE NAV
 $navon  = array("home" => "", "reports" => "on", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 
 //GET ALL DATA FOR SUPP INSTRUMENTS IN ALL AVAILABLE ARMS
-$extra_params = array(
-  'content'   => 'event',
-);
-$result = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
-
-foreach($result as $event){
-  if($event["unique_event_name"] == $user_event_arm){
-    //ALREADY HAVE THIS YEAR SO DONT WASTE RESOURCE GETTING IT
-    $events[$event["unique_event_name"]] = $supp_instruments;
-    break;
-  }else{
-    //WILL NEED TO GET RESULTS FROM PREVIOUS YEARS TO SHOW RESULTS/FEEDBACK
-    $r_supplementalProject    = new Project($loggedInUser, "Supp", SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"], $event["unique_event_name"]);
-    $r_suppsurveys            = $r_supplementalProject->getActiveAll(); 
-    $r_supp_surveys["Supp"]   = $r_supplementalProject;
-  
-    $r_supp_instruments       = array();
-    foreach($r_supp_surveys as $projname => $supp_project){
-      $r_supp_instruments   = array_merge( $r_supp_instruments, $supp_project->getActiveAll() );
-    } 
-    $events[$event["unique_event_name"]] = $r_supp_instruments;
-  }
-}
-$firstyear  = Date("Y", $consent_date);
+$result = $_SESSION["events"]; 
 
 //SET UP ARRAY OF COMPLETED REPORTS TO USE FOR NAV STATE
 $supp_surveys_keys = array();
-foreach($events as $arm=> $event){
+foreach($yeararms as $year => $arm){
   if(!array_key_exists($arm,$supp_surveys_keys)){
     $supp_surveys_keys[$arm] = array("wellbeing_questions" => "");
   }
-  foreach(array_keys($event) as $instrument_id){
+  foreach($supp_instrument_ids as $instrument_id){
     // $supp_surveys_keys[] = $instrument_id."_".$armyears[$arm];
     $supp_surveys_keys[$arm][$instrument_id] = "";
   }
-};
+}
 
 //IF CORE SURVEY GET THE SURVEY ID
 $compare_all = false;
@@ -53,11 +36,11 @@ if(isset($_REQUEST["arm"]) && $_REQUEST["arm"] == 'ALL'){
   $sid_arm = isset($_REQUEST["arm"]) ? $_REQUEST["arm"] : $current_arm; 
 }
 
-$sid     = $current_surveyid = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : "wellbeing_questions";
+$sid = $current_surveyid = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : "wellbeing_questions";
 $supp_surveys_keys[$sid_arm][$sid] = "on";
 
 //GENDER VAR NEEDED FOR ASSESMENTS
-$core_gender    = $loggedInUser->gender == 5 || $loggedInUser->gender == 3 ? "m" : "f";
+$core_gender = $loggedInUser->gender == 5 || $loggedInUser->gender == 3 ? "m" : "f";
 
 $pageTitle = "Well v2 Assessments";
 $bodyClass = "reports";
@@ -71,67 +54,79 @@ include_once("models/inc/gl_head.php");
                     <li class="surveys">
                         <ol>
                             <?php
-                            $suppsurvs  = array();
-                            $viewlink   = array();
-                     
-                            foreach($events as $armname => $supp_instruments_event){
-                              $fitness  = SurveysConfig::$supp_icons;
-                              $index    = -1;
-                              $armyear  = $armyears[$armname];
-                              $suppsurvs[$armyear][]  = "<ol>";
+                            $suppsurvs  = array();                            
+                            $fitness    = SurveysConfig::$supp_icons;
 
-                              $is_nav_on  = $supp_surveys_keys[$armname]["wellbeing_questions"];
-                              $WELL_SCALE = strpos($armname,"short") > -1 ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
-                              $survey_alinks["wellbeing_questions"] = "<a class='assessments' href='reports.php?sid=wellbeing_questions&arm=$armname' data-year=$armyear>$WELL_SCALE</a>";
-                              $suppsurvs[$armyear][]  = "<li class='assesments fruits $is_nav_on'>
+                            if(!isset($_SESSION["supp_surveys"])){
+                              $_SESSION["supp_surveys"] = array();
+                            }
+                            foreach($yeararms as $year => $arm){
+                              $suppsurvs[$year][]  = "<ol>";
+
+                              if($year == $this_year && !$core_surveys_complete){
+                                continue;
+                              }
+
+                              $is_nav_on  = $supp_surveys_keys[$arm]["wellbeing_questions"];
+                              $WELL_SCALE = strpos($arm,"short") > -1 ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
+                              $survey_alinks["wellbeing_questions"] = "<a class='assessments' href='reports.php?sid=wellbeing_questions&arm=$arm' data-year=$year>$WELL_SCALE</a>";
+                              $suppsurvs[$year][]   = "<li class='assesments fruits $is_nav_on'>
                                                   ".$survey_alinks["wellbeing_questions"]." 
                                               </li>";
 
-                              foreach($supp_instruments_event as $supp_instrument_id => $supp_instrument){
-                                $index++;
-                                
+                              //WILL NEED TO GET RESULTS FROM PREVIOUS YEARS TO SHOW RESULTS/FEEDBACK
+                              if(!isset($_SESSION["supp_surveys"][$year])){
+                                $_SESSION["supp_surveys"][$year] = new Project($loggedInUser, "Supp", SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"], $arm);
+                              } 
+                              $r_supp_surveys["Supp"]   = $_SESSION["supp_surveys"][$year];
+                              $r_supp_instruments       = array();
+                              foreach($r_supp_surveys as $projname => $supp_project){
+                                $r_supp_instruments   = array_merge( $r_supp_instruments, $supp_project->getActiveAll() );
+                              } 
+
+                              foreach($r_supp_instruments as $supp_instrument_id => $supp_instrument){
                                 // only want to show link if there are results available in any year
                                 if(!$supp_instrument["survey_complete"]){
                                   continue;
                                 }
 
-                                //if bucket is A make sure that three other ones are complete before showing.
                                 $projnotes    = json_decode($supp_instrument["project_notes"],1);
                                 $title_trans  = $projnotes["translations"];
                                 $tooltips     = $projnotes["tooltips"];
                                 $surveyname   = isset($title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $title_trans[$_SESSION["use_lang"]][$supp_instrument_id] : $supp_instrument["label"];
                                 $iconcss      = $fitness[$supp_instrument_id];
                                 $titletext    = $tooltips[$supp_instrument_id];
-                                $surveylink   = "?sid=". $supp_instrument_id ."&arm=$armname" ;
+                                $surveylink   = "?sid=". $supp_instrument_id ."&arm=$arm" ;
                                 $icon_update  = " icon_update";
                                 $completed    = json_encode($supp_instrument["completed_fields"]);
                                 
-                                $is_nav_on    = $supp_surveys_keys[$armname][$supp_instrument_id];
-                                $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' title='$titletext' data-sid='$supp_instrument_id' data-completed='$completed' data-year=$armyear>$surveyname</a>";
+                                $is_nav_on    = $supp_surveys_keys[$arm][$supp_instrument_id];
+                                $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' title='$titletext' data-sid='$supp_instrument_id' data-completed='$completed' data-year=$arm>$surveyname</a>";
                                 $assessmentsclass = $supp_instrument_id !== "international_physical_activity_questionnaire" ? "assessments" :"";
                                 
                                 $list         = "<li class='$assessmentsclass fitness  $icon_update $iconcss $is_nav_on'>
                                                     ".$survey_alinks[$supp_instrument_id]." 
                                                 </li>";
                                 if(!array_key_exists($supp_instrument_id,$suppsurvs)){
-                                  $suppsurvs[$armyear][]  = $list;
+                                  $suppsurvs[$year][]  = $list;
                                 }
 
                                 if($is_nav_on == "on"){
-                                  $year = $armyears[$armname];
+                                  $year = $armyears[$arm];
                                   $viewlink = "<a class='viewassessment' href='$surveylink' title='$titletext' data-sid='$supp_instrument_id' data-completed='$completed' target='theFrame'>$year $surveyname</a>";
                                 }
                               }
-                              $suppsurvs[$armyear][]  = "</ol>";
-                            }
+
+                              $suppsurvs[$year][]  = "</ol>";
+                            };
 
                             if(count($suppsurvs)){
                               krsort($suppsurvs);
 
-                              foreach($suppsurvs as $armyear => $html){
-                                $default_open = $armyears[$sid_arm] == $armyear ? "open" : "";
+                              foreach($suppsurvs as $arm => $html){
+                                $default_open = $armyears[$sid_arm] == $arm ? "open" : "";
                                 echo "<details $default_open>";
-                                echo "<summary>$armyear</summary>";
+                                echo "<summary>$arm</summary>";
                                 echo implode("",$html);
                                 echo "</details>";
                               }
@@ -158,14 +153,14 @@ include_once("models/inc/gl_head.php");
                               $user_folder      = implode("_",$filename);
 
                               $cert_year        = array();
-                              // var comes from surveys.php
-                              while($firstyear <= $this_year){
-                                $curyear        = $firstyear;
+                              // var comes from config_foot.php
+                              while($first_year <= $this_year){
+                                $curyear        = $first_year;
                                 $file_cert      = "PDF/certs/$user_folder/" . $user_folder . "_$curyear.pdf";
                                 if(file_exists($file_cert)){
                                   $cert_year[] = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
                                 }
-                                $firstyear++;
+                                $first_year++;
                               }
                               rsort($cert_year);
                               echo implode("\n",$cert_year);
@@ -188,10 +183,10 @@ include_once("models/inc/gl_head.php");
                               
                               if(isset($compare_all) && $compare_all == true){ //only when clicking on the compare tab: 
                                 $extra_params = array(
-                                'content'     => 'record',
-                                'records'     => array($loggedInUser->id) ,
-                                'fields'      => array("id",$well_score),
-                                'events'      => array('enrollment_arm_1','anniversary_2_arm_1')
+                                  'content'     => 'record',
+                                  'records'     => array($loggedInUser->id) ,
+                                  'fields'      => array("id",$well_score),
+                                  'events'      => array('enrollment_arm_1','anniversary_2_arm_1')
                                 );
                                 $loggedInUser->compare_all = true;
                               }else{
@@ -204,7 +199,8 @@ include_once("models/inc/gl_head.php");
                                 $loggedInUser->compare_all = false;
                               }
 
-                                  $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+                              
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
@@ -323,7 +319,6 @@ include_once("models/inc/gl_head.php");
                     echo "<p><i>".lang("NO_ASSESSMENTS")."</i></p>";
                 }
                 ?>
-
                 </div>
             </article>
         </div> <!-- #main -->

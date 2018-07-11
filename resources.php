@@ -26,14 +26,6 @@ if(isset($_GET["nav"]) && in_array($_GET["nav"],array_keys($domain_on) )){
   $domain_on[$_GET["nav"]] = "on";
 }
 
-$avail_surveys      = $available_instruments;
-$first_core_survey  = array_splice($avail_surveys,0,1);
-$surveyon           = array();
-$surveynav          = array_merge($first_core_survey, $supp_surveys_keys);
-foreach($surveynav as $surveyitem){
-    $surveyon[$surveyitem] = "";
-}
-
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 $extra_params   = array();

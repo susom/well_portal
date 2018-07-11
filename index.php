@@ -6,11 +6,11 @@ include("models/inc/scoring_functions.php");
 // GLOBAL NAV SET STATE
 $navon  = array("home" => "on", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 
-markPageLoadTime("BEGIN HEAD AREA");
-$avail_surveys      = $available_instruments;
+// markPageLoadTime("BEGIN HEAD AREA");
+$avail_surveys      = $core_instrument_ids;
 $first_core_survey  = array_splice($avail_surveys,0,1);
 $surveyon           = array();
-$surveynav          = array_merge($first_core_survey, $supp_surveys_keys);
+$surveynav          = array_merge($first_core_survey, $supp_instrument_ids);
 foreach($surveynav as $surveyitem){
     $surveyon[$surveyitem] = "";
 }
@@ -27,9 +27,9 @@ $languages = array(
   "tw" => 4,
 );
 
-// LOAD THE CMS EDITORIAL CONTENT FOR THE HOME PAGE
+// LOAD THE CMS EDITORIAL CONTENT FOR THE HOME PAGE INTO SESSION FOR 15 MINUTES
 if(isset($_SESSION['LAST_CMS_LOAD'])) {
-  if((time() - $_SESSION['LAST_CMS_LOAD'] > 600)){
+  if((time() - $_SESSION['LAST_CMS_LOAD'] > 900)){
     $_SESSION['LAST_CMS_LOAD'] = time();
     unset($_SESSION['monthly_goals']);
     unset($_SESSION['editorial_events']);
@@ -118,6 +118,12 @@ foreach($cats as $cat){
 if(isset($_GET["survey_complete"])){
   //IF NO URL PASSED IN THEN REDIRECT BACK
   $surveyid = $_GET["survey_complete"];
+  array_push($_SESSION["completed_timestamps"],$surveyid);
+  $completed_timestamps = $_SESSION["completed_timestamps"];
+  
+  $armyears       = getSessionEventYears();
+  $current_year   = end($armyears);
+  include("models/inc/surveys_data.php");
   if(array_key_exists($surveyid,$surveys)){
     $index  = array_search($surveyid, $all_survey_keys);
     $survey = $surveys[$surveyid];
@@ -145,6 +151,8 @@ if(isset($_GET["survey_complete"])){
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
       if(!$user_short_scale){
+        $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
+
         $long_score     = empty($long_score) ? "N/A" : $long_score;
         // if this is the first one just show the orange ball, otherwise show comparison graph
         $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
@@ -175,7 +183,7 @@ if(isset($_GET["survey_complete"])){
     }
   }
 }
-markPageLoadTime("END HEAD AREA");
+// markPageLoadTime("END HEAD AREA");
 
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
@@ -187,7 +195,7 @@ include_once("models/inc/gl_head.php");
             <article>
                 <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
                 <?php  
-                markPageLoadTime("BEGIN CONTENT AREA");
+                // markPageLoadTime("BEGIN CONTENT AREA");
                 if(isset($cats[0])){
                     $content_html = array();
                     foreach($cats[0] as $event){
@@ -200,7 +208,7 @@ include_once("models/inc/gl_head.php");
                       $content_html[] = "<h2>".$event["subject"]."</h2>";
                       $content_html[] = "<p>".$event["content"]."</p>";
                       if(!empty($event["link"])){
-                        if(in_array($event["link"], $supp_surveys_keys )){
+                        if(in_array($event["link"], $supp_instrument_ids )){
                           $content_html[] = "<a href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
                         }else{
                           $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
@@ -213,7 +221,7 @@ include_once("models/inc/gl_head.php");
                     }
                     echo implode("\r\n",$content_html);
                 }
-                markPageLoadTime("END CONTENT AREA");
+                // markPageLoadTime("END CONTENT AREA");
                 ?>
             </article>
             <?php 

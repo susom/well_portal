@@ -3,9 +3,6 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/class.Survey.php");
 
-$API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-$API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
-
 //SPECIAL STOPBANG SCORING
 if(isset($_REQUEST["STOPBANG"])){
   $project_name = $_REQUEST["project"] ?: null;
@@ -292,13 +289,14 @@ $nav    = isset($_REQUEST["nav"]) ? $_REQUEST["nav"] : "home";
 $navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "", "activity" => "");
 $navon[$nav] = "on";
 
+// GET SURVEY DDATa, AND STUFF INTO SESSION
 //IF CORE SURVEY GET THE SURVEY ID
-$avail_surveys      = $available_instruments;
+$avail_surveys      = $core_instrument_ids;
 $first_core_survey  = array_splice($avail_surveys,0,1);
 $sid = $current_surveyid = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : "";
 
 $surveyon       = array();
-$surveynav      = array_merge($first_core_survey, $supp_surveys_keys);
+$surveynav      = array_merge($first_core_survey, $supp_instrument_ids);
 foreach($surveynav as $surveyitem){
     $surveyon[$surveyitem] = "";
 }
@@ -314,6 +312,7 @@ if(!empty($sid)){
 // IF SUPP SURVEY GET PROJECT TOO
 $pid = $project = isset($_REQUEST["project"]) ? $_REQUEST["project"] : "";
 
+include("models/inc/surveys_data.php");
 if(!empty($pid)){
     if(array_key_exists($pid, SurveysConfig::$projects)){
         $supp_project = $supp_surveys[$pid]->getSingleInstrument($sid);
@@ -327,14 +326,6 @@ if(!empty($pid)){
 }else{
     //ITS A CORESURVEY, FIND THE LATEST INCOMPLETE ONE
     foreach($surveys as $surveyid => $survey){
-      // CUSTOM FLOW FOR UO1 Pilot STUDY
-      // if($surveyid == "your_sleep_habits" && isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
-      //   $result     = RC::callApi(array(
-      //     "hash"    => $surveys["your_sleep_habits"]["survey_hash"], 
-      //     "format"  => "csv"
-      //   ), true, $custom_surveycomplete_API, REDCAP_API_TOKEN);
-      //   continue;
-      // }
       $surveycomplete = $survey["survey_complete"];
       if(!$surveycomplete){
         $sid = $current_surveyid = $surveyid;
@@ -346,11 +337,10 @@ if(!empty($pid)){
 //GET THE SURVEY DATA
 $survey_num = $survey_count = 1;
 
-
 if($user_short_scale && $sid == "wellbeing_questions"){
   $sid = "brief_well_for_life_scale";
 }
-
+    
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
     if($survey_data["project"] == "REDCAP_PORTAL"){
@@ -383,7 +373,7 @@ if(isset($_GET["survey_complete"])){
     if(array_key_exists($surveyid,$surveys)){
       $index        = array_search($surveyid, $all_survey_keys);
       $survey       = $surveys[$surveyid];
-      $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . $fruits[$index] . "'></span> " ;
+      $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . SurveysConfig::$fruits[$index] . "'></span> " ;
       if(isset($all_survey_keys[$index+1])){
         $nextlink     = "survey.php?sid=". $all_survey_keys[$index+1];
         $success_msg .= $lang["GET_WHOLE_BASKET"];
@@ -447,8 +437,8 @@ include_once("models/inc/gl_foot.php");
 <script src="assets/js/custom_assessments.js"></script>
 <script>
 <?php
-  $index      = array_search($current_surveyid, $all_survey_keys);
-  $nextsurvey = $project == "Supp" ? null : (isset($all_survey_keys[$index+1]) ? $all_survey_keys[$index+1] : null);
+  $index      = array_search($current_surveyid, $core_instrument_ids);
+  $nextsurvey = $project == "Supp" ? null : (isset($core_instrument_ids[$index+1]) ? $core_instrument_ids[$index+1] : null);
   echo "$('#customform').attr('data-next','". $nextsurvey ."');\n\n";
 
   $isMET    = $sid == "how_fit_are_you"                                     ? "true" : "false";

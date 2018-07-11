@@ -106,12 +106,10 @@ function getSessionUser() {
 	return null;
 }
 
-
 // Takes a user object and saves the object to the session
 function setSessionUser($user) {
 	$_SESSION[SESSION_NAME]['user'] = $user;
 }
-
 
 // If a session redirect is present, then return the saved url and clear, otherwise return $default
 function getSessionRedirectOr($default = '') {
@@ -124,12 +122,10 @@ function getSessionRedirectOr($default = '') {
 	return $default;
 }
 
-
 // Return the saved redirect url
 function setSessionRedirect($url) {
 	$_SESSION[SESSION_NAME]['redirect'] = $url;
 }
-
 
 // Returns the number of password reset attempts in this session
 function getSessionPassResetAttempt(){
@@ -139,19 +135,16 @@ function getSessionPassResetAttempt(){
 	return $attempt;
 }
 
-
 // Increments the number of password reset attempts in this session
 function incrementSessionPassResetAttempt() {
 	$_SESSION[SESSION_NAME]['password_reset_attempt'] = getSessionPassResetAttempt() + 1;
 	return getSessionPassResetAttempt();
 }
 
-
 // Clears the attempts counter in the session
 function clearSessionPassResetAttempt() {
 	unset($_SESSION[SESSION_NAME]['password_reset_attempt']);
 }
-
 
 // Determine if session has timed out - otherwise set/reset last activity
 function isSessionExpired() {
@@ -172,7 +165,6 @@ function isSessionExpired() {
 	return false;
 }
 
-
 // Erase the stored user and activity from session
 function clearSession() {
 	global $loggedInUser;
@@ -184,6 +176,38 @@ function clearSession() {
 	logIt('Session cleared','DEBUG');
 	//$loggedInUser = NULL;
 }
+
+function getSessionEventYears(){
+	global $loggedInUser,$user_event_arm;
+
+	// markPageLoadTime("BEGIN arm_years");
+	$consent_date	= strToTime($loggedInUser->consent_ts);
+	$first_year 	= Date("Y", $consent_date);
+	if(!isset($_SESSION["arm_years"])){
+		$extra_params = array(
+		  'content'   => 'event',
+		);
+		$_SESSION["events"] = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+		$events = array();
+		foreach($_SESSION["events"] as $event){
+			$events[$event["unique_event_name"]] = 1;
+			if($event["unique_event_name"] == $user_event_arm){
+				break;
+			}
+		}
+		$_SESSION["arm_years"]  = array();
+		foreach(array_keys($events) as $armname){
+		  $_SESSION["arm_years"][$armname] = $first_year;
+		  $first_year++;
+		}
+	}
+	// markPageLoadTime("END arm_years");
+
+	return $_SESSION["arm_years"];
+}
+
+
+
 
 
 //------------------------------------------------------------------
@@ -305,7 +329,6 @@ function isUserActive() {
 	return (isset($loggedInUser) && !empty($loggedInUser) && $loggedInUser->isActive());
 }
 
-
 // Allows any user that has logged in but profile may be incomplete
 function requireUserAccount() {
 	global $PAGE;
@@ -321,7 +344,6 @@ function requireUserAccount() {
 	return;
 }
 
-
 // Allows only users marked as 'active' - otherwise redirect to profile
 function requireActiveUserAccount() {
 	requireUserAccount();
@@ -332,7 +354,6 @@ function requireActiveUserAccount() {
 
 	return;
 }
-
 
 // Redirects to the login page with a referral url...
 function redirectToLogin() {
@@ -346,7 +367,6 @@ function redirectToLogin() {
 	}
 	header('Location: login.php'); die();
 }
-
 
 // Redirect user to profile page with optional message
 function redirectToProfile($message = Null) {
@@ -398,7 +418,6 @@ function verifyReCaptcha() {
 	
 	return json_decode($response,true);
 }
-
 
 // Look up all users and find the one with a matching password reset token
 function getUserByPasswordToken($token) {
@@ -457,7 +476,6 @@ function isPasswordResetActive($user) {
 	return $age_in_min <= PASS_TOKEN_EXPIRY;
 }
 
-
 // Takes a user object and returns that age of the password token in minutes
 function getPasswordTokenAgeInMin($user) {
 	$now_ts = new DateTime();
@@ -466,7 +484,6 @@ function getPasswordTokenAgeInMin($user) {
 	logIt("Age of password token is $age_in_min min", "DEBUG");
 	return $age_in_min;
 }
-
 
 // Look up a user by email address - return false or user object
 function getUserByEmail($email) {
@@ -882,7 +899,7 @@ function markPageLoadTime($msg=null){
 		$_SESSION["debug_pageload"] = true;
 	}
 
-	if(isset($_SESSION["debug_pageload"])){
+	if(!isset($_SESSION["debug_pageload"])){
 		echo "<h6>";
 		if($msg){
 			echo $msg ."<br>";
