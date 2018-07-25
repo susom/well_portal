@@ -67,6 +67,13 @@ if( isset($_POST['account_update']) ) {
 	if( $valid && $all_valid ) {
 		//THEY ARE CONSENTED, SET ACCOUNT ACTIVE
 		$loggedInUser->setActive();
+
+		if(isset($_SESSION["portal_consent_click_ts"])){
+			$loggedInUser->updateUser(array("portal_consent_click_ts" => $_SESSION["portal_consent_click_ts"]));
+		}
+		//REDIRECT TO THE DASHBOARD
+		include("models/inc/surveys.php");
+
 		header("Location: survey.php?sid=" . SurveysConfig::$core_surveys[0]); //survey link of first survey
 		exit;
 	}
@@ -78,6 +85,7 @@ if( !isset($_POST['consented']) ){
 	header("Location: consent.php");
 	exit;
 }
+$_SESSION["portal_consent_click_ts"] = date('Y-m-d H:i:s');
 
 $pg_title 		= "Account Setup | $websiteName";
 $bodyClass 		= "login register setup";
