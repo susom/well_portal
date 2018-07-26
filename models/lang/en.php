@@ -124,6 +124,12 @@
 		"GENERAL_SUBMIT" 						=> "Submit",
 		"CONFIRM"								=> "Confirm",
 		"ERROR"									=> "Error",
+
+		//REPORT
+		"OVERALL_WELL_BEING_SCORE" 				=> "Overall WELL-Being Score",
+		"RADAR_CHART_MEANING" 					=> "What does this chart mean?",
+		"RADAR_CHART_REVIEW"					=> "*To review your score for each individual domain, hover over the data point with your mouse.There are 10 constituent domains of well-being. The score for each domain can range from 0-10. A lower score in a domain can indicate: (1) that domain is not of important or of particular value to you, or (2) you have an opportunity for growth in that domain.   The total score is the sum of the 10 domains. The goal is not to optimize your total score, but to optimize your scores on the domains of importance to you.",
+		"RADAR_CHART_DOMAINS"					=> "\"Domains that are in green text are domains that you indicated are most important to your well-being. Try to optimize your WELL score in those domains. Domains that are in red text are domains that are less important to your well-being. It is not as important for you to optimize your score in those areas.\""
 	));
 	
 
