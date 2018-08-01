@@ -11,8 +11,6 @@
 
 
 
-
-
 var RadarChart = {
   draw: function(id, data, options) {
 
@@ -174,7 +172,6 @@ var RadarChart = {
         .append("svg:g")
         .attr("transform", "translate(" + (config.translateX*2) + "," + config.translateY + ")");;
 
-console.log(config.h + config.paddingY);
 
       // create verticesTooltip
       vis.verticesTooltip = d3.select("body")
@@ -276,11 +273,21 @@ console.log(config.h + config.paddingY);
         .append("svg:text").classed("axis-labels", true)
         .text(function(d) { return d; })
         .attr("text-anchor", "middle")
-        .attr("x", function(d, i) { return config.w / 2 * (1 - 1.3 * Math.sin(i * config.radians / vis.totalAxes)); })
-        .attr("y", function(d, i) { return config.h / 2 * (1 - 1.1 * Math.cos(i * config.radians / vis.totalAxes)); })
+        .attr("id",function(d){return d;})
+        .attr("x", function(d, i) { return config.w / 1.9 * (1 - 1.3 * Math.sin(i * config.radians / vis.totalAxes)); })
+        .attr("y", function(d, i) { return config.h / 1.95 * (1 - 1.1 * Math.cos(i * config.radians / vis.totalAxes)); })
         .attr("font-family", "sans-serif")
-        .attr("fill", function(d,i){ return (i%2 == 0) ?  "green" : "red"})
-        .attr("font-size", 11 * config.labelScale + "px");
+        .each(function(d,i){
+          var rank_div = document.getElementById(d+"_L");
+          var label = document.getElementById(d); //missing finances_L and LifeStyle and daily practices_L
+          if(rank_div != null){
+            if(rank_div.getAttribute("rank") < 3)
+              label.style.fill = "LimeGreen";
+            else if(rank_div.getAttribute("rank") > 6)
+              label.style.fill = "red";
+          }
+        })
+        .attr("font-size", 14 * config.labelScale + "px");
 
     }
 

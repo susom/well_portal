@@ -200,7 +200,6 @@ include_once("models/inc/gl_head.php");
                               }
 
                               $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-                              
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
@@ -233,24 +232,7 @@ include_once("models/inc/gl_head.php");
                                   file_put_contents($users_file_csv, $csv_data);
                                    
                                 }
-
-                                  ?>
-                                    <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
-                                  <?php
-                                  // Display their domain Ranking
-                                  if($compare_all == false){
-                                    $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
-                                    $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-                                    $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
-                                    $data = array(
-                                          'content'     => 'record',
-                                          "events"    => $domain_ranking_arm,
-                                              'records'     => array($loggedInUser->id),
-                                              'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
-                                                           "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
-                                    );
-                                    $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-                                    $radar_domains = array(
+                                 $radar_domains = array(
                                       "0" => lang("RESOURCE_CREATIVITY"),
                                       "1" => lang("RESOURCE_LIFESTYLE"),
                                       "2" => lang("RESOURCE_SOCIAL"),
@@ -274,6 +256,34 @@ include_once("models/inc/gl_head.php");
                                       "8" => "domainorder_fs",
                                       "9" => "domainorder_rs"
                                     );
+                                  if($compare_all == false){
+                                    $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
+                                    $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+                                    $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+                                    $data = array(
+                                          'content'     => 'record',
+                                          "events"    => $domain_ranking_arm,
+                                              'records'     => array($loggedInUser->id),
+                                              'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
+                                                           "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
+                                  );
+                                  
+                                  $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+                                  if(!empty($result[0]["domainorder_ec"])){
+                                      $ranking = [];
+                                      $dom = ($result[0]);
+                                      asort($dom);
+                                      foreach($dom as $k => $val){
+                                          $k--;
+                                          $key = array_search($k,$redcap_variables);
+                                          array_push($ranking, $radar_domains[$key]);
+                                      }
+                                      $_SESSION['ranking'] = $ranking; //store for radar chart
+                                    }
+                                  ?>
+                                    <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
+                                  <?php
+                               
                                     if(!empty($result[0]["domainorder_ec"])){
                                       $dom = ($result[0]);
                                       asort($dom);

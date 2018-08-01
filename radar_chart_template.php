@@ -19,6 +19,11 @@
         ?>
             <h3>Overall WELL-Being Score: <b><?php echo $loggedInUser->score ?>/100</b></h3>
         <?php
+            if(isset($_SESSION['ranking']))
+              foreach($_SESSION['ranking'] as $index => $domain)
+                // print_rr($domain);
+                echo '<div id = "'.$domain.'_L" rank = '.$index.'></div>';
+            // print_rr($_SESSION['ranking']);
           }
         ?>
         <p>There are 10 constituent domains of well-being. The score for each domain can range from 0-10. A lower score in a domain can indicate: (1) that domain is not of important or of particular value to you, or (2) you have an opportunity for growth in that domain.</p>
