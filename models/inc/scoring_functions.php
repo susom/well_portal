@@ -347,9 +347,11 @@ function getLongScores($domain_fields, $user_completed_fields){
       case "well_score_health" :
         if($non_answered < $dq_num){
           $domain_items = array();
+          $missing      = 0;
           foreach($fields as $field){
             $denom          = $field == "core_fitness_level" ? 5 : 4;
             if(!isset($user_completed_fields[$field])){
+              $missing++;
               continue;
             }
 
@@ -359,7 +361,8 @@ function getLongScores($domain_fields, $user_completed_fields){
               $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
             }
           }
-          $temp_score     = 2*array_sum($domain_items);
+          $non_missing    = count($fields) - $missing;
+          $temp_score     = (10/$non_missing)*array_sum($domain_items);
           $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
@@ -368,15 +371,18 @@ function getLongScores($domain_fields, $user_completed_fields){
       case "well_score_senseself" :
         if($non_answered < $dq_num){
           $domain_items = array();
+          $missing      = 0;
           foreach($fields as $field){
             if(!isset($user_completed_fields[$field])){
+              $missing++;
               continue;
             }
             $denom = 4;
             $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
           }
-          $weight = $domain == "well_score_senseself" ? 2 : 5;
-          $temp_score     = $weight*array_sum($domain_items);
+          $non_missing      = count($fields) - $missing; 
+          $weight = $domain == "well_score_senseself" ? $non_missing : 2;
+          $temp_score       = (10/$weight)*array_sum($domain_items);
           $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
@@ -384,18 +390,22 @@ function getLongScores($domain_fields, $user_completed_fields){
       case "well_score_social" :
         if($non_answered < $dq_num){
           $domain_items = array();
+          $missing      = 0;
           foreach($fields as $field){
             if(!isset($user_completed_fields[$field])){
+              $missing++;
               continue;
             }
             $denom = 4;
+
             if($field == "core_lack_companionship" || $field == "core_left_out" || $field == "core_isolated_others" || $field == "core_drained_helping" || $field == "core_people_upset" || $field == "core_meet_expectations"){
               $domain_items[] = (5-$user_completed_fields[$field])/$denom;
             }else{
               $domain_items[] = ($user_completed_fields[$field]-1)/$denom;
             }
           }
-          $temp_score     = (10/13)*(array_sum($domain_items));
+          $non_missing    = count($fields) - $missing; 
+          $temp_score     = (10/$non_missing)*(array_sum($domain_items));
           $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
@@ -405,10 +415,21 @@ function getLongScores($domain_fields, $user_completed_fields){
           $domain_items = array();
           $pos_items    = array();
           $neg_items    = array();
-
+          $missing_pos  = $missing_neg = 0;
+          $pos_fields   = $neg_fields = 0;
           foreach($fields as $field){
-            if(!isset($user_completed_fields[$field])){
-              continue;
+            if($field == "core_drained" || $field == "core_frustrated" || $field == "core_hopeless" || $field == "core_sad" || $field == "core_worried"){
+              $neg_fields++;
+              if(!isset($user_completed_fields[$field])){
+                $missing_neg++;
+                continue;
+              }
+            }else{
+              $pos_fields++;
+              if(!isset($user_completed_fields[$field])){
+                $missing_pos++;
+                continue;
+              }
             }
 
             $denom = 4;
@@ -419,11 +440,15 @@ function getLongScores($domain_fields, $user_completed_fields){
             }
           }
 
-          $emo_positive_dom   = empty($pos_items) ? null : (5/6)*(array_sum($pos_items));
-          $emo_negative_dom   = empty($neg_items) ? null : (5/5)*(array_sum($neg_items));
+          $non_missing_pos    = $pos_fields - $missing_pos; 
+          $pos_dq             = $missing_pos/$pos_fields >= .3;
+          $non_missing_neg    = $neg_fields - $missing_neg;
+          $neg_dq             = $missing_neg/$neg_fields >= .3;
+          $emo_positive_dom   = empty($pos_items) || $pos_dq ? "NA" : (10/$non_missing_pos)*(array_sum($pos_items));
+          $emo_negative_dom   = empty($neg_items) || $neg_dq ? "NA" : (10/$non_missing_neg)*(array_sum($neg_items));
 
-          $temp_score     = $emo_positive_dom + $emo_negative_dom; //(10/11)*(array_sum($domain_items));
-          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
+          $temp_score     = $emo_positive_dom == "NA" || $emo_negative_dom == "NA" ? "NA" : ($emo_positive_dom + $emo_negative_dom)/2; //(10/11)*(array_sum($domain_items));
+          $score[$domain] = $temp_score == "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
       
@@ -432,9 +457,22 @@ function getLongScores($domain_fields, $user_completed_fields){
           $domain_items = array();
           $pos_items    = array();
           $neg_items    = array();
+
+          $missing_pos  = $missing_neg = 0;
+          $pos_fields   = $neg_fields = 0;
           foreach($fields as $field){
-            if(!isset($user_completed_fields[$field])){
-              continue;
+            if($field == "core_important_time" || $field == "core_overwhelm_difficult" || $field == "core_important_energy" || $field == "core_confident_psnlproblem" || $field == "core_going_way"){
+              $neg_fields++;
+              if(!isset($user_completed_fields[$field])){
+                $missing_neg++;
+                continue;
+              }
+            }else{
+              $pos_fields++;
+              if(!isset($user_completed_fields[$field])){
+                $missing_pos++;
+                continue;
+              }
             }
 
             $denom = 4;
@@ -449,11 +487,15 @@ function getLongScores($domain_fields, $user_completed_fields){
             }
           }
 
-          $stress_positive_dom   = empty($pos_items) ? null : (5/9)*(array_sum($pos_items));
-          $stress_negative_dom   = empty($neg_items) ? null : (5/5)*(array_sum($neg_items));
+          $non_missing_pos    = $pos_fields - $missing_pos; 
+          $pos_dq             = $missing_pos/$pos_fields >= .3;
+          $non_missing_neg    = $neg_fields - $missing_neg;
+          $neg_dq             = $missing_neg/$neg_fields >= .3;
+          $stress_positive_dom   = empty($pos_items) || $pos_dq ? "NA" : (10/$non_missing_pos)*(array_sum($pos_items));
+          $stress_negative_dom   = empty($neg_items) || $neg_dq ? "NA" : (10/$non_missing_neg)*(array_sum($neg_items));
 
-          $temp_score     = $stress_positive_dom + $stress_negative_dom;//(10/14)*(array_sum($domain_items));
-          $score[$domain] = round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
+          $temp_score     = $stress_positive_dom == "NA" || $stress_negative_dom == "NA" ? "NA" : ($stress_positive_dom + $stress_negative_dom)/2;//(10/14)*(array_sum($domain_items));
+          $score[$domain] = $temp_score == "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
       
@@ -469,17 +511,22 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
 
         //alchohol
-        if(isset($user_completed_fields["core_bngdrink_male_freq"]) || isset($user_completed_fields["core_bngdrink_female_freq"])){
-          $domain_items["well_score_ls_alchohol"] = ((isset($user_completed_fields["core_bngdrink_male_freq"]) && $user_completed_fields["core_bngdrink_male_freq"] == 1) || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"]) ) ? 0 : 2;
+        if( (isset($user_completed_fields["core_bngdrink_male_freq"]) &&  $user_completed_fields["core_bngdrink_male_freq"] == 1)
+          || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"] == 1 )){
+          $domain_items["well_score_ls_alchohol"] =  0;
         }else{
-          $calc_lifestyle = false;
+          $domain_items["well_score_ls_alchohol"] = 10;
         }
         
         //smoking
-        if(isset($user_completed_fields["core_smoke_100"])){
-          $domain_items["well_score_ls_smoke"] = ( $user_completed_fields["core_smoke_100"] == 0 || ($user_completed_fields["core_smoke_100"] == 1 && $user_completed_fields["core_smoke_freq"] == 1) ) ? 2 : 0;
+        if(isset($user_completed_fields["core_smoke_freq"])){
+          $domain_items["well_score_ls_smoke"] = $user_completed_fields["core_smoke_freq"] > 1 ? 0 : 10;
         }else{
-          $calc_lifestyle = false;
+          if(isset($user_completed_fields["core_smoke_100"])){
+            $domain_items["well_score_ls_smoke"] = $user_completed_fields["core_smoke_100"] == 0 ? 10 : 0;
+          }else{
+            $calc_lifestyle = false;
+          }
         }
 
         //sleep
@@ -696,7 +743,9 @@ function getLongScores($domain_fields, $user_completed_fields){
           }
           $temp_score     = array_sum($diet_score)/count($diet_score);
           $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
-        }elseif($old_available){
+        }
+
+        if($old_available){
           $diet_score = array();
           if(isset($user_completed_fields["core_vegatables_intro"])){
             $temp_ar = array(0,8,9,9,10,10,10,10,10,10,10);
@@ -731,7 +780,10 @@ function getLongScores($domain_fields, $user_completed_fields){
 
           $temp_score     = array_sum($diet_score)/count($diet_score);
           $domain_items["well_score_ls_diet_old"] = $temp_score/25;
-        }else{
+        }
+
+        //IF NEITHER THAN NO CALC
+        if($non_answered >= $dq_num && !$old_available){
           $calc_lifestyle = false;
         }
           
