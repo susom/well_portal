@@ -223,6 +223,7 @@ include_once("models/inc/gl_head.php");
                                       $display = number_format($display,2,".","");
                                       $ct++;
                                       $csv_data .= "Year ".$count_year.", ". $key .", ". $display .", ". $domain_desc[$ct]."\n";
+
                                     }
                                     $sum_long_score = round(array_sum($long_scores));
                                     $loggedInUser->score = $sum_long_score;
@@ -231,7 +232,7 @@ include_once("models/inc/gl_head.php");
                                   }//ifempty
                                   file_put_contents($users_file_csv, $csv_data);
                                    
-                                }
+                                }//foreach project year (event arm)
                                  $radar_domains = array(
                                       "0" => lang("RESOURCE_CREATIVITY"),
                                       "1" => lang("RESOURCE_LIFESTYLE"),
@@ -266,10 +267,10 @@ include_once("models/inc/gl_head.php");
                                               'records'     => array($loggedInUser->id),
                                               'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
                                                            "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
-                                  );
+                                    );
                                   
-                                  $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-                                  if(!empty($result[0]["domainorder_ec"])){
+                                    $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+                                    if(!empty($result[0]["domainorder_ec"])){ //this code block is similar to below. Necessary
                                       $ranking = [];
                                       $dom = ($result[0]);
                                       asort($dom);
@@ -279,10 +280,10 @@ include_once("models/inc/gl_head.php");
                                           array_push($ranking, $radar_domains[$key]);
                                       }
                                       $_SESSION['ranking'] = $ranking; //store for radar chart
-                                    }
-                                  ?>
-                                    <object type = "text/html" data = "radar_chart_template.php" width=100%></object>
-                                  <?php
+                                    } //if !empty
+                                    ?>
+                                      <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
+                                    <?php
                                
                                     if(!empty($result[0]["domainorder_ec"])){
                                       $dom = ($result[0]);
@@ -295,7 +296,11 @@ include_once("models/inc/gl_head.php");
                                          echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
                                       }
                                       echo "</ol>";
-                                    }
+                                    }//if !empty
+                                  }else{//if compare_all is true just display the chart
+                                    ?>
+                                      <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
+                                    <?php
                                   }
                               }
                             break;

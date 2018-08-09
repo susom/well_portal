@@ -10,7 +10,7 @@ function radarDraw(scope, element) {
     var config = scope.config;
     var data = csv2json(csv);
     RadarChart.draw(element[0], data, config);  // call the D3 RadarChart.draw function to draw the vis on changes to data or config
-    watcher(); //unbind the watch event to only look for the first change on chart
+    //watcher(); //unbind the watch event to only look for the first change on chart
   });
 
 
