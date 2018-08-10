@@ -77,6 +77,60 @@ if(isset($_REQUEST["action"])){
       $updated = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
       print_rr($updated);
     }
+  }else if($action == "calc_bmi_edu"){
+    // CALCULATE BMI AND US EDUCATION CATAGORY
+    $extra_params = array(
+       "content"  => "record"
+      ,"type"     => "flat"
+      ,"fields"   => array("id","core_height_ft","core_height_inch","core_weight_lb","core_education_us_level","well_bmi","well_education")
+    );
+    $welldata      = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
+    foreach($welldata as $user){
+      $heightinches   = $user["core_height_ft"]*12 + $user["core_height_inch"];
+      $weightpounds   = $user["core_weight_lb"];
+      $well_bmi       = empty($user["core_height_ft"]) || empty($user["core_weight_lb"]) ? "NA" : round(($weightpounds/pow($heightinches, 2))*703,4);
+
+      switch($user["core_education_us_level"]){
+        case 1:
+          $category = 1;
+        break;
+
+        case 2:
+        case 3:
+        case 4:
+        case 5: 
+        case 6: 
+        case 7: 
+          $category = 2;
+        break;
+
+        case 8:
+        case 9:
+          $category = 3;
+        break;
+
+        default:
+          $category = 4;
+        break;
+      }
+      $well_education = $category;
+      $data[] = array(
+         "record"             => $user["id"]
+        ,"redcap_event_name"  => $user["redcap_event_name"]
+        ,"field_name"         => "well_bmi"
+        ,"value"              => $well_bmi
+      );
+      $data[] = array(
+         "record"             => $user["id"]
+        ,"redcap_event_name"  => $user["redcap_event_name"]
+        ,"field_name"         => "well_education"
+        ,"value"              => $well_education
+      );
+    }
+      
+    if(!empty($data)){
+      $updated = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
+    }
   }
 }else{
   print_rr("need to add action");
