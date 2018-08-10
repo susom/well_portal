@@ -257,51 +257,49 @@ include_once("models/inc/gl_head.php");
                                       "8" => "domainorder_fs",
                                       "9" => "domainorder_rs"
                                     );
-                                  if($compare_all == false){
-                                    $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
-                                    $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-                                    $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
-                                    $data = array(
-                                          'content'     => 'record',
-                                          "events"    => $domain_ranking_arm,
-                                              'records'     => array($loggedInUser->id),
-                                              'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
-                                                           "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
-                                    );
-                                  
-                                    $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-                                    if(!empty($result[0]["domainorder_ec"])){ //this code block is similar to below. Necessary
-                                      $ranking = [];
-                                      $dom = ($result[0]);
-                                      asort($dom);
-                                      foreach($dom as $k => $val){
-                                          $k--;
-                                          $key = array_search($k,$redcap_variables);
-                                          array_push($ranking, $radar_domains[$key]);
-                                      }
-                                      $_SESSION['ranking'] = $ranking; //store for radar chart
-                                    } //if !empty
-                                    ?>
-                                      <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
-                                    <?php
-                               
-                                    if(!empty($result[0]["domainorder_ec"])){
-                                      $dom = ($result[0]);
-                                      asort($dom);
-                                      echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
-                                      echo "<ol>";
-                                      foreach($dom as $k => $val){
-                                          $k--;
-                                          $key = array_search($k,$redcap_variables);
-                                         echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
-                                      }
-                                      echo "</ol>";
-                                    }//if !empty
-                                  }else{//if compare_all is true just display the chart
-                                    ?>
-                                      <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
-                                    <?php
+                                    
+                                  $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
+                                  if($domain_ranking_arm == "ALL"){
+                                    $domain_ranking_arm = $user_event_arm;
                                   }
+                                  $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+                                  $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+                                  $data = array(
+                                        'content'     => 'record',
+                                        "events"    => $domain_ranking_arm,
+                                            'records'     => array($loggedInUser->id),
+                                            'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
+                                                         "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
+                                  );
+                                
+                                  $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+                                  if(!empty($result[0]["domainorder_ec"])){ //this code block is similar to below. Necessary
+                                    $ranking = [];
+                                    $dom = ($result[0]);
+                                    asort($dom);
+                                    foreach($dom as $k => $val){
+                                        $k--;
+                                        $key = array_search($k,$redcap_variables);
+                                        array_push($ranking, $radar_domains[$key]);
+                                    }
+                                    $_SESSION['ranking'] = $ranking; //store for radar chart
+                                  } //if !empty
+                                  ?>
+                                    <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
+                                  <?php
+                             
+                                  if(!empty($result[0]["domainorder_ec"])){
+                                    $dom = ($result[0]);
+                                    asort($dom);
+                                    echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
+                                    echo "<ol>";
+                                    foreach($dom as $k => $val){
+                                        $k--;
+                                        $key = array_search($k,$redcap_variables);
+                                       echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
+                                    }
+                                    echo "</ol>";
+                                  }//if !empty
                               }
                             break;
 

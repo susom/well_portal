@@ -18,11 +18,13 @@
         ?>
             <h3><?php echo lang("OVERALL_WELL_BEING_SCORE"); ?>: <b><?php echo $loggedInUser->score ?>/100</b></h3>
         <?php
-            if(isset($_SESSION['ranking']))
-              foreach($_SESSION['ranking'] as $index => $domain)
+            // print_rr($_SESSION['ranking']);
+          }
+          if(isset($_SESSION['ranking'])){
+            foreach($_SESSION['ranking'] as $index => $domain){
                 // print_rr($domain);
                 echo '<div id = "'.$domain.'_L" rank = '.$index.'></div>';
-            // print_rr($_SESSION['ranking']);
+            }
           }
         ?>
         
