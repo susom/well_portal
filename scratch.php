@@ -130,6 +130,7 @@ if(isset($_REQUEST["action"])){
       
     if(!empty($data)){
       $updated = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
+      print_rr($updated);
     }
   }
 }else{
