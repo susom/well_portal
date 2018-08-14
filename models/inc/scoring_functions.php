@@ -505,7 +505,7 @@ function getLongScores($domain_fields, $user_completed_fields){
 
         //physical activity
         if(isset($user_completed_fields["core_lpaq"])){
-          $domain_items["well_score_ls_pa"] = round(2*($user_completed_fields["core_lpaq"]-1)/5,4);
+          $domain_items["well_score_ls_pa"] = round(10*($user_completed_fields["core_lpaq"]-1)/5,4);
         }else{
           $calc_lifestyle = false;
         }
@@ -522,10 +522,12 @@ function getLongScores($domain_fields, $user_completed_fields){
         if(isset($user_completed_fields["core_smoke_freq"])){
           $domain_items["well_score_ls_smoke"] = $user_completed_fields["core_smoke_freq"] > 1 ? 0 : 10;
         }else{
-          if(isset($user_completed_fields["core_smoke_100"])){
-            $domain_items["well_score_ls_smoke"] = $user_completed_fields["core_smoke_100"] == 0 ? 10 : 0;
+          // core_smoke_freq = NA
+          if(isset($user_completed_fields["core_smoke_100"]) && $user_completed_fields["core_smoke_100"] == 0){
+              //only allowable option here is core_smoke_100 = 0;
+              $domain_items["well_score_ls_smoke"] =  10 ;
           }else{
-            $calc_lifestyle = false;
+              $domain_items["well_score_ls_smoke"] =  "NA" ;
           }
         }
 
@@ -572,7 +574,7 @@ function getLongScores($domain_fields, $user_completed_fields){
             $sleep_score[]      = ($user_completed_fields["core_sleep_quality"]-1)/3;
           }
 
-          $temp_score         = (2/7)*array_sum($sleep_score); 
+          $temp_score         = (10/7)*array_sum($sleep_score); 
           $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),4);
         }else{
           $calc_lifestyle = false;
@@ -742,7 +744,7 @@ function getLongScores($domain_fields, $user_completed_fields){
             $diet_score[$secondary_var]   = isset($user_completed_fields[$secondary_var]) ? $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]] : 0;
           }
           $temp_score     = array_sum($diet_score)/count($diet_score);
-          $domain_items["well_score_ls_diet"] = $temp_score/5;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
+          $domain_items["well_score_ls_diet"] = $temp_score;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
         }
 
         if($old_available){
@@ -788,7 +790,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
           
         if($calc_lifestyle){
-          $score["well_score_ls"] = round(array_sum($domain_items),4);
+          $score["well_score_ls"] = round(array_sum($domain_items)/5,4);
         }
         $score["ls_sub_domains"] = $domain_items;
       break;

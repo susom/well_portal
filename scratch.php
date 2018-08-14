@@ -64,7 +64,7 @@ if(isset($_REQUEST["action"])){
       $old_diet = $record["well_score_ls_diet_old"];
       $new_diet = $record["well_score_ls_diet"];
       
-      $combined_diet = !empty($new_diet) ? $new_diet : $old_diet;
+      $combined_diet = !empty($new_diet) && $new_diet != "N/A" && $new_diet != "NA" ? $new_diet : $old_diet;
       $data[]                 = array(    
          "record"             => $record["id"]
         ,"field_name"         => "well_score_ls_diet_c"
@@ -130,6 +130,48 @@ if(isset($_REQUEST["action"])){
       
     if(!empty($data)){
       $updated = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
+      print_rr($updated);
+    }
+  }else if($action == "scale_sub_domains"){
+    $extra_params = array(
+       "content"  => "record"
+      ,"type"     => "flat"
+      ,"fields"   => array("id","well_score_ls_diet","well_score_ls_diet_old","well_score_ls_sleep","well_score_ls_pa")
+    );
+
+    $records      = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
+    
+    $data     = array();
+    foreach($records as $record){
+      $data[]                 = array(    
+         "record"             => $record["id"]
+        ,"field_name"         => "well_score_ls_diet"
+        ,"value"              => $record["well_score_ls_diet"]*5
+        ,"redcap_event_name"  => $record["redcap_event_name"]
+      );
+      $data[]                 = array(    
+         "record"             => $record["id"]
+        ,"field_name"         => "well_score_ls_diet_old"
+        ,"value"              => $record["well_score_ls_diet_old"]*5
+        ,"redcap_event_name"  => $record["redcap_event_name"]
+      );
+      $data[]                 = array(    
+         "record"             => $record["id"]
+        ,"field_name"         => "well_score_ls_sleep"
+        ,"value"              => $record["well_score_ls_sleep"]*5
+        ,"redcap_event_name"  => $record["redcap_event_name"]
+      );
+      $data[]                 = array(    
+         "record"             => $record["id"]
+        ,"field_name"         => "well_score_ls_pa"
+        ,"value"              => $record["well_score_ls_pa"]*5
+        ,"redcap_event_name"  => $record["redcap_event_name"]
+      );
+    }
+
+    if(!empty($data)){
+      print_rr($data);
+      // $updated = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
       print_rr($updated);
     }
   }
