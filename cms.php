@@ -1,5 +1,6 @@
 <?php
 require_once("models/config.php");
+include("models/inc/checklogin.php");
 
 if(isset($_GET["user_record_id"]) ){
   $checkuser = getUserByRecordID($_GET["user_record_id"]);
