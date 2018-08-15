@@ -8,10 +8,17 @@ if(isUserLoggedIn()) {
 	exit; 
 }
 
+if(isset($_SESSION["login_redirect"])){
+	// print_rr("after login this page will redirect to : " . $_SESSION["login_redirect"]);
+}
+
 if(isset($_GET["session_clear"])){
 	unset($_SESSION[$_CFG->SESSION_NAME]['login_attempts']);
+	unset($_SESSION["login_redirect"]);
+	
 	header("Location: " . $websiteUrl . "login.php"); 
 }
+
 unset($_SESSION[SESSION_NAME]['login_attempts']);
 $attempts_remaining = (isset($_SESSION[$_CFG->SESSION_NAME]['login_attempts']) ? $_SESSION[$_CFG->SESSION_NAME]['login_attempts'] : 4);
 $username_label 	= "";
@@ -19,7 +26,6 @@ $badlogin 			= "";
 //--------------------------------------------------------------------
 // Login Posted
 if( !empty($_POST) && isset($_POST['new_login']) ) {
-
 	$errors 	= array();
 	$username 	= trim($_POST["username"]);
 	$password 	= trim($_POST["password"]);

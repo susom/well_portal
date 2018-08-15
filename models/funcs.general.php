@@ -113,11 +113,11 @@ function setSessionUser($user) {
 
 // If a session redirect is present, then return the saved url and clear, otherwise return $default
 function getSessionRedirectOr($default = '') {
-	if ( isset($_SESSION[SESSION_NAME]['redirect']) && 
-		 !empty($_SESSION[SESSION_NAME]['redirect']) ) {
-		$default = $_SESSION[SESSION_NAME]['redirect'];
+	if ( isset($_SESSION["login_redirect"]) && 
+		 !empty($_SESSION["login_redirect"]) ) {
+		$default = $_SESSION["login_redirect"];
 		// Clear saved redirect
-		unset($_SESSION[SESSION_NAME]['redirect']);
+		unset($_SESSION["login_redirect"]);
 	}
 	return $default;
 }
