@@ -749,27 +749,27 @@ function getLongScores($domain_fields, $user_completed_fields){
 
         if($old_available){
           $diet_score = array();
-          if(isset($user_completed_fields["core_vegatables_intro"])){
+          if(!empty($user_completed_fields["core_vegatables_intro"])){
             $temp_ar = array(0,8,9,9,10,10,10,10,10,10,10);
             $diet_score["core_vegatables_intro"]   =$temp_ar[$user_completed_fields["core_vegatables_intro"]];
           }
 
-          if(isset($user_completed_fields["core_desserts_intro"])){
+          if(!empty($user_completed_fields["core_desserts_intro"])){
             $temp_ar = array(10,0,0,0,0,0,0,0,0,0,0);
             $diet_score["core_desserts_intro"]   = $temp_ar[$user_completed_fields["core_desserts_intro"]];
           }
 
-          if(isset($user_completed_fields["core_processed_intro"])){
+          if(!empty($user_completed_fields["core_processed_intro"])){
             $temp_ar = array(10,6,6,4,4,2,2,1,0,0,0);
             $diet_score["core_processed_intro"]   = $temp_ar[$user_completed_fields["core_processed_intro"]];
           }
 
-          if(isset($user_completed_fields["core_sweet_drinks"])){
+          if(!empty($user_completed_fields["core_sweet_drinks"])){
             $temp_ar = array(0,10,6,4,1,0,0,0,0);
             $diet_score["core_sweet_drinks"]   = $temp_ar[$user_completed_fields["core_sweet_drinks"]];
           }
 
-          if(isset($user_completed_fields["core_fastfood_day"]) && isset($user_completed_fields["core_fastfood_freq"])){
+          if(!empty($user_completed_fields["core_fastfood_day"]) && !empty($user_completed_fields["core_fastfood_freq"])){
             $diet_score["core_fastfood"] = 0;
             if($diet_score["core_fastfood_day"] == 1){
               if($user_completed_fields["core_fastfood_freq"] < 2){
@@ -780,7 +780,7 @@ function getLongScores($domain_fields, $user_completed_fields){
             }
           }
 
-          $temp_score     = array_sum($diet_score)/count($diet_score);
+          $temp_score     = count($diet_score) ? array_sum($diet_score)/count($diet_score) : 0;
           $domain_items["well_score_ls_diet_old"] = $temp_score/25;
         }
 
@@ -976,10 +976,6 @@ function getShortScore($answers){
   // $answers = array_filter($answers);
   $score  = array();
 
-  if(empty($answers)){
-    return array();
-  }
-
   //SOCIAL CONNECTEDNESS
   //
   $sc_a   = isset($answers["core_lack_companionship"]) ? 5/3 * ((6 - $answers["core_lack_companionship"])/5) : 0;
@@ -987,47 +983,26 @@ function getShortScore($answers){
   $sc_c   = isset($answers["core_energized_help"]) ? 5/3 * ($answers["core_energized_help"]/5) : 0;
   $score["soc_con"] = $sc_a + $sc_b + $sc_c;
 
+  //Lifestyle BEHAVIORS
+  $diet_ar = array(
+    1 => array(1,2,3),
+    2 => array(4,5,6),
+    3 => array(7,8,9,10)
+  );
 
+  $veg_score = 0;
   if(isset($answers["core_vegatables_intro_v2"])){
-	  //Lifestyle BEHAVIORS
-	  $veg_ar = array(
-	    1 => array(0,0,1),
-	    2 => array(2,4,6),
-	    3 => array(8,9,10,10)
-	  );
-	  $veg_score = 0;
-
-	  if(isset($answers["core_vegatables_intro_v2"])){
-	    $veg_a  = $answers["core_vegatables_intro_v2"];
-	    $veg_b  = $answers["core_vegetables_intro_v2_" . $veg_a];
-	    $veg_score = (($veg_ar[$veg_a][$veg_b])/10) * .5;
-	  }
-  }elseif(isset($answers["core_vegatables_intro"])){
-  	  $veg_ar = array(
-	    0 => 0,
-	    1 => 8,
-	    2 => 9,
-	    3 => 9
-	  );
-	  $veg_score = $answers["core_vegatables_intro"] > 3 ? 10 : $veg_ar[$answers["core_vegatables_intro"]];
+    $veg_a  = $answers["core_vegatables_intro_v2"];
+    $veg_b  = $answers["core_vegetables_intro_v2_" . $veg_a];
+    $veg_score = (($diet_ar[$veg_a][$veg_b])/10) * .5;
   }
 
+  $sug_score = 0;
   if(isset($answers["core_sugar_intro_v2"])){
-	  $sugar_ar = array(
-	    1 => array(10,9,8),
-	    2 => array(6,4,1),
-	    3 => array(0,0,0,0)
-	  );
-	  $sug_score = 0;
-	  if(isset($answers["core_sugar_intro_v2"])){
-	    $sug_a  = $answers["core_sugar_intro_v2"];
-	    $sug_b  = $answers["core_sugar_intro_v2_" . $sug_a];
-	    $sug_score = (($sugar_ar[$sug_a][$sug_b])/10) * .5;
-	  }
-  }elseif(isset($answers["core_sugar_intro"])){
-	  $sug_score = $answers["core_sugar_intro"] == 0 ? 10 : 0;
+    $sug_a  = $answers["core_sugar_intro_v2"];
+    $sug_b  = $answers["core_sugar_intro_v2_" . $sug_a];
+    $sug_score = ((11 - $diet_ar[$sug_a][$sug_b])/10) * .5;
   }
-
   $dietscore  = $veg_score + $sug_score;
 
   $smokescore = 0;
@@ -1052,7 +1027,7 @@ function getShortScore($answers){
   $score["lif_beh"] = $bngscore + $slepscore + $lpaqscore + $smokescore + $dietscore;
 
   //STRESS AND RESILIENCE
-  $sr_a     = isset($answers["core_important_time"]) ? ((6 - $answers["core_important_time"])/5) * 2.5 : 0;
+  $sr_a     = isset($answers["core_important_energy"]) ? ((6 - $answers["core_important_energy"])/5) * 2.5 : 0;
   $sr_b     = isset($answers["core_deal_whatever"]) ? ($answers["core_deal_whatever"]/5) * 2.5 : 0;
   $score["stress_res"]  = $sr_a + $sr_b;
 
