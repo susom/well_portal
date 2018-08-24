@@ -136,6 +136,10 @@ include_once("models/inc/gl_head.php");
 include_once("models/inc/gl_foot.php");
 ?>
 <script>
+	<?php
+
+	?>
+
     $(document).ready(function(){
         $("#items").sortable({
         	appendTo: document.body,
@@ -157,15 +161,38 @@ include_once("models/inc/gl_foot.php");
 		$(".alert").css("opacity",1);
 		return;
     }
+
+    // Read a page's GET URL variables and return them as an associative array.
+	function getUrlVars(){
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	    for(var i = 0; i < hashes.length; i++)
+	    {
+	        hash = hashes[i].split('=');
+	        vars.push(hash[0]);
+	        vars[hash[0]] = hash[1];
+	    }
+	    return vars;
+	}
+
     $("#fin").click(function(){
-    	var ret = $("#items").sortable("toArray",{attribute: 'id'});
+    	var redirect  	= getUrlVars()["nextsid"];
+    	var ret 		= $("#items").sortable("toArray",{attribute: 'id'});
+
     	$.ajax({
 	      url  		: "reorderPost.php",
 	      type 		: 'POST',
 	      data 		: "&domains=" + JSON.stringify(ret),
           success 	: function(result){
           	console.log(result);
-            addModal("Domain Priorities Saved!");
+            if(redirect){
+        		addModal("Domain Priorities Saved.  Redirecting back to Well-Being survey in 3...2..1");
+	    		setTimeout(function(){
+        			location.href="survey.php?sid="+redirect;
+			    },3000);
+	    	}else{
+        		addModal("Domain Priorities Saved!");
+	    	}
           },
           function(err){
           	console.log(err);

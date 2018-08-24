@@ -363,20 +363,28 @@ if(array_key_exists($sid, $surveys)){
 //POP UP IN BETWEEN SURVEYS 
 //NEEDS TO GO BELOW SUPPLEMENTALL PROJECTS WORK FOR NOW
 if(isset($_GET["survey_complete"])){
+  //IF SLEEP HABITS COMPLETE, LETS TAKE A BREAK AND REDIRECT THEM AWAY TO DOMAIN RANKING
+  //THEN WHEN THEY REORDER THAT THEY CAN RETURN TO "ABOUT_YOU"
+
   //ONLY SHOW THESE POPUPS FOR LONG ANNIVERSARIES
   if(!strpos($user_event_arm,"short") && strpos($user_event_arm,"short") !== 0){
-
     //ONLY LONG ANNIVERSARIES GET POP UP TREATMENT
     //IF NO URL PASSED IN THEN REDIRECT BACK
     $surveyid = $_GET["survey_complete"];
-    
+
     if(array_key_exists($surveyid,$surveys)){
       $index        = array_search($surveyid, $all_survey_keys);
       $survey       = $surveys[$surveyid];
       $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . SurveysConfig::$fruits[$index] . "'></span> " ;
       if(isset($all_survey_keys[$index+1])){
         $nextlink     = "survey.php?sid=". $all_survey_keys[$index+1];
-        $success_msg .= $lang["GET_WHOLE_BASKET"];
+        $nextsid      = $all_survey_keys[$index+1];
+        if($surveyid == "your_sleep_habits"){
+          $success_msg .= "<p class='well'><a href='activity.php?nextsid=$nextsid'>We invite you to click on this link to rank your Lifestyle Domain preferences before completeing the rest of this survey.</a></p>";
+        }else{
+          $success_msg .= $lang["GET_WHOLE_BASKET"];
+        }
+
         addSessionMessage( $success_msg , "success");
       }
     }

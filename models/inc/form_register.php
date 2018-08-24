@@ -260,6 +260,9 @@
             return $(".eligibility").is(':visible');
           }
         },
+        in_usa:{
+          required: true
+        },
         oldenough: {
           required: function(){
             return $(".eli_two").is(':visible');
