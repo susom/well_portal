@@ -175,7 +175,7 @@ if(isset($_GET["survey_complete"])){
       if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
         $success_arr[]  = "<p class='alert_reminder'>".lang("UO1_REMINDER")."</p>";
       }else{
-       $success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+       // $success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
       }
 
       $success_msg      = implode($success_arr);

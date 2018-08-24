@@ -380,7 +380,7 @@ if(isset($_GET["survey_complete"])){
         $nextlink     = "survey.php?sid=". $all_survey_keys[$index+1];
         $nextsid      = $all_survey_keys[$index+1];
         if($surveyid == "your_sleep_habits"){
-          $success_msg .= "<p class='well'><a href='activity.php?nextsid=$nextsid'>We invite you to click on this link to rank your Lifestyle Domain preferences before completeing the rest of this survey.</a></p>";
+          $success_msg .=  "<hr/><p class='organize'><a href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
         }else{
           $success_msg .= $lang["GET_WHOLE_BASKET"];
         }
