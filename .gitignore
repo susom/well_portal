@@ -2,4 +2,6 @@ RadarUserCSV/*
 PDF/certs/*
 
 models/my_settings.php
+
+nohup.*
 temp/*

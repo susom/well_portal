@@ -1,6 +1,11 @@
 <?php 
 require_once("models/config.php"); 
-include("models/inc/checklogin.php");
+if(isset($_SERVER['argv'][1])){
+  $temp               = explode("=",$_SERVER['argv'][1]);
+  $_REQUEST["action"] = $temp[1];
+}else{
+  include("models/inc/checklogin.php");
+}
 include("models/inc/scoring_functions.php");
 
 $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
@@ -9,6 +14,7 @@ $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 // ONE TIME ACTION TO UPDATE the generated well_long_score_json variables.
 if(isset($_REQUEST["action"])){
   $action = $_REQUEST["action"];
+
   if($action == "update_domain_json"){
     $extra_params = array(
        "content"  => "record"
@@ -250,10 +256,20 @@ if(isset($_REQUEST["action"])){
     $extra_params = array(
        "content"  => "record"
       ,"type"     => "flat"
-      ,"fields"   => array("id","well_score","well_score_long")
+      ,"fields"   => array("id","well_score","well_score_long","well_score_ls","well_score_ls_diet","well_score_ls_diet_old","well_score_ls_pa","well_score_ls_sleep","well_score_ls_smoke","well_score_ls_alchohol")
+      ,"records"  => array()
+      ,"events" => "enrollment_arm_1"
     );
     $welldata      = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
-    
+
+    // $fuckdata      =  array();
+    // foreach($welldata as $user){
+    //   $user["ls_score"] =  ( $user["well_score_ls_pa"] + $user["well_score_ls_sleep"] + $user["well_score_ls_smoke"] + $user["well_score_ls_alchohol"] + (!empty($user["well_score_ls_diet"]) && $user["well_score_ls_diet"] !== " N/A" && $user["well_score_ls_diet"] !== "NA" ? $user["well_score_ls_diet"] : $user["well_score_ls_diet_old"] ) )/5;
+    //   $fuckdata[] = $user;
+    // }
+    // print_rr($fuckdata);
+    // exit;
+
     $arms           = array(); //for updateing
     foreach($welldata as $item){
       $arm              = $item["redcap_event_name"];
@@ -262,6 +278,7 @@ if(isset($_REQUEST["action"])){
 
     $calculated     = array();
     $scores         = array();
+
     foreach($arms as $arm => $ids){
       $use_short_scale    = strpos($arm,"short") > -1 ? true : false;  
       $recordids          = array_values($ids);
@@ -289,9 +306,10 @@ if(isset($_REQUEST["action"])){
               $score = round(array_sum($score));
               //now push it back up to the server
               $data[] = array(
-                   "id"            => $item["id"]
-                  ,"redcap_event_name"    => $arm
-                  ,"well_score"           => $score
+                   "record"             => $item["id"]
+                  ,"redcap_event_name"  => $arm
+                  ,"field_name"         => "well_score" 
+                  ,"value"              => $score
               );
               $calculated[] = "WELL Score (Brief) of $score calculated for id #" . $item["id"] . " on $arm\n";
           }
@@ -583,9 +601,15 @@ if(isset($_REQUEST["action"])){
 
             // SAVE ALL THE SUB SCORES
             $save_scores  = array_merge($long_scores,$sub_scores,$pos_neg_subscores); 
-            $subdata      = array("id" => $user_completed_keys["id"], "redcap_event_name" => $arm);
+            
+            $subdata = array();
             foreach($save_scores as $redcap_var => $value){
-              $subdata[$redcap_var] = $value;
+              $subdata[] = array(
+                   "record"             => $user_completed_keys["id"]
+                  ,"redcap_event_name"  => $arm
+                  ,"field_name"         => $redcap_var
+                  ,"value"              => $value
+              );
             }
             $component_data = $subdata;
             $updated        = RC::writeToApi($subdata, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
@@ -599,25 +623,31 @@ if(isset($_REQUEST["action"])){
             // ONLY SAVE SCORES IF MINIMUM DATA PASS
             if($minimumData){
               $data[] = array(
-                 "id"                   => $user_completed_keys["id"]
+                 "record"               => $user_completed_keys["id"]
                 ,"redcap_event_name"    => $arm
-                ,"well_long_score_json" => json_encode($remapped_long_scores)
-                ,"well_score_long"      => round(array_sum($remapped_long_scores),4)
+                ,"field_name"           => "well_long_score_json" 
+                ,"value"                => json_encode($remapped_long_scores)
+              );
+              $data[] = array(
+                 "record"               => $user_completed_keys["id"]
+                ,"redcap_event_name"    => $arm
+                ,"field_name"           => "well_score_long"      
+                ,"value"                => round(array_sum($remapped_long_scores),4)
               );
               $calculated[] = "WELL Score (Long) of ".round(array_sum($remapped_long_scores))."/100 calculated for id #" . $user_completed_keys["id"] . " on $arm\n";
             }else{
               // ELSE SAVE AS N/A
               $data[] = array(
-                 "id"                   => $user_completed_keys["id"]
+                 "record"               => $user_completed_keys["id"]
                 ,"redcap_event_name"    => $arm
-                ,"well_score_long"      => "N/A"
+                ,"field_name"           => "well_score_long"
+                ,"value"                => "N/A"
               );
               $calculated[] = "WELL Score (Long) could not be calculated for id #" . $user_completed_keys["id"] . " on $arm\n";
             }
           }
         }
         $updated  = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN); 
-        print_rr($updated);
       }
     }
     $calculated[] =  "All elgibile WELL Scores have been calculated";

@@ -54,14 +54,13 @@ foreach($events as $event){
       $imgname  = $split2[1];
       $eventpic = '<img class="event_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
     }
-      $order = intval($event["well_cms_displayord"]);
-
+    $order = intval($event["well_cms_displayord"]);
     $cats[$order] = array(
          "pic"            => $eventpic
         ,"link"           => $event["well_cms_event_link"] 
         ,"domain"         => $event["well_cms_domain"]
         ,"content"        => $event["well_cms_content"]
-        ,"link-text"      => $event["well_cms_text_link"]
+        ,"link-text"      => $event["well_cms_subject"]
         ,"image-catagory" => $event["well_cms_image_catagory"]
     );
 }

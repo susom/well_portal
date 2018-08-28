@@ -331,6 +331,11 @@ include("models/inc/gl_header.php");
 .well .event_img {
   max-width:200px;
 }
+
+.well .actions{
+  width:100%;
+  padding:15px;
+}
 </style>
 <div id="content" class="container" role="main" tabindex="0">
 <div class="row"> 
@@ -650,16 +655,28 @@ include("models/inc/gl_header.php");
         <?php 
         }else{
           ?>
-          <form id="viewas" method="GET">
-            <fieldset>
-              <h3>View portal as a User:</h3>
-              <label>
-                <b>User Id:</b>
-                <input type="number" name="user_record_id"/>
-                <input type="submit"  value="Go"/>
-              </label>
-            </fieldset>
-          </form>
+
+          <div >
+            <form id="viewas" method="GET">
+              <fieldset>
+                <h3>View portal as a User:</h3>
+                <label>
+                  <b>User Id:</b>
+                  <input type="number" name="user_record_id"/>
+                  <input type="submit"  value="Go"/>
+                </label>
+              </fieldset>
+            </form>
+            <hr>
+            <div class="actions">
+              <h3>One off actions</h3>
+              <ul>
+                <li><a href="scratch.php?action=well_score_calc">Recalculate Well Score</a></li>
+                <li><a href="scratch.php?action=calc_bmi_edu">Recalculate BMI and Education</a></li>
+                <li><a href="scratch.php?action=update_domain_json">Recalculate Domain JSON scores/labels</a></li>
+              </ul>
+            </div>
+          </div>
           <?php
         }
         ?>

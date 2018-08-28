@@ -569,4 +569,16 @@ include_once("models/inc/gl_foot.php");
   // });
 </script>
 <script src="assets/js/survey.js"></script>
+<style>
+div.alert + #outter_rim:before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0; left:0;
+  background:#333;
+  opacity:.3;
+  z-index:999;
+}
+</style>
 <?php

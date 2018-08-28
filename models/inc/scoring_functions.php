@@ -320,7 +320,6 @@ function getLongScores($domain_fields, $user_completed_fields){
   // 10 domains
   // Each domain counts for 10 points
   // Total score is 100
-  
   $score  = array();
   $emo_positive_dom     = null;
   $emo_negative_dom     = null;
@@ -790,7 +789,11 @@ function getLongScores($domain_fields, $user_completed_fields){
         }
           
         if($calc_lifestyle){
-          $score["well_score_ls"] = round(array_sum($domain_items)/5,4);
+          $lifestyle_items        = $domain_items;
+          if(isset($lifestyle_items["well_score_ls_diet"])){
+            unset($lifestyle_items["well_score_ls_diet_old"]);
+          }
+          $score["well_score_ls"] = round(array_sum($lifestyle_items)/5,4);
         }
         $score["ls_sub_domains"] = $domain_items;
       break;
