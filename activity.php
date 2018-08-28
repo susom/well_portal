@@ -249,6 +249,28 @@ button.btn-success.alert{
 	width:350px;
 	margin-top:25px;
 }
+#items::before{
+	content:"";
+	border:5px solid green;
+	width:80%;
+	height:228px;
+	position:absolute;
+	top:90px; left:50px;
+	border-radius:10px;
+	background:lightgreen;
+	z-index:-1; 
+}
+#items::after{
+	content:"";
+	border:5px solid red;
+	width:80%;
+	height:228px;
+	position:absolute;
+	bottom:3px; left:50px;
+	border-radius:10px;
+	background:pink;
+	z-index:-1; 
+}
 #items li{
   background-color:#f2f2f2;
   display: block;
@@ -262,7 +284,7 @@ button.btn-success.alert{
   cursor:pointer;
   text-align: left;
   padding-left: 10px;
-
+  margin-bottom:15px; 
 }
 
 .domain{
