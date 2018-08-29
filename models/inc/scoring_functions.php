@@ -551,30 +551,30 @@ function getLongScores($domain_fields, $user_completed_fields){
         $dq_num           = ceil($num_fields*.3);
         if($non_answered < $dq_num){
           $sleep_score = array();
-          if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
+          if(isset($user_completed_fields["core_sleep_hh"]) || isset($user_completed_fields["core_sleep_mm"])){
             $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
-            $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5 : 1;
+            $sleep_score["sleep_min"]         = $core_sleep_total >= 420 && $core_sleep_total < 540 ? 1 : 0;
           }
           if(isset($user_completed_fields["core_fallasleep_min"])){
-            $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
+            $sleep_score["fallasleep_min"]    = (7-$user_completed_fields["core_fallasleep_min"])/6;
           }
           if(isset($user_completed_fields["core_fallasleep"])){
-            $sleep_score[]      = (5-$user_completed_fields["core_fallasleep"])/4;
+            $sleep_score["fallasleep"]        = (5-$user_completed_fields["core_fallasleep"])/4;
           }
           if(isset($user_completed_fields["core_wokeup"])){
-            $sleep_score[]      = (5-$user_completed_fields["core_wokeup"])/4;
+            $sleep_score["wokeup"]            = (5-$user_completed_fields["core_wokeup"])/4;
           }
           if(isset($user_completed_fields["core_wokeup_early"])){
-            $sleep_score[]      = (5-$user_completed_fields["core_wokeup_early"])/4;
+            $sleep_score["wokeup_early"]      = (5-$user_completed_fields["core_wokeup_early"])/4;
           }
           if(isset($user_completed_fields["core_wokeup_unrefresh"])){
-            $sleep_score[]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
+            $sleep_score["unrefreshed"]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
           }
           if(isset($user_completed_fields["core_sleep_quality"])){
-            $sleep_score[]      = ($user_completed_fields["core_sleep_quality"])/3;
+            $sleep_score["quality"]          = ($user_completed_fields["core_sleep_quality"] - 1)/3;
           }
-
-          $temp_score         = (10/7)*array_sum($sleep_score); 
+          $temp_score         = (10/count($sleep_score))*array_sum($sleep_score); 
+          
           $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),4);
         }else{
           $calc_lifestyle = false;
