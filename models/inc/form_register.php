@@ -94,12 +94,12 @@
 
     <aside class="eligibility">
       <fieldset class="eli_one">
-        <div class="form-group">
-          <label class="control-label col-sm-6"><?php echo lang("ACCOUNT_USA_CURRENT") ?></label>
-          <div class="col-sm-2"> 
-            <label><input name="in_usa" type="radio" value="1"> <?php echo lang("GENERAL_YES") ?></label>
+        <div class="form-group" style='height:50px;'>
+          <label class="control-label col-sm-6 "><?php echo lang("ACCOUNT_USA_CURRENT") ?></label>
+          <div class="col-sm-2" > 
+            <label><input name="in_usa" type="radio" class="form-control" style='border:none; box-shadow:initial; display:initial; width:initial; height:initial; padding:initial;' value="1"> <?php echo lang("GENERAL_YES") ?></label>
           </div>
-
+          
           <div class="col-sm-2"> 
             <label><input name="in_usa" type="radio" value="0"> <?php echo lang("GENERAL_NO") ?></label>
           </div>

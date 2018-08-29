@@ -320,6 +320,7 @@ function getLongScores($domain_fields, $user_completed_fields){
   // 10 domains
   // Each domain counts for 10 points
   // Total score is 100
+  
   $score  = array();
   $emo_positive_dom     = null;
   $emo_negative_dom     = null;
@@ -552,7 +553,7 @@ function getLongScores($domain_fields, $user_completed_fields){
           $sleep_score = array();
           if(isset($user_completed_fields["core_sleep_hh"]) && isset($user_completed_fields["core_sleep_mm"])){
             $core_sleep_total   = 60*$user_completed_fields["core_sleep_hh"] + $user_completed_fields["core_sleep_mm"];
-            $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5/5 : 0;
+            $sleep_score[]      = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 5 : 1;
           }
           if(isset($user_completed_fields["core_fallasleep_min"])){
             $sleep_score[]      = (7-$user_completed_fields["core_fallasleep_min"])/6;
@@ -570,7 +571,7 @@ function getLongScores($domain_fields, $user_completed_fields){
             $sleep_score[]      = (5-$user_completed_fields["core_wokeup_unrefresh"])/4;
           }
           if(isset($user_completed_fields["core_sleep_quality"])){
-            $sleep_score[]      = ($user_completed_fields["core_sleep_quality"]-1)/3;
+            $sleep_score[]      = ($user_completed_fields["core_sleep_quality"])/3;
           }
 
           $temp_score         = (10/7)*array_sum($sleep_score); 
@@ -748,27 +749,27 @@ function getLongScores($domain_fields, $user_completed_fields){
 
         if($old_available){
           $diet_score = array();
-          if(!empty($user_completed_fields["core_vegatables_intro"])){
+          if(isset($user_completed_fields["core_vegatables_intro"])){
             $temp_ar = array(0,8,9,9,10,10,10,10,10,10,10);
             $diet_score["core_vegatables_intro"]   =$temp_ar[$user_completed_fields["core_vegatables_intro"]];
           }
 
-          if(!empty($user_completed_fields["core_desserts_intro"])){
+          if(isset($user_completed_fields["core_desserts_intro"])){
             $temp_ar = array(10,0,0,0,0,0,0,0,0,0,0);
             $diet_score["core_desserts_intro"]   = $temp_ar[$user_completed_fields["core_desserts_intro"]];
           }
 
-          if(!empty($user_completed_fields["core_processed_intro"])){
+          if(isset($user_completed_fields["core_processed_intro"])){
             $temp_ar = array(10,6,6,4,4,2,2,1,0,0,0);
             $diet_score["core_processed_intro"]   = $temp_ar[$user_completed_fields["core_processed_intro"]];
           }
 
-          if(!empty($user_completed_fields["core_sweet_drinks"])){
-            $temp_ar = array(0,10,6,4,1,0,0,0,0);
-            $diet_score["core_sweet_drinks"]   = $temp_ar[$user_completed_fields["core_sweet_drinks"]];
+          if(isset($user_completed_fields["core_sweet_drinks"])){
+            $temp_ar = array(10,6,4,1,0,0,0,0);
+            $diet_score["core_sweet_drinks"]   = $temp_ar[ $user_completed_fields["core_sweet_drinks"] - 1];
           }
 
-          if(!empty($user_completed_fields["core_fastfood_day"]) && !empty($user_completed_fields["core_fastfood_freq"])){
+          if(isset($user_completed_fields["core_fastfood_day"])){
             $diet_score["core_fastfood"] = 0;
             if($diet_score["core_fastfood_day"] == 1){
               if($user_completed_fields["core_fastfood_freq"] < 2){
@@ -780,7 +781,7 @@ function getLongScores($domain_fields, $user_completed_fields){
           }
 
           $temp_score     = count($diet_score) ? array_sum($diet_score)/count($diet_score) : 0;
-          $domain_items["well_score_ls_diet_old"] = $temp_score/25;
+          $domain_items["well_score_ls_diet_old"] = $temp_score;
         }
 
         //IF NEITHER THAN NO CALC

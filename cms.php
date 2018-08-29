@@ -141,7 +141,7 @@ if($_POST["action"] == "newevent"){
 $loc          = isset($_REQUEST["loc"]) ? $_REQUEST["loc"] : "1";
 $cat          = isset($_REQUEST["cat"]) ? $_REQUEST["cat"] : "1";
 
-$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Other");
+$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Tools");
 $locs         = array(1 => "US", 2 => "Taiwan");
 
 include("models/inc/gl_header.php");
