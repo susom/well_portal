@@ -104,8 +104,9 @@ $(document).ready(function(){
     }
 
     //THE REST IS JUST FIGURING OUT THIS PROGRESS BAR
-    var completed_count = 0;
-    var total_questions = 0;
+    var pbar = $(".progress-bar");
+    var completed_count = pbar.data("completed-count");
+    var total_questions = pbar.data("total-questions");
     for(var i in form_metadata){
       //UPDATE THE user_answer FIELD IN form_metadata
       if(form_metadata[i]["field_name"] == $(this).attr("name")){
@@ -140,14 +141,14 @@ $(document).ready(function(){
     //UPDATE THE PROGRESS BAR 
     var pbar              = $(".progress-bar");
     var percent_complete  = Math.round((completed_count/total_questions)*100,2) + "%";
-    updateProgressBar(pbar, percent_complete);
+    updateProgressBar(pbar, percent_complete,total_questions,completed_count);
     return;
   }); 
 
   //SET THE INTIAL PROGRESS BAR
   var pbar              = $(".progress-bar");
   var percent_complete  = Math.round((completed_count/total_questions)*100,2) + "%";
-  updateProgressBar(pbar, percent_complete);
+  updateProgressBar(pbar, percent_complete, total_questions, completed_count);
 
   //FIND THE PAGE OF THE LAST QUESTION SAVED AND JUMP TO THAT PANEL
   var answered_keys     = Object.keys(user_completed); 
@@ -307,9 +308,9 @@ function isEmpty(v){
   return v == null || v == undefined;
 }
 
-function updateProgressBar(ref, perc){
+function updateProgressBar(ref, perc, total_questions, completed_count){
   //UPDATE SURVEY PROGERSS BAR
-  ref.attr("data-original-title",perc).css("width",perc);
+  ref.attr("data-original-title",perc).attr("data-total-questions", total_questions).attr("data-completed-count",completed_count).css("width",perc);
   return;
 }
 

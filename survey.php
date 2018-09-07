@@ -496,13 +496,13 @@ include_once("models/inc/gl_foot.php");
 
   echo $branching_function;
 
-  $all_completed = array_merge($all_completed, $active_survey->completed);
   // //PASS FORMS METADATA 
-  echo "var total_questions     = " . $active_survey->surveytotal . ";\n";
+  echo "var total_questions     = " . count($all_fields) . ";\n";
+  echo "var completed_count     = " . count($all_completed) . ";\n";
+
   echo "var user_completed      = " . json_encode($active_survey->completed) . ";\n";
   echo "var all_completed       = " . json_encode($all_completed) .";\n";
   echo "var all_branching       = " . json_encode($all_branching).";\n";
-  echo "var completed_count     = " . count($active_survey->completed) . ";\n";
   echo "var surveyhash          = '".http_build_query($active_survey->hash)."';\n";
   echo "var form_metadata       = " . json_encode($active_survey->raw) . ";\n";
   echo "var MET_DATA_DISCLAIM   = '".lang("MAT_DATA_DISCLAIM")."';";

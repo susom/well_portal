@@ -46,7 +46,11 @@ if(empty($pid)){
 
 	//THIS DATA NEEDS TO BE REFRESHED EVERYTIME OR RISK BEING STALE 
 	$surveys 				= $user_survey_data->getActiveAll();
-	$all_completed 			= $user_survey_data->getAllComplete(); 
+	$all_completed_temp		= $user_survey_data->getAllComplete(); 
+	$all_completed_keys 	= array_filter(array_keys($all_completed_temp),function($key){
+	 return $key !== "id" && !strpos($key,"_ts");
+	});
+	$all_completed 			= array_intersect_key($all_completed_temp, array_flip($all_completed_keys));
 	$first_survey 			= reset($surveys);
 
 	//THESE ONLY NEED DATA CALL ONCE PER SESSION
@@ -54,6 +58,19 @@ if(empty($pid)){
 	$core_surveys_complete 	= $user_survey_data->getUserActiveComplete();
 	$all_survey_keys  		= array_keys($surveys); 
 	// markPageLoadTime("END  _SESSION[user_survey_data]");
+	
+	$raw_fields = array();
+	foreach($all_survey_keys as $key){
+		$raw_fields = array_merge($raw_fields,$surveys[$key]["raw"]);
+	}
+	$all_fields_temp 	= array_column($raw_fields,"field_name");
+	$all_fields 		= array_filter($all_fields_temp,function($val){
+	 return $val !== "id" && !strpos($val,"_ts");
+	});
+	// print_rr($surveys); 
+	// print_rr($all_completed);
+	// print_rr($core_surveys_complete);
+	// print_rr($all_branching );
 }else{
 	// markPageLoadTime("BEGIN  _SESSION[supplemental_surveys]");
 	//SUPPLEMENTAL PROJECTS
