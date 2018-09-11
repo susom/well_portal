@@ -67,7 +67,7 @@ include_once("models/inc/gl_head.php");
 							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
 							<p>Least Important</p>
 						</div>
-						<ul id = "items" >
+						<ul id = "items" class="<?php echo isset($dom) ? "showtop showbot" : ""?>" >
 							<?php
 							if(isset($dom)){ //if an ordering exists already
 								foreach($dom as $k => $val){
@@ -136,14 +136,18 @@ include_once("models/inc/gl_head.php");
 include_once("models/inc/gl_foot.php");
 ?>
 <script>
-	<?php
-
-	?>
-
     $(document).ready(function(){
         $("#items").sortable({
         	appendTo: document.body,
-        	cursor: "move"
+        	cursor: "move",
+        	update: function( event, ui ) {
+        		if(ui.position.top < 260){
+	        		$("#items").addClass("showtop");
+        		}
+        		if(ui.position.top > 615){
+	        		$("#items").addClass("showbot");
+        		}
+        	}
         });
     });
 
@@ -249,7 +253,7 @@ button.btn-success.alert{
 	width:350px;
 	margin-top:25px;
 }
-#items::before{
+#items.showtop::before{
 	content:"";
 	border:5px solid green;
 	width:80%;
@@ -260,7 +264,7 @@ button.btn-success.alert{
 	background:lightgreen;
 	z-index:-1; 
 }
-#items::after{
+#items.showbot::after{
 	content:"";
 	border:5px solid red;
 	width:80%;
