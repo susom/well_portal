@@ -340,7 +340,6 @@ $survey_num = $survey_count = 1;
 if($user_short_scale && $sid == "wellbeing_questions"){
   $sid = "brief_well_for_life_scale";
 }
-    
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
     if($survey_data["project"] == "REDCAP_PORTAL"){
@@ -401,6 +400,16 @@ if(isset($_GET["survey_complete"])){
   }
 }
 
+// INITIAL PROGRESS BAR
+$current_section = array_search($current_surveyid, $core_instrument_ids);
+$section_perc    = round((1/count($core_instrument_ids))*100);
+$starting_width  = round($current_section * $section_perc); 
+$total_questions = $active_survey->surveytotal;
+$completed_count = count($active_survey->completed);
+$perc_section    = $completed_count/$total_questions;
+$percent_complete   = (($perc_section*$section_perc) + $starting_width);
+$percent_complete   = $percent_complete . "%";
+
 $pageTitle = "Well v2 Survey";
 $bodyClass = "survey";
 include_once("models/inc/gl_head.php");
@@ -412,7 +421,7 @@ include_once("models/inc/gl_head.php");
                   if(!$active_survey->surveycomplete){
                       ?>
                       <div id="survey_progress" class='progress progress-striped active'>
-                        <div class='progress-bar bg-info lter' data-toggle='tooltip' data-original-title='<?php echo $active_survey->surveypercent?>%' style='width: <?php echo $active_survey->surveypercent?>%'></div>
+                        <div class='progress-bar bg-info lter' data-toggle='tooltip' data-original-title='<?php echo $percent_complete?>' style='width: <?php echo $percent_complete?>'></div>
                         <div class='section_progress'><?php echo "Section $survey_num of $survey_count"; ?></div>
                       </div>
                       <?php    
@@ -496,9 +505,15 @@ include_once("models/inc/gl_foot.php");
 
   echo $branching_function;
 
+  $all_completed = array_merge($all_completed, $active_survey->completed);
   // //PASS FORMS METADATA 
-  echo "var total_questions     = " . count($all_fields) . ";\n";
-  echo "var completed_count     = " . count($all_completed) . ";\n";
+  echo "var current_section     = " . $index . ";\n";
+  echo "var section_perc        = Math.round((1/".count($core_instrument_ids).")*100);\n";
+  echo "var starting_width      = Math.round(current_section * section_perc,2);\n"; 
+  echo "console.log(current_section, section_perc, starting_width);";
+
+  echo "var total_questions     = " . $active_survey->surveytotal . ";\n";
+  echo "var completed_count     = " . count($active_survey->completed) . ";\n";
 
   echo "var user_completed      = " . json_encode($active_survey->completed) . ";\n";
   echo "var all_completed       = " . json_encode($all_completed) .";\n";
