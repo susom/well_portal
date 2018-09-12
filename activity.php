@@ -46,6 +46,9 @@ if(!empty($result[0]["domainorder_ec"])){
 	$dom = ($result[0]);
 	asort($dom);
 }
+$ranked 	= array_flip(array_filter($dom));
+$unranked 	= array_diff(array_keys($dom),$ranked);
+
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
@@ -61,70 +64,75 @@ include_once("models/inc/gl_head.php");
         		<div class ="reorganize">
 	        		
 	        		<div id = "center">
-	        			<h4 style = "text-align:left"><strong>Please order (drag-drop) these 10 well-being domains from most important to least important, according to how important they are to you.</strong></h4>
+	        			<h4 style = "text-align:left"><strong><?php echo lang("DOMAIN_ORDER_INSTRUCTION") ?></strong></h4>
 		        		<div id = "least_greatest">
 							<p>Most Important</p>
 							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
 							<p>Least Important</p>
 						</div>
-						<ul id = "items" class="<?php echo isset($dom) ? "showtop showbot" : ""?>" >
-							<?php
-							if(isset($dom)){ //if an ordering exists already
-								foreach($dom as $k => $val){
-									 $key = array_search($k,$redcap_variables);
-									 echo "<li id ='".$radar_domains[$key]."'> 
-										   <img class = 'domain' src = assets/img/0".$key."-domain.png>".$radar_domains[$key]."</li>";
-								}
-							}else{
-							?>
-								<li id = "<?php echo $radar_domains[0]; ?>">
-									<img class = "domain" src = assets/img/00-domain.png> 
-									<?php echo $radar_domains[0]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[1]; ?>">
-									<img class = "domain" src = assets/img/01-domain.png> 
-									<?php echo $radar_domains[1]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[2]; ?>">
-									<img class = "domain" src = assets/img/02-domain.png> 
-									<?php echo $radar_domains[2]; ?>
-								</li >
-								<li id = "<?php echo $radar_domains[3]; ?>">
-									<img class = "domain" src = assets/img/03-domain.png> 
-									<?php echo $radar_domains[3]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[4]; ?>">
-									<img class = "domain" src = assets/img/04-domain.png> 
-									<?php echo $radar_domains[4]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[5]; ?>">
-									<img class = "domain" src = assets/img/05-domain.png> 
-									<?php echo $radar_domains[5]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[6]; ?>">
-									<img class = "domain" src = assets/img/06-domain.png> 
-									<?php echo $radar_domains[6]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[7]; ?>">
-									<img class = "domain" src = assets/img/07-domain.png> 
-									<?php echo $radar_domains[7]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[8]; ?>">
-									<img class = "domain" src = assets/img/08-domain.png> 
-									<?php echo $radar_domains[8]; ?>
-								</li>	
-								<li id = "<?php echo $radar_domains[9]; ?>">
-									<img class = "domain" src = assets/img/09-domain.png> 
-									<?php echo $radar_domains[9]; ?>
-								</li>	
+						<div class="domain_prefer">
+							<h3>3 Most Favorite</h3>
+							<ol id="top_ranking" class="connectedSortable">
 								<?php 
-							}//else
+								$top_r = array();
+								foreach($ranked as $key=> $domain){
+									$real_key 	= array_search($domain,$redcap_variables);
+									$domain 	= $radar_domains[$real_key];
+									if($key > 3){
+										break;
+									}
+									$topli =  "<li id='$domain'>\r";
+									$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+									$topli .= $domain;
+									$topli .= "</li>\r";
+									$top_r[] = $topli;
+								}
+								echo implode("\r",$top_r);
 								?>
+							</ol>
+						</div>
+						<div class="domain_prefer">
+							<h3>3 Least Favorite</h3>
+							<ol id="bottom_ranking" class="connectedSortable">
+								<?php 
+								$bot_r = array();
+								foreach($ranked as $key=> $domain){
+									$real_key 	= array_search($domain,$redcap_variables);
+									$domain 	= $radar_domains[$real_key];
+									if($key <= 3){
+										continue;
+									}
+									$botli = "<li id='$domain'>\r";
+									$botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+									$botli .= $domain;
+									$botli .= "</li>\r";
+									$bot_r[] = $botli;
+								}
+
+								echo implode("\r",array_reverse($bot_r));
+								?>
+							</ol>
+						</div>
+						<ul id="items" class="connectedSortable">
+							<?php 
+								$unordered = isset($dom) ? $unranked : $radar_domains;
+								foreach($unordered as $key=> $domain){
+									if(isset($dom)){
+										$key 	= array_search($domain, $redcap_variables);
+										$domain = $radar_domains[$key];
+									}
+									echo "<li id='$domain'>\r";
+									echo "<img class='domain' src=assets/img/0".$key."-domain.png>\r";
+									echo $domain;
+									echo "</li>\r";
+								}
+							?>
 						</ul>
+						<div id = "fin">
+							<button id = "finish" class = "btn-success">Save My Result</button>
+						</div>
 					</div>
-					<div id = "fin">
-						<button id = "finish" class = "btn-success">Save My Result</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -137,18 +145,14 @@ include_once("models/inc/gl_foot.php");
 ?>
 <script>
     $(document).ready(function(){
-        $("#items").sortable({
-        	appendTo: document.body,
-        	cursor: "move",
-        	update: function( event, ui ) {
-        		if(ui.position.top < 260){
-	        		$("#items").addClass("showtop");
-        		}
-        		if(ui.position.top > 615){
-	        		$("#items").addClass("showbot");
-        		}
-        	}
-        });
+	    $( "#items, #top_ranking, #bottom_ranking" ).sortable({
+	      connectWith: ".connectedSortable",
+          receive: function(event, ui) {
+		    if ($(this)[0].nodeName == "OL" && $(this).children().length > 3) {
+		        $(ui.sender).sortable('cancel');
+		    }
+		  }
+	    });
     });
 
     function addModal(msg){
@@ -181,14 +185,14 @@ include_once("models/inc/gl_foot.php");
 
     $("#fin").click(function(){
     	var redirect  	= getUrlVars()["nextsid"];
-    	var ret 		= $("#items").sortable("toArray",{attribute: 'id'});
+    	var top 		= $("#top_ranking").sortable("toArray",{attribute: 'id'});
+    	var bot 		= $("#bottom_ranking").sortable("toArray",{attribute: 'id'});
 
     	$.ajax({
 	      url  		: "reorderPost.php",
 	      type 		: 'POST',
-	      data 		: "&domains=" + JSON.stringify(ret),
+	      data 		: "&domains=" + JSON.stringify(top.concat(bot)),
           success 	: function(result){
-          	console.log(result);
             if(redirect){
         		addModal("Domain Priorities Saved.  Redirecting back to Well-Being survey in 3...2..1");
 	    		setTimeout(function(){
@@ -213,15 +217,12 @@ button.btn-success.alert{
 	width: 20%;
     margin-left: -10%;
 }
-#center{
-	text-align:center;
-	width:500px;
-	display: inline-block;
-	position: relative;
-}
+
 
 #fin{
-	margin-top: 20px;
+	margin-top: 30px;
+	text-align:center;
+	clear:both;
 }
 #fin button{
 	border-radius:5px;
@@ -234,47 +235,73 @@ button.btn-success.alert{
 }
 
 #least_greatest{
-	display:block;
+	display:none;
 	position:absolute;
 	margin-top: 8%;
 	left: -60px;
 }
 .reorganize{
-	text-align: center;
 	margin-top: 25px;
 	display: block;
 	position:relative;
+	width:100%;
 }
-#items{
-	display:inline-block;
-	margin: 0;
-	padding:0;
-	list-style: none;
-	width:350px;
-	margin-top:25px;
+#center{
+	width:680px;
+	margin:0 auto;
+	display: block;
+	position: relative;
+	overflow:hidden;
 }
-#items.showtop::before{
-	content:"";
-	border:5px solid green;
-	width:80%;
-	height:228px;
-	position:absolute;
-	top:90px; left:50px;
+.domain_prefer{
+	float:right;
+	clear:right;
+	width:320px;
+	margin-top:10px;
+}
+.domain_prefer h3{
+	text-align:center;
+}
+.domain_prefer ol{
+    border:1px solid green;
+	padding:10px;
+	height:220px;
 	border-radius:10px;
 	background:lightgreen;
-	z-index:-1; 
 }
-#items.showbot::after{
-	content:"";
-	border:5px solid red;
-	width:80%;
-	height:228px;
-	position:absolute;
-	bottom:3px; left:50px;
-	border-radius:10px;
+#bottom_ranking{
+    border:1px solid red;
 	background:pink;
-	z-index:-1; 
 }
+.domain_prefer li{
+	list-style-position: inside;
+
+	background-color:#f2f2f2;
+	border:solid;
+	border-width: 3px;
+	border-color:transparent;
+	color:black;
+	font-weight: bold;
+	position: relative;
+	padding:1px 0 1px 20px;
+	cursor:pointer;
+	text-align: left;
+	padding-left: 10px;
+	margin-bottom:10px; 
+}
+#items{
+	display:block;
+	list-style: none;
+	margin: 0;
+	padding:10px;
+	width:300px;
+	margin-top:75px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	clear:left;
+	min-height:518px;
+}
+
 #items li{
   background-color:#f2f2f2;
   display: block;
@@ -288,7 +315,7 @@ button.btn-success.alert{
   cursor:pointer;
   text-align: left;
   padding-left: 10px;
-  margin-bottom:15px; 
+  margin-bottom:10px; 
 }
 
 .domain{

@@ -31,18 +31,20 @@ if($_POST["domains"]){
 	$API_URL       = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 	$API_TOKEN     = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
+  $half          = count($doms)/2 - 1;
+
 	foreach($doms as $key => $val){
-		$in = array_search($val, $radar_domains);
+		$in             = array_search($val, $radar_domains);
     $user_event_arm = empty($loggedInUser->user_event_arm) ? REDCAP_PORTAL_EVENT : $loggedInUser->user_event_arm;
+
+    $value  = $key > $half ? 13 - $key : $key + 1;
 
 		$data[] = array(
       "redcap_event_name" => $user_event_arm,
       "record"            => $loggedInUser->id,
       "field_name"        => $redcap_variables[$in],
-      "value"             => $key + 1
+      "value"             => $value
 		);
-		// print_r($data);
-	 //print_rr($data);
   }
  
   $result = server_pull($user_event_arm,array($loggedInUser->id),array("first_update","times_updated"));

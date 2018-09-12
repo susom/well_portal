@@ -16,12 +16,13 @@
 <link rel="stylesheet" href="assets/css/font.css" type="text/css" />
 <link rel="stylesheet" href="assets/css/roundslider.css" />
 <link rel="stylesheet" href="assets/css/main.css">
-<script src="assets/js/jquery.min.js"></script>
+<!-- <script src="assets/js/jquery.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<!-- <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
-
 <!-- Facebook Pixel Code -->
 <!-- <?php
 $trackpage = isset($trackpage) ? $trackpage : $bodyClass;
