@@ -259,6 +259,11 @@ button.btn-success.alert{
 	position: relative;
 	overflow:hidden;
 }
+#center h4 strong {
+	/*font-weight:normal; */
+	text-align:justify;
+	display:block;
+}
 .domain_prefer,.ten_domains{
 	float:right;
 	clear:right;
@@ -273,6 +278,7 @@ button.btn-success.alert{
 }
 .domain_prefer h3,.ten_domains h3{
 	text-align:center;
+	font-size:20px;
 }
 .domain_prefer ol{
     border:1px solid green;
