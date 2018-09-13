@@ -41,13 +41,16 @@ $data = array(
           						 "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
 );
 
+$ranked 	= array();
+$unranked 	= array();
 $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
 if(!empty($result[0]["domainorder_ec"])){
 	$dom = ($result[0]);
 	asort($dom);
+	$ranked 	= array_flip(array_filter($dom));
+	$unranked 	= array_diff(array_keys($dom),$ranked);
 }
-$ranked 	= array_flip(array_filter($dom));
-$unranked 	= array_diff(array_keys($dom),$ranked);
+
 
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
