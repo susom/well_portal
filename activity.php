@@ -68,11 +68,11 @@ include_once("models/inc/gl_head.php");
 	        		
 	        		<div id = "center">
 	        			<h4 style = "text-align:left"><strong><?php echo lang("DOMAIN_ORDER_INSTRUCTION") ?></strong></h4>
-		        		<div id = "least_greatest">
+		        		<!-- <div id = "least_greatest">
 							<p>Most Important</p>
 							<img class = "arrow" src = "assets/img/two-sided-arrow.png">
 							<p>Least Important</p>
-						</div>
+						</div> -->
 						<div class="domain_prefer">
 							<h3>3 Most Favorite</h3>
 							<ol id="top_ranking" class="connectedSortable">
@@ -339,12 +339,9 @@ and (max-device-width : 480px){
 	#center h4{
 		max-width: 100vw;
 		padding:0px 5px 0px 15px;
-		margin-top:-5px;
 
 	}
 	#items li{
-	  max-width: 68vw;
-	  left:8vw;
 	  font-size: 13px;
 	}
 	.domain{
@@ -353,6 +350,30 @@ and (max-device-width : 480px){
 	#finish{
 		height:9vw;
 		margin:0px;
+	}
+
+	#center {
+		width:373px;
+	}
+	#items {
+		margin:25px auto;
+		min-height:initial;
+	}
+	.domain_prefer {
+		float:none; 
+	    margin: 10px auto;
+	}
+	.domain_prefer h3{
+	    font-size: 108%;
+	}
+	.domain_prefer ol{
+		height:146px;
+	}
+	.domain_prefer li{
+		border:none;
+		margin-bottom:2px; 
+		font-weight:normal;
+		padding:0 0 0 20px;
 	}
 }
 </style>
