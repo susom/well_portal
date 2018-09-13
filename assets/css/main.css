@@ -203,8 +203,12 @@ p.organize{
 }
 p.organize a {
     display: inline-block;
-    padding-left: 70px;
-    width:initial;
+    padding-left: 118px;
+    width: initial;
+    font-weight: normal;
+    font-size: 106%;
+    line-height: 120%;
+    text-align: left;
 }
 .organize{
     display: inline-block;

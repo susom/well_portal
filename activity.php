@@ -203,7 +203,7 @@ include_once("models/inc/gl_foot.php");
         		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?> Redirecting back to Well-Being survey in 3...2..1");
 	    		setTimeout(function(){
         			location.href="survey.php?sid="+redirect;
-			    },3000);
+			    },5000);
 	    	}else{
         		addModal("<?php echo lang("DOMAIN_SAVED") ?>");
 	    	}

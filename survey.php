@@ -361,6 +361,7 @@ if(array_key_exists($sid, $surveys)){
 
 //POP UP IN BETWEEN SURVEYS 
 //NEEDS TO GO BELOW SUPPLEMENTALL PROJECTS WORK FOR NOW
+$forsleep_complete_only_bs = 0;
 if(isset($_GET["survey_complete"])){
   //IF SLEEP HABITS COMPLETE, LETS TAKE A BREAK AND REDIRECT THEM AWAY TO DOMAIN RANKING
   //THEN WHEN THEY REORDER THAT THEY CAN RETURN TO "ABOUT_YOU"
@@ -379,11 +380,11 @@ if(isset($_GET["survey_complete"])){
         $nextlink     = "survey.php?sid=". $all_survey_keys[$index+1];
         $nextsid      = $all_survey_keys[$index+1];
         if($surveyid == "your_sleep_habits"){
-          $success_msg .=  "<hr/><p class='organize'><a href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+          $forsleep_complete_only_bs = 1;
+          $success_msg .=  "<hr/><p class='organize'><a id='aftersleep_redirect' href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
         }else{
           $success_msg .= $lang["GET_WHOLE_BASKET"];
         }
-
         addSessionMessage( $success_msg , "success");
       }
     }
@@ -576,6 +577,15 @@ include_once("models/inc/gl_foot.php");
       $("section.vbox").addClass("blur");
   }
 
+  var sleep_bs = <?php echo $forsleep_complete_only_bs ?>;
+  $(document).ready(function(){
+    if(sleep_bs){
+      $(".alert-success button").remove();
+      setTimeout(function(){
+        location.href = $("#aftersleep_redirect").attr("href");
+      },5000);
+    }
+  });
 
   // CUSTOM FLOW FOR UO1 Pilot STUDY
   // $("#core_group_id").on("change",function(){
