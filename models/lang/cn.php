@@ -134,7 +134,9 @@
 		"MOST_IMPORTANT"						=> "3 Most Important Domains",
 		"LEAST_IMPORTANT"						=> "3 Least Important Domains",
 		"TEN_DOMAINS"							=> "10 Domains of Well Being",
-		
+		"DOMAIN_SAVED"							=> "Thank you for ranking the well-being domains. After you finish the survey go to the reports tab to see how your domain rankings compare to your domain scores.",
+		"DOMAIN_SAVED_REDIRECT"					=> "Thank you for ranking the well-being domains. After you finish this next set of questions go to the reports tab to see how your domain rankings compare to your domain scores.",
+	
 	));
 	
 

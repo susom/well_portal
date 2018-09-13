@@ -200,12 +200,12 @@ include_once("models/inc/gl_foot.php");
 	      data 		: "&domains=" + JSON.stringify(top.concat(bot)),
           success 	: function(result){
             if(redirect){
-        		addModal("Domain Priorities Saved.  Redirecting back to Well-Being survey in 3...2..1");
+        		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?> Redirecting back to Well-Being survey in 3...2..1");
 	    		setTimeout(function(){
         			location.href="survey.php?sid="+redirect;
 			    },3000);
 	    	}else{
-        		addModal("Domain Priorities Saved!");
+        		addModal("<?php echo lang("DOMAIN_SAVED") ?>");
 	    	}
           },
           function(err){
