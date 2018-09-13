@@ -74,7 +74,7 @@ include_once("models/inc/gl_head.php");
 							<p>Least Important</p>
 						</div> -->
 						<div class="domain_prefer">
-							<h3>3 Most Favorite</h3>
+							<h3><?php echo lang("MOST_IMPORTANT") ?></h3>
 							<ol id="top_ranking" class="connectedSortable">
 								<?php 
 								$top_r = array();
@@ -95,7 +95,7 @@ include_once("models/inc/gl_head.php");
 							</ol>
 						</div>
 						<div class="domain_prefer">
-							<h3>3 Least Favorite</h3>
+							<h3><?php echo lang("LEAST_IMPORTANT") ?></h3>
 							<ol id="bottom_ranking" class="connectedSortable">
 								<?php 
 								$bot_r = array();
@@ -116,21 +116,24 @@ include_once("models/inc/gl_head.php");
 								?>
 							</ol>
 						</div>
-						<ul id="items" class="connectedSortable">
-							<?php 
-								$unordered = isset($dom) ? $unranked : $radar_domains;
-								foreach($unordered as $key=> $domain){
-									if(isset($dom)){
-										$key 	= array_search($domain, $redcap_variables);
-										$domain = $radar_domains[$key];
+						<div class='ten_domains'>
+							<h3><?php echo lang("TEN_DOMAINS") ?></h3>
+							<ul id="items" class="connectedSortable">
+								<?php 
+									$unordered = isset($dom) ? $unranked : $radar_domains;
+									foreach($unordered as $key=> $domain){
+										if(isset($dom)){
+											$key 	= array_search($domain, $redcap_variables);
+											$domain = $radar_domains[$key];
+										}
+										echo "<li id='$domain'>\r";
+										echo "<img class='domain' src=assets/img/0".$key."-domain.png>\r";
+										echo $domain;
+										echo "</li>\r";
 									}
-									echo "<li id='$domain'>\r";
-									echo "<img class='domain' src=assets/img/0".$key."-domain.png>\r";
-									echo $domain;
-									echo "</li>\r";
-								}
-							?>
-						</ul>
+								?>
+							</ul>
+						</div>
 						<div id = "fin">
 							<button id = "finish" class = "btn-success">Save My Result</button>
 						</div>
@@ -256,13 +259,19 @@ button.btn-success.alert{
 	position: relative;
 	overflow:hidden;
 }
-.domain_prefer{
+.domain_prefer,.ten_domains{
 	float:right;
 	clear:right;
 	width:320px;
 	margin-top:10px;
 }
-.domain_prefer h3{
+.ten_domains{
+	float:none;
+	clear:initial;
+	width:initial;
+	margin-top:initial;
+}
+.domain_prefer h3,.ten_domains h3{
 	text-align:center;
 }
 .domain_prefer ol{
@@ -292,13 +301,17 @@ button.btn-success.alert{
 	padding-left: 10px;
 	margin-bottom:10px; 
 }
+
+.ten_domains{
+	width:300px;
+	margin-top:40px;
+}
+
 #items{
 	display:block;
 	list-style: none;
 	margin: 0;
 	padding:10px;
-	width:300px;
-	margin-top:75px;
 	border:1px solid #ccc;
 	border-radius:5px;
 	clear:left;
@@ -343,6 +356,7 @@ and (max-device-width : 480px){
 	}
 	#items li{
 	  font-size: 13px;
+	  margin-bottom:0;
 	}
 	.domain{
 		max-width:30px;
@@ -356,14 +370,17 @@ and (max-device-width : 480px){
 		width:373px;
 	}
 	#items {
-		margin:25px auto;
+		margin:0 auto;
 		min-height:initial;
 	}
 	.domain_prefer {
 		float:none; 
 	    margin: 10px auto;
 	}
-	.domain_prefer h3{
+	.ten_domains{
+		margin: 25px auto 0;
+	}
+	.domain_prefer h3,.ten_domains h3{
 	    font-size: 108%;
 	}
 	.domain_prefer ol{
