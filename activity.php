@@ -31,6 +31,19 @@ $redcap_variables = array(
   "9" => "domainorder_rs"
 );
 
+$domain_desc = array(
+	"0" =>  lang("DOMAIN_EC_DESC" ),
+	"1" =>  lang("DOMAIN_LB_DESC" ),
+	"2" =>  lang("DOMAIN_SC_DESC"),
+	"3" =>  lang("DOMAIN_SR_DESC" ),
+	"4" =>  lang("DOMAIN_EE_DESC" ),
+	"5" =>  lang("DOMAIN_SS_DESC" ),
+	"6" =>  lang("DOMAIN_PH_DESC" ),
+	"7" =>  lang("DOMAIN_PM_DESC" ),
+	"8" =>  lang("DOMAIN_FS_DESC" ),
+	"9" =>  lang("DOMAIN_RS_DESC" ),
+);
+
 $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 $data = array(
@@ -81,10 +94,11 @@ include_once("models/inc/gl_head.php");
 								foreach($ranked as $key=> $domain){
 									$real_key 	= array_search($domain,$redcap_variables);
 									$domain 	= $radar_domains[$real_key];
+									$tooltip 	= $domain_desc[$key];
 									if($key > 3){
 										break;
 									}
-									$topli =  "<li id='$domain'>\r";
+									$topli =  "<li id='$domain' title='$tooltip'>\r";
 									$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
 									$topli .= $domain;
 									$topli .= "</li>\r";
@@ -102,10 +116,11 @@ include_once("models/inc/gl_head.php");
 								foreach($ranked as $key=> $domain){
 									$real_key 	= array_search($domain,$redcap_variables);
 									$domain 	= $radar_domains[$real_key];
+									$tooltip 	= $domain_desc[$key];
 									if($key <= 3){
 										continue;
 									}
-									$botli = "<li id='$domain'>\r";
+									$botli = "<li id='$domain' title='$tooltip'>\r";
 									$botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
 									$botli .= $domain;
 									$botli .= "</li>\r";
@@ -126,7 +141,8 @@ include_once("models/inc/gl_head.php");
 											$key 	= array_search($domain, $redcap_variables);
 											$domain = $radar_domains[$key];
 										}
-										echo "<li id='$domain'>\r";
+										$tooltip 	= $domain_desc[$key];
+										echo "<li id='$domain' title='$tooltip'>\r";
 										echo "<img class='domain' src=assets/img/0".$key."-domain.png>\r";
 										echo $domain;
 										echo "</li>\r";
@@ -200,7 +216,7 @@ include_once("models/inc/gl_foot.php");
 	      data 		: "&domains=" + JSON.stringify(top.concat(bot)),
           success 	: function(result){
             if(redirect){
-        		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?> Redirecting back to Well-Being survey in 3...2..1");
+        		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?>");
 	    		setTimeout(function(){
         			location.href="survey.php?sid="+redirect;
 			    },5000);
