@@ -2,9 +2,9 @@
 //REDIRECT USERS THAT ARE NOT LOGGED IN
 
 if(!isUserLoggedIn()) { 
-  $_SESSION["login_redirect"] = basename($_SERVER['REQUEST_URI'], '');
+  $basename = basename($_SERVER['REQUEST_URI'], '');
+  $_SESSION["login_redirect"] = !strpos($basename,".php") ? "index.php" : $basename;
   $destination                = $websiteUrl . "login.php";
-  
   header("Location: " . $destination);
   exit; 
 }elseif(!isUserActive()) { 
