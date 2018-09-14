@@ -22,8 +22,8 @@ var RadarChart = {
      *
      **/
     // initiate default config
-    var w = 300;
-    var h = 300;
+    var w = radar_x;
+    var h = radar_y;
     var config = {
       w: w,
       h: h,
@@ -274,12 +274,18 @@ var RadarChart = {
         .text(function(d) { return d; })
         .attr("text-anchor", "middle")
         .attr("id",function(d){return d;})
-        .attr("x", function(d, i) { return config.w / 1.9 * (1 - 1.3 * Math.sin(i * config.radians / vis.totalAxes)); })
+        .attr("x", function(d, i) { return config.w / 1.95 * (1 - 1.3 * Math.sin(i * config.radians / vis.totalAxes)); })
         .attr("y", function(d, i) { return config.h / 1.95 * (1 - 1.1 * Math.cos(i * config.radians / vis.totalAxes)); })
         .attr("font-family", "sans-serif")
         .each(function(d,i){
-          var rank_div = document.getElementById(d+"_L");
-          var label = document.getElementById(d); //missing finances_L and LifeStyle and daily practices_L
+          var rank_div  = document.getElementById(d+"_L");
+          var label     = document.getElementById(d); //missing finances_L and LifeStyle and daily practices_L
+          if(d == "Purpose and Meaning" || d == "Physical Health"){
+            label.setAttribute("x",parseFloat(label.getAttribute("x")) + 35);
+          }
+          if(d == "Finances" || d == "Social Connectedness"){
+            label.setAttribute("x",label.getAttribute("x") - 25);
+          }
           if(rank_div != null){
             if(rank_div.getAttribute("rank") < 3)
               label.style.fill = "LimeGreen";

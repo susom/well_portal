@@ -426,6 +426,20 @@ object{
 .cert_box.open h4:after{
   content:"-";
 }
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px){
+  details {
+    margin-bottom: 10px;
+  }
+  .main > aside li ol {
+    margin: 0;
+  }
+  .compare_box,.cert_box {
+    margin-top:25px;
+  }
+  
+}
 </style>
 <script src="assets/js/custom_assessments.js"></script>
 <script>

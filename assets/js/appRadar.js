@@ -21,12 +21,12 @@
       
       ctrl.selectExample(ctrl.exampleSelected);
       ctrl.config = {
-        w: 440,
-        h: 440,
+        w: radar_w,
+        h: radar_h,
         facet: false,
         levels: 10,
         levelScale: 0.85,
-        labelScale: 0.9,
+        labelScale: labelScale,
         facetPaddingScale: 2.1,
         showLevels: true,
         showLevelsLabels: true,

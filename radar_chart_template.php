@@ -37,7 +37,15 @@
 </body>
 <script src="assets/js/angular.js"></script>
 <script src="assets/js/d3.v3.min.js"></script>
+<script>
+var radar_w = window.innerWidth <= 480 ? 280 : 440;
+var radar_h = window.innerWidth <= 480 ? 280 : 440;
+var radar_x = window.innerWidth <= 480 ? 70  : 300;
+var radar_y = window.innerWidth <= 480 ? 180 : 300;
+var labelScale = window.innerWidth <= 480 ? .6 : 0.9;
+var labelScale = window.innerWidth <= 480 ? .6 : 0.9;
 
+</script>
 <script src="assets/js/appRadar.js"></script>
 <script src="assets/js/radar.js"></script>
 <script src="assets/js/radarDraw.js"></script>
