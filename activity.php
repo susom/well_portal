@@ -92,17 +92,19 @@ include_once("models/inc/gl_head.php");
 								<?php 
 								$top_r = array();
 								foreach(array(1,2,3) as $key){
-									$domain_code= $ranked[$key];
-									$real_key 	= array_search($domain_code,$redcap_variables);
-									$domain 	= $radar_domains[$real_key];
-									$tooltip 	= $domain_desc[$real_key];
-									$topli =  "<li id='$domain' title='$tooltip'>\r";
-									$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
-									$topli .= $domain;
-									$topli .= "</li>\r";
-									$top_r[] = $topli;
+									if(isset($ranked[$key])){
+										$domain_code= $ranked[$key];
+										$real_key 	= array_search($domain_code,$redcap_variables);
+										$domain 	= $radar_domains[$real_key];
+										$tooltip 	= $domain_desc[$real_key];
+										$topli =  "<li id='$domain' title='$tooltip'>\r";
+										$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+										$topli .= $domain;
+										$topli .= "</li>\r";
+										$top_r[] = $topli;
 
-									unset($ranked[$key]);
+										unset($ranked[$key]);
+									}
 								}
 								echo implode("\r",$top_r);
 								?>
@@ -114,17 +116,19 @@ include_once("models/inc/gl_head.php");
 								<?php 
 								$bot_r = array();
 								foreach(array(10,9,8) as $key){
-									$domain_code= $ranked[$key];
-									$real_key 	= array_search($domain_code,$redcap_variables);
-									$domain 	= $radar_domains[$real_key];
-									$tooltip 	= $domain_desc[$real_key];
-									$botli = "<li id='$domain' title='$tooltip'>\r";
-									$botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
-									$botli .= $domain;
-									$botli .= "</li>\r";
-									$bot_r[] = $botli;
+									if(isset($ranked[$key])){
+										$domain_code= $ranked[$key];
+										$real_key 	= array_search($domain_code,$redcap_variables);
+										$domain 	= $radar_domains[$real_key];
+										$tooltip 	= $domain_desc[$real_key];
+										$botli = "<li id='$domain' title='$tooltip'>\r";
+										$botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+										$botli .= $domain;
+										$botli .= "</li>\r";
+										$bot_r[] = $botli;
 
-									unset($ranked[$key]);
+										unset($ranked[$key]);
+									}
 								}
 								echo implode("\r",array_reverse($bot_r));
 								?>
