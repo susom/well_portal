@@ -115,7 +115,7 @@ include_once("models/inc/gl_head.php");
 							<ol id="bottom_ranking" class="connectedSortable">
 								<?php 
 								$bot_r = array();
-								foreach(array(10,9,8) as $key){
+								foreach(array(8,9,10) as $key){
 									if(isset($ranked[$key])){
 										$domain_code= $ranked[$key];
 										$real_key 	= array_search($domain_code,$redcap_variables);
@@ -221,6 +221,9 @@ include_once("models/inc/gl_foot.php");
     	for(var i in bot){
     		order[10-i] = bot[i];
     	}
+
+    	console.log(top);
+    	console.log(bot);
 
     	$.ajax({
 	      url  		: "reorderPost.php",
