@@ -57,14 +57,16 @@ $data = array(
 $ranked 	= array();
 $unranked 	= array();
 $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+
 if(!empty($result[0]["domainorder_ec"])){
-	$dom = ($result[0]);
+	$dom = (current($result));
 	asort($dom);
 	$ranked 	= array_flip(array_filter($dom));
 	$unranked 	= array_diff(array_keys($dom),$ranked);
 }
 
-
+print_rr($ranked);
+print_rr($unranked);
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
@@ -91,18 +93,18 @@ include_once("models/inc/gl_head.php");
 							<ol id="top_ranking" class="connectedSortable">
 								<?php 
 								$top_r = array();
-								foreach($ranked as $key=> $domain){
-									$real_key 	= array_search($domain,$redcap_variables);
+								foreach(array(1,2,3) as $key){
+									$domain_code= $ranked[$key];
+									$real_key 	= array_search($domain_code,$redcap_variables);
 									$domain 	= $radar_domains[$real_key];
 									$tooltip 	= $domain_desc[$key];
-									if($key > 3){
-										break;
-									}
 									$topli =  "<li id='$domain' title='$tooltip'>\r";
 									$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
 									$topli .= $domain;
 									$topli .= "</li>\r";
 									$top_r[] = $topli;
+
+									unset($ranked[$key]);
 								}
 								echo implode("\r",$top_r);
 								?>
@@ -113,20 +115,19 @@ include_once("models/inc/gl_head.php");
 							<ol id="bottom_ranking" class="connectedSortable">
 								<?php 
 								$bot_r = array();
-								foreach($ranked as $key=> $domain){
-									$real_key 	= array_search($domain,$redcap_variables);
+								foreach(array(10,9,8) as $key){
+									$domain_code= $ranked[$key];
+									$real_key 	= array_search($domain_code,$redcap_variables);
 									$domain 	= $radar_domains[$real_key];
-									$tooltip 	= $domain_desc[$key];
-									if($key <= 3){
-										continue;
-									}
+									$tooltip 	= $domain_desc[$real_key];
 									$botli = "<li id='$domain' title='$tooltip'>\r";
 									$botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
 									$botli .= $domain;
 									$botli .= "</li>\r";
 									$bot_r[] = $botli;
-								}
 
+									unset($ranked[$key]);
+								}
 								echo implode("\r",array_reverse($bot_r));
 								?>
 							</ol>
@@ -135,6 +136,7 @@ include_once("models/inc/gl_head.php");
 							<h3><?php echo lang("TEN_DOMAINS") ?></h3>
 							<ul id="items" class="connectedSortable">
 								<?php 
+									$unranked = array_merge($unranked,$ranked);
 									$unordered = isset($dom) ? $unranked : $radar_domains;
 									foreach($unordered as $key=> $domain){
 										if(isset($dom)){
@@ -210,11 +212,20 @@ include_once("models/inc/gl_foot.php");
     	var top 		= $("#top_ranking").sortable("toArray",{attribute: 'id'});
     	var bot 		= $("#bottom_ranking").sortable("toArray",{attribute: 'id'});
 
+    	var order 		= {};
+    	for(var i in top){
+    		order[parseInt(i)+1] = top[i];
+    	}
+    	for(var i in bot){
+    		order[10-i] = bot[i];
+    	}
+
     	$.ajax({
 	      url  		: "reorderPost.php",
 	      type 		: 'POST',
-	      data 		: "&domains=" + JSON.stringify(top.concat(bot)),
+	      data 		: {"domains" : order},
           success 	: function(result){
+          	console.log(result);
             if(redirect){
         		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?>");
 	    		setTimeout(function(){
