@@ -65,8 +65,6 @@ if(!empty($result[0]["domainorder_ec"])){
 	$unranked 	= array_diff(array_keys($dom),$ranked);
 }
 
-print_rr($ranked);
-print_rr($unranked);
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
@@ -97,7 +95,7 @@ include_once("models/inc/gl_head.php");
 									$domain_code= $ranked[$key];
 									$real_key 	= array_search($domain_code,$redcap_variables);
 									$domain 	= $radar_domains[$real_key];
-									$tooltip 	= $domain_desc[$key];
+									$tooltip 	= $domain_desc[$real_key];
 									$topli =  "<li id='$domain' title='$tooltip'>\r";
 									$topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
 									$topli .= $domain;
