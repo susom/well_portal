@@ -508,10 +508,9 @@ include_once("models/inc/gl_foot.php");
 
   $all_completed = array_merge($all_completed, $active_survey->completed);
   // //PASS FORMS METADATA 
-  echo "var current_section     = " . $index . ";\n";
+  echo "var current_section     = " . ($index ? $index : 0) . ";\n";
   echo "var section_perc        = Math.round((1/".count($core_instrument_ids).")*100);\n";
   echo "var starting_width      = Math.round(current_section * section_perc,2);\n"; 
-  echo "console.log(current_section, section_perc, starting_width);";
 
   echo "var total_questions     = " . $active_survey->surveytotal . ";\n";
   echo "var completed_count     = " . count($active_survey->completed) . ";\n";

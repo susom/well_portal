@@ -69,6 +69,7 @@ $core_instrument_ids 	= $user_short_scale ? array_values(SurveysConfig::$short_s
 if(!isset($_SESSION["completed_timestamps"])){
 	$_SESSION["completed_timestamps"] = array();
 	$all_instruments 	= array_merge($core_instrument_ids,$supp_instrument_ids);
+	$all_instruments = $supp_instrument_ids;
 	$extra_params 		= array(
 		'content'     	=> 'record',
 		'records'     	=> array($loggedInUser->id) ,
@@ -76,8 +77,20 @@ if(!isset($_SESSION["completed_timestamps"])){
 		'events'		=> $user_event_arm,
 		'exportSurveyFields' => true
 	);
-	$_SESSION["user_arm_answers"]	= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-	$_SESSION["user_arm_answers"] 	= current($_SESSION["user_arm_answers"]);
+	$core_answers		= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+	$core_answers 		= current($core_answers);
+	
+	$extra_params 		= array(
+		'content'     	=> 'record',
+		'records'     	=> array($loggedInUser->id) ,
+		'type'      	=> "flat",
+		'events'		=> $user_event_arm,
+		'exportSurveyFields' => true
+	);
+	$supp_answers		= RC::callApi($extra_params, true, SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"]); 
+	$supp_answers 		= current($supp_answers);
+	$_SESSION["user_arm_answers"] = array_merge($core_answers, $supp_answers);
+
 	foreach($all_instruments as $instrument_id){
 		$completion_timestamp = $instrument_id . "_timestamp";
 		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp])){
@@ -87,6 +100,7 @@ if(!isset($_SESSION["completed_timestamps"])){
 }
 $user_arm_answers 		= $_SESSION["user_arm_answers"];
 $completed_timestamps 	= $_SESSION["completed_timestamps"];
+
 $core_complete 			= array_diff($core_instrument_ids, $completed_timestamps);
 $core_surveys_complete  = empty($core_complete) ? true : false;
 // markPageLoadTime("END CHECK SURVEY COMPLETION");
