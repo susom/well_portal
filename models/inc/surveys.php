@@ -69,7 +69,6 @@ $core_instrument_ids 	= $user_short_scale ? array_values(SurveysConfig::$short_s
 if(!isset($_SESSION["completed_timestamps"])){
 	$_SESSION["completed_timestamps"] = array();
 	$all_instruments 	= array_merge($core_instrument_ids,$supp_instrument_ids);
-	$all_instruments = $supp_instrument_ids;
 	$extra_params 		= array(
 		'content'     	=> 'record',
 		'records'     	=> array($loggedInUser->id) ,
@@ -79,7 +78,7 @@ if(!isset($_SESSION["completed_timestamps"])){
 	);
 	$core_answers		= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
 	$core_answers 		= current($core_answers);
-	
+
 	$extra_params 		= array(
 		'content'     	=> 'record',
 		'records'     	=> array($loggedInUser->id) ,
