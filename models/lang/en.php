@@ -137,15 +137,15 @@
 		"DOMAIN_SAVED"							=> "Thank you for ranking the well-being domains. After you finish the survey go to the reports tab to see how your domain rankings compare to your domain scores.",
 		"DOMAIN_SAVED_REDIRECT"					=> "Thank you for ranking the well-being domains. After you finish this next set of questions go to the reports tab to see how your domain rankings compare to your domain scores. Redirecting back to Well-Being survey in 3...2..1",
 		"DOMAIN_SC_DESC" 						=> "Positive or negative relationships with others and how they influence your well-being.",
-		"DOMAIN_LB_DESC" 						=> "These include lifestyle behaviors that can influence your well-being such as: diet, physical activity, sleep and the use of tobacco, alcohol, and marijuana.",
+		"DOMAIN_LB_DESC" 						=> "Lifestyle behaviors that can influence your well-being such as: diet; physical activity; sleep; the use of tobacco, alcohol, and marijuana; and other ways people take care of themselves.",
 		"DOMAIN_SR_DESC"						=> "Resilience: Ability to adapt to change and bounce back after hardship. Stress: Feelings of overload and an inability to balance or manage tasks.",
 		"DOMAIN_EE_DESC" 						=> "How often you experience both pleasant and unpleasant emotions.",
-		"DOMAIN_PM_DESC" 						=> "Having a sense that aspects of your life provide purpose and meaning, i.e. goals, dreams, experience, being part of something larger.",
-		"DOMAIN_PH_DESC" 						=> "Perception of your own health, i.e. energy levels, resisting illness, physical fitness, experiencing pain.",
+		"DOMAIN_PM_DESC" 						=> "Having a sense that aspects of your life provide purpose and meaning, i.e. goals, dreams, being part of something larger than yourself.",
+		"DOMAIN_PH_DESC" 						=> "Perception of your own health status, i.e. energy levels, ability to resist illness, physical fitness, experience of pain.",
 		"DOMAIN_SS_DESC" 						=> "The extent to which you feel you know yourself, can express your true self, have self-confidence and feel good about who you are.",
 		"DOMAIN_RS_DESC" 						=> "The extent to which spiritual and religious beliefs, practices, communities and traditions are important in your life.",
 		"DOMAIN_FS_DESC" 						=> "Your perception of having enough money to meet your needs.",
-		"DOMAIN_EC_DESC" 						=> "Looking for opportunities to grow as a person and explore different ways of thinking.",
+		"DOMAIN_EC_DESC" 						=> "Having opportunities to grow as a person and to explore new experiences and ways of thinking.",
 	));
 	
 
