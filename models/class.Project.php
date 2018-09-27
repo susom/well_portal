@@ -42,6 +42,7 @@ class Project {
 				global $loggedInUser;
 				$instrument_id 		= $event["form"];
 				$instrument_label 	= str_replace("_"," ",$instrument_id);
+				$instrument_label  	= strtolower($instrument_label) == "wellbeing questions" ? "Well-being Questions" : $instrument_label;
 				$user_current_event = !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm  : REDCAP_PORTAL_EVENT ;
 				
 				if(!is_null($this->specific_event)){
