@@ -153,7 +153,7 @@ if(isset($_GET["survey_complete"])){
       if(!$user_short_scale){
         $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
 
-        $long_score     = empty($long_score) ? "N/A" : $long_score;
+        $long_score     = empty($long_score) ? "NA" : $long_score;
         // if this is the first one just show the orange ball, otherwise show comparison graph
         $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
       }else{

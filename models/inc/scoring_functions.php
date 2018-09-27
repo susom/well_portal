@@ -299,11 +299,11 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
           "redcap_event_name" => $user_event_arm
         );
       }else{
-        // ELSE SAVE AS N/A
+        // ELSE SAVE AS NA
         $data   = array(
           "record"            => $loggedInUser->id,
           "field_name"        => "well_score_long",
-          "value"             => "N/A",
+          "value"             => "NA",
           "redcap_event_name" => $user_event_arm
         );
       }

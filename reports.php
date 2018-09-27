@@ -313,7 +313,7 @@ include_once("models/inc/gl_head.php");
                                   'events'      => $sid_arm
                                 );
                                 $result         = RC::callApi($extra_params, true, $API_URL, $API_TOKEN); 
-                                $ipaq           = isset($result[0]["ipaq_total_overall"]) ? $result[0]["ipaq_total_overall"] : "N/A";
+                                $ipaq           = isset($result[0]["ipaq_total_overall"]) ? $result[0]["ipaq_total_overall"] : "NA";
                                 ?>
                                 <div id="ipaq_results">
                                     <h3><?php echo lang("YOUR_MET") ?>: <b><?php echo $ipaq ?></b></h3>
