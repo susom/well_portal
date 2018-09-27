@@ -447,8 +447,8 @@ function getLongScores($domain_fields, $user_completed_fields){
           $emo_positive_dom   = empty($pos_items) || $pos_dq ? "NA" : (10/$non_missing_pos)*(array_sum($pos_items));
           $emo_negative_dom   = empty($neg_items) || $neg_dq ? "NA" : (10/$non_missing_neg)*(array_sum($neg_items));
 
-          $temp_score     = $emo_positive_dom == "NA" || $emo_negative_dom == "NA" ? "NA" : ($emo_positive_dom + $emo_negative_dom)/2; //(10/11)*(array_sum($domain_items));
-          $score[$domain] = $temp_score == "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
+          $temp_score     = $emo_positive_dom === "NA" || $emo_negative_dom === "NA" ? "NA" : ($emo_positive_dom + $emo_negative_dom)/2; //(10/11)*(array_sum($domain_items));
+          $score[$domain] = $temp_score === "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
       
@@ -494,8 +494,8 @@ function getLongScores($domain_fields, $user_completed_fields){
           $stress_positive_dom   = empty($pos_items) || $pos_dq ? "NA" : (10/$non_missing_pos)*(array_sum($pos_items));
           $stress_negative_dom   = empty($neg_items) || $neg_dq ? "NA" : (10/$non_missing_neg)*(array_sum($neg_items));
 
-          $temp_score     = $stress_positive_dom == "NA" || $stress_negative_dom == "NA" ? "NA" : ($stress_positive_dom + $stress_negative_dom)/2;//(10/14)*(array_sum($domain_items));
-          $score[$domain] = $temp_score == "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
+          $temp_score     = $stress_positive_dom === "NA" || $stress_negative_dom === "NA" ? "NA" : ($stress_positive_dom + $stress_negative_dom)/2;//(10/14)*(array_sum($domain_items));
+          $score[$domain] = $temp_score === "NA" ? "NA" : round(scaleDomainScore($temp_score, count($domain_items), count($fields)),4);
         }
       break;
       
