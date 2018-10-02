@@ -28,6 +28,7 @@ $redcap_variables = array(
 
 if($_POST["domains"]){
 	$doms          = $_POST["domains"];
+  $top_bot       = $_POST["top_bot"];
 	$API_URL       = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 	$API_TOKEN     = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
@@ -47,32 +48,36 @@ if($_POST["domains"]){
     $used_keys[]    = $key;
     $reset_others[] = $redcap_variables[$in];
   }
-  $diff_domains = array_diff($redcap_variables, $reset_others);
-  $diff_keys    = array_diff($order_keys, $used_keys);
+  // $diff_domains = array_diff($redcap_variables, $reset_others);
+  // $diff_keys    = array_diff($order_keys, $used_keys);
 
-  foreach($diff_domains as $val){
-    $data[] = array(
-      "redcap_event_name" => $user_event_arm,
-      "record"            => $loggedInUser->id,
-      "field_name"        => $val,
-      "value"             => array_shift($diff_keys)
-    );
+  // foreach($diff_domains as $val){
+  //   $data[] = array(
+  //     "redcap_event_name" => $user_event_arm,
+  //     "record"            => $loggedInUser->id,
+  //     "field_name"        => $val,
+  //     "value"             => array_shift($diff_keys)
+  //   );
+  // }
+
+
+  // UPDATE ACTIVITy TIMESTAMPS/COUNTER
+  if($top_bot == "bot"){
+    $result = server_pull($user_event_arm,array($loggedInUser->id),array("first_update","times_updated"));
+    
+    if(empty($result[0]['first_update'])){
+      array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'first_update',date("Y-m-d h:i:sa")));
+    }
+
+    if(!isset($result[0]['times_updated'])){
+      array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'times_updated',1));
+    }else{
+      array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'times_updated',intval($result[0]['times_updated'])+1));
+    }
+
+    array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'last_update',date("Y-m-d h:i:sa")));
   }
 
-  $result = server_pull($user_event_arm,array($loggedInUser->id),array("first_update","times_updated"));
-  
-  if(empty($result[0]['first_update'])){
-    array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'first_update',date("Y-m-d h:i:sa")));
-  }
-
-  if(!isset($result[0]['times_updated'])){
-    array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'times_updated',1));
-  }else{
-    array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'times_updated',intval($result[0]['times_updated'])+1));
-  }
-
-  array_push($data,addEntry($data,$user_event_arm,$loggedInUser->id,'last_update',date("Y-m-d h:i:sa")));
- 
 	$result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL , $API_TOKEN);
 }
 

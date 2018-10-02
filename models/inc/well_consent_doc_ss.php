@@ -11,7 +11,7 @@
 	<p>We will test different strategies to make participation in the WELL for Life Registry engaging. For example, we may “gamify” the survey, provide you with varying types of feedback, change the order in which you answer the surveys or the messages and reminders that we send you, and provide you with informational content.</p>
 	<p>You may be asked if you would be interested in being interviewed about your experience as a WELL for Life participant. If you do NOT wish to be contacted about being interviewed, please indicate that on the first survey.</p>
 	<p>You may also be asked if you would be interested in being contacted about participating in other non-WELL related studies in the future.  If you do NOT wish to be contacted, please indicate that on the first survey.</p>
-	<p>You may be asked for your permission to include your name, contact details, and responses from the first survey you complete in the Stanford Research Registry.  This is a registry of individuals who agree to be contacted in the future to learn more about research studies being conducted at Stanford.  It does not obligate you to participate in these studies.  If you do NOT wish to be contacted, please indicate that on the first surveyYou may be asked for your permission to include your name, contact details, and responses from the first survey you complete in the Stanford Research Registry.  This is a registry of individuals who agree to be contacted in the future to learn more about research studies being conducted at Stanford.  It does not obligate you to participate in these studies.  If you do NOT wish to be contacted, please indicate that on the first survey.</p>
+	<p>You may be asked for your permission to include your name, contact details, and responses from the first survey you complete in the Stanford Research Registry.  This is a registry of individuals who agree to be contacted in the future to learn more about research studies being conducted at Stanford.  It does not obligate you to participate in these studies.  If you do NOT wish to be contacted, please indicate that on the first survey.</p>
 	<p>If you are a primary care patient of Stanford Hospitals and Clinics, you may be asked for your permission to share your survey responses with your Stanford primary care provider. If you do NOT wish to share your survey data, please indicate that on the first survey.</p>
 </section>
 
@@ -34,11 +34,11 @@
 <section class="lang en"> 
 	<h2>FINANCIAL CONSIDERATIONS</h2>
 	<h3>Payment and Costs</h3>
-	<p>In general, you will not be paid to be part of the WELL for Life study.  However, a small sub sample of up to 100 participants who complete the Stanford WELL for Life Survey twice in a short period of time will be offered a small thank you gift of a $10 gift card which will be sent to them electronically when they complete the well-being section of the survey the second time.  Program-branded items may be provided during your time in the study such as pens, folders, clothing items, etc. There is no cost to you for participating in this study, other than the time it takes you to complete the surveys. If you are a student, you are eligible to receive course credit.</p>
+	<p>There is no cost to you for participating in this study, other than the time it takes you to complete the surveys.  In general, you will not be paid to be part of the WELL for Life study. Program-branded items may be provided during your time in the study such as pens, folders, clothing items, etc. If you are a student, you are eligible to receive course credit.</p>
 </section>
 
 <section class="lang en">
-	<h2>PARTICIPANT'S RIGHTS</h2>
+	<h2>PARTICIPANTS' RIGHTS</h2>
 	<p>If you have read this form and have decided to participate in this project, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. The alternative is not to participate.  The results of this research study may be presented at scientific or professional meetings or published in scientific journals.  However, your identity will not be disclosed. You have the right to refuse to answer particular questions.</p> 
 </section>
 
@@ -76,7 +76,7 @@
 	<li>Socio-demographic data (e.g., age, gender, place of birth, ethnicity, race, language, marital status, number of children, number of people in household, education, income, employment status)</li> 
 	<li>Health information (e.g., self-reported health, number of prescribed medications, self-reported height and weight, brief health history)</li>
 	<li>Health behavior information (e.g., relating to physical activity, sleep, tobacco, marijuana and alcohol use, diet)</li>
-	<li>Perceptual information (e.g., your wellbeing and mood and your social and neighborhood environment)</li>
+	<li>Perceptual information (e.g., your well-being and mood and your social and neighborhood environment)</li>
 	<li>Biometric identifiers, including finger, retinal and voice prints</li>
 	<li>Full face photographic images and any comparable images</li>
 	</ol>

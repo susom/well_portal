@@ -57,12 +57,12 @@ $data = array(
 $ranked 	= array();
 $unranked 	= array();
 $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-
-if(!empty($result[0]["domainorder_ec"])){
-	$dom = (current($result));
+$result = array_filter(current($result));
+if(!empty($result)){
+	$dom = $result;
 	asort($dom);
-	$ranked 	= array_flip(array_filter($dom));
-	$unranked 	= array_diff(array_keys($dom),$ranked);
+	$ranked 	= array_flip($dom);
+	$unranked 	= array_diff($redcap_variables,$ranked);
 }
 
 $pageTitle = "Domain Prioritization";
@@ -138,16 +138,20 @@ include_once("models/inc/gl_head.php");
 							<h3><?php echo lang("TEN_DOMAINS") ?></h3>
 							<ul id="items" class="connectedSortable">
 								<?php 
-									$unranked = array_merge($unranked,$ranked);
-									$unordered = isset($dom) ? $unranked : $radar_domains;
-									foreach($unordered as $key=> $domain){
+									$unranked 	= array_merge($unranked,$ranked);
+									$unordered 	= isset($dom) ? $unranked : $radar_domains;
+									$forshuffle = $unordered;
+									shuffle($forshuffle);
+									foreach($forshuffle as $domain){
+										$real_key = array_search($domain, $unordered);
+
 										if(isset($dom)){
-											$key 	= array_search($domain, $redcap_variables);
-											$domain = $radar_domains[$key];
+											$real_key 	= array_search($domain, $redcap_variables);
+											$domain = $radar_domains[$real_key];
 										}
-										$tooltip 	= $domain_desc[$key];
+										$tooltip 	= $domain_desc[$real_key];
 										echo "<li id='$domain' title='$tooltip'>\r";
-										echo "<img class='domain' src=assets/img/0".$key."-domain.png>\r";
+										echo "<img class='domain' src=assets/img/0".$real_key."-domain.png>\r";
 										echo $domain;
 										echo "</li>\r";
 									}
@@ -228,9 +232,22 @@ include_once("models/inc/gl_foot.php");
     	$.ajax({
 	      url  		: "reorderPost.php",
 	      type 		: 'POST',
-	      data 		: {"domains" : order},
+	      data 		: {"domains" : order, "top_bot" : "top"},
           success 	: function(result){
-          	console.log(result);
+          	// DO ONE FOR TOP PREFS
+          	// console.log(result);
+          },
+          function(err){
+          	console.log(err);
+          }
+      	});
+      	$.ajax({
+	      url  		: "reorderPost.php",
+	      type 		: 'POST',
+	      data 		: {"domains" : order, "top_bot" : "bot"},
+          success 	: function(result){
+          	//NOW DO ONE FOR BOTTOM PREFS, AND ALL THE UI UPDATES
+          	// console.log(result);
             if(redirect){
         		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?>");
 	    		setTimeout(function(){
