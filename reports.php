@@ -288,18 +288,18 @@ include_once("models/inc/gl_head.php");
                                     <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
                                   <?php
                              
-                                  if(!empty($result[0]["domainorder_ec"])){
-                                    $dom = ($result[0]);
-                                    asort($dom);
-                                    echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
-                                    echo "<ol>";
-                                    foreach($dom as $k => $val){
-                                        $k--;
-                                        $key = array_search($k,$redcap_variables);
-                                       echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
-                                    }
-                                    echo "</ol>";
-                                  }//if !empty
+                                  // if(!empty($result[0]["domainorder_ec"])){
+                                  //   $dom = ($result[0]);
+                                  //   asort($dom);
+                                  //   echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
+                                  //   echo "<ol>";
+                                  //   foreach($dom as $k => $val){
+                                  //       $k--;
+                                  //       $key = array_search($k,$redcap_variables);
+                                  //      echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
+                                  //   }
+                                  //   echo "</ol>";
+                                  // }//if !empty
                               }
                             break;
 

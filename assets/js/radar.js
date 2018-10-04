@@ -188,7 +188,9 @@ var RadarChart = {
           "border-radius": "5px",
           "pointer-events": "none",
           "opacity": "0",
-          "background": "#f4f4f4"
+          "background": "#f4f4f4",
+          "line-height": "140%"
+
         });
 
 
