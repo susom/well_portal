@@ -237,7 +237,7 @@
 		,"NAV_GAME" 								=> "Game"
 		,"NAV_ACTIVITY" 							=> "Activity"
 		,"DOMAIN_RANKING" 							=> "Rank your domains"
-		,"DOMAIN_RANKING_PROMPT" 					=> "You’re half way done! Before continuing, Please take a moment to complete the Domains of Well-Being Activity... Redirecting in 3 ... 2 ... 1 ..."
+		,"DOMAIN_RANKING_PROMPT" 					=> "You’re more than half way done! Before continuing, Please take a moment to complete the Domains of Well-Being Activity... Redirecting in 3 ... 2 ... 1 ..."
 		,"YOUR_DOMAIN_RANKING" 						=> "Your well-being domain rankings"
 		,"READ_MORE"								=> "Read More"
 		,"GO_TO_SURVEY"								=> "Go to Survey"
