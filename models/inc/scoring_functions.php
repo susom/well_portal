@@ -13,16 +13,16 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
     //10 DOMAINS TO CALCULATE THE WELL LONG SCORE
    
     $domain_mapping = array(
-       "well_score_creativity" => "Exploration and Creativity"
-      ,"well_score_religion"   => "Spirituality and Religion"
-      ,"well_score_financial"  => "Finances"
-      ,"well_score_purpose"    => "Purpose and Meaning"
-      ,"well_score_health"     => "Physical Health"
-      ,"well_score_senseself"  => "Sense of Self"
-      ,"well_score_emotion"    => "Experience of Emotions"
-      ,"well_score_stress"     => "Stress and Resilience"
-      ,"well_score_social"     => "Social Connectedness"
-      ,"well_score_ls"         => "Lifestyle and Daily Practices"
+       "well_score_creativity" => lang("RESOURCE_CREATIVITY")
+      ,"well_score_religion"   => lang("RESOURCE_RELIGION")
+      ,"well_score_financial"  => lang("RESOURCE_FINANCIAL")
+      ,"well_score_purpose"    => lang("RESOURCE_PURPOSE")
+      ,"well_score_health"     => lang("RESOURCE_PHYSICAL")
+      ,"well_score_senseself"  => lang("RESOURCE_SELF")
+      ,"well_score_emotion"    => lang("RESOURCE_EMOTIONS")
+      ,"well_score_stress"     => lang("RESOURCE_STRESS")
+      ,"well_score_social"     => lang("RESOURCE_SOCIAL")
+      ,"well_score_ls"         => lang("RESOURCE_LIFESTYLE")
     );
 
     $domain_fields  = array(
