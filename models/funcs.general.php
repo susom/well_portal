@@ -908,3 +908,29 @@ function markPageLoadTime($msg=null){
 		echo "</h6>";
 	}
 }
+
+function sendMailRelay($mail_relay_endpoint, $mail_api_token, $email_subject, $email_msg, $from_name, $from_email, $to, $cc = "", $bcc = ""){
+    $data                   = array();
+    $data["email_token"]    = $mail_api_token;
+    $data["to"]             = $to;
+    $data["from_name"]      = $from_name;
+    $data["from_email"]     = $from_email;
+    $data["cc"]             = $cc;
+    $data["bcc"]            = $bcc;
+    $data["subject"]        = $email_subject;
+    $data["body"]           = $email_msg;
+    $method                 = "POST";
+    
+    $process            = curl_init($mail_relay_endpoint);
+    curl_setopt($process, CURLOPT_TIMEOUT, 30);
+    curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($process, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+    if (!empty($data)) curl_setopt($process, CURLOPT_POSTFIELDS, $data);
+    if (!empty($method)) curl_setopt($process, CURLOPT_CUSTOMREQUEST, $method);
+    
+    $errors = curl_error($process);
+    $result = curl_exec($process);
+    curl_close($process);
+    return $result;
+} 

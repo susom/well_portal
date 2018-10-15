@@ -62,19 +62,28 @@ class userPieMail {
 	
 	public function sendMail($email,$subject,$msg = NULL,$encoding="iso-8859-1")
 	{
-		global $websiteName,$emailAddress;
+		global $websiteName, $emailAddress, $email_relay_token, $email_relay_api;
 		
-		$header =  "MIME-Version: 1.0\r\n";
-		$header .= "Content-type: text/plain; charset=$encoding\r\n";
-		$header .= "From: ". $websiteName . " <" . $emailAddress . ">\r\n";
-		
-		 
+		$from_name 	= $websiteName;
+		$from_email = $emailAddress;
+
+
+		// $header =  "MIME-Version: 1.0\r\n";
+		// $header .= "Content-type: text/plain; charset=$encoding\r\n";
+		// $header .= "From: ". $websiteName . " <" . $emailAddress . ">\r\n";
 		//Check to see if we sending a template email.
 		$message = ($msg == NULL) ? $this->contents : $msg;
+
 		
-		$message = wordwrap($message, 70);
+		return sendMailRelay($email_relay_api
+					, $email_relay_token
+					, $subject
+					, $message
+					, $from_name
+					, $from_email
+					, $email);
 		
-		return mail($email,$subject,$message,$header);
+		// return mail($email,$subject,$message,$header);
 	}
 }
 
