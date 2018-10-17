@@ -339,9 +339,13 @@ if(!empty($pid)){
 //GET THE SURVEY DATA
 $survey_num = $survey_count = 1;
 
-if($user_short_scale && $sid == "wellbeing_questions"){
-  $sid = "brief_well_for_life_scale";
+if($user_short_scale){
+    $avail_surveys = array($sid);
+    if($sid == "wellbeing_questions"){
+        $sid = "brief_well_for_life_scale";
+    }
 }
+
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
     if($survey_data["project"] == "REDCAP_PORTAL"){

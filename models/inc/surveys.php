@@ -66,9 +66,14 @@ $user_short_scale 		= $_SESSION["user_short_scale"];
 // markPageLoadTime("BEGIN CHECK SURVEY COMPLETION");
 $supp_instrument_ids 	= array_keys(SurveysConfig::$supp_surveys);
 $core_instrument_ids 	= $user_short_scale ? array_values(SurveysConfig::$short_surveys) : array_keys(SurveysConfig::$core_icons);
-if(!isset($_SESSION["completed_timestamps"])){
-	$_SESSION["completed_timestamps"] = array();
-	$all_instruments 	= array_merge($core_instrument_ids,$supp_instrument_ids);
+
+if(!isset($_SESSION["completed_timestamps"]) || true){
+    //TODO FIX THIS WHY IS THIS SO HORRIBLY MISNAMED?
+    $all_instruments 	= array_merge($core_instrument_ids,$supp_instrument_ids);
+
+    $CORE_API_URL       = $user_short_scale ? SurveysConfig::$projects["SHORT_SCALE"]["URL"] : $_CFG->REDCAP_API_URL;
+    $CORE_API_TOKEN     = $user_short_scale ? SurveysConfig::$projects["SHORT_SCALE"]["TOKEN"] : $_CFG->REDCAP_API_TOKEN;
+    $_SESSION["completed_timestamps"] = array();
 	$extra_params 		= array(
 		'content'     	=> 'record',
 		'records'     	=> array($loggedInUser->id) ,
@@ -76,7 +81,7 @@ if(!isset($_SESSION["completed_timestamps"])){
 		'events'		=> $user_event_arm,
 		'exportSurveyFields' => true
 	);
-	$core_answers		= RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+	$core_answers		= RC::callApi($extra_params, true, $CORE_API_URL, $CORE_API_TOKEN);
 	$core_answers 		= current($core_answers);
 
 	$extra_params 		= array(
@@ -97,8 +102,39 @@ if(!isset($_SESSION["completed_timestamps"])){
 		}
 	}
 }
+
+if(!isset($_SESSION["core_timestamps"])){
+    $core_timestamps_complete = array();
+    $extra_params 		= array(
+        'content'     	=> 'record',
+        'records'     	=> array($loggedInUser->id) ,
+        'type'      	=> "flat",
+//        'fields'        => array("event_name","your_feedback_complete","your_feedback_timestamp","wellbeing_questions_complete", "wellbeing_questions_timestamp"),
+        'filterLogic'   => '[wellbeing_questions_complete] = 2 and [your_feedback_complete] = 2',
+        'exportSurveyFields' => true
+    );
+
+// TODO WONT NEED THIS AFTER WE CONVERT EVERY YEAR BACK TO JUST USING THE LONG SURVEY
+    $core_results	    = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+    $extra_params 		= array(
+        'content'     	=> 'record',
+        'records'     	=> array($loggedInUser->id) ,
+        'type'      	=> "flat",
+//        'fields'        => array("event_name","brief_well_for_life_scale_timestamp","brief_well_for_life_scale_complete"),
+        'filterLogic'   => '[brief_well_for_life_scale_complete] = 2',
+        'exportSurveyFields' => true
+    );
+    $core_short_results	= RC::callApi($extra_params, true,SurveysConfig::$projects["SHORT_SCALE"]["URL"], SurveysConfig::$projects["SHORT_SCALE"]["TOKEN"]);
+    $core_results_all = array_merge($core_results,$core_short_results);
+    foreach($core_results_all as $results){
+        $core_timestamps_complete[$results["redcap_event_name"]] = array_key_exists("brief_well_for_life_scale_timestamp",$results) ? $results["brief_well_for_life_scale_timestamp"] : $results["your_feedback_timestamp"];
+    }
+    $_SESSION["core_timestamps"] = $core_timestamps_complete;
+}
+
 $user_arm_answers 		= $_SESSION["user_arm_answers"];
 $completed_timestamps 	= $_SESSION["completed_timestamps"];
+$core_timestamps        = $_SESSION["core_timestamps"];
 
 $core_complete 			= array_diff($core_instrument_ids, $completed_timestamps);
 $core_surveys_complete  = empty($core_complete) ? true : false;

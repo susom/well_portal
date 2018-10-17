@@ -1,11 +1,12 @@
 <?php 
-require_once("models/config.php"); 
+require_once("models/config.php");
 include("models/inc/checklogin.php");
 include("models/domain_descriptions.php");
 
 $armyears       = getSessionEventYears();
 $current_arm    = end(array_flip($armyears));
 $yeararms       = array_flip($armyears);
+
 $first_year     = Date("Y", $consent_date);
 $this_year      = Date("Y");
 
@@ -25,6 +26,12 @@ foreach($yeararms as $year => $arm){
     // $supp_surveys_keys[] = $instrument_id."_".$armyears[$arm];
     $supp_surveys_keys[$arm][$instrument_id] = "";
   }
+}
+
+//GET THE COMPLETED TIME STAMPS FOR CORE SURVEYS FOR ON DEMAND CERT GEN
+$completed_core = array();
+foreach($_SESSION["core_timestamps"] as $arm => $complete_ts){
+    $completed_core[$armyears[$arm]] = strtotime($complete_ts);
 }
 
 //IF CORE SURVEY GET THE SURVEY ID
@@ -54,8 +61,8 @@ include_once("models/inc/gl_head.php");
                     <li class="surveys">
                         <ol>
                             <?php
-                            $suppsurvs  = array();                            
-                            $fitness    = SurveysConfig::$supp_icons;
+                            $suppsurvs      = array();
+                            $fitness        = SurveysConfig::$supp_icons;
 
                             if(!isset($_SESSION["supp_surveys"])){
                               $_SESSION["supp_surveys"] = array();
@@ -146,22 +153,12 @@ include_once("models/inc/gl_head.php");
                           <h4><?php echo lang("CERTIFICATES") ?></h4>
                           <ol>
                             <?php
-                              $filename         = array();
-                              $filename[]       = $loggedInUser->id;
-                              $filename[]       = $loggedInUser->firstname;
-                              $filename[]       = $loggedInUser->lastname;
-                              $user_folder      = implode("_",$filename);
-
-                              $cert_year        = array();
-                              // var comes from config_foot.php
-                              while($first_year <= $this_year){
-                                $curyear        = $first_year;
-                                $file_cert      = "PDF/certs/$user_folder/" . $user_folder . "_$curyear.pdf";
-                                if(file_exists($file_cert)){
-                                  $cert_year[] = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
-                                }
-                                $first_year++;
+                              $cert_year = array();
+                              foreach($completed_core as $curyear => $complete_date){
+                                  $file_cert    = "PDF/generatePDFcertificate.php?complete_date=$complete_date";
+                                  $cert_year[]  = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
                               }
+
                               rsort($cert_year);
                               echo implode("\n",$cert_year);
                             ?>

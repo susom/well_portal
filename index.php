@@ -144,10 +144,11 @@ if(isset($_GET["survey_complete"])){
       $success_arr[]  = $lang["CONGRATS_FRUITS"];
       
       // will pass $current_year into the include
-      require_once('PDF/fpdf181/fpdf.php');
-      require_once('PDF/FPDI-2.0.1/src/autoload.php');
-      include_once("PDF/generatePDFcertificate.php");
-    
+      $armyears       = getSessionEventYears();
+      $current_year   = end($armyears);
+
+      //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
+      $filename = "PDF/generatePDFcertificate.php";
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
       if(!$user_short_scale){
