@@ -317,6 +317,8 @@ if(!empty($pid)){
     if(array_key_exists($pid, SurveysConfig::$projects)){
         $supp_project = $supp_surveys[$pid]->getSingleInstrument($sid);
         $surveys      = $supp_surveys[$pid]->getActiveAll();
+
+        $avail_surveys = array($sid);
     }
 
     if(!array_key_exists($sid,$surveyon)){
@@ -402,12 +404,12 @@ if(isset($_GET["survey_complete"])){
 }
 
 // INITIAL PROGRESS BAR
-$current_section = array_search($current_surveyid, $core_instrument_ids);
-$section_perc    = round((1/count($core_instrument_ids))*100);
-$starting_width  = round($current_section * $section_perc); 
-$total_questions = $active_survey->surveytotal;
-$completed_count = count($active_survey->completed);
-$perc_section    = $completed_count/$total_questions;
+$current_section    = array_search($current_surveyid, $avail_surveys);
+$section_perc       = round((1/count($avail_surveys))*100);
+$starting_width     = round($current_section * $section_perc);
+$total_questions    = $active_survey->surveytotal;
+$completed_count    = count($active_survey->completed);
+$perc_section       = $completed_count/$total_questions;
 $percent_complete   = (($perc_section*$section_perc) + $starting_width);
 $percent_complete   = $percent_complete . "%";
 
@@ -455,8 +457,8 @@ include_once("models/inc/gl_foot.php");
 <script src="assets/js/custom_assessments.js"></script>
 <script>
 <?php
-  $index      = array_search($current_surveyid, $core_instrument_ids);
-  $nextsurvey = $project == "Supp" ? null : (isset($core_instrument_ids[$index+1]) ? $core_instrument_ids[$index+1] : null);
+  $index      = array_search($current_surveyid, $avail_surveys);
+  $nextsurvey = $project == "Supp" ? null : (isset($avail_surveys[$index+1]) ? $avail_surveys[$index+1] : null);
   echo "$('#customform').attr('data-next','". $nextsurvey ."');\n\n";
 
   $isMET    = $sid == "how_fit_are_you"                                     ? "true" : "false";
@@ -506,10 +508,10 @@ include_once("models/inc/gl_foot.php");
 
   echo $branching_function;
 
-  $all_completed = array_merge($all_completed, $active_survey->completed);
+  $all_completed                = array_merge($all_completed, $active_survey->completed);
   // //PASS FORMS METADATA 
   echo "var current_section     = " . ($index ? $index : 0) . ";\n";
-  echo "var section_perc        = Math.round((1/".count($core_instrument_ids).")*100);\n";
+  echo "var section_perc        = Math.round((1/".count($avail_surveys).")*100);\n";
   echo "var starting_width      = Math.round(current_section * section_perc,2);\n"; 
 
   echo "var total_questions     = " . $active_survey->surveytotal . ";\n";
