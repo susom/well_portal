@@ -67,12 +67,13 @@ include_once("models/inc/gl_head.php");
                             if(!isset($_SESSION["supp_surveys"])){
                               $_SESSION["supp_surveys"] = array();
                             }
-                            foreach($yeararms as $year => $arm){
-                              $suppsurvs[$year][]  = "<ol>";
 
-                              if($year == $this_year && !$core_surveys_complete){
-                                continue;
+                            foreach($yeararms as $year => $arm){
+                              if($year > $this_year || ($year == $this_year && !$core_surveys_complete)){
+                                  continue;
                               }
+
+                              $suppsurvs[$year][]  = "<ol>";
 
                               $is_nav_on  = $supp_surveys_keys[$arm]["wellbeing_questions"];
                               $WELL_SCALE = lang("STANFORD_WELL");
@@ -206,11 +207,13 @@ include_once("models/inc/gl_head.php");
                                   echo lang("BRIEF_SORRY_NA");
                                 }
                               }else{
+                                  // this is long score terrirtory
                                 $csv_data = "group, axis, value, description\n";
+
                                 foreach($user_ws as $e_arms){
                                   $count_year = $armyears[$e_arms["redcap_event_name"]];
                                   $long_scores = json_decode($e_arms["well_long_score_json"],1);
-                                  
+
                                   if(!empty($long_scores)){
                                     $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
                                     
@@ -225,34 +228,34 @@ include_once("models/inc/gl_head.php");
                                     $sum_long_score = round(array_sum($long_scores));
                                     $loggedInUser->score = $sum_long_score;
                                     $count_year++;
-
+                                    file_put_contents($users_file_csv, $csv_data);
+                                  }else{
+                                    // if we are here then it should not be empty?
                                   }//ifempty
-                                  file_put_contents($users_file_csv, $csv_data);
-                                   
                                 }//foreach project year (event arm)
-                                 $radar_domains = array(
-                                      "0" => lang("RESOURCE_CREATIVITY"),
-                                      "1" => lang("RESOURCE_LIFESTYLE"),
-                                      "2" => lang("RESOURCE_SOCIAL"),
-                                      "3" => lang("RESOURCE_STRESS"),
-                                      "4" => lang("RESOURCE_EMOTIONS"),
-                                      "5" => lang("RESOURCE_SELF"),
-                                      "6" => lang("RESOURCE_PHYSICAL"),
-                                      "7" => lang("RESOURCE_PURPOSE"),
-                                      "8" => lang("RESOURCE_FINANCIAL"),
-                                      "9" => lang("RESOURCE_RELIGION")
+                                    $radar_domains = array(
+                                        "0" => lang("RESOURCE_CREATIVITY"),
+                                        "1" => lang("RESOURCE_LIFESTYLE"),
+                                        "2" => lang("RESOURCE_SOCIAL"),
+                                        "3" => lang("RESOURCE_STRESS"),
+                                        "4" => lang("RESOURCE_EMOTIONS"),
+                                        "5" => lang("RESOURCE_SELF"),
+                                        "6" => lang("RESOURCE_PHYSICAL"),
+                                        "7" => lang("RESOURCE_PURPOSE"),
+                                        "8" => lang("RESOURCE_FINANCIAL"),
+                                        "9" => lang("RESOURCE_RELIGION")
                                     );
                                     $redcap_variables = array(
-                                      "0" => "domainorder_ec",
-                                      "1" => "domainorder_lb",
-                                      "2" => "domainorder_sc",
-                                      "3" => "domainorder_sr",
-                                      "4" => "domainorder_ee",
-                                      "5" => "domainorder_ss",
-                                      "6" => "domainorder_ph",
-                                      "7" => "domainorder_pm",
-                                      "8" => "domainorder_fs",
-                                      "9" => "domainorder_rs"
+                                        "0" => "domainorder_ec",
+                                        "1" => "domainorder_lb",
+                                        "2" => "domainorder_sc",
+                                        "3" => "domainorder_sr",
+                                        "4" => "domainorder_ee",
+                                        "5" => "domainorder_ss",
+                                        "6" => "domainorder_ph",
+                                        "7" => "domainorder_pm",
+                                        "8" => "domainorder_fs",
+                                        "9" => "domainorder_rs"
                                     );
                                     
                                   $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
@@ -270,13 +273,19 @@ include_once("models/inc/gl_head.php");
                                   );
                                 
                                   $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-                                  if(!empty($result[0]["domainorder_ec"])){ //this code block is similar to below. Necessary
-                                    $ranking = [];
-                                    $dom = ($result[0]);
-                                    asort($dom);
+                                  if(!empty(current($result))){ //this code block is similar to below. Necessary
+                                    $ranking    = [];
+                                    $dom        = array_flip(array_filter(current($result)));
+                                    ksort($dom);
+
+                                    $leftover   = array_diff($redcap_variables,$dom);
+                                    $topdom     = array_splice($dom,0,3);
+                                    $botdom     = $dom;
+                                    $dom        = array_merge($topdom,$leftover);
+                                    $dom        = array_merge($dom,$botdom);
+
                                     foreach($dom as $k => $val){
-                                        $k--;
-                                        $key = array_search($k,$redcap_variables);
+                                        $key = array_search($val,$redcap_variables);
                                         array_push($ranking, $radar_domains[$key]);
                                     }
                                     $_SESSION['ranking'] = $ranking; //store for radar chart

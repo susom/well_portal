@@ -37,7 +37,7 @@
 <link rel="shortcut icon" href="assets/img/favicon.ico?v=2" />
 
 <!-- CSS -->
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="assets/css/base.min.css?v=0.1" type="text/css" />
 <link rel="stylesheet" href="assets/css/custom.css?v=0.1" type="text/css"/>

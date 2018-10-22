@@ -114,11 +114,14 @@ foreach($cats as $cat){
     }
 }
 
+//print_rr($_SESSION["supp_surveys"][$thisyear]);
 //NEEDS TO GO BELOW SHORTSCALE WORK FOR NOW
 if(isset($_GET["survey_complete"])){
   //IF NO URL PASSED IN THEN REDIRECT BACK
   $surveyid = $_GET["survey_complete"];
   array_push($_SESSION["completed_timestamps"],$surveyid);
+  $thisyear =  Date("Y");
+  unset($_SESSION["supp_surveys"][$thisyear]);
   $completed_timestamps = $_SESSION["completed_timestamps"];
   
   $armyears       = getSessionEventYears();
