@@ -134,9 +134,8 @@ if(isset($_GET["survey_complete"])){
         $short_score  = calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey_data);
 
         // ONLY CALCULATE LONG SCORE DURING LONG YEARS
-        if(!$user_short_scale){
-          $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
-        }
+        $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
+
       }
 
       //TODO ONLY  USE BREIF SCALE CALCULATION from "well_score"  
@@ -151,25 +150,11 @@ if(isset($_GET["survey_complete"])){
       $filename = "PDF/generatePDFcertificate.php";
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
-      if(!$user_short_scale){
         $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
 
         $long_score     = empty($long_score) ? "NA" : $long_score;
         // if this is the first one just show the orange ball, otherwise show comparison graph
         $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
-      }else{
-        $extra_params = array(
-          'content'     => 'record',
-          'records'     => array($loggedInUser->id) ,
-          'fields'      => array("id","well_score")
-        );
-        $user_ws        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-        $user_scores    = array();
-        foreach($user_ws as $arm_score){
-          $user_scores[$arm_score["redcap_event_name"]]  = array("year" => $armyears[$arm_score["redcap_event_name"]], "well_score" => $arm_score["well_score"]);
-        }
-        $success_arr[]  = printWELLOverTime($user_scores);
-      }
 
 
        // CUSTOM FLOW FOR UO1 Pilot STUDY

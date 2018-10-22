@@ -11,34 +11,12 @@ if(empty($pid)){
 		$user_survey_data->refreshData();
 		// markPageLoadTime("END REFRESH user_survey_data");
 	}else{
-		if ($user_short_scale){
-			$api_url 	= SurveysConfig::$projects["SHORT_SCALE"]["URL"];
-			$api_token 	= SurveysConfig::$projects["SHORT_SCALE"]["TOKEN"];
-			$sesh_name 	= "SHORT_SCALE";
-		}else{
-			$api_url 	= $_CFG->REDCAP_API_URL;
-			$api_token 	= $_CFG->REDCAP_API_TOKEN;
-			$sesh_name 	= SESSION_NAME;
-		}
+        $api_url 	= $_CFG->REDCAP_API_URL;
+        $api_token 	= $_CFG->REDCAP_API_TOKEN;
+        $sesh_name 	= SESSION_NAME;
+
 		$user_survey_data = new Project($loggedInUser, $sesh_name, $api_url, $api_token);
 
-		//CUSTOM CUSTOM WORK - NEED core_gender from loggedInUser->gender
-		if($user_short_scale){
-			$alluseranswers = $user_survey_data->getAllUserAnswers();
-			foreach($alluseranswers as $i => $eventarm){
-				if($eventarm["redcap_event_name"] == $user_event_arm){
-					if(empty($eventarm["core_gender"])){
-						$data[] = array(
-				          "record"            => $loggedInUser->id,
-				          "field_name"        => "core_gender",
-				          "value"             => $loggedInUser->gender,
-				          "redcap_event_name" => $user_event_arm
-				        );
-				        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $api_url , $api_token);
-					}
-				}
-			}
-		}
 		$user_survey_data->refreshData();
 		$_SESSION["user_survey_data"] 	= $user_survey_data;
 		// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 

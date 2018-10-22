@@ -6,7 +6,6 @@ $datediff    		= time() - $consent_date;
 $days_active 		= floor($datediff / (60 * 60 * 24));
 $update_arm 		= !empty($loggedInUser->user_event_arm) ? false : true;
 $user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
-$user_short_scale 	= false;
 
 // markPageLoadTime("BEGIN CHECK FOR PROJECT INFO");
 // put this in sesssion
@@ -30,7 +29,8 @@ $supp_project_notes		= $_SESSION["project_info"]["supp_project_notes"];
 
 // markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
-if(!isset($_SESSION["user_short_scale"])){
+$user_event_arm 	    = false;
+if(!isset($_SESSION["user_anniversary"])){
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
 	if( $days_active > 1093 ){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
@@ -55,24 +55,21 @@ if(!isset($_SESSION["user_short_scale"])){
 		$loggedInUser->user_event_arm = $user_event_arm;
 	}
 
-	if (strpos($user_event_arm, "short") > -1){
-		$user_short_scale = true;
-	}
-	$_SESSION["user_short_scale"] = $user_short_scale;
+	$_SESSION["user_anniversary"] = $user_event_arm;
 }
-$user_short_scale 		= $_SESSION["user_short_scale"];
-// markPageLoadTime("END CHECK FOR SHORTSCALE");
+$user_event_arm 		= $_SESSION["user_anniversary"];
+// markPageLoadTime("END CHECK FOR ANNIVERSARY CHECK");
 
 // markPageLoadTime("BEGIN CHECK SURVEY COMPLETION");
 $supp_instrument_ids 	= array_keys(SurveysConfig::$supp_surveys);
-$core_instrument_ids 	= $user_short_scale ? array_values(SurveysConfig::$short_surveys) : array_keys(SurveysConfig::$core_icons);
+$core_instrument_ids 	= array_keys(SurveysConfig::$core_icons);
 
 if(!isset($_SESSION["completed_timestamps"]) || true){
     //TODO FIX THIS WHY IS THIS SO HORRIBLY MISNAMED?
     $all_instruments 	= array_merge($core_instrument_ids,$supp_instrument_ids);
 
-    $CORE_API_URL       = $user_short_scale ? SurveysConfig::$projects["SHORT_SCALE"]["URL"] : $_CFG->REDCAP_API_URL;
-    $CORE_API_TOKEN     = $user_short_scale ? SurveysConfig::$projects["SHORT_SCALE"]["TOKEN"] : $_CFG->REDCAP_API_TOKEN;
+    $CORE_API_URL       = $_CFG->REDCAP_API_URL;
+    $CORE_API_TOKEN     = $_CFG->REDCAP_API_TOKEN;
     $_SESSION["completed_timestamps"] = array();
 	$extra_params 		= array(
 		'content'     	=> 'record',
@@ -94,10 +91,10 @@ if(!isset($_SESSION["completed_timestamps"]) || true){
 	$supp_answers		= RC::callApi($extra_params, true, SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"]); 
 	$supp_answers 		= current($supp_answers);
 	$_SESSION["user_arm_answers"] = array_merge($core_answers, $supp_answers);
-
 	foreach($all_instruments as $instrument_id){
-		$completion_timestamp = $instrument_id . "_timestamp";
-		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp])){
+        $completion_flag        = $instrument_id . "_complete";
+		$completion_timestamp   = $instrument_id . "_timestamp";
+		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp]) || !empty($_SESSION["user_arm_answers"][$completion_flag])){
 			array_push($_SESSION["completed_timestamps"],$instrument_id);
 		}
 	}

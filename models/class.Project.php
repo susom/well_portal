@@ -61,10 +61,6 @@ class Project {
 		}
 
 		$user_current_event 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm  : REDCAP_PORTAL_EVENT ;
-		if(strpos($user_current_event,"short") > -1){
-			$this->SHORT_SCALE 		= true;
-			$this->instrument_list 	= SurveysConfig::$short_surveys;
-		}
 
 		//ALL INSTRUMENTS(surveys) IN THIS PROJECT
 		$this->ALL_INSTRUMENTS 	= array_filter($all_instruments);

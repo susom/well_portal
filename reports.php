@@ -75,7 +75,7 @@ include_once("models/inc/gl_head.php");
                               }
 
                               $is_nav_on  = $supp_surveys_keys[$arm]["wellbeing_questions"];
-                              $WELL_SCALE = strpos($arm,"short") > -1 ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
+                              $WELL_SCALE = lang("STANFORD_WELL");
                               $survey_alinks["wellbeing_questions"] = "<a class='assessments' href='reports.php?sid=wellbeing_questions&arm=$arm' data-year=$year>$WELL_SCALE</a>";
                               $suppsurvs[$year][]   = "<li class='assesments fruits $is_nav_on'>
                                                   ".$survey_alinks["wellbeing_questions"]." 

@@ -339,13 +339,6 @@ if(!empty($pid)){
 //GET THE SURVEY DATA
 $survey_num = $survey_count = 1;
 
-if($user_short_scale){
-    $avail_surveys = array($sid);
-    if($sid == "wellbeing_questions"){
-        $sid = "brief_well_for_life_scale";
-    }
-}
-
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
     if($survey_data["project"] == "REDCAP_PORTAL"){
@@ -369,11 +362,9 @@ if(array_key_exists($sid, $surveys)){
 //NEEDS TO GO BELOW SUPPLEMENTALL PROJECTS WORK FOR NOW
 $forsleep_complete_only_bs = 0;
 if(isset($_GET["survey_complete"])){
-  //IF SLEEP HABITS COMPLETE, LETS TAKE A BREAK AND REDIRECT THEM AWAY TO DOMAIN RANKING
-  //THEN WHEN THEY REORDER THAT THEY CAN RETURN TO "ABOUT_YOU"
+    //IF SLEEP HABITS COMPLETE, LETS TAKE A BREAK AND REDIRECT THEM AWAY TO DOMAIN RANKING
+    //THEN WHEN THEY REORDER THAT THEY CAN RETURN TO "ABOUT_YOU"
 
-  //ONLY SHOW THESE POPUPS FOR LONG ANNIVERSARIES
-  if(!strpos($user_event_arm,"short") && strpos($user_event_arm,"short") !== 0){
     //ONLY LONG ANNIVERSARIES GET POP UP TREATMENT
     //IF NO URL PASSED IN THEN REDIRECT BACK
     $surveyid = $_GET["survey_complete"];
@@ -404,7 +395,6 @@ if(isset($_GET["survey_complete"])){
         addSessionMessage( $success_msg , "success");
       }
     }
-  }
 }
 
 // INITIAL PROGRESS BAR

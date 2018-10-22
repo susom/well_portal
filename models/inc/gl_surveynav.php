@@ -12,9 +12,9 @@
                 $suppsurvs              = array();
 
                 $title_trans            = $project_notes["translations"];
-                $umbrella_sid           = $user_short_scale ? "brief_well_for_life_scale" : "wellbeing_questions";
-                $surveyname             = $user_short_scale ? lang("BRIEF_WELL") : lang("STANFORD_WELL");
-                
+                $umbrella_sid           = "wellbeing_questions";
+                $surveyname             = lang("STANFORD_WELL");
+
                 foreach($core_instrument_ids as $instrument_id){
                   $surveycomplete       = in_array($instrument_id,$completed_timestamps);
                   $linksid              = $surveycomplete ? $umbrella_sid : $instrument_id;
@@ -31,7 +31,7 @@
                   }
                 }
                 
-                if(in_array($umbrella_sid, $core_instrument_ids)  || $user_short_scale){
+                if(in_array($umbrella_sid, $core_instrument_ids)){
                   // if we are on survey page for supplemental survey , that means core surveys are complete. 
                   if(!empty($pid) && array_key_exists($pid, SurveysConfig::$projects)){
                     $surveycomplete = true;
