@@ -291,7 +291,7 @@ var RadarChart = {
           if(rank_div != null){
             if(rank_div.getAttribute("rank") < 3)
               label.style.fill = "LimeGreen";
-            else if(rank_div.getAttribute("rank") > 6)
+            else if(rank_div.getAttribute("rank") > 6 && rank_div.getAttribute("rank") < 10)
               label.style.fill = "red";
           }
         })

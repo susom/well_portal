@@ -96,8 +96,9 @@ if(!isset($_SESSION["completed_timestamps"]) || true){
 	$_SESSION["user_arm_answers"] = array_merge($core_answers, $supp_answers);
 
 	foreach($all_instruments as $instrument_id){
-		$completion_timestamp = $instrument_id . "_timestamp";
-		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp])){
+        $completion_flag        = $instrument_id . "_complete";
+		$completion_timestamp   = $instrument_id . "_timestamp";
+		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp]) || !empty($_SESSION["user_arm_answers"][$completion_flag])){
 			array_push($_SESSION["completed_timestamps"],$instrument_id);
 		}
 	}
