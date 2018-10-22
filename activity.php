@@ -57,14 +57,15 @@ $data = array(
 $ranked 	= array();
 $unranked 	= array();
 $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-$result = array_filter(current($result));
-if(!empty($result)){
-	$dom = $result;
-	asort($dom);
-	$ranked 	= array_flip($dom);
-	$unranked 	= array_diff($redcap_variables,$ranked);
+if(current($result)) {
+    $result = array_filter(current($result));
+    if (!empty($result)) {
+        $dom = $result;
+        asort($dom);
+        $ranked = array_flip($dom);
+        $unranked = array_diff($redcap_variables, $ranked);
+    }
 }
-
 $pageTitle = "Domain Prioritization";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
