@@ -118,37 +118,30 @@ foreach($cats as $cat){
 //NEEDS TO GO BELOW SHORTSCALE WORK FOR NOW
 if(isset($_GET["survey_complete"])){
   //IF NO URL PASSED IN THEN REDIRECT BACK
-  $surveyid = $_GET["survey_complete"];
+  $current_year =  Date("Y");
+  $surveyid     = $_GET["survey_complete"];
   array_push($_SESSION["completed_timestamps"],$surveyid);
-  $thisyear =  Date("Y");
-  unset($_SESSION["supp_surveys"][$thisyear]);
+
+  //LETS UNSET SOME OF THESE SO THE CACHE WILL REFRESH
+  unset($_SESSION["supp_surveys"][$current_year]);
+  unset($_SESSION["core_timestamps"]);
+
   $completed_timestamps = $_SESSION["completed_timestamps"];
   
-  $armyears       = getSessionEventYears();
-  $current_year   = end($armyears);
   include("models/inc/surveys_data.php");
   if(array_key_exists($surveyid,$surveys)){
     $index  = array_search($surveyid, $all_survey_keys);
     $survey = $surveys[$surveyid];
-    if(!isset($all_survey_keys[$index+1])){ 
+    if(!isset($all_survey_keys[$index+1])){
       //CALCULATE WELL SCORES
       if($core_surveys_complete){
-        // CaLCULATE SHORT SCORE FOR LONG AND SHORT YEARS, SAVE TO the well_score sum variable but in the correct ARM
-        $short_score  = calculateShortScore($loggedInUser, $user_event_arm, $_CFG, $user_survey_data);
-
         // ONLY CALCULATE LONG SCORE DURING LONG YEARS
-        $long_score = calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_completed);
-
+        $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
       }
 
-      //TODO ONLY  USE BREIF SCALE CALCULATION from "well_score"  
       $success_arr    = array();
       $success_arr[]  = $lang["CONGRATS_FRUITS"];
       
-      // will pass $current_year into the include
-      $armyears       = getSessionEventYears();
-      $current_year   = end($armyears);
-
       //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
       $filename = "PDF/generatePDFcertificate.php";
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";

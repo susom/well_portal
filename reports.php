@@ -4,7 +4,7 @@ include("models/inc/checklogin.php");
 include("models/domain_descriptions.php");
 
 $armyears       = getSessionEventYears();
-$current_arm    = end(array_flip($armyears));
+$current_arm    = $loggedInUser->user_event_arm;
 $yeararms       = array_flip($armyears);
 
 $first_year     = Date("Y", $consent_date);
@@ -37,10 +37,10 @@ foreach($_SESSION["core_timestamps"] as $arm => $complete_ts){
 //IF CORE SURVEY GET THE SURVEY ID
 $compare_all = false;
 if(isset($_REQUEST["arm"]) && $_REQUEST["arm"] == 'ALL'){
-  $compare_all = true;
-  $sid_arm = $current_arm;
+  $compare_all  = true;
+  $sid_arm      = $current_arm;
 }else{
-  $sid_arm = isset($_REQUEST["arm"]) ? $_REQUEST["arm"] : $current_arm; 
+  $sid_arm      = isset($_REQUEST["arm"]) ? $_REQUEST["arm"] : $current_arm;
 }
 
 $sid = $current_surveyid = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : "wellbeing_questions";
@@ -177,7 +177,7 @@ include_once("models/inc/gl_head.php");
                         echo "<div id='results'>";
                         switch($sid){
                             case "wellbeing_questions":
-                              $well_score   = strpos($sid_arm,"short") > -1 ? "well_score" : "well_long_score_json" ;
+                              $well_score   = "well_long_score_json" ;
                               
                               if(isset($compare_all) && $compare_all == true){ //only when clicking on the compare tab: 
                                 $extra_params = array(
@@ -198,15 +198,15 @@ include_once("models/inc/gl_head.php");
                               }
 
                               $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-                              if(strpos($sid_arm,"short") > -1){
-                                $brief_score = $user_ws[0]["well_score"];
-                                if(!empty($brief_score)){
-                                  echo "<blockquote>".lang("BRIEF_SCORE",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
-                                  echo lang("BREIF_DISCLAIMER");
-                                }else{
-                                  echo lang("BRIEF_SORRY_NA");
-                                }
-                              }else{
+//                              if(strpos($sid_arm,"short") > -1){
+//                                $brief_score = $user_ws[0]["well_score"];
+//                                if(!empty($brief_score)){
+//                                  echo "<blockquote>".lang("BRIEF_SCORE",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
+//                                  echo lang("BREIF_DISCLAIMER");
+//                                }else{
+//                                  echo lang("BRIEF_SORRY_NA");
+//                                }
+//                              }else{
                                   // this is long score terrirtory
                                 $csv_data = "group, axis, value, description\n";
 
@@ -306,7 +306,7 @@ include_once("models/inc/gl_head.php");
                                   //   }
                                   //   echo "</ol>";
                                   // }//if !empty
-                              }
+//                              }
                             break;
 
                             case "international_physical_activity_questionnaire":
