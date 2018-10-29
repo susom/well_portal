@@ -130,9 +130,13 @@ include_once("models/inc/gl_head.php");
 
                             if(count($suppsurvs)){
                               krsort($suppsurvs);
-
+                              $first = false;
                               foreach($suppsurvs as $arm => $html){
                                 $default_open = $armyears[$sid_arm] == $arm ? "open" : "";
+                                if(!isset($_REQUEST["sid"]) && !$first){
+                                    $default_open   = "open";
+                                    $first          = $yeararms[$arm];
+                                }
                                 echo "<details $default_open>";
                                 echo "<summary>$arm</summary>";
                                 echo implode("",$html);
@@ -177,8 +181,12 @@ include_once("models/inc/gl_head.php");
                         echo "<div id='results'>";
                         switch($sid){
                             case "wellbeing_questions":
+
+                              if(!isset($_REQUEST["sid"])){
+                                  $sid_arm = $first;
+                              }
                               $well_score   = strpos($sid_arm,"short") > -1 ? "well_score" : "well_long_score_json" ;
-                              
+
                               if(isset($compare_all) && $compare_all == true){ //only when clicking on the compare tab: 
                                 $extra_params = array(
                                   'content'     => 'record',
@@ -197,7 +205,7 @@ include_once("models/inc/gl_head.php");
                                 $loggedInUser->compare_all = false;
                               }
 
-                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
+                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
                               if(strpos($sid_arm,"short") > -1){
                                 $brief_score = $user_ws[0]["well_score"];
                                 if(!empty($brief_score)){
@@ -211,8 +219,8 @@ include_once("models/inc/gl_head.php");
                                 $csv_data = "group, axis, value, description\n";
 
                                 foreach($user_ws as $e_arms){
-                                  $count_year = $armyears[$e_arms["redcap_event_name"]];
-                                  $long_scores = json_decode($e_arms["well_long_score_json"],1);
+                                  $count_year   = $armyears[$e_arms["redcap_event_name"]];
+                                  $long_scores  = json_decode($e_arms["well_long_score_json"],1);
 
                                   if(!empty($long_scores)){
                                     $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
