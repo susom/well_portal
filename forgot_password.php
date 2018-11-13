@@ -137,7 +137,7 @@ if(!empty($_POST['submitPasswordResetAnswers']) || !empty($_POST['saveResetPassw
 $user 			= getUserByEmail($email);
 $user_qs 		= array();
 foreach ($password_reset_pairs as $i => $pair){
-	$user_qs[$i] 	= $user->$pair["question"];
+	$user_qs[$i] 	= $user->{$pair["question"]};
 }
 
 // THIS HANDLES SAVING NEW PASSWORDS AND CHECKING PASSWORD RECOVERY ANSWERS
@@ -261,7 +261,6 @@ include("models/inc/gl_header.php");
 				}else{
 					//SECURITY QUESTIONS FORM INSTEAD
 					echo "<input type='hidden' name='submitPasswordResetAnswers' value='$email'/>";
-
 					// Build html for each question/answer pair
 					foreach ($password_reset_pairs as $i => $pair){
 					?>
