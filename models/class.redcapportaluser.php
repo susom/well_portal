@@ -114,7 +114,7 @@ class RedcapPortalUser
          $mail_subj = $_SESSION["use_lang"] == "sp" ? "$websiteName Verificación de su correo electrónico" : "$websiteName Email Verification";
          $mail_body = $_SESSION["use_lang"] == "sp" ? mb_convert_encoding($this->email,"utf-8","auto") : $this->email;
          $encoding  = $_SESSION["use_lang"] !== "en" ? "utf-8" : "iso-8859-1";
-         if(!$mail->sendMail($mail_body,$mail_subj,NULL,$encoding))
+         if(!$mail->sendMail($this->email,$mail_subj,$mail_body,NULL,$encoding))
          {
             logIt("Error sending email: " . print_r($mail,true), "ERROR");
             $this->mail_failure = true;
@@ -224,7 +224,7 @@ class RedcapPortalUser
       global $password_reset_pairs;
       foreach ($password_reset_pairs as $i => $pair) {
          // If any fields are empty, then return false
-         if (empty($this->$pair['question']) || empty($this->$pair['answer'])) return false;
+         if (empty($this->{$pair['question']}) || empty($this->{$pair['answer']})) return false;
       }
       return true;
    }

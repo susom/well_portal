@@ -137,7 +137,7 @@ if(!empty($_POST['submitPasswordResetAnswers']) || !empty($_POST['saveResetPassw
 $user 			= getUserByEmail($email);
 $user_qs 		= array();
 foreach ($password_reset_pairs as $i => $pair){
-	$user_qs[$i] 	= $user->$pair["question"];
+	$user_qs[$i] 	= $user->{$pair["question"]};
 }
 
 // THIS HANDLES SAVING NEW PASSWORDS AND CHECKING PASSWORD RECOVERY ANSWERS
@@ -152,10 +152,10 @@ if(!empty($_POST['submitPasswordResetAnswers'])){
 		$pass_reset_answer = isset($_POST[$pair['answer']]) ? trim($_POST[$pair['answer']]) : "";
 		if(empty($pass_reset_answer)){
 			$errors['a'] = "Invalid password recovery answers";
-		}elseif(empty($user->$pair['answer'])){
+		}elseif(empty($user->{$pair['answer']})){
 			// Make sure answer is configured in the user object as a sanity check
 			$errors['b'] = "Invalid password recovery configuration";
-		}elseif($user->$pair['answer'] !== hashSecurityAnswer($pass_reset_answer)){
+		}elseif($user->{$pair['answer']} !== hashSecurityAnswer($pass_reset_answer)){
 			// Compare the answers
 			$errors['a'] = "Invalid password recovery answers";
 			logIt("Question $i incorrect: ($pass_reset_answer) doesn't match stored hash", "INFO");
@@ -261,7 +261,6 @@ include("models/inc/gl_header.php");
 				}else{
 					//SECURITY QUESTIONS FORM INSTEAD
 					echo "<input type='hidden' name='submitPasswordResetAnswers' value='$email'/>";
-
 					// Build html for each question/answer pair
 					foreach ($password_reset_pairs as $i => $pair){
 					?>

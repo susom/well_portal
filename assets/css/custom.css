@@ -24,6 +24,11 @@ a:hover { text-decoration:underline; }
     text-align: center; 
     margin:10px 0 30px;
 }
+
+.well #pwResetForm  h2{
+	text-align:initial;
+	margin-left:215px;
+}
 #main-content{
 	position:relative;
 }
