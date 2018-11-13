@@ -152,10 +152,10 @@ if(!empty($_POST['submitPasswordResetAnswers'])){
 		$pass_reset_answer = isset($_POST[$pair['answer']]) ? trim($_POST[$pair['answer']]) : "";
 		if(empty($pass_reset_answer)){
 			$errors['a'] = "Invalid password recovery answers";
-		}elseif(empty($user->$pair['answer'])){
+		}elseif(empty($user->{$pair['answer']})){
 			// Make sure answer is configured in the user object as a sanity check
 			$errors['b'] = "Invalid password recovery configuration";
-		}elseif($user->$pair['answer'] !== hashSecurityAnswer($pass_reset_answer)){
+		}elseif($user->{$pair['answer']} !== hashSecurityAnswer($pass_reset_answer)){
 			// Compare the answers
 			$errors['a'] = "Invalid password recovery answers";
 			logIt("Question $i incorrect: ($pass_reset_answer) doesn't match stored hash", "INFO");
