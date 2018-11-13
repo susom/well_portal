@@ -224,7 +224,7 @@ class RedcapPortalUser
       global $password_reset_pairs;
       foreach ($password_reset_pairs as $i => $pair) {
          // If any fields are empty, then return false
-         if (empty($this->$pair['question']) || empty($this->$pair['answer'])) return false;
+         if (empty($this->{$pair['question']}) || empty($this->{$pair['answer']})) return false;
       }
       return true;
    }
