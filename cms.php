@@ -10,6 +10,12 @@ if(isset($_GET["user_record_id"]) ){
     $_SESSION["admin_user"] = $loggedInUser;
 
     //NOW LETS RESET THE "current user" TO BE THE ID
+
+    unset($_SESSION["arm_years"]);
+    unset($_SESSION["completed_timestamps"]);
+    unset($_SESSION["core_timestamps"]);
+    unset($_SESSION["supplemental_surveys"]);
+    unset($_SESSION["user_survey_data"]);
     setSessionUser($checkuser);
     header("location:index.php");
     exit;
@@ -20,6 +26,11 @@ if(isset($_GET["user_record_id"]) ){
 
 if(isset($_SESSION["admin_user"])){
   $loggedInUser = $_SESSION["admin_user"];
+  unset($_SESSION["user_survey_data"]);s
+  unset($_SESSION["arm_years"]);
+  unset($_SESSION["completed_timestamps"]);
+  unset($_SESSION["core_timestamps"]);
+  unset($_SESSION["supplemental_surveys"]);
   setSessionUser($loggedInUser);
   unset($_SESSION["admin_user"]);
 }
