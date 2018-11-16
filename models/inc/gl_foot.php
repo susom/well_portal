@@ -28,7 +28,7 @@
 </html>
 <script>
 $(document).on('click', function(event) {
-  if ($(event.target).not("[target='blank']").closest('.alert').length) {
+  if ($(event.target).not("[target='blank']").closest('.alert').length && !$(event.target).closest("#confirm_email").length) {
     $(".alert").fadeOut("fast",function(){
       $(".alert").remove();
     });

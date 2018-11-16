@@ -140,17 +140,28 @@ if(isset($_GET["survey_complete"])){
       }
 
       $success_arr    = array();
+
+      $success_arr[]  = "<div id='confirm_email'>";
       $success_arr[]  = $lang["CONGRATS_FRUITS"];
-      
+      $success_arr[]  = $lang["CONGRATS_CERT"];
+      $success_arr[]  = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
+      $success_arr[]  = "<input type='submit' value='confirm'></div>";
+      $success_arr[]  = "</div>";
+
+      $success_arr[]  = "<div id='cert_n_score'>";
+
       //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
       $filename = "PDF/generatePDFcertificate.php";
+
+      $success_arr[]  = lang("THANKS") ."<br><br>";
       $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
 
-        $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
+      $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
 
-        $long_score     = empty($long_score) ? "NA" : $long_score;
-        // if this is the first one just show the orange ball, otherwise show comparison graph
-        $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
+      $long_score     = empty($long_score) ? "NA" : $long_score;
+      // if this is the first one just show the orange ball, otherwise show comparison graph
+
+      $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
 
 
        // CUSTOM FLOW FOR UO1 Pilot STUDY
@@ -160,6 +171,8 @@ if(isset($_GET["survey_complete"])){
        // $success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
       }
 
+      $success_arr[]  = "</div>";
+
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }
@@ -167,11 +180,78 @@ if(isset($_GET["survey_complete"])){
 }
 // markPageLoadTime("END HEAD AREA");
 
+if(isset($_POST["confirm_email"])){
+
+    if(isset($_POST["resave"])){
+        //first check if there is an email with that name already;
+        $newemail = strtolower(trim($_POST["confirm_email"]));
+        $check = getUserByEmail($newemail);
+
+        if(!$check){
+            $loggedInUser->updateUser(array(
+                "portal_username"  => $newemail
+            ,"portal_email"    => $newemail
+            ));
+            $return = array("success" => "dance of joy");
+        }else{
+            $return = array("error" => "existing");
+        }
+    }elseif($loggedInUser->email == strtolower(trim($_POST["confirm_email"]))){
+        $return = array("success" => "dance of joy");
+    }else{
+        $return = array("error" => "no match");
+    };
+    echo json_encode($return);
+    exit;
+}
+
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
 $trackpage = "dashboard_home";
 include_once("models/inc/gl_head.php");
 ?>
+<script>
+$(document).ready(function(){
+    $("#confirm_email input[type='submit']").on("click",function(){
+        var og_input    = $("#confirm_email input[name='confirm_email']");
+        var resave      = "";
+        if($("input[name='confirm_email_b']").length){
+            if($("input[name='confirm_email_b']").val() !== og_input.val()){
+                alert("These emails don't match");
+                $("input[name='confirm_email_b']").val("");
+                return false;
+            }else{
+                resave = "&resave=true";
+            }
+        }
+
+        var dataurl = "&confirm_email=" + og_input.val() + resave;
+        $.ajax({
+            url:  "index.php",
+            type:'POST',
+            dataType: "JSON",
+            data: dataurl,
+            success:function(result){
+                console.log(result);
+                if(result.hasOwnProperty("success")){
+                    $("#confirm_email").slideUp("medium");
+                    $("#cert_n_score").slideDown("slow");
+                }else{
+                    if(result.error == "existing"){
+                        alert("That email is already taken.");
+                        $("input[name='confirm_email']").val("");
+                        $("input[name='confirm_email_b']").val("");
+                    }else{
+                        og_input.after(function(){
+                            return $(this).clone().val("").attr("name","confirm_email_b").attr("placeholder", "Re-Confirm Email");
+                        }).css("display","block");
+                    }
+                }
+            }
+        });
+    });
+});
+</script>
     <div class="main-container">
         <div class="main wrapper clearfix">
             <article>
@@ -311,6 +391,22 @@ include_once("models/inc/gl_foot.php");
     font-size: 24px;
     color: darkorange;
     font-weight: normal;
+}
+#confirm_email{
+    margin-bottom:30px;
+}
+#confirm_email .input_group{
+    text-align:left;
+}
+#confirm_email input[type='text']{
+    width: 60%;
+    margin: 0 10px 5px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+}
+#cert_n_score{
+    display:none;
 }
 </style>
 <?php

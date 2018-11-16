@@ -112,9 +112,32 @@ if(!empty($_POST['submit_new_user'])){
 			//BUT NEED TO STORE THEIR STUFF FOR CONTACT
 			if($in_usa && $oldenough && $optin && $actualage >= 18){
 				//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
-				if($auth->createNewUser($password)){
-					addSessionMessage( lang("ACCOUNT_NEW_ACTIVATION_SENT"), "success");
-					header("Location: register.php?step=2");
+
+                if($newuid = $auth->createNewUser($password)){
+                    $newuser    = new RedcapPortalUser($newuid);
+
+                    //SET EMAIL = VERIFIED
+                    $newuser->setEmailVerified();
+
+                    //SET USER IN SESSION
+                    $loggedInUser = $newuser;
+
+                    //AT THIS POINT, LOOK THROUGH ANY OTHER PROJECTS IN THE SURVEYS CONFIG
+                    //THEN GO AHEAD AND CREATE A NEW RECORD ID FOR EACH INSTRUMENT  (logged in user id + p001_1)
+                    $supp_proj 		= SurveysConfig::$projects;
+                    foreach($supp_proj as $proj_name => $project){
+                        if($proj_name == $_CFG->SESSION_NAME){
+                            continue;
+                        }
+
+                        $supp_id 					= linkSupplementalProject($project, $loggedInUser,REDCAP_PORTAL_EVENT);
+                        $loggedInUser->{$proj_name} = $supp_id;
+                    }
+                    setSessionUser($loggedInUser);
+
+//					addSessionMessage( lang("ACCOUNT_NEW_ACTIVATION_SENT"), "success");
+                    header("Location: consent.php");
+//					header("Location: register.php?step=2");
 					exit;
 					// // THEY WILL NOW NEED TO VERIFY THEIR EMAIL LINK
 					// $loggedInUser = new RedcapPortalUser($auth->new_user_id);
@@ -122,9 +145,6 @@ if(!empty($_POST['submit_new_user'])){
 					$errors[] = !empty($auth->error) ? $auth->error : 'Unknown error creating user';
 				}
 			}else{
-				//ADD THEIR EMAIL , NAME TO CONTACT DB
-				$auth->createNewUser($password, FALSE);
-
 				$reason 	= "";
 				if(!$oldenough || $actualage < 18){
 					$reason = lang("ACCOUNT_TOO_YOUNG");

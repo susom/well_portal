@@ -147,7 +147,7 @@ class RedcapAuth {
          if($verifymail){
             $newuser = new RedcapPortalUser($new_user_id);
             $newuser->createEmailToken();
-            $newuser->emailEmailToken();
+//            $newuser->emailEmailToken();
          }
       } else {
          logIt("Error creating new user: " . print_r($result,true), "ERROR");
