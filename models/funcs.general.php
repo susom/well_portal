@@ -860,6 +860,10 @@ function getActionTags($fieldmeta){
 	return $results;
 }
 
+function allowZeroFilter($var){
+    return ($var !== NULL && $var !== FALSE && $var !== '');
+}
+
 function getBase64Img($file_curl ){
 	if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
       $split    = explode("; ",$file_curl["headers"]["content-type"][0]);

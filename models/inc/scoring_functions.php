@@ -9,6 +9,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
   );
   $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
   $long_score   = null;
+
   if(true || !isset($user_ws[0]) || (isset($user_ws[0]) && empty( json_decode($user_ws[0]["well_long_score_json"],1) )) ){
     //10 DOMAINS TO CALCULATE THE WELL LONG SCORE
    
@@ -1095,9 +1096,7 @@ function scaleDomainScore($domain_score, $q_answered, $q_max){
   // return $domain_score*$q_max/$q_answered;
 }
 
-function allowZeroFilter($var){
-  return ($var !== NULL && $var !== FALSE && $var !== '');
-}
+
 
 // NO USE RIGHT NOW
 function printWELLComparison($eventarm, $user_score, $other_score){

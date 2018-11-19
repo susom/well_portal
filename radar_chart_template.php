@@ -1,5 +1,13 @@
 <?php
-  include('models/config.php');
+include('models/config.php');
+
+//THIS SESSION VARIABLE COMES FROM REPORTS PAGE TO MANAGE THE RADAR CHART
+if(!isset($_SESSION["radarchart"])){
+    echo "Error: Unable to access WELL Score Data";
+    exit;
+}
+$display_year   = $_SESSION["radarchart"]["display_year"];
+$csv_file       = $loggedInUser->id . "_" . $display_year . "_";
 ?>
 <!DOCTYPE html>
 <html ng-app="RadarChart">
@@ -8,21 +16,20 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
   <link rel="stylesheet" href="assets/css/Radarstyle.css" />
 </head>
-<body class="container" ng-controller="MainCtrl as radar" data-csvfile="RadarUserCSV/<?php echo $loggedInUser->id; ?>Results">
+<body class="container" ng-controller="MainCtrl as radar" data-csvfile="RadarUserCSV/<?php echo $csv_file ?>Results">
   <div class="main container">
     <h2>Results Summary</h2>
     <div class="visualization">
         <radar csv="radar.csv" config="radar.config"></radar>
         <?php
-          if(isset($loggedInUser->compare_all) && !$loggedInUser->compare_all){
-        ?>
-            <h3><?php echo lang("OVERALL_WELL_BEING_SCORE"); ?>: <b><?php echo $loggedInUser->score ?>/100</b></h3>
-        <?php
-            // print_rr($_SESSION['ranking']);
+          // only display score for single year views
+          if($display_year !== 99){
+              echo "<h3>".lang("OVERALL_WELL_BEING_SCORE").": <b>".$_SESSION["radarchart"]["year"][$display_year]."/100</b></h3>";
           }
-          if(isset($_SESSION['ranking'])){
-            foreach($_SESSION['ranking'] as $index => $domain){
-                // print_rr($domain);
+
+          // This PUTS down the Data for prioritized Domains
+          if(isset($_SESSION['radarchart']['domain_ranking'])){
+            foreach($_SESSION['radarchart']['domain_ranking'] as $index => $domain){
                 echo '<div id = "'.$domain.'_L" rank = '.$index.'></div>';
             }
           }

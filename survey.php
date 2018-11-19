@@ -341,6 +341,26 @@ $survey_num = $survey_count = 1;
 
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
+    if($loggedInUser->user_event_arm !== "enrollment_arm_1" && in_array($sid,array("about_you","a_little_bit_about_you", "contact_information"))){
+        //for years following "enrollment" , some answers should be auto populated
+        $extra_params 		= array(
+            'content'     	=> 'record',
+            'records'     	=> array($loggedInUser->id) ,
+            'type'      	=> "flat",
+            'events' => "enrollment_arm_1",
+            'fields'        => $followup_surveys_carryover,
+            'exportSurveyFields' => true
+        );
+        $core_answers	= RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        $survey_data["completed_fields"] = array_merge(array_filter(current($core_answers)), $survey_data["completed_fields"]); //this order so the new stuf will override the old
+    }
+
+    //FOLLOW UP YEARS CAN SKIP THESE QUESTIONs
+    foreach( $followup_surveys_exclude as $fieldname){
+        $hide_field = array_search($fieldname,array_column($survey_data["raw"],"field_name"));
+        $survey_data["raw"][$hide_field]["field_annotation"] = "@HIDDEN";
+    }
+
     if($survey_data["project"] == "REDCAP_PORTAL"){
       $survey_num   = array_search($sid, array_keys($surveys)) + 1;
       $survey_count = count($surveys);
@@ -357,6 +377,8 @@ if(array_key_exists($sid, $surveys)){
   header("Location: " . $destination);
   exit; 
 }
+
+
 
 //POP UP IN BETWEEN SURVEYS 
 //NEEDS TO GO BELOW SUPPLEMENTALL PROJECTS WORK FOR NOW
@@ -410,6 +432,8 @@ $percent_complete   = $percent_complete . "%";
 $pageTitle = "Well v2 Survey";
 $bodyClass = "survey";
 include_once("models/inc/gl_head.php");
+
+
 ?>
     <div class="main-container">
         <div class="main wrapper clearfix">

@@ -132,22 +132,25 @@ if(isset($_GET["survey_complete"])){
   if(array_key_exists($surveyid,$surveys)){
     $index  = array_search($surveyid, $all_survey_keys);
     $survey = $surveys[$surveyid];
-    if(!isset($all_survey_keys[$index+1])){
-      //CALCULATE WELL SCORES
-      if($core_surveys_complete){
-        // ONLY CALCULATE LONG SCORE DURING LONG YEARS
-        $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
-      }
+    if(!isset($all_survey_keys[$index+1])) {
+        //CALCULATE WELL SCORES
+        if ($core_surveys_complete) {
+            // ONLY CALCULATE LONG SCORE DURING LONG YEARS
+            $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
+        }
 
-      $success_arr    = array();
+        $success_arr = array();
 
-      $success_arr[]  = "<div id='confirm_email'>";
-      $success_arr[]  = $lang["CONGRATS_FRUITS"];
-      $success_arr[]  = $lang["CONGRATS_CERT"];
-      $success_arr[]  = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
-      $success_arr[]  = "<input type='submit' value='confirm'></div>";
-      $success_arr[]  = "</div>";
+        $success_arr[] = "<div id='confirm_email'>";
+        $success_arr[] = $lang["CONGRATS_FRUITS"];
 
+        if ($loggedInUser->user_event_arm == "enrollment_arm_1") {
+            $success_arr[] = $lang["CONGRATS_CERT"];
+
+            $success_arr[] = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
+            $success_arr[] = "<input type='submit' value='confirm'></div>";
+            $success_arr[] = "</div>";
+        }
       $success_arr[]  = "<div id='cert_n_score'>";
 
       //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
@@ -405,9 +408,15 @@ include_once("models/inc/gl_foot.php");
     border-radius: 7px;
     border: 1px solid #ccc;
 }
-#cert_n_score{
-    display:none;
+<?php
+if($loggedInUser->user_event_arm == "enrollment_arm_1"){
+?>
+#cert_n_score {
+    display: none;
 }
+<?php
+}
+?>
 </style>
 <?php
 // markPageLoadTime("end page load");

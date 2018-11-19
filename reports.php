@@ -132,7 +132,7 @@ include_once("models/inc/gl_head.php");
                               krsort($suppsurvs);
                               $first = false;
                               foreach($suppsurvs as $arm => $html){
-                                $default_open = $armyears[$sid_arm] == $arm ? "open" : "";
+                                $default_open = $armyears[$sid_arm] == $arm && !$compare_all ? "open" : "";
                                 if(!isset($_REQUEST["sid"]) && !$first){
                                     $default_open   = "open";
                                     $first          = $yeararms[$arm];
@@ -181,49 +181,41 @@ include_once("models/inc/gl_head.php");
                         echo "<div id='results'>";
                         switch($sid){
                             case "wellbeing_questions":
-                              $well_score   = "well_long_score_json" ;
-                              
+                            $well_score         = "well_long_score_json" ;
 
-                              if(isset($compare_all) && $compare_all == true){ //only when clicking on the compare tab: 
-                                $extra_params = array(
+                            $_SESSION['radarchart'] = array();
+                            $_SESSION['radarchart']["display_year"] = $compare_all ? 99 : $armyears[$sid_arm];
+
+                            if(isset($compare_all) && $compare_all == true){ //only when clicking on the compare tab:
+                                $extra_params   = array(
                                   'content'     => 'record',
                                   'records'     => array($loggedInUser->id) ,
                                   'fields'      => array("id",$well_score),
-                                  'events'      => array('enrollment_arm_1','anniversary_2_arm_1')
+                                  'events'      => array('enrollment_arm_1','short_anniversary_arm_1',"anniversary_2_arm_1","short_anniversary_arm_1b")
                                 );
-                                $loggedInUser->compare_all = true;
-                              }else{
+                                $_SESSION['radarchart']["compare_all"] = true;
+                            }else{
                                 $extra_params = array(
                                   'content'     => 'record',
                                   'records'     => array($loggedInUser->id) ,
                                   'fields'      => array("id",$well_score),
                                   'events'      => $sid_arm
                                 );
-                                $loggedInUser->compare_all = false;
-                              }
+                                $_SESSION['radarchart']["compare_all"] = false;
+                            }
 
+                            $user_ws = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
 
-                              $user_ws      = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN); 
-//                              if(strpos($sid_arm,"short") > -1){
-//                                $brief_score = $user_ws[0]["well_score"];
-//                                if(!empty($brief_score)){
-//                                  echo "<blockquote>".lang("BRIEF_SCORE",array($armyears[$sid_arm], $brief_score*2)). "</blockquote>";
-//                                  echo lang("BREIF_DISCLAIMER");
-//                                }else{
-//                                  echo lang("BRIEF_SORRY_NA");
-//                                }
-//                              }else{
+                            // this is long score terrirtory
+                            $csv_data = "group, axis, value, description\n";
 
-                                  // this is long score terrirtory
-                                $csv_data = "group, axis, value, description\n";
+                            //GET ALL RADAR INFO (MULTIPLE)
+                            foreach($user_ws as $e_arms){
+                                $count_year   = $armyears[$e_arms["redcap_event_name"]];
+                                $long_scores  = json_decode($e_arms["well_long_score_json"],1);
+                                if(!empty($long_scores)){
+                                    $users_file_csv = "RadarUserCSV/".$loggedInUser->id."_".$count_year."_Results.csv";
 
-                                foreach($user_ws as $e_arms){
-                                  $count_year   = $armyears[$e_arms["redcap_event_name"]];
-                                  $long_scores  = json_decode($e_arms["well_long_score_json"],1);
-
-                                  if(!empty($long_scores)){
-                                    $users_file_csv = "RadarUserCSV/".$loggedInUser->id."Results.csv";
-                                    
                                     $ct = 0;
                                     foreach ($long_scores as $key => $value){
                                       $display = $value;
@@ -233,87 +225,88 @@ include_once("models/inc/gl_head.php");
 
                                     }
                                     $sum_long_score = round(array_sum($long_scores));
-                                    $loggedInUser->score = $sum_long_score;
+
+                                    if(!isset($_SESSION['radarchart']["year"])){
+                                        $_SESSION['radarchart']["year"] = array();
+                                    }
+                                    $_SESSION['radarchart']["year"][$count_year] = $sum_long_score;
                                     $count_year++;
                                     file_put_contents($users_file_csv, $csv_data);
-                                  }else{
-                                    // if we are here then it should not be empty?
-                                  }//ifempty
-                                }//foreach project year (event arm)
-                                    $radar_domains = array(
-                                        "0" => lang("RESOURCE_CREATIVITY"),
-                                        "1" => lang("RESOURCE_LIFESTYLE"),
-                                        "2" => lang("RESOURCE_SOCIAL"),
-                                        "3" => lang("RESOURCE_STRESS"),
-                                        "4" => lang("RESOURCE_EMOTIONS"),
-                                        "5" => lang("RESOURCE_SELF"),
-                                        "6" => lang("RESOURCE_PHYSICAL"),
-                                        "7" => lang("RESOURCE_PURPOSE"),
-                                        "8" => lang("RESOURCE_FINANCIAL"),
-                                        "9" => lang("RESOURCE_RELIGION")
-                                    );
-                                    $redcap_variables = array(
-                                        "0" => "domainorder_ec",
-                                        "1" => "domainorder_lb",
-                                        "2" => "domainorder_sc",
-                                        "3" => "domainorder_sr",
-                                        "4" => "domainorder_ee",
-                                        "5" => "domainorder_ss",
-                                        "6" => "domainorder_ph",
-                                        "7" => "domainorder_pm",
-                                        "8" => "domainorder_fs",
-                                        "9" => "domainorder_rs"
-                                    );
-                                    
-                                  $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
-                                  if($domain_ranking_arm == "ALL"){
-                                    $domain_ranking_arm = $user_event_arm;
-                                  }
-                                  $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-                                  $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
-                                  $data = array(
-                                        'content'     => 'record',
-                                        "events"    => $domain_ranking_arm,
-                                            'records'     => array($loggedInUser->id),
-                                            'fields'      => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
-                                                         "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
-                                  );
-                                
-                                  $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-                                  if(!empty(current($result))){ //this code block is similar to below. Necessary
-                                    $ranking    = [];
-                                    $dom        = array_flip(array_filter(current($result)));
-                                    ksort($dom);
+                                }else{
+                                // if we are here then it should not be empty?
+                                }//ifempty
+                            }//foreach project year (event arm)
 
-                                    $leftover   = array_diff($redcap_variables,$dom);
-                                    $topdom     = array_splice($dom,0,3);
-                                    $botdom     = $dom;
-                                    $dom        = array_merge($topdom,$leftover);
-                                    $dom        = array_merge($dom,$botdom);
+                            if($compare_all){
+                                file_put_contents("RadarUserCSV/".$loggedInUser->id."_99_Results.csv", $csv_data);
+                            }
 
-                                    foreach($dom as $k => $val){
-                                        $key = array_search($val,$redcap_variables);
-                                        array_push($ranking, $radar_domains[$key]);
-                                    }
-                                    $_SESSION['ranking'] = $ranking; //store for radar chart
-                                  } //if !empty
-                                  ?>
-                                    <object type = "text/html" data = "radar_chart_template.php" width=100%></object> 
-                                  <?php
-                             
-                                  // if(!empty($result[0]["domainorder_ec"])){
-                                  //   $dom = ($result[0]);
-                                  //   asort($dom);
-                                  //   echo "<h3 style='text-align:center'>".lang("YOUR_DOMAIN_RANKING")."</h3>";
-                                  //   echo "<ol>";
-                                  //   foreach($dom as $k => $val){
-                                  //       $k--;
-                                  //       $key = array_search($k,$redcap_variables);
-                                  //      echo "<li id ='".$radar_domains[$key]."'>".$radar_domains[$key]."</li>";
-                                  //   }
-                                  //   echo "</ol>";
-                                  // }//if !empty
-//                              }
+                            //GET THIS YEARS LATEST LIFESTYLE PRIORITIES
+                            $radar_domains      = array(
+                                "0" => lang("RESOURCE_CREATIVITY"),
+                                "1" => lang("RESOURCE_LIFESTYLE"),
+                                "2" => lang("RESOURCE_SOCIAL"),
+                                "3" => lang("RESOURCE_STRESS"),
+                                "4" => lang("RESOURCE_EMOTIONS"),
+                                "5" => lang("RESOURCE_SELF"),
+                                "6" => lang("RESOURCE_PHYSICAL"),
+                                "7" => lang("RESOURCE_PURPOSE"),
+                                "8" => lang("RESOURCE_FINANCIAL"),
+                                "9" => lang("RESOURCE_RELIGION")
+                            );
+                            $redcap_variables   = array(
+                                    "0" => "domainorder_ec",
+                                    "1" => "domainorder_lb",
+                                    "2" => "domainorder_sc",
+                                    "3" => "domainorder_sr",
+                                    "4" => "domainorder_ee",
+                                    "5" => "domainorder_ss",
+                                    "6" => "domainorder_ph",
+                                    "7" => "domainorder_pm",
+                                    "8" => "domainorder_fs",
+                                    "9" => "domainorder_rs"
+                                );
+
+                            $domain_ranking_arm = isset($_GET["arm"]) ? $_GET["arm"] : $user_event_arm;
+                            if($domain_ranking_arm == "ALL"){
+                                $domain_ranking_arm = $user_event_arm;
+                            }
+
+                            $API_URL            = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+                            $API_TOKEN          = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+
+                            $data = array(
+                                'content'       => 'record',
+                                "events"        => $domain_ranking_arm,
+                                    'records'   => array($loggedInUser->id),
+                                    'fields'    => array("domainorder_ec", "domainorder_lb", "domainorder_sc","domainorder_sr", "domainorder_ee",
+                                                 "domainorder_ss", "domainorder_ph", "domainorder_pm","domainorder_fs","domainorder_rs")
+                            );
+
+                            $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
+
+                            if(!empty(current($result))){ //this code block is similar to below. Necessary
+                                $ranking    = [];
+                                $dom        = array_flip(array_filter(current($result)));
+                                ksort($dom);
+
+                                $leftover   = array_diff($redcap_variables,$dom);
+                                $topdom     = array_splice($dom,0,3);
+                                $botdom     = $dom;
+                                $dom        = array_merge($topdom,$leftover);
+                                $dom        = array_merge($dom,$botdom);
+
+                                foreach($dom as $k => $val){
+                                    $key = array_search($val,$redcap_variables);
+                                    array_push($ranking, $radar_domains[$key]);
+                                }
+                                $_SESSION['radarchart']['domain_ranking'] = $ranking;
+                                $_SESSION['ranking'] = $ranking; //store for radar chart
+                            } //if !empty
+                            ?>
+                            <object type = "text/html" data = "radar_chart_template.php" width=100% ></object>
+
+                            <?php
                             break;
 
                             case "international_physical_activity_questionnaire":
