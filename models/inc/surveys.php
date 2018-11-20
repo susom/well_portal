@@ -5,7 +5,7 @@ $consent_date		= strToTime($loggedInUser->consent_ts);
 $datediff    		= time() - $consent_date;
 $days_active 		= floor($datediff / (60 * 60 * 24));
 $update_arm 		= !empty($loggedInUser->user_event_arm) ? false : true;
-$user_event_arm 	= !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
+$user_event_arm     = $loggedInUser->user_event_arm = !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT;
 
 // markPageLoadTime("BEGIN CHECK FOR PROJECT INFO");
 // put this in sesssion
