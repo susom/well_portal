@@ -24,7 +24,8 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
         <?php
           // only display score for single year views
           if($display_year !== 99){
-              echo "<h3>".lang("OVERALL_WELL_BEING_SCORE").": <b>".$_SESSION["radarchart"]["year"][$display_year]."/100</b></h3>";
+              $well_sum_score = isset($_SESSION["radarchart"]["year"][$display_year]) ? $_SESSION["radarchart"]["year"][$display_year] : "N/A";
+              echo "<h3>".lang("OVERALL_WELL_BEING_SCORE").": <b>".$well_sum_score."/100</b></h3>";
           }
 
           // This PUTS down the Data for prioritized Domains
