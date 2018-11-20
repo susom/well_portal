@@ -341,7 +341,7 @@ $survey_num = $survey_count = 1;
 
 if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
-    if($loggedInUser->user_event_arm !== "enrollment_arm_1" && in_array($sid,array("about_you","a_little_bit_about_you", "contact_information"))){
+    if($loggedInUser->user_event_arm !== "enrollment_arm_1"){ // && in_array($sid,array("about_you","a_little_bit_about_you", "contact_information")
         //for years following "enrollment" , some answers should be auto populated
         $extra_params 		= array(
             'content'     	=> 'record',
