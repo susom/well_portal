@@ -144,7 +144,7 @@ if(isset($_GET["survey_complete"])){
         $success_arr[] = "<div id='confirm_email'>";
         $success_arr[] = $lang["CONGRATS_FRUITS"];
 
-        if ($loggedInUser->user_event_arm == "enrollment_arm_1") {
+        if ($loggedInUser->user_event_arm == "enrollment_arm_1" || $loggedInUser->user_event_arm == "") {
             $success_arr[] = $lang["CONGRATS_CERT"];
 
             $success_arr[] = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
@@ -409,7 +409,7 @@ include_once("models/inc/gl_foot.php");
     border: 1px solid #ccc;
 }
 <?php
-if($loggedInUser->user_event_arm == "enrollment_arm_1"){
+if($loggedInUser->user_event_arm == "enrollment_arm_1"  || $loggedInUser->user_event_arm == ""){
 ?>
 #cert_n_score {
     display: none;
