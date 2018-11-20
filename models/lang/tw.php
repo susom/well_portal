@@ -238,7 +238,9 @@
 		,"NAV_REPORTS"								=> "報告"
 		,"NAV_GAME" 								=> "遊戲"
 		,"NAV_ACTIVITY" 							=> "活動"
-		,"DOMAIN_RANKING" 							=> "Rank your domains"
+    	,"NAV_CHALLENGES" 							=> "WELL Challenges"
+
+	    ,"DOMAIN_RANKING" 							=> "Rank your domains"
 		,"DOMAIN_RANKING_PROMPT" 					=> "You’re half way done! Before continuing, Please take a moment to complete the Domains of Well-Being Activity... Redirecting in 3 ... 2 ... 1 ..."
 		,"YOUR_DOMAIN_RANKING" 						=> "Your well-being domain rankings"
 		,"READ_MORE"								=> "更多"

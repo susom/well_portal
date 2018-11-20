@@ -2,7 +2,7 @@
     <h3><?php echo lang("MY_WELL") ?></h3>
     <ul class="nav">
         <li class="surveys">
-            <h4><?php echo lang("CORE_SURVEYS") ?></h4>
+
             <ol>
                 <?php
                 // markPageLoadTime("BEGIN GL_surveynav");
@@ -133,7 +133,7 @@
             ?>
             </ol>
 
-            <h4><?php echo lang("NAV_ACTIVITY") ?></h4>
+            <h4><?php echo lang("NAV_CHALLENGES") ?></h4>
             <div class = "organize">
               <a id = "reorder_title" href = "activity.php"><?php echo lang("DOMAIN_RANKING") ?></a>
             </div>

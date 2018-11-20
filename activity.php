@@ -253,7 +253,7 @@ include_once("models/inc/gl_foot.php");
         		addModal("<?php echo lang("DOMAIN_SAVED_REDIRECT") ?>");
 	    		setTimeout(function(){
         			location.href="survey.php?sid="+redirect;
-			    },5000);
+			    },3000);
 	    	}else{
         		addModal("<?php echo lang("DOMAIN_SAVED") ?>");
 	    	}
