@@ -556,6 +556,45 @@ p.organize a {
 }
 
 
+
+
+.main > aside .mini_challenges li.creativity:before{
+    background: url(../img/00-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.bettersleep:before{
+    background: url(../img/04-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.getoutside:before{
+    background: url(../img/01-domain.png) 0 no-repeat;
+    background-size:contain;
+
+}
+.main > aside .mini_challenges li.finances:before{
+    background: url(../img/08-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.spirtuality:before{
+    background: url(../img/09-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.movemore:before{
+    background: url(../img/06-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.purpose:before{
+    background: url(../img/07-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.social:before{
+    background: url(../img/02-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li:before{
+    background-size:contain;
+}
+
 .footer-container footer {
     color: #000;
     padding: 20px 0;
