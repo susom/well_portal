@@ -1,0 +1,25 @@
+
+
+@media print {
+    nav,.main aside, .header-container, .splash-container{
+        display:none;
+    }
+
+    .main article {
+        float: none;
+        margin: 0 auto;
+    }
+
+    #print_btn {
+        border:1px solid red;
+    }
+}
+
+@media print and (orientation: portrait) {
+    /* Your code for portrait orientation */
+
+}
+@media print and (orientation: landscape) {
+    /* Your code for portrait landscape */
+
+}

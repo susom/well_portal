@@ -343,16 +343,28 @@ if(array_key_exists($sid, $surveys)){
     $survey_data    = $surveys[$sid];
     if($loggedInUser->user_event_arm !== "enrollment_arm_1"){ // && in_array($sid,array("about_you","a_little_bit_about_you", "contact_information")
         //for years following "enrollment" , some answers should be auto populated
+        $extra_params = array(
+            'content' 	=> 'formEventMapping',
+        );
+        $result = RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        $all_events = array_unique(array_column($result,"unique_event_name"));
         $extra_params 		= array(
             'content'     	=> 'record',
             'records'     	=> array($loggedInUser->id) ,
             'type'      	=> "flat",
-            'events' => "enrollment_arm_1",
+            'events'        => "'".implode("','",$all_events) ."'",
             'fields'        => $followup_surveys_carryover,
             'exportSurveyFields' => true
         );
-        $core_answers	= RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
-        $survey_data["completed_fields"] = array_merge(array_filter(current($core_answers)), $survey_data["completed_fields"]); //this order so the new stuf will override the old
+        $core_answers	    = RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+
+        $older_completed    = array_filter(array_shift($core_answers));
+        foreach($core_answers as $arm_core_answers){
+            //first time through, over write older completed with current completed to = latest completed;
+            $newer_completed  = array_filter($arm_core_answers);
+            $older_completed  = array_merge($older_completed, $newer_completed); //this order so the new stuf will override the old
+        }
+        $survey_data["completed_fields"] = array_merge($older_completed, $survey_data["completed_fields"]);
     }
 
     //FOLLOW UP YEARS CAN SKIP THESE QUESTIONs

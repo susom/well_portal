@@ -35,7 +35,8 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
             }
           }
         ?>
-        
+        <button id="print_btn" onclick="javascript:window.print()">Print</button>
+
         <h4><?php echo lang("RADAR_CHART_MEANING"); ?></h4>
         <p><?php echo lang("RADAR_CHART_REVIEW"); ?></p>
         <p><?php echo lang("RADAR_CHART_DOMAINS"); ?></p>
@@ -43,6 +44,18 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
     </div>
   </div>
 </body>
+<style>
+#print_btn{
+    position: absolute;
+    top: 530px;
+    right: 20px;
+}
+@media print {
+    #print_btn {
+        display:none;
+    }
+}
+</style>
 <script src="assets/js/angular.js"></script>
 <script src="assets/js/d3.v3.min.js"></script>
 <script>

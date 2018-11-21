@@ -53,6 +53,7 @@ $pageTitle = "Well v2 Assessments";
 $bodyClass = "reports";
 include_once("models/inc/gl_head.php");
 ?>
+<link rel="stylesheet" href="assets/css/report_print.css?v=<?php echo time();?>" type="text/css"  media="print" />
     <div class="main-container">
         <div class="main wrapper clearfix">   
             <aside>
@@ -305,7 +306,6 @@ include_once("models/inc/gl_head.php");
                             } //if !empty
                             ?>
                             <object type = "text/html" data = "radar_chart_template.php" width=100% ></object>
-
                             <?php
                             break;
 

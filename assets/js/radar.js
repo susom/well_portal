@@ -366,11 +366,13 @@ var RadarChart = {
     // builds out the legend
     function buildLegend(data) {
       //Create legend squares
+
+        console.log("x", config.w , config.paddingX, config.legendBoxSize);
       vis.legend.selectAll(".legend-tiles")
         .data(data).enter()
         .append("svg:rect").classed("legend-tiles", true)
-        .attr("x", config.w - config.paddingX / 2)
-        .attr("y", function(d, i) { return i * 2 * config.legendBoxSize; })
+        .attr("x", function(d, i) {return  i *  100; })
+        .attr("y", function(d, i) { return 15; })
         .attr("width", config.legendBoxSize)
         .attr("height", config.legendBoxSize)
         .attr("fill", function(d, g) { return config.colors(g); });
@@ -379,8 +381,8 @@ var RadarChart = {
       vis.legend.selectAll(".legend-labels")
         .data(data).enter()
         .append("svg:text").classed("legend-labels", true)
-        .attr("x", config.w - config.paddingX / 2 + (1.5 * config.legendBoxSize))
-        .attr("y", function(d, i) { return i * 2 * config.legendBoxSize; })
+        .attr("x", function(d, i) { return i * 100 +  (1.5 * config.legendBoxSize);})
+        .attr("y", function(d, i) { return 15; })
         .attr("dy", 0.07 * config.legendBoxSize + "em")
         .attr("font-size", 11 * config.labelScale + "px")
         .attr("fill", "gray")
