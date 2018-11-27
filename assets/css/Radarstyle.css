@@ -27,10 +27,6 @@ h4{
 
 
 
-
-
-
-
 .configuration {
   position:relative;
   font-size: 0.8em;
@@ -44,12 +40,6 @@ h4{
   margin-left: 20px;
 }
 
-
-@media only screen and (max-width: 768px) {
-  h2{
-    text-align:left;
-  }
-}
 /** Customizable classes used in D3 vis, uncomment to customize*/
 /*.svg-vis {
   background-color: transparent;
