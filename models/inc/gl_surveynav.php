@@ -135,14 +135,14 @@
 
             <h4><?php echo lang("NAV_CHALLENGES") ?></h4>
             <ol class="mini_challenges">
-                <li class="getoutside"><a href="https://drive.google.com/open?id=1FXe7kzi4RaYuk_ihC0m-NSlIs9muO_Cu" target="_blank">Better Sleep</a></li>
-                <li class="creativity"><a href="https://drive.google.com/open?id=1Qp4GigyUQ3Y0Lo5SCdR7z0LQWLgxiukC" target="_blank">Creativity</a></li>
-                <li class="getoutside"><a href="https://drive.google.com/open?id=1MdGDUVVzg7DjNaFQn5qCmhojIXX3YCNS" target="_blank">Get Outside</a></li>
-                <li class="finances"><a href="https://drive.google.com/open?id=1mPBELmGXaCM2vJUGZt5-TZ_y2ZohLFAT" target="_blank">Mindful Spending</a></li>
-                <li class="spirtuality"><a href="https://drive.google.com/open?id=1Vvb03of_Lgs3ixq0Px3Je5uKCtSMM21_" target="_blank">Mind-Body-Spirit</a></li>
-                <li class="getoutside"><a href="https://drive.google.com/open?id=1Au2ERjGo1P9I49tPP4JMxCx4tUd2om2T" target="_blank">Move More, Sit Less</a></li>
-                <li class="purpose"><a href="https://drive.google.com/open?id=1r2xTLWF8tSaCJFxQyoy_bPMH-fLfP3AO" target="_blank">Purpose and Meaning</a></li>
-                <li class="social"><a href="https://drive.google.com/open?id=1JgnfGEx6-OkP_Ua-QkJPmxaacLklJzSs" target="_blank">Social Connectedness</a></li>
+                <li class="mini_bettersleep"><a href="https://drive.google.com/open?id=1FXe7kzi4RaYuk_ihC0m-NSlIs9muO_Cu" target="_blank">Better Sleep</a></li>
+                <li class="mini_creativity"><a href="https://drive.google.com/open?id=1Qp4GigyUQ3Y0Lo5SCdR7z0LQWLgxiukC" target="_blank">Creativity</a></li>
+                <li class="mini_getoutside"><a href="https://drive.google.com/open?id=1MdGDUVVzg7DjNaFQn5qCmhojIXX3YCNS" target="_blank">Get Outside</a></li>
+                <li class="mini_mindfulspending"><a href="https://drive.google.com/open?id=1mPBELmGXaCM2vJUGZt5-TZ_y2ZohLFAT" target="_blank">Mindful Spending</a></li>
+                <li class="mini_mindbodyspirit"><a href="https://drive.google.com/open?id=1Vvb03of_Lgs3ixq0Px3Je5uKCtSMM21_" target="_blank">Mind-Body-Spirit</a></li>
+                <li class="mini_movemoresitless"><a href="https://drive.google.com/open?id=1Au2ERjGo1P9I49tPP4JMxCx4tUd2om2T" target="_blank">Move More, Sit Less</a></li>
+                <li class="mini_purposemeaning"><a href="https://drive.google.com/open?id=1r2xTLWF8tSaCJFxQyoy_bPMH-fLfP3AO" target="_blank">Purpose and Meaning</a></li>
+                <li class="mini_socialconnectedness"><a href="https://drive.google.com/open?id=1JgnfGEx6-OkP_Ua-QkJPmxaacLklJzSs" target="_blank">Social Connectedness</a></li>
             </ol>
         </li>
     </ul>

@@ -208,6 +208,22 @@ if(isset($_POST["confirm_email"])){
     exit;
 }
 
+if(isset($_POST["mini_clicked"])){
+    $mini_clicked = $_POST["mini_clicked"];
+
+    $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+    $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+    $data = array(
+        "redcap_event_name" => $user_event_arm,
+        "record"            => $loggedInUser->id,
+        "field_name"        => $mini_clicked,
+        "value"             => 1
+    );
+    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL , $API_TOKEN);
+    echo json_encode($data);
+    exit;
+}
+
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
 $trackpage = "dashboard_home";
@@ -252,6 +268,21 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+
+    $(".mini_challenges a").on("click",function(){
+        var dataurl = "&mini_clicked=" + $(this).parent("li").attr("class");
+        console.log(dataurl);
+        $.ajax({
+            url:  "index.php",
+            type:'POST',
+            dataType: "JSON",
+            data: dataurl,
+            success:function(result){
+                console.log(result);
+            }
+        });
+        return;
     });
 });
 </script>

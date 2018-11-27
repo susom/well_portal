@@ -558,36 +558,32 @@ p.organize a {
 
 
 
-.main > aside .mini_challenges li.creativity:before{
+.main > aside .mini_challenges li.mini_creativity:before{
     background: url(../img/00-domain.png) 0 no-repeat;
     background-size:contain;
 }
-.main > aside .mini_challenges li.bettersleep:before{
-    background: url(../img/04-domain.png) 0 no-repeat;
-    background-size:contain;
-}
-.main > aside .mini_challenges li.getoutside:before{
+
+.main > aside .mini_challenges li.mini_movemoresitless:before,
+.main > aside .mini_challenges li.mini_bettersleep:before,
+.main > aside .mini_challenges li.mini_getoutside:before{
     background: url(../img/01-domain.png) 0 no-repeat;
     background-size:contain;
 
 }
-.main > aside .mini_challenges li.finances:before{
+.main > aside .mini_challenges li.mini_mindfulspending:before{
     background: url(../img/08-domain.png) 0 no-repeat;
     background-size:contain;
 }
-.main > aside .mini_challenges li.spirtuality:before{
+.main > aside .mini_challenges li.mini_mindbodyspirit:before{
     background: url(../img/09-domain.png) 0 no-repeat;
     background-size:contain;
 }
-.main > aside .mini_challenges li.movemore:before{
-    background: url(../img/06-domain.png) 0 no-repeat;
-    background-size:contain;
-}
-.main > aside .mini_challenges li.purpose:before{
+
+.main > aside .mini_challenges li.mini_purposemeaning:before{
     background: url(../img/07-domain.png) 0 no-repeat;
     background-size:contain;
 }
-.main > aside .mini_challenges li.social:before{
+.main > aside .mini_challenges li.mini_socialconnectedness:before{
     background: url(../img/02-domain.png) 0 no-repeat;
     background-size:contain;
 }
