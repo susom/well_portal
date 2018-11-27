@@ -18,7 +18,7 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
 </head>
 <body class="container" ng-controller="MainCtrl as radar" data-csvfile="RadarUserCSV/<?php echo $csv_file ?>Results">
   <div class="main container">
-    <h2>Results Summary</h2>
+    <h2>Results Summary <button id="print_btn" onclick="javascript:window.print()">Print</button></h2>
     <div class="visualization">
         <radar csv="radar.csv" config="radar.config"></radar>
         <?php
@@ -35,7 +35,7 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
             }
           }
         ?>
-        <button id="print_btn" onclick="javascript:window.print()">Print</button>
+
 
         <h4><?php echo lang("RADAR_CHART_MEANING"); ?></h4>
         <p><?php echo lang("RADAR_CHART_REVIEW"); ?></p>
@@ -46,9 +46,11 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
 </body>
 <style>
 #print_btn{
-    position: absolute;
-    top: 530px;
-    right: 20px;
+    border:1px solid #ccc;
+    border-radius:3px;
+    background:#efefef;
+    box-shadow:1px 1px 1px 0px #666;
+    vertical-align: middle;
 }
 @media print {
     #print_btn {
