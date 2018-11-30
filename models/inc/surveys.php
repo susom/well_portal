@@ -29,7 +29,6 @@ $supp_project_notes		= $_SESSION["project_info"]["supp_project_notes"];
 
 // markPageLoadTime("BEGIN CHECK FOR SHORTSCALE");
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
-$user_event_arm 	    = false;
 if(!isset($_SESSION["user_anniversary"])){
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
 	if( $days_active > 1093 ){
