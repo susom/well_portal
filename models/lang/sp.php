@@ -251,7 +251,7 @@
 		,"WELL_SCORE_NA"							=> "<p>Lo sentimos, no teníamos datos suficientes para calcular el puntaje de la escala de Well Bien Para Vida para este año.</p><p>Please be sure to fully complete the surveys in the future.</p>"
 		,"BRIEF_SCORE"								=> "Your %m1% Brief* WELL for Life Scale Score <b>%m2%/100</b> "
 		,"BRIEF_SORRY_NA" 							=> "<p>Sorry, we did not have enough data to calculate a Brief Well for Life Scale Score for this year.</p><p>Por favor, asegúrese de completar toda la encuesta en el futuro.</p>"
-		,"BREIF_DISCLAIMER" 						=> "<i>*Debido a la escala reducida, solo podemos proporcionar un puntaje de bienestar general, no puntajes de dominios individuales. Asegúrese de tomar la escala normal de WELL Bien Para Vida el próximo año para obtener un informe completo. Si desea comparar sus puntajes generales de bienestar, use la función "Comparar" que se encuentra en la pestaña de Informes.</i>"
+		,"BREIF_DISCLAIMER" 						=> "<i>*Debido a la escala reducida, solo podemos proporcionar un puntaje de bienestar general, no puntajes de dominios individuales. Asegúrese de tomar la escala normal de WELL Bien Para Vida el próximo año para obtener un informe completo. Si desea comparar sus puntajes generales de bienestar, use la función 'Comparar' que se encuentra en la pestaña de Informes.</i>"
 		,"RESOURCE_CREATIVITY" 						=> "Exploración y Creatividad"
 		,"RESOURCE_LIFESTYLE" 						=> "Estilo de Vida y Practicas Diarias"
 		,"RESOURCE_SOCIAL" 							=> "Conectividad Social"
