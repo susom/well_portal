@@ -145,7 +145,9 @@
 		"DOMAIN_RS_DESC" 						=> "The extent to which spiritual and religious beliefs, practices, communities and traditions are important in your life.",
 		"DOMAIN_FS_DESC" 						=> "Your perception of having enough money to meet your needs.",
 		"DOMAIN_EC_DESC" 						=> "Having opportunities to grow as a person and to explore new experiences and ways of thinking.",
-		));
+        "RESULTS_SUMMARY"                       => "Results Summary",
+        "PRINT"                                 => "Print",
+	));
 	
 
 	//DASHBOARD TRANSLATIONS

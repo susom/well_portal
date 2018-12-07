@@ -146,7 +146,8 @@
 		"DOMAIN_RS_DESC" 						=> "La medida en que las creencias, prácticas, comunidades y tradiciones espirituales o religiosas son importantes en su vida.",
 		"DOMAIN_FS_DESC" 						=> "Su percepción de tener suficiente dinero para satisfacer sus necesidades.",
 		"DOMAIN_EC_DESC" 						=> "Tener oportunidades para crecer como persona y explorar nuevas experiencias y formas de pensar.",
-
+        "RESULTS_SUMMARY"                       => "Results Summary",
+        "PRINT"                                 => "Print",
 	));
 
 	//DASHBOARD TRANSLATIONS
@@ -216,7 +217,9 @@
 		,"MAT_SCORE_40"								=> "En los próximos 4 años, personas con sus resultados tienen alta probabilidad (6.6 de 10) de perder la habilidad de hacer las actividades físicas que disfrutan y valoran. Sin embargo, hay muchas cosas que usted puede hacer para mejorar su habilidad física y capacidad funcional."
 		,"MAT_SCORE_50"								=> "En los próximos 4 años, personas con sus resultados tienen probabilidad (5.2 de 10) de perder la habilidad de hacer las actividades físicas que disfrutan y valoran. Sin embargo, hay muchas cosas que usted puede hacer para mejorar su habilidad física y capacidad funcional."
 		,"MAT_SCORE_60"								=> "En los próximos 4 años, personas con sus resultados tienen alguna probabilidad (3.5 de 10) de perder la habilidad de hacer las actividades físicas que disfrutan y valoran. Sin embargo, hay muchas cosas que puede hacer para mejorar su habilidad física y capacidad funcional.Las personas con sus resultados tienen baja probabilidad de perder la habilidad de poder hacer actividades físicas que disfrutan o valoran. ¡Siga con el buen trabajo e intente mantener su capacidad funcional!"
-		,"TCM_POSITIVE"								=> "Positivo"
+    	,"MAT_SCORE_70"								=> "Es poco probable que las personas con su puntaje pierdan la capacidad de hacer cosas activas que ellos disfrutan o valoran. ¡Sigue con el buen trabajo y trata de mantener tu capacidad funcional!"
+
+    	,"TCM_POSITIVE"								=> "Positivo"
 		,"TCM_NEGATIVE"								=> "Negativo"
 		,"TCM_ESSENTIALLY_POS"						=> "Tendencia (Esencialmente) Positiva"
 

@@ -3,59 +3,34 @@ require_once("models/config.php");
 include("models/inc/checklogin.php");
 
 //SITE NAV
-$navon  = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "on", "activity" => "");
+$navon              = array("home" => "", "reports" => "", "game" => "", "resources" => "", "rewards" => "on", "activity" => "");
 
-$avail_surveys      = $available_instruments;
-$first_core_survey  = array_splice($avail_surveys,0,1);
-$surveyon           = array();
-$surveynav          = array_merge($first_core_survey, $supp_surveys_keys);
-foreach($surveynav as $surveyitem){
-    $surveyon[$surveyitem] = "";
+$API_URL            = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+$API_TOKEN          = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+$extra_params       = array();
+$loc                = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
+$cats               = array();
+$domain             = isset($_REQUEST["nav"])  ? str_replace("resources-","",$_REQUEST["nav"]) + 1: 0;
+
+
+$core_icons         = SurveysConfig::$core_icons;
+$supp_icons         = SurveysConfig::$supp_icons;
+$completed_surveys  = array();
+$incomplete_surveys = array();
+foreach($completed_timestamps as $completed_sid){
+    $completed_surveys[] = "<a href='#' class='".$core_icons[$completed_sid]." draggable' title='$completed_sid'></a>";
 }
 
-$API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-$API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
-$extra_params   = array();
-$loc            = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
-$cats           = array();
-$domain         = isset($_REQUEST["nav"])  ? str_replace("resources-","",$_REQUEST["nav"]) + 1: 0;
+$url                = $_SERVER['REQUEST_URI'];
+$domain_page        = $url[strlen($url)-1];
 
-
-$url = $_SERVER['REQUEST_URI'];
-$domain_page = $url[strlen($url)-1];
-
-$pageTitle = "Well v2 Resource Links";
-$bodyClass = "rewards";
+$pageTitle          = "Well v2 Resource Links";
+$bodyClass          = "rewards";
 include_once("models/inc/gl_head.php");
 ?>
     <div class="main-container">
         <div class="main wrapper clearfix">
-          <div class="tree">
-<?php  
-$completed_surveys  = array();
-$incomplete_surveys = array();
-$core_icons         = SurveysConfig::$core_icons;
-$supp_icons         = SurveysConfig::$supp_icons;
-foreach($surveys as $surveyid => $survey){
-  $surveycomplete = $survey["survey_complete"];
-  $foricon_id     = $surveyid == "brief_well_for_life_scale" ? "wellbeing_questions" : $surveyid;
-  $badge_icon     = $core_icons[$foricon_id];
-  if(!$surveycomplete){
-    $incomplete_surveys[] = "<a href='#' class='na $badge_icon' title='$surveyid'></a>";
-  }else{
-    $completed_surveys[]  = "<a href='#' class='$badge_icon' title='$surveyid'></a>";
-  }
-}
-foreach($supp_instruments as $supp_instrument_id => $supp_instrument){
-    $foricon_id     = $supp_instrument_id;
-    $badge_icon     = $supp_icons[$foricon_id];
-    if(!$supp_instrument["survey_complete"]){
-      $incomplete_surveys[] = "<a href='#' class='na $badge_icon'></a>";
-    }else{
-      $completed_surveys[]  = "<a href='#' class='$badge_icon'></a>";
-    }
-}
-?>
+          <div class="tree droppable">
             <div class='rewards complete'>
               <?php
                 echo implode(" ",$completed_surveys);
@@ -81,15 +56,14 @@ include_once("models/inc/gl_foot.php");
   width:1024px;
   height:760px;
   margin:0 auto;
-  background: url(assets/img/rewards_tree.png) 20% 50% no-repeat;
-  border:1px solid #ccc;
-  box-shadow:0 0 2px 1px #ccc;
+  background: url(assets/img/well_tree_big.png) 20% 50% no-repeat;
+    background-size:50%;
   position:relative;
 }
 .tree #mywelltree{
   position:absolute;
-  bottom:0;
-  left:36%;
+  bottom:-20px;
+  left:34%;
   width:300px;
   margin-left:-150px;
   text-align:center;
@@ -114,15 +88,13 @@ include_once("models/inc/gl_foot.php");
   width:30px;
   height:30px;
   display:inline-block;
+  background:url(assets/img/sprites_fruits.png) 0px -123px no-repeat;
+  background-size:220%;
 }
 
 .tree .rewards a.strawberry{
     /*transform: translateY(-50%);*/
     /*content:"";*/
-    background:url(assets/img/sprites_fruits.png) 0px -123px no-repeat;
-    background-size:220%;
-    width:30px;
-    height:30px;
 }
 
 .tree .rewards a.grapes{
@@ -177,7 +149,6 @@ include_once("models/inc/gl_foot.php");
     background-position:0 -489px;
 }
 
-
 .tree .rewards a.running{
     background:url(assets/img/ico_mat.png) top left no-repeat;
     background-size:200%;
@@ -210,5 +181,10 @@ include_once("models/inc/gl_foot.php");
 .tree .rewards a.na:before{
     background-position:top right;
 }
-
 </style>
+<script>
+$(document).ready(function(){
+    $(".draggable").draggable();
+    $(".droppable").droppable();
+});
+</script>
