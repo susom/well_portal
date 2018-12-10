@@ -36,6 +36,8 @@ include_once("models/inc/gl_head.php");
 ?>
 <div class="main-container">
     <div class="main wrapper clearfix">
+            <span id="mytree_bg"></span>
+
             <div class="mytree droppable">
                 <h3 id="mywelltree"><?php echo lang("MYWELLTREE") ?></h3>
 
@@ -44,17 +46,17 @@ include_once("models/inc/gl_head.php");
             </div>
 
             <div class='myrewards complete'>
+                <blockquote><b>To claim your badges:</b> Drag your rewarded badges to your WELL tree.</blockquote>
                 <?php
                 echo implode(" ",$completed_surveys);
                 ?>
-                <blockquote><b>To claim your badges:</b> Drag your rewarded badges to your WELL tree.</blockquote>
             </div>
 
             <div class="myrewards incomplete">
+                <blockquote><b>To get more badges:</b> Complete more WELL surveys or challenges.</blockquote>
                 <?php
                 echo implode(" ",$incomplete_surveys);
                 ?>
-                <blockquote><b>To get more badges:</b> Fill out more WELL surveys or join WELL challenges.</blockquote>
             </div>
     </div> <!-- #main -->
 </div> <!-- #main-container -->
@@ -62,6 +64,20 @@ include_once("models/inc/gl_head.php");
 include_once("models/inc/gl_foot.php");
 ?>
 <style>
+.main {
+    position:relative;
+}
+
+#mytree_bg{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background: url(assets/img/bg_field_stream.png) -40px -240px no-repeat;
+    opacity:.1;
+    z-index:-5;
+}
+
 .mytree {
   float:left;
   width:600px; height:800px;
@@ -69,6 +85,15 @@ include_once("models/inc/gl_foot.php");
   background: url(assets/img/well_tree_big_baretree.png) 0 0 no-repeat;
   background-size:contain;
   position:relative;
+  z-index:0;
+}
+#mywelltree{
+    position:absolute;
+    bottom:-50px;
+    width:100%;
+    text-align:center;
+    color:#333;
+    margin-left: -20px;
 }
 
 #mytree_leaves{
@@ -91,13 +116,7 @@ include_once("models/inc/gl_foot.php");
     background-size:contain;
     opacity:.1;
 }
-#mywelltree{
-  position:absolute;
-  bottom:-60px;
-  width:100%;
-  text-align:center;
-  color:#333;
-}
+
 
 .myrewards{
   width:320px;
@@ -107,9 +126,10 @@ include_once("models/inc/gl_foot.php");
   border:1px solid #ccc;
   border-radius:5px;
   padding:10px;
+    min-height:220px;
 }
 .myrewards blockquote{
-  margin:10px 0;
+  margin:0px 0 10px;
   border:none;
 }
 
@@ -229,12 +249,15 @@ $(document).ready(function(){
 
             var leaves_op   = parseFloat($("#mytree_leaves").css("opacity")  );
             var berries_op  = parseFloat($("#mytree_berries").css("opacity") );
+            var bg_op       = parseFloat($("#mytree_bg").css("opacity") );
 
             leaves_op += .1;
-            berries_op += .3;
+            berries_op += .1;
+            bg_op +=.1;
 
             $("#mytree_leaves").css("opacity", leaves_op);
             $("#mytree_berries").css("opacity", berries_op);
+            $("#mytree_bg").css("opacity", bg_op);
         }
     });
 });
