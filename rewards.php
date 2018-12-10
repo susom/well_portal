@@ -24,7 +24,7 @@ $supp_icons         = SurveysConfig::$supp_icons;
 $completed_surveys  = array();
 $incomplete_surveys = array();
 foreach($completed_timestamps as $completed_sid){
-    $completed_surveys[] = "<a href='#' class='".$core_icons[$completed_sid]." draggable' title='$completed_sid' data-sid='$completed_sid' data-fruit='".$core_icons[$completed_sid]."'></a>";
+    $completed_surveys[] = "<a href='#' class='fruit ".$core_icons[$completed_sid]." draggable' title='$completed_sid' data-sid='$completed_sid' data-fruit='".$core_icons[$completed_sid]."'></a>";
 }
 
 $url                = $_SERVER['REQUEST_URI'];
@@ -53,10 +53,8 @@ include_once("models/inc/gl_head.php");
             </div>
 
             <div class="myrewards incomplete">
-                <blockquote><b>To get more badges:</b> Complete more WELL surveys or challenges.</blockquote>
-                <?php
-                echo implode(" ",$incomplete_surveys);
-                ?>
+                <blockquote><b>To get more backgrounds:</b> Sign up for WELL challenges.</blockquote>
+                <a href="#" class="bg active" data-bg="bg_field_stream"></a> <a href="#" class="bg" data-bg="bg_green_hills"></a>
             </div>
     </div> <!-- #main -->
 </div> <!-- #main-container -->
@@ -76,6 +74,10 @@ include_once("models/inc/gl_foot.php");
     background: url(assets/img/bg_field_stream.png) -40px -240px no-repeat;
     opacity:.1;
     z-index:-5;
+}
+#mytree_bg.bg_green_hills{
+    background: url(assets/img/bg_green_hills.png) -30px -540px no-repeat;
+    background-size:200%;
 }
 
 .mytree {
@@ -122,18 +124,39 @@ include_once("models/inc/gl_foot.php");
   width:320px;
   float:right;
   clear:right;
-  margin:30px 20px 0 0;
   border:1px solid #ccc;
   border-radius:5px;
-  padding:10px;
-    min-height:220px;
+  margin:20px;
+  padding:20px;
+  min-height:220px;
+  box-shadow: 1px 1px 3px cadetblue;
 }
 .myrewards blockquote{
   margin:0px 0 10px;
+  padding:0;
   border:none;
 }
 
-.myrewards a{
+.myrewards .bg{
+    display:inline-block;
+    width:120px;
+    height:80px;
+    margin-right:10px;
+    border:1px solid #ccc;
+}
+.myrewards .bg.active{
+    box-shadow:0 0 5px maroon;
+    border:1px solid maroon;
+}
+
+.myrewards .bg[data-bg='bg_field_stream'] {
+    background: url(assets/img/thumb_field_stream.png) 0 0 no-repeat;
+}
+.myrewards .bg[data-bg='bg_green_hills'] {
+    background: url(assets/img/thumb_green_hills.png) 0 0 no-repeat;
+}
+
+.myrewards .fruit{
   width:60px;
   height:60px;
   display:inline-block;
@@ -141,93 +164,95 @@ include_once("models/inc/gl_foot.php");
   background-size:220%;
 }
 
-.rewards a.strawberry{
+
+
+.myrewards .fruit.strawberry{
     /*transform: translateY(-50%);*/
     /*content:"";*/
 }
 
-.rewards a.grapes{
+.myrewards .fruit.grapes{
     background-position:0 0;
 }
-.rewards a.watermelon{
+.myrewards .fruit.watermelon{
     background-position:0 -370px;
 }
-.rewards a.peach{
+.myrewards .fruit.peach{
     background-position:0 -186px;
 }
-.rewards a.bananas{
+.myrewards .fruit.bananas{
     background-position:0 -730px;
 }
-.rewards a.raspberry{
+.myrewards .fruit.raspberry{
     background-position:0 -550px;
 }
-.rewards a.greenapple{
+.myrewards .fruit.greenapple{
     background-position:0 -610px;
 }
-.rewards a.pear{
+.myrewards .fruit.pear{
     background-position:0 -796px;
 }
-.rewards a.cherries{
+.myrewards .fruit.cherries{
     background-position:0 -1014px;
 }
-.rewards a.plum{
+.myrewards .fruit.plum{
     background-position:0 -670px;
 }
-.rewards a.pomegranate{
+.myrewards .fruit.pomegranate{
     background-position:0 -66px;
 }
-.rewards a.mango{
+.myrewards .fruit.mango{
     background-position:0 -430px;
 }
-.rewards a.redapple{
+.myrewards .fruit.redapple{
     background-position:0 -918px;
 }
-.rewards a.ranier{
+.myrewards .fruit.ranier{
     background-position:0 -856px;
 }
-.rewards a.orange{
+.myrewards .fruit.orange{
     background-position:0 -308px;
 }
-.rewards a.apricot{
+.myrewards .fruit.apricot{
     background-position:0 -124px;
 }
-.rewards a.lime{
+.myrewards .fruit.lime{
     background-position:0 -490px;
 }
-.rewards a.lemon{
+.myrewards .fruit.lemon{
     background-position:0 -978px;
 }
 
-.rewards a.running{
+.myrewards .fruit.running{
     background:url(assets/img/ico_mat.png) top left no-repeat;
     background-size:200%;
 }
-.rewards a.biking{
+.myrewards .fruit.biking{
     background:url(assets/img/ico_met.png) top left no-repeat;
     background-size:200%;
 }
-.rewards a.weightlifting{
+.myrewards .fruit.weightlifting{
     background:url(assets/img/ico_stress.png) top left no-repeat;
     background-size:200%;
 }
-.rewards a.cardio{
+.myrewards .fruit.cardio{
     background:url(assets/img/ico_sleep.png) top left  no-repeat;
     background-size:200%;
 }
-.rewards a.tbone{
+.myrewards .fruit.tbone{
     background:url(assets/img/ico_chinesemed.png) top left  no-repeat;
     background-size:200%;
 }
-.rewards a.carrot{
+.myrewards .fruit.carrot{
     background:url(assets/img/ico_ipaq.png) top left  no-repeat;
     background-size:200%;
 }
-.rewards a.snoring{
+.myrewards .fruit.snoring{
     background:url(assets/img/ico_snoring.png) top left  no-repeat;
     background-size:200%;
 }
 
-.rewards a.na:before{
+.myrewards .fruit.na:before{
     background-position:top right;
 }
 </style>
@@ -259,6 +284,12 @@ $(document).ready(function(){
             $("#mytree_berries").css("opacity", berries_op);
             $("#mytree_bg").css("opacity", bg_op);
         }
+    });
+
+    $(".bg").click(function(){
+        $("#mytree_bg").removeClass().addClass($(this).data("bg"));
+        $(".bg.active").removeClass("active");
+        $(this).addClass("active");
     });
 });
 
