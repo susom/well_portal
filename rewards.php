@@ -38,7 +38,7 @@ include_once("models/inc/gl_head.php");
     <div class="main wrapper clearfix">
             <span id="mytree_bg"></span>
 
-            <div class="mytree droppable">
+            <div id="mytree" class="droppable">
                 <h3 id="mywelltree"><?php echo lang("MYWELLTREE") ?></h3>
 
                 <span id="mytree_leaves"></span>
@@ -66,6 +66,25 @@ include_once("models/inc/gl_foot.php");
     position:relative;
 }
 
+#mywelltree{
+    position:absolute;
+    bottom:-50px;
+    width:100%;
+    text-align:center;
+    color:#333;
+    margin-left: -20px;
+}
+
+#mytree {
+    float:left;
+    width:600px; height:800px;
+    margin:0 0 0 40px;
+    background: url(assets/img/well_tree_big_baretree.png) 0 0 no-repeat;
+    background-size:contain;
+    position:relative;
+    z-index:0;
+}
+
 #mytree_bg{
     position:absolute;
     top:0; left:0;
@@ -75,27 +94,10 @@ include_once("models/inc/gl_foot.php");
     opacity:.1;
     z-index:-5;
 }
+
 #mytree_bg.bg_green_hills{
     background: url(assets/img/bg_green_hills.png) -30px -540px no-repeat;
     background-size:200%;
-}
-
-.mytree {
-  float:left;
-  width:600px; height:800px;
-  margin:0 0 0 40px;
-  background: url(assets/img/well_tree_big_baretree.png) 0 0 no-repeat;
-  background-size:contain;
-  position:relative;
-  z-index:0;
-}
-#mywelltree{
-    position:absolute;
-    bottom:-50px;
-    width:100%;
-    text-align:center;
-    color:#333;
-    margin-left: -20px;
 }
 
 #mytree_leaves{
@@ -118,7 +120,6 @@ include_once("models/inc/gl_foot.php");
     background-size:contain;
     opacity:.1;
 }
-
 
 .myrewards{
   width:320px;
@@ -276,9 +277,13 @@ $(document).ready(function(){
             var berries_op  = parseFloat($("#mytree_berries").css("opacity") );
             var bg_op       = parseFloat($("#mytree_bg").css("opacity") );
 
-            leaves_op += .1;
-            berries_op += .1;
-            bg_op +=.1;
+            if(leaves_op < 1){
+                leaves_op += .2;
+            }else if(berries_op < 1){
+                berries_op += .2;
+            }else if(bg_op < 1){
+                bg_op +=.2;
+            }
 
             $("#mytree_leaves").css("opacity", leaves_op);
             $("#mytree_berries").css("opacity", berries_op);
