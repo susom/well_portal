@@ -295,6 +295,7 @@ $(document).ready(function(){
         $("#mytree_bg").removeClass().addClass($(this).data("bg"));
         $(".bg.active").removeClass("active");
         $(this).addClass("active");
+        return false;
     });
 });
 
