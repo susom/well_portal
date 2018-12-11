@@ -304,6 +304,7 @@ function PlaySound(melody) {
         window.musico = document.createElement("audio");
         window.musico.pause();
     }
+    window.musico.pause();
     window.musico.setAttribute("src", melody);
     window.musico.play();
 }
