@@ -302,6 +302,7 @@ $(document).ready(function(){
 function PlaySound(melody) {
     if(!window.musico){
         window.musico = document.createElement("audio");
+        window.musico.pause();
     }
     window.musico.setAttribute("src", melody);
     window.musico.play();
