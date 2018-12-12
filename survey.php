@@ -29,7 +29,7 @@ if(isset($_REQUEST["STOPBANG"])){
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
 }
 
-//SPECIAL CUSTOM MAT SCORINGCAPTURE
+//SPECIAL CUSTOM tcm SCORINGCAPTURE
 if(isset($_REQUEST["TCM"])){
   $project_name = $_REQUEST["project"] ?: null;
   $projects     = SurveysConfig::$projects;
@@ -55,7 +55,7 @@ if(isset($_REQUEST["TCM"])){
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
 }
 
-//SPECIAL CUSTOM MAT SCORINGCAPTURE
+//SPECIAL CUSTOM ipaq SCORINGCAPTURE
 if(isset($_REQUEST["IPAQ"])){
   $project_name = $_REQUEST["project"] ?: null;
   $projects     = SurveysConfig::$projects;
@@ -153,7 +153,7 @@ if(isset($_REQUEST["met"])){
   exit;
 }
 
-//SPECIAL CUSTOM MET SCORECAPTURE
+//SPECIAL CUSTOM sleep SCORECAPTURE
 if(isset($_REQUEST["sleep"])){
   $project_name = $_REQUEST["project"] ?: null;
   $projects     = SurveysConfig::$projects;
@@ -181,7 +181,7 @@ if(isset($_REQUEST["sleep"])){
   exit;
 }
 
-//SPECIAL CUSTOM MET SCORECAPTURE
+//SPECIAL CUSTOM ipaq SCORECAPTURE
 if(isset($_REQUEST["ipaq"])){
   $project_name = $_REQUEST["project"] ?: null;
   $projects     = SurveysConfig::$projects;
@@ -493,7 +493,7 @@ include_once("models/inc/gl_foot.php");
 
   $isMET    = $sid == "how_fit_are_you"                                     ? "true" : "false";
   $isMAT    = $sid == "how_physically_mobile_are_you"                       ? "true" : "false";
-  $isTCM    = $sid == "find_out_your_body_type_according_to_chinese_medic"  ? "true" : "false";
+  $isTCM    = $sid == "find_out_your_body_type_according_to_traditional_c"  ? "true" : "false";
   $isGRIT   = $sid == "how_resilient_are_you_to_stress"                     ? "true" : "false";
   $isSleep  = $sid == "how_well_do_you_sleep"                               ? "true" : "false";
   $isIPAQ   = $sid == "international_physical_activity_questionnaire"       ? "true" : "false";

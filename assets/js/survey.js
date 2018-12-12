@@ -738,6 +738,7 @@ function showTCMScoring(){
     var nextSection = $("#customform section:last").prev();
     var dataURL     = "supp_feedback/TCM_bodytype.php?uselang="+uselang;
 
+    console.log(JSON.stringify($("#customform").serializeArray()));
     $.ajax({
       url:  dataURL,
       type:'POST',

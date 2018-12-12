@@ -10,15 +10,26 @@ foreach($tcmanswers as $userans){
 }
 
 $tcm_reqs = array();
-$tcm_reqs[0] = array('tcm_energy','tcm_optimism','tcm_appetite','tcm_weight','tcm_stool','tcm_sleepwell','tcm_naturalenv');
-$tcm_reqs[1] = array('tcm_tired','tcm_tranquility','tcm_voice','tcm_panting','tcm_colds','tcm_pasweat');
-$tcm_reqs[2] = array('tcm_cold_tolerant','tcm_cold_tolerant_freezer','tcm_pain_eatingcold','tcm_sensitive_cold','tcm_wear_more','tcm_handsfeet_cold','tcm_cold_temp');
-$tcm_reqs[3] = array('tcm_dryeyes','tcm_face_hot','tcm_handsfeet_hot','tcm_dryskin','tcm_drylips','tcm_constipated');
-$tcm_reqs[4] = array('tcm_eyelid','tcm_oily_forehead','tcm_snore','tcm_bodyframe','tcm_limbs');
-$tcm_reqs[5] = array('tcm_nose','tcm_hair_oily','tcm_bitter','tcm_acne','tcm_stickystool','tcm_scrotum','tcm_discharge');
-$tcm_reqs[6] = array('tcm_complexion','tcm_forget','tcm_lips_color','tcm_bruises_skin','tcm_capillary_cheek','tcm_face_spot','tcm_tongue');
-$tcm_reqs[7] = array('tcm_depressed','tcm_pessimistic','tcm_melancholy','tcm_scared','tcm_anxious','tcm_suspicious','tcm_chest_male','tcm_chest_female');
-$tcm_reqs[8] = array('tcm_allergic_food','tcm_allergic_env','tcm_allergic_product','tcm_allergic_others','tcm_skin_red','tcm_allergic_exp');
+$tcm_reqs[0] = array('tcmv16tcm_01','tcmv16tcm_04','tcmv16tcm_07','tcmv16tcm_34','tcmv16tcm_46','tcmv16tcm_47','tcmv16tcm_49');
+$tcm_reqs[1] = array('tcmv16tcm_02','tcmv16tcm_03','tcmv16tcm_05','tcmv16tcm_06','tcmv16tcm_20','tcmv16tcm_27');
+$tcm_reqs[2] = array('tcmv16tcm_18','tcmv16tcm_19','tcmv16tcm_28','tcmv16tcm_35','tcmv16tcm_36','tcmv16tcm_43','tcmv16tcm_50');
+$tcm_reqs[3] = array('tcmv16tcm_16','tcmv16tcm_17','tcmv16tcm_24','tcmv16tcm_26','tcmv16tcm_39','tcmv16tcm_42');
+$tcm_reqs[4] = array('tcmv16tcm_15','tcmv16tcm_25','tcmv16tcm_48','tcmv16tcm_51','tcmv16tcm_53');
+$tcm_reqs[5] = array('tcmv16tcm_33','tcmv16tcm_37','tcmv16tcm_38','tcmv16tcm_41','tcmv16tcm_52','tcmv16tcm_541','tcmv16tcm_542');
+$tcm_reqs[6] = array('tcmv16tcm_14','tcmv16tcm_22','tcmv16tcm_23','tcmv16tcm_29','tcmv16tcm_31','tcmv16tcm_32','tcmv16tcm_45');
+$tcm_reqs[7] = array('tcmv16tcm_08','tcmv16tcm_09','tcmv16tcm_10','tcmv16tcm_11','tcmv16tcm_12','tcmv16tcm_13','tcmv16tcm_401','tcmv16tcm_402');
+$tcm_reqs[8] = array('tcmv16tcm_211','tcmv16tcm_212','tcmv16tcm_213','tcmv16tcm_214','tcmv16tcm_30','tcmv16tcm_44');
+
+//$tcm_reqs[0] = array('tcm_energy','tcm_optimism','tcm_appetite','tcm_weight','tcm_stool','tcm_sleepwell','tcm_naturalenv');
+//$tcm_reqs[1] = array('tcm_tired','tcm_tranquility','tcm_voice','tcm_panting','tcm_colds','tcm_pasweat');
+//$tcm_reqs[2] = array('tcm_cold_tolerant','tcm_cold_tolerant_freezer','tcm_pain_eatingcold','tcm_sensitive_cold','tcm_wear_more','tcm_handsfeet_cold','tcm_cold_temp');
+//$tcm_reqs[3] = array('tcm_dryeyes','tcm_face_hot','tcm_handsfeet_hot','tcm_dryskin','tcm_drylips','tcm_constipated');
+//$tcm_reqs[4] = array('tcm_eyelid','tcm_oily_forehead','tcm_snore','tcm_bodyframe','tcm_limbs');
+//$tcm_reqs[5] = array('tcm_nose','tcm_hair_oily','tcm_bitter','tcm_acne','tcm_stickystool','tcm_scrotum','tcm_discharge');
+//$tcm_reqs[6] = array('tcm_complexion','tcm_forget','tcm_lips_color','tcm_bruises_skin','tcm_capillary_cheek','tcm_face_spot','tcm_tongue');
+//$tcm_reqs[7] = array('tcm_depressed','tcm_pessimistic','tcm_melancholy','tcm_scared','tcm_anxious','tcm_suspicious','tcm_chest_male','tcm_chest_female');
+//$tcm_reqs[8] = array('tcm_allergic_food','tcm_allergic_env','tcm_allergic_product','tcm_allergic_others','tcm_skin_red','tcm_allergic_exp');
+
 
 $tcm_types 		= array(
 		"en" => array(
@@ -67,20 +78,20 @@ $tcm_types 		= array(
 		)
 );
 
-$tcm_answers["tcm_gender"] = 4;
+$tcm_answers["tcm_gender_1"] = 4;
 
 //WTF IS UP WITH THE GENDER THING 
-if(isset($tcm_answers["tcm_scrotum"]) && isset($tcm_answers["tcm_ribcage"])){
-	$tcm_answers["tcm_gender"] = 5;
+if(isset($tcm_answers["tcmv16tcm_541"]) && isset($tcm_answers["tcmv16tcm_401"])){
+	$tcm_answers["tcm_gender_1"] = 5;
 }
-if(isset($tcm_answers["tcm_discharge"]) && isset($tcm_answers["tcm_breastpain"])){
-	$tcm_answers["tcm_gender"] = 4;
+if(isset($tcm_answers["tcmv16tcm_542"]) && isset($tcm_answers["tcmv16tcm_402"])){
+	$tcm_answers["tcm_gender_1"] = 4;
 }
-if( $tcm_answers["tcm_gender"] == 5 ){
+if( $tcm_answers["tcm_gender_1"] == 5 ){
 	unset($tcm_reqs[5][6]);
 	unset($tcm_reqs[7][7]);
 }
-if( $tcm_answers["tcm_gender"] == 4 ){
+if( $tcm_answers["tcm_gender_1"] == 4 ){
 	unset($tcm_reqs[5][5]);
 	unset($tcm_reqs[7][6]);
 }
@@ -88,9 +99,9 @@ if( $tcm_answers["tcm_gender"] == 4 ){
 $tcm_map = array();
 foreach($tcm_reqs as $key => $reqset){
 	$temp = array_map(function($item) use ($tcm_answers){
-		if( $tcm_answers["tcm_gender"] == 5 && ($item == "tcm_discharge" || $item == "tcm_breastpain") ){
+		if( $tcm_answers["tcm_gender_1"] == 5 && ($item == "tcmv16tcm_542" || $item == "tcmv16tcm_402") ){
 			return false;
-		}else if( $tcm_answers["tcm_gender"] == 4 && ($item == "tcm_scrotum" || $item == "tcm_ribcage") ){
+		}else if( $tcm_answers["tcm_gender_1"] == 4 && ($item == "tcmv16tcm_541" || $item == "tcmv16tcm_401") ){
 			return false;
 		}
 		
@@ -107,71 +118,121 @@ foreach($tcm_reqs as $key => $reqset){
 
 $tcm_def = array();
 $tcm_det = array();
+
 foreach($tcm_map as $set => $qs){
 	$tcm = getBodyConstitution($tcm_map, $set);
+	print_rr($set);
+	print_rr($tcm);
 	$tcm_det[] = $tcm["determination"];
 	$tcm_def[] = $tcm["determination"] < 1 ? "hidetcm" : ($tcm["determination"] > 1 ? "positive" : "tendency");
 }
 
-
 function getBodyConstitution($constitutions,$type){
-	global $uselang;
+//TODO : figure out language agnostic
+	global $uselang, $tcm_answers;
 	$constitution 	= $constitutions[$type];
 	$qs 			= count($constitution);
+    if($type == "Inherited Special Constitution"){
+        $qs = $qs - 3;
+    }
 	$sum 			= array_sum($constitution);
 	$theratio 		= $sum/($qs*5);
 	$determination 	= 0;
 
-	if($type == "Balanced Constitution"){
-		$oratio_less_than_5 = true;
-		$oratio_less_than_6 = true;
-		foreach($constitutions as $i => $other){
-			if($i == "Balanced Constitution"){
-				continue;
-			}
+	if($type == "Balanced Constitution") {
+        $oratio_less_than_4 = true;
+        $oratio_less_than_6 = true;
 
-			$sum 				= array_sum($other);
-			$total_possible 	= count($other) * 5;
-			$constitution_ratio = $sum/$total_possible;
+        $inherited_ratio = 0;
+        foreach ($constitutions as $i => $other) {
+            if ($i == "Balanced Constitution") {
+                continue;
+            }
 
-			if($constitution_ratio >= .5){
-				$oratio_less_than_5 = false;
-			}
+            if ($i == "Inherited Special Constitution") {
+                $sum = array_sum($other);
+                $total_possible = (count($other) - 3) * 5;
+                $inherited_ratio = $sum / $total_possible;
+            } else {
+                $sum = array_sum($other);
+                $total_possible = count($other) * 5;
+                $constitution_ratio = $sum / $total_possible;
 
-			if($constitution_ratio >= .6){
-				$oratio_less_than_6 = false;
-			}
+                if ($constitution_ratio >= .4) {
+                    $oratio_less_than_4 = false;
+                }
 
-			// echo "<pre>";
-			// print_r($i);
-			// print_r($other);
-			// print_r($constitution_ratio);
-			// echo "</pre>";
-		}
-		
-		if($theratio >= .7 && $oratio_less_than_5){
+                if ($constitution_ratio >= .6) {
+                    $oratio_less_than_6 = false;
+                }
+            }
+        }
+
+        if (($theratio >= .8 && $oratio_less_than_4 && $inherited_ratio < .8)
+            || ($theratio >= .6 && ($oratio_less_than_6 && !$oratio_less_than_4) && ($inherited_ratio >= .8 && $inherited_ratio < 1))
+        ) {
+            $determination = 2;
+        }
+
+    }elseif($type == "Inherited Special Constitution"){
+        $fields_greater_than_4  = true;
+        if($tcm_answers['tcmv16tcm_44'] < 4){
+            $fields_greater_than_4  = false;
+        }
+
+        $sub_fields = array($tcm_answers['tcmv16tcm_211'],$tcm_answers['tcmv16tcm_212'],$tcm_answers['tcmv16tcm_213'],$tcm_answers['tcmv16tcm_214']);
+        $sub_total  = array_sum($sub_fields);
+
+        if($fields_greater_than_4 && $sub_total >= 7 && $theratio >= 1){
+            $determination = 2;
+        }else if($fields_greater_than_4 && ($theratio >= .8 && $theratio < 1)){
+            $determination = 1;
+        }
+    }else{
+        $fields_greater_than_4  = true;
+        $fields_greater_than_3  = true;
+
+        $check_fields_score     = array();
+        if($type == "Phlegm-dampness Constitution"){
+            $check_fields_score[] = "tcmv16tcm_51";
+        }elseif($type == "Damp-heat Constitution"){
+            $check_fields_score[] = "tcmv16tcm_33";
+        }elseif($type == "Blood Stasis Constitution"){
+            $check_fields_score[] = "tcmv16tcm_31";
+            $check_fields_score[] = "tcmv16tcm_32";
+        }elseif($type == "Qi Stagnant Constitution"){
+            $check_fields_score[] = "tcmv16tcm_08";
+            $check_fields_score[] = "tcmv16tcm_09";
+        }elseif($type == "Qi Deficiency Constitution"){
+            $check_fields_score[] = "tcmv16tcm_02";
+            $check_fields_score[] = "tcmv16tcm_05";
+        }elseif($type == "Yang Deficiency Constitution"){
+            $check_fields_score[] = "tcmv16tcm_35";
+        }elseif($type == "Yin Deficiency Constitution"){
+            $check_fields_score[] = "tcmv16tcm_17";
+            $check_fields_score[] = "tcmv16tcm_39";
+        }
+
+        foreach($check_fields_score as $field){
+            if($tcm_answers[$field] < 4){
+                $fields_greater_than_4 = false;
+            }
+            if($tcm_answers[$field] <3){
+                $fields_greater_than_3 = false;
+            }
+        }
+
+		if($fields_greater_than_4 && $theratio >= .6){
+		    //full measure
 			$determination = 2;
-		}else if($theratio >= .7 && $oratio_less_than_6){
-			$determination = 1;
-		}
-
-		// echo "<pre>";
-		// print_r($theratio);
-		// print_r($determination);
-		// echo "</pre>";
-	}else{
-		if($theratio >= .6){
-			$determination = 2;
-		}else if($theratio >= .5 && $theratio < .6){
+		}else if($fields_greater_than_3 && ($theratio >= .4 && $theratio < .6)){
+		    //tendency
 			$determination = 1;
 		}
 	}
+
 	return array("result" => $theratio, "determination" => $determination);
 }
-
-
-
-
 ?>
 <div id="tcm_results">
 <table >
