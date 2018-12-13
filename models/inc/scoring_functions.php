@@ -815,8 +815,6 @@ function getLongScores($domain_fields, $user_completed_fields){
     }
   }
 
-  print_rr($score);
-
   return array( "scores" => $score  ,"pos_neg_subscores" => array(
                 "well_score_emotion_pos"  =>  $emo_positive_dom 
                ,"well_score_emotion_neg"  =>  $emo_negative_dom 
