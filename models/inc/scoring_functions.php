@@ -511,6 +511,7 @@ function getLongScores($domain_fields, $user_completed_fields){
         if(isset($user_completed_fields["core_lpaq"])){
           $domain_items["well_score_ls_pa"] = round(10*($user_completed_fields["core_lpaq"]-1)/5,4);
         }else{
+          $domain_items["well_score_ls_pa"]  = "NA";
           $calc_lifestyle = false;
         }
 
@@ -588,6 +589,7 @@ function getLongScores($domain_fields, $user_completed_fields){
           $domain_items["well_score_ls_sleep"]  = round(scaleDomainScore($temp_score, count($sleep_score), 7),4);
         }else{
           $calc_lifestyle = false;
+          $domain_items["well_score_ls_sleep"] = "NA";
         }
           
         //diet
@@ -755,6 +757,8 @@ function getLongScores($domain_fields, $user_completed_fields){
           }
           $temp_score     = array_sum($diet_score)/count($diet_score);
           $domain_items["well_score_ls_diet"] = $temp_score;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
+        }else{
+            $domain_items["well_score_ls_diet"] = "NA";
         }
 
         if($old_available){
@@ -810,6 +814,9 @@ function getLongScores($domain_fields, $user_completed_fields){
       break;
     }
   }
+
+  print_rr($score);
+
   return array( "scores" => $score  ,"pos_neg_subscores" => array(
                 "well_score_emotion_pos"  =>  $emo_positive_dom 
                ,"well_score_emotion_neg"  =>  $emo_negative_dom 
