@@ -103,7 +103,7 @@ class RC {
 			'returnFormat' 	=> 'json'
 		);	
 
-		$headers 	= [];
+		$headers 	= array();
 		$ch 		= curl_init($api_url);
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
