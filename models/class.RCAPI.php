@@ -127,7 +127,7 @@ class RC {
 
 		    $name 	= strtolower(trim($header[0]));
 		    if(!array_key_exists($name, $headers)){
-		    	$headers[$name] = [trim($header[1])];
+		    	$headers[$name] = array(trim($header[1]));
 		    }else{
 		    	$headers[$name][] = trim($header[1]);
 		    }
