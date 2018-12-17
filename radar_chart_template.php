@@ -24,8 +24,14 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
         <?php
           // only display score for single year views
           if($display_year !== 99){
-              $well_sum_score = isset($_SESSION["radarchart"]["year"][$display_year]) ? $_SESSION["radarchart"]["year"][$display_year] : "N/A";
-              echo "<h3>".lang("OVERALL_WELL_BEING_SCORE").": <b>".$well_sum_score."/100</b></h3>";
+              $well_sum_score = isset($_SESSION["radarchart"]["year"][$display_year]) ? $_SESSION["radarchart"]["year"][$display_year] ."/100" : "NA";
+              echo "<h3>".lang("OVERALL_WELL_BEING_SCORE").": <b>".$well_sum_score."</b></h3>";
+
+              if($well_sum_score !== "NA"){
+                  echo "<h4>" . lang("RADAR_CHART_MEANING") . "</h4>";
+                  echo "<p>" . lang("RADAR_CHART_REVIEW") . "</p>";
+                  echo "<p>" . lang("RADAR_CHART_DOMAINS") . "</p>";
+              }
           }
 
           // This PUTS down the Data for prioritized Domains
@@ -33,10 +39,6 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
             foreach($_SESSION['radarchart']['domain_ranking'] as $index => $domain){
                 echo '<div id = "'.$domain.'_L" rank = '.$index.'></div>';
             }
-
-            echo "<h4>" . lang("RADAR_CHART_MEANING") . "</h4>";
-            echo "<p>" . lang("RADAR_CHART_REVIEW") . "</p>";
-            echo "<p>" . lang("RADAR_CHART_DOMAINS") . "</p>";
           }
         ?>
     </div>
