@@ -189,7 +189,7 @@ if(isset($_REQUEST["action"]) || true){
         ,'fields'             => array("id")
         ,'exportSurveyFields' => true
         );
-        // $welldata   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+        $welldata   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
         $unique_ids = array_unique(array_column($welldata,"id"));
         $id_chunks  = array_chunk($unique_ids,50);
 
