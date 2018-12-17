@@ -183,24 +183,35 @@ if(isset($_REQUEST["action"])){
       print_rr($updated);
     }
   }else if($action == "well_score_calc"){
-
-    $extra_params = array(
-       "content"            => "record"
+      $extra_params = array(
+      "content"            => "record"
       ,'type'      	        => "flat"
+      ,'fields'             => array("id")
       ,'exportSurveyFields' => true
-    );
-    $welldata = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+      );
+      $welldata   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+      $unique_ids = array_unique(array_column($welldata,"id"));
+      $id_chunks  = array_chunk($unique_ids,50);
 
-    $calculated     = array();
-    if(!empty($welldata)){
-        foreach($welldata as $i => $res){
-            $long_score     = calculateLongScore($res["id"],$res["redcap_event_name"],$_CFG,$res);
-            $calculated[]   = "WELL score of $long_score was calculated for id# ".$res["id"] ." in " . $res["redcap_event_name"];
-        }
-    }
+      $calculated = array();
+      foreach($id_chunks as $chunk_of_ids){
+          $extra_params = array(
+              "content"            => "record"
+          ,'type'               => "flat"
+          ,"records"            => $chunk_of_ids
+          ,'exportSurveyFields' => true
+          );
+          $welldata   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
 
-    $calculated[] =  "All elgibile WELL Scores have been calculated";
-    echo implode("<hr>",$calculated);
+          if(!empty($welldata)){
+              foreach($welldata as $i => $res){
+                  $long_score     = calculateLongScore($res["id"],$res["redcap_event_name"],$_CFG,$res);
+                  $calculated[]   = "WELL score of $long_score was calculated for id# ".$res["id"] ." in " . $res["redcap_event_name"];
+              }
+          }
+      };
+      $calculated[] =  "All elgibile WELL Scores have been calculated";
+      echo implode("<hr>",$calculated);
   }
 }else{
   print_rr("need to add action");

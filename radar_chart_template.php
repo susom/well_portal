@@ -33,14 +33,12 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
             foreach($_SESSION['radarchart']['domain_ranking'] as $index => $domain){
                 echo '<div id = "'.$domain.'_L" rank = '.$index.'></div>';
             }
+
+            echo "<h4>" . lang("RADAR_CHART_MEANING") . "</h4>";
+            echo "<p>" . lang("RADAR_CHART_REVIEW") . "</p>";
+            echo "<p>" . lang("RADAR_CHART_DOMAINS") . "</p>";
           }
         ?>
-
-
-        <h4><?php echo lang("RADAR_CHART_MEANING"); ?></h4>
-        <p><?php echo lang("RADAR_CHART_REVIEW"); ?></p>
-        <p><?php echo lang("RADAR_CHART_DOMAINS"); ?></p>
-
     </div>
   </div>
 </body>
