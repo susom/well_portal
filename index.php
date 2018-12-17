@@ -224,6 +224,12 @@ if(isset($_POST["mini_clicked"])){
     exit;
 }
 
+if(!$core_surveys_complete && !isset($_SESSION["incomplete_core"])){
+    $_SESSION["incomplete_core"] = 1;
+    header("Location: survey.php?sid=" . SurveysConfig::$core_surveys[0]); //survey link of first survey
+    exit;
+}
+
 $pageTitle = "Well v2 Home Page";
 $bodyClass = "home";
 $trackpage = "dashboard_home";
