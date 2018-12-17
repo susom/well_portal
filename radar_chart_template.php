@@ -31,6 +31,8 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
                   echo "<h4>" . lang("RADAR_CHART_MEANING") . "</h4>";
                   echo "<p>" . lang("RADAR_CHART_REVIEW") . "</p>";
                   echo "<p>" . lang("RADAR_CHART_DOMAINS") . "</p>";
+              }else{
+                  echo "<p>" . lang("SCORE_NA") . "</p>";
               }
           }
 

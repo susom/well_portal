@@ -130,7 +130,9 @@
 		"RADAR_CHART_MEANING" 					=> "¿Qué significa este gráfico?",
 		"RADAR_CHART_REVIEW"					=> "*Para revisar su puntaje para cada dominio individual, pase el cursor sobre el punto de datos con el mouse. Hay 10 dominios del bienestar. La puntuación para cada dominio puede variar de 0-10. Una puntuación más baja en un dominio puede indicar: (1) que el dominio no es importante o no tiene un valor especial para usted, o (2) tiene una oportunidad de crecimiento en ese dominio.   La puntuación total es la suma de los 10 dominios. El objetivo no es optimizar su puntaje total, pero optimizar sus puntajes en los dominios de importancia para usted.",
 		"RADAR_CHART_DOMAINS"					=> "\"Los dominios que están en texto verde son dominios que usted indicó que son los más importantes para su bienestar. Intente optimizar tu puntuación WELL en esos dominios. Los dominios que están en texto rojo son dominios que son menos importantes para su bienestar. No es tan importante para usted optimizar su puntaje en esas áreas.\"",
-		"DOMAIN_ORDER_INSTRUCTION"				=> "Por favor, piense en lo importante que es cada uno de los 10 dominios de bienestar para su bienestar personal. Luego arrastre y suelte los tres dominios más importantes y los tres dominios menos importantes en los cuadros correspondientes en orden de importancia.",
+        "SCORE_NA" 					            => "A WELL Score was not calculated because some required questions in the survey were not answered.  Please be sure to fully complete next year's WELL survey to receive your WELL Score.",
+
+        "DOMAIN_ORDER_INSTRUCTION"				=> "Por favor, piense en lo importante que es cada uno de los 10 dominios de bienestar para su bienestar personal. Luego arrastre y suelte los tres dominios más importantes y los tres dominios menos importantes en los cuadros correspondientes en orden de importancia.",
 		"MOST_IMPORTANT"						=> "3 Dominios Más Importantes",
 		"LEAST_IMPORTANT"						=> "3 Dominios Menos Importantes",
 		"TEN_DOMAINS"							=> "10 Dominios del Bienestar",
