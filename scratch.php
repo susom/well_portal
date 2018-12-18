@@ -4,7 +4,7 @@ if(isset($_SERVER['argv'][1])){
     $temp               = explode("=",$_SERVER['argv'][1]);
     $_REQUEST["action"] = $temp[1];
 }else{
-    // include("models/inc/checklogin.php");
+     include("models/inc/checklogin.php");
 }
 include("models/inc/scoring_functions.php");
 
@@ -12,9 +12,8 @@ $API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
 // ONE TIME ACTION TO UPDATE the generated well_long_score_json variables.
-if(isset($_REQUEST["action"]) || true){
-    // $action = $_REQUEST["action"];
-    $action = "well_score_calc";
+if(isset($_REQUEST["action"])){
+    $action = $_REQUEST["action"];
     if($action == "update_domain_json"){
         $extra_params = array(
             "content"  => "record"
@@ -89,8 +88,8 @@ if(isset($_REQUEST["action"]) || true){
         // CALCULATE BMI AND US EDUCATION CATAGORY
         $extra_params = array(
             "content"  => "record"
-        ,"type"     => "flat"
-        ,"fields"   => array("id","core_height_ft","core_height_inch","core_weight_lb","core_education_us_level","well_bmi","well_education")
+            ,"type"     => "flat"
+            ,"fields"   => array("id","core_height_ft","core_height_inch","core_weight_lb","core_education_us_level","well_bmi","well_education")
         );
         $welldata      = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
         foreach($welldata as $user){

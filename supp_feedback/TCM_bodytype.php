@@ -121,8 +121,8 @@ $tcm_det = array();
 
 foreach($tcm_map as $set => $qs){
 	$tcm = getBodyConstitution($tcm_map, $set);
-	print_rr($set);
-	print_rr($tcm);
+//	print_rr($set);
+//	print_rr($tcm);
 	$tcm_det[] = $tcm["determination"];
 	$tcm_def[] = $tcm["determination"] < 1 ? "hidetcm" : ($tcm["determination"] > 1 ? "positive" : "tendency");
 }
@@ -233,6 +233,43 @@ function getBodyConstitution($constitutions,$type){
 
 	return array("result" => $theratio, "determination" => $determination);
 }
+
+
+$data           = array();
+
+$event_name     = $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];
+$record_id      = $loggedInUser->id;
+$data[]         = array(
+    "record"            => $record_id,
+    "field_name"        => $field_name,
+    "value"             => 1
+);
+if($event_name){
+    $data[0]["redcap_event_name"] = $event_name;
+}
+
+
+$API_TOKEN      = $projects[$project_name]["TOKEN"];
+$API_URL        = $projects[$project_name]["URL"];
+$result         = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+
+//core_tcm_bodytype___1 , Balanced
+//core_tcm_bodytype___21, Qi deficiency
+//core_tcm_bodytype___22, A tendency to be Qi deficiency
+//core_tcm_bodytype___31, Yang deficiency
+//core_tcm_bodytype___32, A tendency to be Yang deficiency
+//core_tcm_bodytype___41, Yin deficiency
+//core_tcm_bodytype___42, A tendency to be Yin deficiency
+//core_tcm_bodytype___51, Phlegm-dampness
+//core_tcm_bodytype___52, A tendency to be Phlegm-dampness
+//core_tcm_bodytype___61, Damp-heat
+//core_tcm_bodytype___62, A tendency to Damp-heat
+//core_tcm_bodytype___71, Blood-stasis
+//core_tcm_bodytype___72, A tendency to Blood-stasis
+//core_tcm_bodytype___81, Qi-stagnation
+//core_tcm_bodytype___82, A tendency to Qi-stagnation
+//core_tcm_bodytype___91, Inherited Special
+//core_tcm_bodytype___92, A tendency to Inherited Special
 ?>
 <div id="tcm_results">
 <table >
