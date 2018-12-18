@@ -444,8 +444,6 @@ $percent_complete   = $percent_complete . "%";
 $pageTitle = "Well v2 Survey";
 $bodyClass = "survey";
 include_once("models/inc/gl_head.php");
-
-
 ?>
     <div class="main-container">
         <div class="main wrapper clearfix">
@@ -516,21 +514,23 @@ include_once("models/inc/gl_foot.php");
       $affected   = $branch["affected"];
       $effectors  = array();
       $ef_only    = array();
-      foreach($branch["effector"] as $ef => $values){
-        array_push($ef_only, "all_completed.hasOwnProperty('$ef')");
-        
-        $temp_arr = array();
-        foreach($values as $value){
-          $temp_arr[] = " all_completed['$ef'] == $value ";
-        }
-        $effectors[] = "(".implode(" || ",$temp_arr).")";
-      }
+      if(!empty($branch["effector"])) {
+          foreach ($branch["effector"] as $ef => $values) {
+              array_push($ef_only, "all_completed.hasOwnProperty('$ef')");
 
-      $branching_function .= "if((".implode(" $andor ", $ef_only).") && (".implode(" $andor ", $effectors).")){\n";
-      $branching_function .= "\$('.$affected').slideDown('medium');\n";
-      $branching_function .= "}else{\n";
-      $branching_function .= "\$('.$affected').slideUp('fast');\n";
-      $branching_function .= "}\n";
+              $temp_arr = array();
+              foreach ($values as $value) {
+                  $temp_arr[] = " all_completed['$ef'] == $value ";
+              }
+              $effectors[] = "(" . implode(" || ", $temp_arr) . ")";
+          }
+
+          $branching_function .= "if((".implode(" $andor ", $ef_only).") && (".implode(" $andor ", $effectors).")){\n";
+          $branching_function .= "\$('.$affected').slideDown('medium');\n";
+          $branching_function .= "}else{\n";
+          $branching_function .= "\$('.$affected').slideUp('fast');\n";
+          $branching_function .= "}\n";
+      }
     }
 
   $branching_function .= "return;\n";
@@ -539,7 +539,8 @@ include_once("models/inc/gl_foot.php");
   echo $branching_function;
 
   $all_completed                = array_merge($all_completed, $active_survey->completed);
-  // //PASS FORMS METADATA 
+
+  // //PASS FORMS METADATA
   echo "var current_section     = " . ($index ? $index : 0) . ";\n";
   echo "var section_perc        = Math.round((1/".count($avail_surveys).")*100);\n";
   echo "var starting_width      = Math.round(current_section * section_perc,2);\n"; 
