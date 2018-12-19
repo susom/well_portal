@@ -546,3 +546,16 @@ img.print{
 	    margin-left: -40px;
 	}
 }
+
+
+@media only screen
+and (device-width : 320px){
+	.alert{
+		width:90%;
+		margin-left:-45%;
+	}
+
+	.alert.text-center ul{
+		margin: 0 10px 50px;
+	}
+}

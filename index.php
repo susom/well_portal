@@ -294,41 +294,41 @@ $(document).ready(function(){
 </script>
     <div class="main-container">
         <div class="main wrapper clearfix">
+            <?php
+            include_once("models/inc/gl_surveynav.php");
+            ?>
             <article>
                 <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
-                <?php  
+                <?php
                 // markPageLoadTime("BEGIN CONTENT AREA");
                 if(isset($cats[0])){
                     $content_html = array();
                     foreach($cats[0] as $event){
-                      $content_html[] = "<section>";
-                      $content_html[] = "<figure>";
-                      
-                      $content_html[] = $event["pic"];
+                        $content_html[] = "<section>";
+                        $content_html[] = "<figure>";
 
-                      $content_html[] = "<figcaption>";
-                      $content_html[] = "<h2>".$event["subject"]."</h2>";
-                      $content_html[] = "<p>".$event["content"]."</p>";
-                      if(!empty($event["link"])){
-                        if(in_array($event["link"], $supp_instrument_ids )){
-                          $content_html[] = "<a href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
-                        }else{
-                          $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
-                          $content_html[] = "<a href='".$read_more_link."'>".lang("READ_MORE")."</a>";
+                        $content_html[] = $event["pic"];
+
+                        $content_html[] = "<figcaption>";
+                        $content_html[] = "<h2>".$event["subject"]."</h2>";
+                        $content_html[] = "<p>".$event["content"]."</p>";
+                        if(!empty($event["link"])){
+                            if(in_array($event["link"], $supp_instrument_ids )){
+                                $content_html[] = "<a href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
+                            }else{
+                                $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
+                                $content_html[] = "<a href='".$read_more_link."'>".lang("READ_MORE")."</a>";
+                            }
                         }
-                      }
-                      $content_html[] = "</figcaption>";
-                      $content_html[] = "</figure>";
-                      $content_html[] = "</section>";
+                        $content_html[] = "</figcaption>";
+                        $content_html[] = "</figure>";
+                        $content_html[] = "</section>";
                     }
                     echo implode("\r\n",$content_html);
                 }
                 // markPageLoadTime("END CONTENT AREA");
                 ?>
             </article>
-            <?php 
-            include_once("models/inc/gl_surveynav.php");
-            ?>
         </div> <!-- #main -->
     </div> <!-- #main-container -->
 <?php 

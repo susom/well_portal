@@ -31,7 +31,7 @@
             <?php echo $cats[1]["content"]?>
         </blockquote>
         <style>
-            .splash-container .wrapper:before {
+            .splash-container h2:before {
                 background: url(<?php echo $cats[1]["pic"] ?>) 50% no-repeat;
                 background-size:cover;
             }
