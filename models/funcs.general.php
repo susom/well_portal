@@ -313,6 +313,13 @@ function isUserLoggedIn() {
 	return (isset($loggedInUser) && !empty($loggedInUser));
 }
 
+// Returns true if user object is defined globally
+function isUserConsented() {
+    global $loggedInUser;
+
+    return (isset($loggedInUser) && !empty($loggedInUser) && isset($loggedInUser->consent_clicked));
+}
+
 
 // Returns true if user is suspended
 function isUserSuspended() {

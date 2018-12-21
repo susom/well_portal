@@ -192,6 +192,7 @@ if(isset($_REQUEST["action"])){
         $unique_ids = array_unique(array_column($welldata,"id"));
         $id_chunks  = array_chunk($unique_ids,50);
 
+        $id_chunks = array(6583);
         $calculated = array();
         foreach($id_chunks as $chunk_of_ids){
             $extra_params = array(
@@ -201,7 +202,7 @@ if(isset($_REQUEST["action"])){
             ,'exportSurveyFields' => true
             );
             $welldata   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
-
+            print_rr($welldata);
             if(!empty($welldata)){
                 foreach($welldata as $i => $res){
                     $long_score     = calculateLongScore($res["id"],$res["redcap_event_name"],$_CFG,$res);

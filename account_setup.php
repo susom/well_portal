@@ -77,15 +77,32 @@ if( isset($_POST['account_update']) ) {
 		header("Location: survey.php?sid=" . SurveysConfig::$core_surveys[0]); //survey link of first survey
 		exit;
 	}
-} 
+}
 
+$_SESSION["portal_consent_click_ts"] = date('Y-m-d H:i:s');
 //MAKE SURE THIS COMES DIRECTYLY FROM consent
 if( !isset($_POST['consented']) ){
 	//REDIRECT TO SECURITY QUESTIONS
 	header("Location: consent.php");
 	exit;
+}else{
+    if(isset($_SESSION["needs_consent"])){
+        $data = array(
+            "record"            => $loggedInUser->id,
+            "redcap_event_name" => $loggedInUser->user_event_arm,
+            "field_name"        => "portal_consent_click_ts",
+            "value"             => $_SESSION["portal_consent_click_ts"]
+        );
+        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), REDCAP_API_URL, REDCAP_API_TOKEN);
+        $loggedInUser->consent_clicked = true;
+        setSessionUser($loggedInUser);
+        unset($_SESSION["needs_consent"]);
+        header("Location: index.php");
+        exit;
+    }
 }
-$_SESSION["portal_consent_click_ts"] = date('Y-m-d H:i:s');
+
+
 
 $pg_title 		= "Account Setup | $websiteName";
 $bodyClass 		= "login register setup";

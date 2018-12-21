@@ -2,7 +2,7 @@
 require_once("models/config.php");
 
 //REDIRECT USERS THAT ARE ALREADY LOGGED IN AND CONSENTED TO THE PORTAL PAGE
-if(isUserLoggedIn() && isUserActive()) { 
+if(isUserLoggedIn() && isUserActive() && isUserConsented()) {
 	$destination = $websiteUrl . "index.php";
 	header("Location: " . $destination);
 	exit; 
