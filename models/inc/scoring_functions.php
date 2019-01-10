@@ -415,6 +415,10 @@ function getLongScores($domain_fields, $user_completed_fields){
                 break;
 
             case "well_score_emotion" :
+
+                $emo_positive_dom = "NA";
+                $emo_negative_dom = "NA";
+
                 if($non_answered < $dq_num){
                     $domain_items = array();
                     $pos_items    = array();
@@ -457,6 +461,9 @@ function getLongScores($domain_fields, $user_completed_fields){
                 break;
 
             case "well_score_stress" :
+
+                $stress_positive_dom = "NA";
+                $stress_negative_dom = "NA";
                 if($non_answered < $dq_num){
                     $domain_items = array();
                     $pos_items    = array();
@@ -841,8 +848,8 @@ function getLongScores($domain_fields, $user_completed_fields){
     }
 
     return array( "scores" => $score  ,"pos_neg_subscores" => array(
-        "well_score_emotion_pos"  =>  $emo_positive_dom
-    ,"well_score_emotion_neg"  =>  $emo_negative_dom
+        "well_score_emotion_pos"  =>    $emo_positive_dom
+    ,"well_score_emotion_neg"  =>       $emo_negative_dom
     ,"well_score_stress_pos"   =>  $stress_positive_dom
     ,"well_score_stress_neg"   =>  $stress_negative_dom
     ));

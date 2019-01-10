@@ -129,129 +129,138 @@ foreach($tcm_map as $set => $qs){
 
 function getBodyConstitution($constitutions,$type){
 //TODO : figure out language agnostic
-	global $uselang, $tcm_answers;
+	global $uselang, $tcm_answers,$tcm_reqs;
+
 	$constitution 	= $constitutions[$type];
 	$qs 			= count($constitution);
-    if($type == "Inherited Special Constitution"){
-        $qs = $qs - 3;
-    }
+
 	$sum 			= array_sum($constitution);
 	$theratio 		= $sum/($qs*5);
 	$determination 	= 0;
 
 	if($type == "Balanced Constitution") {
-        $oratio_less_than_4 = true;
-        $oratio_less_than_6 = true;
+        $inherited_ratio_ok     = false;
+        $constituion_ratio_ok   = 0;
+        $all_items_greater_3    = true;
 
-        $inherited_ratio = 0;
+        foreach ($tcm_reqs[0] as $field){
+            if($tcm_answers[$field] < 3){
+                $all_items_greater_3 = false;
+                break;
+            }
+        }
         foreach ($constitutions as $i => $other) {
             if ($i == "Balanced Constitution") {
                 continue;
             }
 
+            $sum                = array_sum($other);
+            $total_possible     = count($other) * 5;
+            $constitution_ratio = $sum / $total_possible;
+
             if ($i == "Inherited Special Constitution") {
-                $sum = array_sum($other);
-                $total_possible = (count($other) - 3) * 5;
-                $inherited_ratio = $sum / $total_possible;
-            } else {
-                $sum = array_sum($other);
-                $total_possible = count($other) * 5;
-                $constitution_ratio = $sum / $total_possible;
-
-                if ($constitution_ratio >= .4) {
-                    $oratio_less_than_4 = false;
+                if($constitution_ratio < .8){
+                    $inherited_ratio_ok = true;
                 }
-
-                if ($constitution_ratio >= .6) {
-                    $oratio_less_than_6 = false;
+            }else{
+                if ($constitution_ratio < .4) {
+                    $constituion_ratio_ok++;
                 }
             }
         }
 
-        if (($theratio >= .8 && $oratio_less_than_4 && $inherited_ratio < .8)
-            || ($theratio >= .6 && ($oratio_less_than_6 && !$oratio_less_than_4) && ($inherited_ratio >= .8 && $inherited_ratio < 1))
-        ) {
+        if ($inherited_ratio_ok && $constituion_ratio_ok >= 5 && $theratio >= .7 && $all_items_greater_3){
             $determination = 2;
-        }
-
-    }elseif($type == "Inherited Special Constitution"){
-        $fields_greater_than_4  = true;
-        if($tcm_answers['tcmv16tcm_44'] < 4){
-            $fields_greater_than_4  = false;
-        }
-
-        $sub_fields = array($tcm_answers['tcmv16tcm_211'],$tcm_answers['tcmv16tcm_212'],$tcm_answers['tcmv16tcm_213'],$tcm_answers['tcmv16tcm_214']);
-        $sub_total  = array_sum($sub_fields);
-
-        if($fields_greater_than_4 && $sub_total >= 7 && $theratio >= 1){
-            $determination = 2;
-        }else if($fields_greater_than_4 && ($theratio >= .8 && $theratio < 1)){
-            $determination = 1;
         }
     }else{
-        $fields_greater_than_4  = true;
-        $fields_greater_than_3  = true;
-
+	    $min_weight             = 2;
         $check_fields_score     = array();
         if($type == "Phlegm-dampness Constitution"){
+            $min_weight           = 1;
+            $check_fields_score[] = "tcmv16tcm_25";
             $check_fields_score[] = "tcmv16tcm_51";
         }elseif($type == "Damp-heat Constitution"){
+            $min_weight           = 1;
             $check_fields_score[] = "tcmv16tcm_33";
+            $check_fields_score[] = "tcmv16tcm_37";
+            $check_fields_score[] = "tcmv16tcm_41";
         }elseif($type == "Blood Stasis Constitution"){
+            $check_fields_score[] = "tcmv16tcm_14";
+            $check_fields_score[] = "tcmv16tcm_29";
             $check_fields_score[] = "tcmv16tcm_31";
             $check_fields_score[] = "tcmv16tcm_32";
         }elseif($type == "Qi Stagnant Constitution"){
-            $check_fields_score[] = "tcmv16tcm_08";
-            $check_fields_score[] = "tcmv16tcm_09";
+            $check_fields_score[] = "tcmv16tcm_10";
+            $check_fields_score[] = "tcmv16tcm_12";
+            $check_fields_score[] = "tcmv16tcm_13";
         }elseif($type == "Qi Deficiency Constitution"){
-            $check_fields_score[] = "tcmv16tcm_02";
             $check_fields_score[] = "tcmv16tcm_05";
+            $check_fields_score[] = "tcmv16tcm_06";
+            $check_fields_score[] = "tcmv16tcm_20";
         }elseif($type == "Yang Deficiency Constitution"){
+            $check_fields_score[] = "tcmv16tcm_18";
+            $check_fields_score[] = "tcmv16tcm_19";
+            $check_fields_score[] = "tcmv16tcm_28";
             $check_fields_score[] = "tcmv16tcm_35";
+            $check_fields_score[] = "tcmv16tcm_36";
         }elseif($type == "Yin Deficiency Constitution"){
             $check_fields_score[] = "tcmv16tcm_17";
-            $check_fields_score[] = "tcmv16tcm_39";
+            $check_fields_score[] = "tcmv16tcm_24";
+        }elseif($type == "Inherited Special Constitution"){
+            $min_weight           = 1;
+            $check_fields_score[] = "tcmv16tcm_44";
         }
 
+        $min_check_hi = 0;
+        $min_check_lo = 0;
         foreach($check_fields_score as $field){
-            if($tcm_answers[$field] < 4){
-                $fields_greater_than_4 = false;
+            if($tcm_answers[$field] >= 4){
+                $min_check_hi++;
             }
-            if($tcm_answers[$field] <3){
-                $fields_greater_than_3 = false;
+
+            if($tcm_answers[$field] >= 3){
+                $min_check_lo++;
             }
         }
 
-		if($fields_greater_than_4 && $theratio >= .6){
-		    //full measure
-			$determination = 2;
-		}else if($fields_greater_than_3 && ($theratio >= .4 && $theratio < .6)){
-		    //tendency
-			$determination = 1;
-		}
+        if($type == "Phlegm-dampness Constitution" || $type == "Damp-heat Constitution"){
+           if($min_check_hi >= $min_weight && $theratio >= .6){
+               //full measure
+               $determination = 2;
+           }elseif( ($min_check_lo >= $min_weight && ($theratio >= .4 && $theratio < .6)) ||  $theratio >= .6 ){
+               //tendency
+               $determination = 1;
+           }
+        }else{
+            if($min_check_lo >= $min_weight && $theratio >= .6){
+                //full measure
+                $determination = 2;
+            }elseif( ($min_check_lo >= $min_weight && ($theratio >= .4 && $theratio < .6)) ||  $theratio >= .6){
+                //tendency
+                $determination = 1;
+            }
+        }
 	}
 
 	return array("result" => $theratio, "determination" => $determination);
 }
 
 
-$data           = array();
-
-$event_name     = $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];
-$record_id      = $loggedInUser->id;
-$data[]         = array(
-    "record"            => $record_id,
-    "field_name"        => $field_name,
-    "value"             => 1
-);
-if($event_name){
-    $data[0]["redcap_event_name"] = $event_name;
-}
-
-
-$API_TOKEN      = $projects[$project_name]["TOKEN"];
-$API_URL        = $projects[$project_name]["URL"];
-$result         = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+//$data           = array();
+//$event_name     = $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];
+//$record_id      = $loggedInUser->id;
+//$data[]         = array(
+//    "record"            => $record_id,
+//    "field_name"        => $field_name,
+//    "value"             => 1
+//);
+//if($event_name){
+//    $data[0]["redcap_event_name"] = $event_name;
+//}
+//
+//$API_TOKEN      = $projects[$project_name]["TOKEN"];
+//$API_URL        = $projects[$project_name]["URL"];
+//$result         = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
 
 //core_tcm_bodytype___1 , Balanced
 //core_tcm_bodytype___21, Qi deficiency

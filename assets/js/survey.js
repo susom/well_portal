@@ -744,6 +744,7 @@ function showTCMScoring(){
       type:'POST',
       data: "&tcm_answers=" + JSON.stringify($("#customform").serializeArray()),
       success:function(result){
+        console.log(result);
         if($("#tcm_results").length > 0){
           $("#tcm_results").remove();
         }
