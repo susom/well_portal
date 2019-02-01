@@ -80,7 +80,7 @@ if(isset($_REQUEST["ajax"])){
             $result = updateGlobalPersistPoints($loggedInUser->id, $points_added);
         }
     }
-//    echo json_encode(array("points_added" => $points_added));
+    echo json_encode(array("points_added" => $points_added));
 }
 
 
