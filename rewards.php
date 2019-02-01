@@ -116,7 +116,7 @@ include_once("models/inc/gl_head.php");
                 <aside class="mini_challenges">
                     <h4>Mini Challenges Rewards (click to set site background)</h4>
                     <ul>
-                        <li class="default <? echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
+                        <li class="default <?php echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
                         <?php
                             foreach($mini_c_results as $result){
                                 $year   = $arm_years[$result["redcap_event_name"]];
@@ -154,7 +154,7 @@ include_once("models/inc/gl_head.php");
                             );
                             $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
                             $quotes         = !empty($results) ? current($results) : array();
-                            $quotes         = json_decode($quotes["portal_wof_solved"],1);
+                            $quotes         = isset($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
 
                             $quotes_html  = array();
                             foreach($quotes as $idx => $quote){
