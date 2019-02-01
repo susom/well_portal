@@ -764,6 +764,20 @@ footer .li a{
         width: 68%;
         position:relative;
     }
+
+    .main article:after{
+        content: "";
+        position: absolute;
+        border-radius: 15px;
+        top: -10px;
+        left: -10px;
+        width: calc(100% + 20px);
+        height: calc(100% + 20px);
+        z-index: -1;
+        background: #fff;
+        opacity: .8;
+        padding: 20px;
+    }
     
     .game .main article{
         float:none;
