@@ -107,9 +107,15 @@ include_once("models/inc/gl_head.php");
                 <aside class="core_complete">
                     <h4>Completed Core Surveys</h4>
                     <ul>
-                        <li class="complete">Year 1 (2016)</li>
-                        <li class="complete">Year 2 (2017)</li>
-                        <li class=""><a class="points_only" href="tree.php">Year 3 (2018)</a></li>
+                        <?php
+                            $current_ann    = array_pop($arm_years);
+                            $i              = 1;
+                            foreach($arm_years as $ayear){
+                                echo "<li class='complete'>Year $i ($ayear)</li>\n";
+                                $i++;
+                            }
+                            echo "<li class=''><a class='' href='tree.php'>Year $i (".$current_ann.")</a></li>\n";
+                        ?>
                     </ul>
                 </aside>
 
