@@ -98,7 +98,9 @@ include_once("models/inc/gl_head.php");
           </div>
         </div> <!-- #main -->
     </div> <!-- #main-container -->
-
+<?php
+include_once("models/inc/gl_foot.php");
+?>
 <style>
 li{
   display: block;

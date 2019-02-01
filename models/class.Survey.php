@@ -454,7 +454,7 @@ class Survey {
             if(!$first_section){
               //SUBMIT BUTTONS
               $section_html[]     = '<div class="submits">';
-              $section_html[]     = '<a href="index.php" class="btn btn-info" role="savereturnlater">'.lang("SAVE_EXIT").'</a>';
+              $section_html[]     = '<a href="index.php" class="btn btn-info points_none" role="savereturnlater">'.lang("SAVE_EXIT").'</a>';
               $section_html[]     = '<button class="btn btn-primary" role="saverecord">'.lang("SUBMIT_NEXT").'</button>';
               $section_html[]     = '<cite class="redcap">Powered by REDCap</cite>';
               $section_html[]     = '</div>';
@@ -591,7 +591,7 @@ class Survey {
       
       //SUBMIT BUTTONS
       $theHTML[]     = '<div class="submits">';
-      $theHTML[]     = '<a href="index.php" class="btn btn-info" role="savereturnlater">'.lang("SAVE_EXIT").'</a>';
+      $theHTML[]     = '<a href="index.php" class="btn btn-info points_none" role="savereturnlater">'.lang("SAVE_EXIT").'</a>';
       $theHTML[]     = '<button class="btn btn-primary" role="saverecord">'.lang("SUBMIT_NEXT").'</button>';
       $theHTML[]     = '<cite class="redcap">Powered by REDCap</cite>';
       $theHTML[]     = '</div>';

@@ -39,7 +39,7 @@ if(!empty($_POST['submit_new_user'])){
 
 	// use the email as the username if configured
 	$username 	= $portal_config['useEmailAsUsername'] ? $email : trim($_POST["username"]);
-	$password 	= md5("somelongthingsurewhynot" + $username); //USE A TEMP PASSWORD FOR NOW
+	$password 	= md5("somelongthingsurewhynot" . $username); //USE A TEMP PASSWORD FOR NOW
 	
 	$fname 		= (!empty($_POST["firstname"]) 	? $_POST["firstname"] : null ) ;
 	$lname 		= (!empty($_POST["lastname"]) 	? $_POST["lastname"] : null) ;
@@ -133,6 +133,8 @@ if(!empty($_POST['submit_new_user'])){
                         $supp_id 					= linkSupplementalProject($project, $loggedInUser,REDCAP_PORTAL_EVENT);
                         $loggedInUser->{$proj_name} = $supp_id;
                     }
+
+                    updateGlobalPersistPoints($loggedInUser->id, 50);
                     setSessionUser($loggedInUser);
 
 //					addSessionMessage( lang("ACCOUNT_NEW_ACTIVATION_SENT"), "success");

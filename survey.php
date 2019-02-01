@@ -429,6 +429,21 @@ if(isset($_GET["survey_complete"])){
         addSessionMessage( $success_msg , "success");
       }
     }
+
+    if(!in_array($surveyid , $_SESSION["persist_points"])){
+        array_push($_SESSION["persist_points"],$surveyid);
+        $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
+        $persist_pts      = $pt_val["value"];
+        $data           = array();
+        $data[]         = array(
+            "record"            => $loggedInUser->id,
+            "field_name"        => "annual_persist_points",
+            "value"             => json_encode($_SESSION["persist_points"]),
+            "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
+        );
+        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+    }
 }
 
 // INITIAL PROGRESS BAR

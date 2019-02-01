@@ -1,5 +1,8 @@
 <?php
-require_once("models/config.php"); 
+require_once("models/config.php");
+
+$API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+$API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
 if(isset($_REQUEST["ajax"])){
   $project_name = $_REQUEST["project"] ?: null;
@@ -53,5 +56,33 @@ if(isset($_REQUEST["ajax"])){
     // print_r($data);
     // print_r($result);
   }
-  exit;
+}elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "session_points"){
+    $points_added = 0;
+    if(!empty($_POST["link"])){
+        if(!in_array($_POST["link"] , $_SESSION["points"])){
+            $persist_pts = 0;
+            if(isset($_POST["persist"]) && !in_array($_POST["link"] , $_SESSION["persist_points"])){
+                array_push($_SESSION["persist_points"],$_POST["link"]);
+                $persist_pts = $_POST["persist"];
+
+                $data   = array();
+                $data[] = array(
+                    "record"            => $loggedInUser->id,
+                    "field_name"        => "annual_persist_points",
+                    "value"             => json_encode($_SESSION["persist_points"]),
+                    "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
+                );
+                $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), $API_URL, $API_TOKEN);
+            }
+            $points_added   = isset($_POST["value"]) ? $_POST["value"] : 0;
+            $points_added += $persist_pts;
+            array_push($_SESSION["points"],$_POST["link"]);
+            $result = updateGlobalPersistPoints($loggedInUser->id, $points_added);
+        }
+    }
+//    echo json_encode(array("points_added" => $points_added));
 }
+
+
+
+exit;

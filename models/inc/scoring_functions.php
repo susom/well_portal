@@ -835,14 +835,16 @@ function getLongScores($domain_fields, $user_completed_fields){
                     $calc_lifestyle = false;
                 }
 
+                $lifestyle_items = $domain_items;
                 if($calc_lifestyle){
-                    $lifestyle_items        = $domain_items;
-                    if(isset($lifestyle_items["well_score_ls_diet"])){
+                    if(isset($lifestyle_items["well_score_ls_diet"]) && $lifestyle_items["well_score_ls_diet"] != "NA"){
                         unset($lifestyle_items["well_score_ls_diet_old"]);
+                    }else{
+                        $lifestyle_items["well_score_ls_diet"] = $lifestyle_items["well_score_ls_diet_old"];
                     }
                     $score["well_score_ls"] = round(array_sum($lifestyle_items)/5,4);
                 }
-                $score["ls_sub_domains"] = $domain_items;
+                $score["ls_sub_domains"] = $lifestyle_items;
                 break;
         }
     }

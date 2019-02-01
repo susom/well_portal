@@ -133,6 +133,21 @@ if(isset($_GET["survey_complete"])){
     $index  = array_search($surveyid, $all_survey_keys);
     $survey = $surveys[$surveyid];
     if(!isset($all_survey_keys[$index+1])) {
+        if(!in_array($surveyid , $_SESSION["persist_points"])){
+            array_push($_SESSION["persist_points"],$surveyid);
+            $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
+            $persist_pts      = $pt_val["value"] * 2;
+            $data           = array();
+            $data[]         = array(
+                "record"            => $loggedInUser->id,
+                "field_name"        => "annual_persist_points",
+                "value"             => json_encode($_SESSION["persist_points"]),
+                "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
+            );
+            $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+            $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+        }
+
         //CALCULATE WELL SCORES
         if ($core_surveys_complete) {
             // ONLY CALCULATE LONG SCORE DURING LONG YEARS
@@ -179,6 +194,21 @@ if(isset($_GET["survey_complete"])){
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
     }
+  }else{
+      if(!in_array($surveyid , $_SESSION["persist_points"])){
+          array_push($_SESSION["persist_points"],$surveyid);
+          $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
+          $persist_pts      = $pt_val["value"];
+          $data             = array();
+          $data[]           = array(
+              "record"            => $loggedInUser->id,
+              "field_name"        => "annual_persist_points",
+              "value"             => json_encode($_SESSION["persist_points"]),
+              "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
+          );
+          $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+          $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+      }
   }
 }
 // markPageLoadTime("END HEAD AREA");
@@ -213,12 +243,14 @@ if(isset($_POST["mini_clicked"])){
 
     $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
     $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
-    $data = array(
+    $data   = array();
+    $data[] = array(
         "redcap_event_name" => $user_event_arm,
         "record"            => $loggedInUser->id,
         "field_name"        => $mini_clicked,
         "value"             => 1
     );
+
     $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL , $API_TOKEN);
     echo json_encode($data);
     exit;
@@ -228,6 +260,22 @@ if(!$core_surveys_complete && !isset($_SESSION["incomplete_core"])){
     $_SESSION["incomplete_core"] = 1;
     header("Location: survey.php?sid=" . SurveysConfig::$core_surveys[0]); //survey link of first survey
     exit;
+}
+
+$API_URL            = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+$API_TOKEN          = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+$extra_params       = array(
+     'content'     	=> 'record'
+    ,'records'     	=> array($loggedInUser->id)
+    ,"fields"       => array("portal_bg")
+);
+$results   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+$portal_bg = "";
+if(!empty($results)){
+    $result     = current($results);
+    if(isset($result["portal_bg"])) {
+        $portal_bg = "bg_" . $result["portal_bg"] . ".jpg";
+    }
 }
 
 $pageTitle = "Well v2 Home Page";
@@ -276,20 +324,7 @@ $(document).ready(function(){
         });
     });
 
-    $(".mini_challenges a").on("click",function(){
-        var dataurl = "&mini_clicked=" + $(this).parent("li").attr("class");
-        console.log(dataurl);
-        $.ajax({
-            url:  "index.php",
-            type:'POST',
-            dataType: "JSON",
-            data: dataurl,
-            success:function(result){
-                console.log(result);
-            }
-        });
-        return;
-    });
+
 });
 </script>
     <div class="main-container">
@@ -297,7 +332,7 @@ $(document).ready(function(){
             <?php
             include_once("models/inc/gl_surveynav.php");
             ?>
-            <article>
+            <article class="resource_links">
                 <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
                 <?php
                 // markPageLoadTime("BEGIN CONTENT AREA");
@@ -314,10 +349,10 @@ $(document).ready(function(){
                         $content_html[] = "<p>".$event["content"]."</p>";
                         if(!empty($event["link"])){
                             if(in_array($event["link"], $supp_instrument_ids )){
-                                $content_html[] = "<a href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
+                                $content_html[] = "<a class='points_survey' href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
                             }else{
                                 $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
-                                $content_html[] = "<a href='".$read_more_link."'>".lang("READ_MORE")."</a>";
+                                $content_html[] = "<a class='".($event["link"] == "wellbeing_questions" ? "points_survey" : "points_resources")."' href='".$read_more_link."'>".lang("READ_MORE")."</a>";
                             }
                         }
                         $content_html[] = "</figcaption>";
@@ -335,6 +370,12 @@ $(document).ready(function(){
 include_once("models/inc/gl_foot.php");
 ?>
 <style>
+body{
+    background: url(assets/img/bg/<?php echo $portal_bg ;?>) 50% 0 no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+}
+
 .well_scores{
   margin:20px 0 20px;
   text-align:left;

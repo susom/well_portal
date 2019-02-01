@@ -89,9 +89,10 @@ if( !empty($_POST) && isset($_POST['new_login']) ) {
 			if(!$loggedInUser->active){
 				$destination 	= "consent.php";
 			}else{
+                updateGlobalPersistPoints($loggedInUser->id, 10);
 				$destination 	= getSessionRedirectOr($websiteUrl.'index.php');
 			}
-			
+
 			header("Location: $destination");
 		} else { // Invalid credentials
 			//IF NOT A REGISTERED USER - KEEP EMAIL AND PREFILL ON REGISTER FORM

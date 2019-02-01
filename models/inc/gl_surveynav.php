@@ -3,7 +3,7 @@
     <ul class="nav">
         <li class="surveys">
 
-            <ol>
+            <ol class="core_supp">
                 <?php
                 // markPageLoadTime("BEGIN GL_surveynav");
                 $new                    = null;
@@ -38,7 +38,7 @@
                   }
                   $incomplete_complete = $surveycomplete ? "completed_surveys" : "core_surveys";
                   array_push($$incomplete_complete, "<li class='".$surveyon[$umbrella_sid]."'>
-                    <a href='$surveylink' class='auto' title='".$surveylabel."'>
+                    <a href='$surveylink' class='auto points_survey' title='".$surveylabel."'>
                       $newbadge                                                   
                       <span class='fruit'></span>
                       <span class='survey_name'>$surveyname</span>     
@@ -87,7 +87,7 @@
                   $na                 = $core_surveys_complete && !$custom_flow ? "" : "na"; //"na"
 
                   $icon_update                        = " icon_update";
-                  $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' title='$titletext'>$surveylabel</a>";
+                  $survey_alinks[$supp_instrument_id] = "<a href='$surveylink' class='points_survey ".(!$surveycomplete ? "" : "")."' title='$titletext'>$surveylabel</a>";
                   $incomplete_complete                = $surveycomplete ? "completed_surveys" : "suppsurvs";
 
                   if(!empty($na)){
@@ -104,7 +104,7 @@
                 $proj_name      = "foodquestions";
                 if(!$core_surveys_complete){
                   // JUST PUSH DUMMY TEXT
-                  $a_nutrilink  = "<a href='#' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
+                  $a_nutrilink  = "<a href='#' class='nutrilink points_survey points_none' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150
                   array_unshift($suppsurvs ,"<li class='fitness na food'>".$a_nutrilink."</li>");
                 }else{
                   // THIS IS EXPENSIVE OPERATION, DONT DO IT EVERYTIME, AND DONT BOTHER UNLESS CORE SURVEY IS COMPLETE
@@ -116,7 +116,7 @@
                   }
                   if(!array_key_exists("error",$ffq)){
                     $nutrilink      = $portal_test ? "#" : "https://www.nutritionquest.com/login/index.php?username=".$ffq["ffq_username"]."&password=".$ffq["ffq_password"]."&BDDSgroup_id=747&Submit=Submit";
-                    $a_nutrilink    = "<a href='$nutrilink' class='nutrilink' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150 
+                    $a_nutrilink    = "<a href='$nutrilink' class='nutrilink points_survey' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150
                     if($_SESSION["use_lang"] !== "sp"){
                       array_unshift($suppsurvs ,"<li class='fitness food'>".$a_nutrilink."</li>");
                     }
@@ -135,14 +135,24 @@
 
             <h4><?php echo lang("NAV_CHALLENGES") ?></h4>
             <ol class="mini_challenges">
-                <li class="mini_bettersleep"><a href="https://drive.google.com/open?id=1FXe7kzi4RaYuk_ihC0m-NSlIs9muO_Cu" target="_blank">Better Sleep</a></li>
-                <li class="mini_creativity"><a href="https://drive.google.com/open?id=1Qp4GigyUQ3Y0Lo5SCdR7z0LQWLgxiukC" target="_blank">Creativity</a></li>
-                <li class="mini_getoutside"><a href="https://drive.google.com/open?id=1MdGDUVVzg7DjNaFQn5qCmhojIXX3YCNS" target="_blank">Get Outside</a></li>
-                <li class="mini_mindfulspending"><a href="https://drive.google.com/open?id=1mPBELmGXaCM2vJUGZt5-TZ_y2ZohLFAT" target="_blank">Mindful Spending</a></li>
-                <li class="mini_mindbodyspirit"><a href="https://drive.google.com/open?id=1Vvb03of_Lgs3ixq0Px3Je5uKCtSMM21_" target="_blank">Mind-Body-Spirit</a></li>
-                <li class="mini_movemoresitless"><a href="https://drive.google.com/open?id=1Au2ERjGo1P9I49tPP4JMxCx4tUd2om2T" target="_blank">Move More, Sit Less</a></li>
-                <li class="mini_purposemeaning"><a href="https://drive.google.com/open?id=1r2xTLWF8tSaCJFxQyoy_bPMH-fLfP3AO" target="_blank">Purpose and Meaning</a></li>
-                <li class="mini_socialconnectedness"><a href="https://drive.google.com/open?id=1JgnfGEx6-OkP_Ua-QkJPmxaacLklJzSs" target="_blank">Social Connectedness</a></li>
+                <?php
+                $extra_params   = array(
+                    'content'       => 'record',
+                    'format'        => 'json',
+                    "fields"        => array("id", "portal_mc_name","portal_mc_year","portal_mc_link"),
+                    "filterLogic"   => "[portal_mc_name] != '' AND [portal_mc_year] = '".Date("Y")."'"
+                );
+                $minics        = RC::callApi($extra_params, true, SurveysConfig::$projects["ADMIN_CMS"]["URL"], SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"]);
+
+                foreach($minics as $minic){
+                    $shortname = strtolower($minic["portal_mc_name"]);
+                    $shortname = str_replace(" ","",$shortname);
+                    $shortname = str_replace("-","",$shortname);
+                    $shortname = str_replace("and","",$shortname);
+                    $shortname = str_replace(",","",$shortname);
+                    echo "<li class='mini_".$shortname."'><a href='".$minic["portal_mc_link"]."' class='points_mini_challenge' target='_blank'>".$minic["portal_mc_name"]."</a></li>\n";
+                }
+                ?>
             </ol>
         </li>
     </ul>

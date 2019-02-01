@@ -34,7 +34,7 @@
 
 				echo $domainEntry["pic"];
 				?>
-				<h2><a href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
+				<h2><a class="points_resources" target="_blank" href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
 				<p> <?php echo $domainEntry["content"]; ?></p>
 				
 			</div>
@@ -49,7 +49,7 @@
 
 <aside class="sidenav">
 	<h4>My Resources</h4>
-	<ul>
+	<ul class="domains">
 		<li>
 			<img class="sideImages" src="assets/img/00-domain.png">
 			<a href="resources.php?nav=resources-0" class="<?php echo  $domain_on["resources-0"] ?>"><?php echo lang("RESOURCE_CREATIVITY") ?></a>
@@ -142,11 +142,7 @@ article{
 	text-align: center;
 }
 
-a{
-	display:inline-block;
-	padding:5px;
 
-}
 
 .event_img{
 	float:left;

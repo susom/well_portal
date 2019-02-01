@@ -120,12 +120,11 @@ $tcm_def = array();
 $tcm_det = array();
 
 foreach($tcm_map as $set => $qs){
-	$tcm = getBodyConstitution($tcm_map, $set);
-//	print_rr($set);
-//	print_rr($tcm);
-	$tcm_det[] = $tcm["determination"];
-	$tcm_def[] = $tcm["determination"] < 1 ? "hidetcm" : ($tcm["determination"] > 1 ? "positive" : "tendency");
+	$tcm        = getBodyConstitution($tcm_map, $set);
+	$tcm_det[]  = $tcm["determination"];
+	$tcm_def[]  = $tcm["determination"] < 1 ? "hidetcm" : ($tcm["determination"] > 1 ? "positive" : "tendency");
 }
+
 
 function getBodyConstitution($constitutions,$type){
 //TODO : figure out language agnostic
@@ -244,7 +243,6 @@ function getBodyConstitution($constitutions,$type){
 
 	return array("result" => $theratio, "determination" => $determination);
 }
-
 
 //$data           = array();
 //$event_name     = $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];

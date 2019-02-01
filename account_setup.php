@@ -93,6 +93,7 @@ if( !isset($_POST['consented']) ){
             "field_name"        => "portal_consent_click_ts",
             "value"             => $_SESSION["portal_consent_click_ts"]
         );
+
         $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), REDCAP_API_URL, REDCAP_API_TOKEN);
         $loggedInUser->consent_clicked = true;
         setSessionUser($loggedInUser);

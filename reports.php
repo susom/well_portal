@@ -31,6 +31,9 @@ foreach($yeararms as $year => $arm){
 //GET THE COMPLETED TIME STAMPS FOR CORE SURVEYS FOR ON DEMAND CERT GEN
 $completed_core = array();
 foreach($_SESSION["core_timestamps"] as $arm => $complete_ts){
+    if(!isset($armyears[$arm])){
+        continue;
+    }
     $completed_core[$armyears[$arm]] = strtotime($complete_ts);
 }
 
@@ -74,7 +77,7 @@ include_once("models/inc/gl_head.php");
                                   continue;
                               }
 
-                              $suppsurvs[$year][]  = "<ol>";
+                              $suppsurvs[$year][]  = "<ol class='past_results'>";
 
                               $is_nav_on  = $supp_surveys_keys[$arm]["wellbeing_questions"];
                               $WELL_SCALE = lang("STANFORD_WELL");
@@ -152,7 +155,7 @@ include_once("models/inc/gl_head.php");
                         
                         <div class="compare_box">
                           <h4>Compare Results</h4>
-                          <p><a class='compare_long_scores' href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear><?php echo lang("STANFORD_WELL") ?></a></p>
+                          <p><a class='compare_long_scores points_only' href='reports.php?sid=wellbeing_questions&arm=ALL' data-year=$armyear><?php echo lang("STANFORD_WELL") ?></a></p>
                         </div>
                         
                         <div class='cert_box'>
@@ -162,7 +165,7 @@ include_once("models/inc/gl_head.php");
                               $cert_year = array();
                               foreach($completed_core as $curyear => $complete_date){
                                   $file_cert    = "PDF/generatePDFcertificate.php?complete_date=$complete_date";
-                                  $cert_year[]  = "<li class='nofruit'><a class='certcomplete' target='blank' href='$file_cert'>$curyear</a></li>";
+                                  $cert_year[]  = "<li class='nofruit'><a class='certcomplete points_only' target='blank' href='$file_cert'>$curyear</a></li>";
                               }
 
                               rsort($cert_year);

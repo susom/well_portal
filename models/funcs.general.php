@@ -944,4 +944,30 @@ function sendMailRelay($mail_relay_endpoint, $mail_api_token, $email_subject, $e
     $result = curl_exec($process);
     curl_close($process);
     return $result;
-} 
+}
+
+
+function updateGlobalPersistPoints($record_id, $point_value){
+    global $loggedInUser;
+
+    $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+    $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+
+    //first get the points
+    $points     = $loggedInUser->portal_game_points;
+
+    //then increment and resave
+    $points    += $point_value;
+    $loggedInUser->updateUser(array("portal_game_points" => $points));
+
+    //enrollment = permanent points
+    $data   = array();
+    $data[] = array(
+        "record"            => $record_id,
+        "field_name"        => "portal_game_points",
+        "value"             => $points,
+        "redcap_event_name" => "enrollment_arm_1"
+    );
+    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), $API_URL, $API_TOKEN);
+    return $result;
+}

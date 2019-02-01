@@ -134,6 +134,28 @@ $core_timestamps        = $_SESSION["core_timestamps"];
 
 $core_complete 			= array_diff($core_instrument_ids, $completed_timestamps);
 $core_surveys_complete  = empty($core_complete) ? true : false;
+
+$gamify                 = new Gamify(SurveysConfig::$projects["ADMIN_CMS"]["URL"],SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"]);
+$game_points            = $gamify->showPoints() ;
+
+if(!isset($_SESSION["persist_points"])){
+    $extra_params   = array(
+        'content'   => 'record',
+        'format'    => 'json',
+        "records"   => $loggedInUser->id,
+        "fields"    => "annual_persist_points",
+        "events"    => $user_event_arm
+    );
+    $results        = RC::callApi($extra_params, true, $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+    $current        = !empty($results) ? current($results) : array("annual_persist_points" => "");
+    $_SESSION["persist_points"] = !empty($current["annual_persist_points"])  ? json_decode($current["annual_persist_points"],1) : array();
+}
+
+if(!isset($_SESSION["points"])){
+    $_SESSION["points"] = array();
+}
+$arm_years          = getSessionEventYears();
+
 // markPageLoadTime("END CHECK SURVEY COMPLETION");
 
 // markPageLoadTime("end surveys.php");

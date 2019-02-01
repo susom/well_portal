@@ -57,12 +57,13 @@ $image_catagory = array(
   "6" => "Partner content"
 );
 
-$languages = array(
+$languages      = array(
   "1" => "English",
   "2" => "Spanish",
   "3" => "Chinese Simplified",
   "4" => "Chinese Traditional",
 );
+$gamify_fields  = array("gamify_pts_any","gamify_pts_survey","gamify_pts_minichallenge","gamify_pts_resources", "gamify_pts_survey_complete", "gamify_pts_register", "gamify_pts_login", "gamify_pts_tree_redeem", "gamify_pts_wof");
 
 $lang_req     = isset($_GET["lang"]) ? "?lang=".$_GET["lang"] : "";
 $pg_title     = "$websiteName";
@@ -71,94 +72,148 @@ $bodyClass    = "cms";
 $API_URL      = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN    = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 if(!empty($_POST) && isset($_POST["action"])){
-if($_POST["action"] == "newevent"){
-  unset($_POST["submit"]);
-  unset($_POST["action"]);
-  unset($_POST["loc"]);
-  unset($_POST["cat"]);
+    if($_POST["action"] == "newevent"){
+      unset($_POST["submit"]);
+      unset($_POST["action"]);
+      unset($_POST["loc"]);
+      unset($_POST["cat"]);
 
-  //import the record
-  $ts   = date('Y-m-d H:i:s');
-  $data = array(
-       "well_cms_create_ts" => $ts
-      ,"well_cms_update_ts" => $ts
-      ,"id" => "whatever_required_but_wont_be_used"
-    );
+      //import the record
+      $ts   = date('Y-m-d H:i:s');
+      $data = array(
+           "well_cms_create_ts" => $ts
+          ,"well_cms_update_ts" => $ts
+          ,"id" => "whatever_required_but_wont_be_used"
+        );
 
-  foreach($_POST as $key => $val){
-    if($key == "surveylink_well_cms_event_link"){
-      continue;
+      foreach($_POST as $key => $val){
+        if($key == "surveylink_well_cms_event_link"){
+          continue;
+        }
+        $data[$key] = $val;
+      }
+
+      if(empty($_POST["well_cms_event_link"])){
+        $data["well_cms_event_link"] = $_POST["surveylink_well_cms_event_link"];
+      }
+
+      if(!isset($data["well_cms_active"])){
+        $data["well_cms_active"] = "0";
+      }
+      $result = RC::writeToApi($data, array("forceAutoNumber" => "true", "returnContent" => "auto_ids", "overwriteBehavior" => "overwite", "type" => "flat"), $API_URL, $API_TOKEN);
+
+      //import the picture file
+      $split  = explode(",",$result[0]);
+      $new_id = $split[0];
+      if(!empty($_FILES["well_cms_pic"])){
+        RC::writeFileToApi($_FILES["well_cms_pic"], $new_id, "well_cms_pic", null, $API_URL, $API_TOKEN);
+      }
+    }elseif($_POST["action"] == "delete"){
+      if(!empty($_POST["id"])){
+        $data = array(
+             "action"       => "delete"
+            ,"content"      => "record"
+            ,"records"      => array($_POST["id"])
+          );
+        $result = RC::callApi($data, array(), $API_URL, $API_TOKEN);
+      }
+      exit;
+    }elseif($_POST["action"] == "edit"){
+      if(!empty($_POST["id"])){
+        $data[]   = array(
+             "record"     => $_POST["id"]
+            ,"field_name" => $_POST["field_name"]
+            ,"value"      => $_POST["value"]
+          );
+        $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+
+        $data[]   = array(
+             "record"     => $_POST["id"]
+            ,"field_name" => "well_cms_update_ts"
+            ,"value"      => date('Y-m-d H:i:s')
+        );
+        $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+      }
+      exit;
+    }elseif($_POST["action"] == "edit_img"){
+      if(!empty($_POST["id"])){
+        RC::writeFileToApi($_FILES["well_cms_pic"], $_POST["id"], "well_cms_pic", null, $API_URL, $API_TOKEN);
+
+        $data[]   = array(
+             "record"     => $_POST["id"]
+            ,"field_name" => "well_cms_update_ts"
+            ,"value"      => date('Y-m-d H:i:s')
+        );
+        $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+      }
+    }elseif($_POST["action"] == "minichallenge"){
+        if(isset($_POST["portal_mc_name"]) && isset($_POST["portal_mc_year"])){
+            $data = array(
+                 "portal_mc_name" => $_POST["portal_mc_name"]
+                ,"portal_mc_year" => $_POST["portal_mc_year"]
+                ,"portal_mc_link" => $_POST["portal_mc_link"]
+                ,"id" => "whatever_required_but_wont_be_used"
+            );
+            $result = RC::writeToApi($data, array("forceAutoNumber" => "true", "returnContent" => "auto_ids", "overwriteBehavior" => "overwite", "type" => "flat"), $API_URL, $API_TOKEN);
+
+            //import the picture file
+            $split  = explode(",",$result[0]);
+            $new_id = $split[0];
+
+            if(!empty($_FILES["portal_mc_img"])){
+                RC::writeFileToApi($_FILES["portal_mc_img"], $new_id, "portal_mc_img", null, $API_URL, $API_TOKEN);
+            }
+        }
+    }elseif($_POST["action"] == "gamify_points"){
+      if(!empty($_POST["id"])){
+            $data = array();
+            foreach($gamify_fields as $var){
+                if($var == "gamify_pts_wof"){
+                    continue;
+                }
+                $persist    = isset($_POST[$var."_persist"]) ? true : false;
+                $session    = isset($_POST[$var."_session"]) ? true : false;
+
+                $data[]     = array(
+                    "record"      => $_POST["id"]
+                    ,"field_name" => $var
+                    ,"value"      => json_encode(array("value" => $_POST[$var], "persist" => $persist, "session" => $session))
+                );
+            }
+            $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+      }
+    }elseif($_POST["action"] == "wof_quotes"){
+        if(!empty($_POST["id"])){
+            $full_json = !empty($_POST["full_json"]) ? json_decode($_POST["full_json"],1) : array();
+
+            if(!empty($_POST["quote"])){
+                array_push($full_json, array("cite" => $_POST["cite"], "quote" => $_POST["quote"]));
+            }
+
+            $data = array();
+            $data[] = array(
+                "record"       => $_POST["id"]
+            ,"field_name"   => "wof_quotes"
+            ,"value"        => json_encode($full_json)
+            );
+
+            $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+        }
     }
-    $data[$key] = $val;
-  }
 
-  if(empty($_POST["well_cms_event_link"])){
-    $data["well_cms_event_link"] = $_POST["surveylink_well_cms_event_link"];
-  }
-
-  if(!isset($data["well_cms_active"])){
-    $data["well_cms_active"] = "0";
-  }
-  $result = RC::writeToApi($data, array("forceAutoNumber" => "true", "returnContent" => "auto_ids", "overwriteBehavior" => "overwite", "type" => "flat"), $API_URL, $API_TOKEN);
-  
-  //import the picture file
-  $split  = explode(",",$result[0]);
-  $new_id = $split[0];
-  if(!empty($_FILES["well_cms_pic"])){
-    RC::writeFileToApi($_FILES["well_cms_pic"], $new_id, "well_cms_pic", null, $API_URL, $API_TOKEN);
-  }
-}elseif($_POST["action"] == "delete"){
-  if(!empty($_POST["id"])){
-    $data = array(
-         "action"       => "delete"
-        ,"content"      => "record"
-        ,"records"      => array($_POST["id"])
-      );
-    $result = RC::callApi($data, array(), $API_URL, $API_TOKEN);
-  }
-  exit;
-}elseif($_POST["action"] == "edit"){
-  if(!empty($_POST["id"])){
-    $data[]   = array(
-         "record"     => $_POST["id"]
-        ,"field_name" => $_POST["field_name"]
-        ,"value"      => $_POST["value"]
-      );
-    $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  
-    $data[]   = array(
-         "record"     => $_POST["id"]
-        ,"field_name" => "well_cms_update_ts"
-        ,"value"      => date('Y-m-d H:i:s')
-    );
-    $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  }
-  exit;
-}elseif($_POST["action"] == "edit_img"){
-  if(!empty($_POST["id"])){
-    RC::writeFileToApi($_FILES["well_cms_pic"], $_POST["id"], "well_cms_pic", null, $API_URL, $API_TOKEN);
-    
-    $data[]   = array(
-         "record"     => $_POST["id"]
-        ,"field_name" => "well_cms_update_ts"
-        ,"value"      => date('Y-m-d H:i:s')
-    );
-    $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  }
-}
 }
 
 // DEFAULT VALUES
 $loc          = isset($_REQUEST["loc"]) ? $_REQUEST["loc"] : "1";
 $cat          = isset($_REQUEST["cat"]) ? $_REQUEST["cat"] : "1";
 
-$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Tools");
+$types        = array(0 => "Events", 1 => "Monthly Goals", 2 => "Resources", 3 => "Gamification", 4 => "Mini Challenges", 5=> "Tools");
 $locs         = array(1 => "US", 2 => "Taiwan");
 
 include("models/inc/gl_header.php");
 ?>
 <style>
-#viewas {
+form {
   clear:both;
   margin:20px;
 }
@@ -173,6 +228,19 @@ include("models/inc/gl_header.php");
 }
 #cms a{
   text-decoration:none;
+}
+
+#cms label {
+    display:block;
+    margin-bottom:15px;
+}
+
+input[type='number']{
+    width:50px;
+}
+
+#gamify input[type='checkbox']{
+    margin-left:10px;
 }
 #ed_items{
   width:calc(100% - 20px); margin:10px;
@@ -347,6 +415,64 @@ include("models/inc/gl_header.php");
   width:100%;
   padding:15px;
 }
+
+#wof_game cite{
+    display:block;
+}
+#wof_game blockquote{
+    margin-top:10px;
+    padding-top:0;
+    padding-bottom:0;
+    position:relative;
+}
+#wof_game blockquote .delete_quote{
+    position: absolute;
+    top: 0px;
+    left: -3px;
+    border: 1px solid red;
+    background: red;
+    color: #fff;
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 100%;
+}
+#wof_game details {
+    margin: 20px 0px;
+    font-size: 120%;
+    background: #efefef;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#wof_game textarea{
+    width: 50%;
+    height: 100px;
+}
+
+textarea[name='full_json']{
+    position:absolute;
+    z-index:-999;
+    visibility:hidden;
+}
+
+#mini_cs td, #mini_cs th{
+    padding:5px;
+}
+#minic {
+    padding-top: 40px;
+}
+#minic input, #minic select{
+    display:block;
+}
+.mc_year {
+    text-align:center;
+}
+.mc_img img{
+    max-width:200px;
+    max-height:150px;
+}
 </style>
 <div id="content" class="container" role="main" tabindex="0">
 <div class="row"> 
@@ -362,11 +488,13 @@ include("models/inc/gl_header.php");
         <li><a href="?cat=1"  data-val=1 class="<?php if($cat == 1) echo "on"?>"><?php echo $types[1] ?></a></li>
         <li><a href="?cat=0"  data-val=0 class="<?php if($cat == 0) echo "on"?>"><?php echo $types[0] ?></a></li>
         <li><a href="?cat=2" data-val=2 class="<?php if($cat == 2) echo "on"?>"><?php echo $types[2] ?></a></li>
+        <li><a href="?cat=4" data-val=4 class="<?php if($cat == 4) echo "on"?>"><?php echo $types[4] ?></a></li>
         <li><a href="?cat=3" data-val=3 class="<?php if($cat == 3) echo "on"?>"><?php echo $types[3] ?></a></li>
+        <li><a href="?cat=5" data-val=5 class="<?php if($cat == 5) echo "on"?>"><?php echo $types[5] ?></a></li>
       </ul>
 
       <?php
-      if($cat != 3){
+      if($cat < 3){
         $api_url      = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
         $api_token    = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
         $extra_params = array(
@@ -663,10 +791,150 @@ include("models/inc/gl_header.php");
             </tr>
           </tfoot>
         </table>
-        <?php 
+        <?php
+      }elseif($cat == 4){
+          ?>
+          <div>
+              <form id="minic" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="action" value="minichallenge"/>
+                  <fieldset>
+                      <h3>Add/Edit Mini-Challenge:</h3>
+                      <label>Mini Challenge Name: <input type="text" name="portal_mc_name"/></label>
+                      <label>Mini Challenge link: <input type="text" name="portal_mc_link"/></label>
+                      <label>Mini Challenge Year: <select name="portal_mc_year">
+                              <option val="2019">2019</option>
+                              <option val="2020">2020</option>
+                              <option val="2021">2021</option>
+                              <option val="2022">2022</option>
+                              <option val="2023">2023</option>
+                              <option val="2024">2024</option>
+                          </select></label>
+                      <label>Mini Challenge Reward Background: <input type="file" name="portal_mc_img"/></label>
+                      <input type="submit" value="Save Mini Challenge"/>
+                      <hr>
+                      <?php
+                      $extra_params   = array(
+                          'content'   => 'record',
+                          'format'    => 'json',
+                          "fields"    => array("id", "portal_mc_name","portal_mc_year","portal_mc_link"),
+                          "filterLogic" => "[portal_mc_name] != '' "
+                      );
+                      $minics        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+                      ?>
+                      <table id="mini_cs" border="1" width="100%">
+                          <thead><th>Mini Challenge</th><th class="mc_year">Year</th><th>Link</th><th>Reward img</th></thead>
+                          <tbody>
+                          <?php
+                            foreach($minics as $minic){
+                                $recordid   = $minic["id"];
+                                $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $API_URL,$API_TOKEN);
+                                if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+                                    $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
+                                    $mime     = $split[0];
+                                    $split2   = explode('"',$split[1]);
+                                    $imgname  = $split2[1];
+                                    $eventpic = '<img class="portal_mc_img" src="data:'.$mime.';base64,' . base64_encode($file_curl["file_body"]) . '">';
+                                }
+                                $shortname = strtolower($minic["portal_mc_name"]);
+                                $shortname = str_replace(" ","",$shortname);
+                                $shortname = str_replace("-","",$shortname);
+                                $shortname = str_replace("and","",$shortname);
+                                $shortname = str_replace(",","",$shortname);
+
+                                echo "<tr><td>".$minic["portal_mc_name"]."</td><td class='mc_year'>".$minic["portal_mc_year"]."</td><td>".$minic["portal_mc_link"]."</td><td class='mc_img'>".$eventpic."</td></tr>";
+                            }
+                          ?>
+                          </tbody>
+                      </table>
+
+                  </fieldset>
+
+              </form>
+
+          </div>
+          <?php
+      }elseif($cat == 3){
+          ?>
+          <div>
+              <form id="gamify" method="post">
+                  <input type="hidden" name="action" value="gamify_points"/>
+                  <input type="hidden" name="id" value="9999"/>
+                  <fieldset>
+                      <h3>Point Values for Click Actions (Site Wide):</h3>
+                      <?php
+                      $extra_params   = array(
+                          'content'   => 'record',
+                          'format'    => 'json',
+                          "records"   => 9999,
+                          "fields"    => $gamify_fields
+                      );
+                      $results        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+                      $gamify         = !empty($results) ? current($results) : $gamify_fields;
+
+                      foreach($gamify as $var => $decode){
+                          if($var == "gamify_pts_wof"){
+                              echo "special case for wof";
+                              continue;
+                          }
+                          $vals = json_decode($decode,1);
+                          $persist_checked = $vals["persist"] ? "checked" : "";
+                          $session_checked = $vals["session"] ? "checked" : "";
+                          echo "<label><b>$var:</b><br>
+                                    <input type='number' name='$var' value='".$vals["value"]."'> 
+                                    <input type='checkbox' name='".$var."_persist' $persist_checked/> Persist
+                                    <input type='checkbox' name='".$var."_session' $session_checked/> Session
+                                   </label>";
+                      }
+                      ?>
+                  </fieldset>
+                  <input type="submit" value="Save Point Values"/>
+              </form>
+              <hr>
+
+              <form id="wof_game" method="post">
+                  <input type="hidden" name="action" value="wof_quotes"/>
+                  <input type="hidden" name="id" value="9999"/>
+
+                  <fieldset>
+                      <h3>Add new puzzle/quote to WELL OF FORTUNE game:</h3>
+                      <?php
+                      $extra_params   = array(
+                          'content'   => 'record',
+                          'format'    => 'json',
+                          "records"   => 9999,
+                          "fields"    => "wof_quotes"
+                      );
+                      $results        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+                      $quotes         = !empty($results) ? current($results) : array();
+                      $full_json      = isset($quotes["wof_quotes"]) && !is_null($quotes["wof_quotes"]) ? $quotes["wof_quotes"] : "[]";
+                      $quotes         = json_decode($full_json,1);
+
+                      $quotes_html  = array();
+                      if(is_array($quotes)){
+                          foreach($quotes as $idx => $quote){
+                              $quotes_html[] = "<blockquote><a href='#' rel='$idx' class='delete_quote'>x</a>".$quote["quote"]."<cite>~".$quote["cite"]."</cite></blockquote>";
+                          }
+                      }
+                      $quotes_html = implode("\r\n",$quotes_html);
+                      echo "<details>
+                            <summary>Quotes in Rotation</summary>
+                            $quotes_html
+                        </details>";
+                      ?>
+
+                      <textarea name="full_json"><?php echo $full_json?></textarea>
+                      <label><div>Citation</div>
+                          <input type="text" name="cite"/></label>
+                      <label><div>Quote</div>
+                          <textarea name="quote"></textarea></label>
+                  </fieldset>
+                  <input type="submit" value="Save New Quote"/>
+              </form>
+              <hr>
+          </div>
+          <?php
         }else{
           ?>
-
           <div >
             <form id="viewas" method="GET">
               <fieldset>
@@ -679,6 +947,7 @@ include("models/inc/gl_header.php");
               </fieldset>
             </form>
             <hr>
+
             <div class="actions">
               <h3>One off actions</h3>
               <ul>
@@ -757,6 +1026,18 @@ $(document).ready(function(){
   $("#ed_items tbody :input[name='well_cms_pic']").change(function(){
     $(this).parents("form").submit();
     console.log($(this).parents("form"));
+    return false;
+  });
+
+  $(".delete_quote").click(function(){
+    var idx = $(this).attr("rel");
+    $(this).parent("blockquote").fadeOut(function(){
+        $(this).remove();
+        var full_json = JSON.parse($("input[name='full_json']").val());
+        full_json.splice(idx,1);
+        $("input[name='full_json']").val(JSON.stringify(full_json));
+        $("#wof_game").submit();
+    });
     return false;
   });
 });

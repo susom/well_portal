@@ -17,6 +17,7 @@ $requires 	= array(
 	,"/class.redcapportaluser.php"
 	,"/class.mail.php"
 	,"/class.Project.php"
+    ,"/class.Gamify.php"
 );
 
 foreach($requires as $required){
