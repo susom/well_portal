@@ -154,7 +154,7 @@ include_once("models/inc/gl_head.php");
                             );
                             $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
                             $quotes         = !empty($results) ? current($results) : array();
-                            $quotes         = isset($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
+                            $quotes         = !empty($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
 
                             $quotes_html  = array();
                             foreach($quotes as $idx => $quote){
