@@ -29,7 +29,7 @@ class Gamify {
         );
         $results        = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);
         $quotes         = !empty($results) ? current($results) : array();
-        $quotes         = json_decode($quotes["wof_quotes"],1);
+        $quotes         = isset($quotes["wof_quotes"]) ? json_decode($quotes["wof_quotes"],1) : array();
         return $quotes;
     }
 
