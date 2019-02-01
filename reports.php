@@ -510,7 +510,7 @@ $(document).ready(function(){
     var bottom_scrips = "";
 
     switch(sid){
-      case "find_out_your_body_type_according_to_chinese_medic":
+      case "find_out_your_body_type_according_to_traditional_c":
         showTCMScoring(udata, function(resultData){
           bottom_scrips += "<script>";
           bottom_scrips += "setTimeout(function(){";
