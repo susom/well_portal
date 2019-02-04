@@ -108,9 +108,11 @@ include_once("models/inc/gl_head.php");
                     <h4>Completed Core Surveys</h4>
                     <ul>
                         <?php
-                            $current_ann    = array_pop($arm_years);
+                            $tree_years     = $arm_years;
+
+                            $current_ann    = array_pop($tree_years);
                             $i              = 1;
-                            foreach($arm_years as $ayear){
+                            foreach($tree_years as $ayear){
                                 echo "<li class='complete'>Year $i ($ayear)</li>\n";
                                 $i++;
                             }
