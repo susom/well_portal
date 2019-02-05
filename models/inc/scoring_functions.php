@@ -838,10 +838,10 @@ function getLongScores($domain_fields, $user_completed_fields){
                 $lifestyle_items = $domain_items;
                 if($calc_lifestyle){
                     if(isset($lifestyle_items["well_score_ls_diet"]) && $lifestyle_items["well_score_ls_diet"] != "NA"){
-                        unset($lifestyle_items["well_score_ls_diet_old"]);
                     }else{
                         $lifestyle_items["well_score_ls_diet"] = $lifestyle_items["well_score_ls_diet_old"];
                     }
+                    unset($lifestyle_items["well_score_ls_diet_old"]);
                     $score["well_score_ls"] = round(array_sum($lifestyle_items)/5,4);
                 }
                 $score["ls_sub_domains"] = $lifestyle_items;

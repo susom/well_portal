@@ -41,7 +41,7 @@ $extra_params       = array(
     ,'records'     	=> array($loggedInUser->id)
     ,"type"         => "eav"
     ,"fields"       => array("annual_tree_xy")
-    ,"events" => $user_event_arm
+    ,"events"       => $user_event_arm
 );
 $results   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
 if(!empty($results)){
@@ -49,6 +49,9 @@ if(!empty($results)){
     $coords = json_decode($result["value"],1) ;
     $coords = is_array($coords)? $coords : array();
 }
+
+$total_badges   = count($core_icons) + count($supp_icons);
+$show_redeem    = ($total_badges == count($coords)) ? "on" : false;
 
 if(isset($_POST["action"]) && $_POST["action"] == "savexy"){
     $x      = $_POST["x"];
@@ -94,6 +97,10 @@ include_once("models/inc/gl_head.php");
             <?php
             echo implode(" ",$completed_surveys);
             ?>
+            <div class="redeem_points on">
+                <p>You've placed all your award badges.</p>
+                <button class="btn btn-success ">Redeem Bonus Points!</button>
+            </div>
         </div>
 
     </div> <!-- #main -->
@@ -102,6 +109,16 @@ include_once("models/inc/gl_head.php");
 include_once("models/inc/gl_foot.php");
 ?>
 <style>
+.redeem_points{
+    display:none;
+    text-align:center;
+}
+.redeem_points.on{
+    display:block;
+}
+.redeem_points button{
+    margin:0 auto;
+}
 .main {
     position:relative;
 }
@@ -314,7 +331,6 @@ $(document).ready(function(){
     ?>
 
     $(".draggable").draggable();
-
     $(".droppable").droppable({
          accept : ".draggable"
         ,drop   : function( event, ui ) {
