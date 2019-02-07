@@ -817,15 +817,16 @@ function getLongScores($domain_fields, $user_completed_fields){
 
                     if(isset($user_completed_fields["core_fastfood_day"])){
                         $diet_score["core_fastfood"] = 0;
-                        if($diet_score["core_fastfood_day"] == 1){
+
+                        if($user_completed_fields["core_fastfood_day"] == 1){
                             if($user_completed_fields["core_fastfood_freq"] < 2){
                                 $diet_score["core_fastfood"] = 2;
                             }
-                        }elseif($diet_score["core_fastfood_day"] == 0){
+                        }elseif($user_completed_fields["core_fastfood_day"] == 0){
                             $diet_score["core_fastfood"] = 10;
                         }
-                    }
 
+                    }
                     $temp_score     = count($diet_score) ? array_sum($diet_score)/count($diet_score) : 0;
                     $domain_items["well_score_ls_diet_old"] = $temp_score;
                 }
