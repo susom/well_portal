@@ -317,7 +317,6 @@ if(!empty($pid)){
     if(array_key_exists($pid, SurveysConfig::$projects)){
         $supp_project = $supp_surveys[$pid]->getSingleInstrument($sid);
         $surveys      = $supp_surveys[$pid]->getActiveAll();
-
         $avail_surveys = array($sid);
     }
 
@@ -382,6 +381,7 @@ if(array_key_exists($sid, $surveys)){
     $_SESSION[SESSION_NAME]["survey_context"] = array("event" => $survey_data["event"]);
 
     //LOAD UP THE SURVEY PRINTER HERE
+//    print_rr($survey_data);
     $active_survey  = new Survey($survey_data);
 }else{
   //IF BAD SURVEY ID PASSED, REDIRECT BACK TO DASHBOARD

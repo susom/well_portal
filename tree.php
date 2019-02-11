@@ -346,7 +346,7 @@ $(document).ready(function(){
                 }
             });
 
-            PlaySound("assets/sounds/plunger_pop_2.wav");
+            PlaySound("assets/sounds/plunger_pop_2.mp3");
 
             var leaves_op   = parseFloat($("#mytree_leaves").css("opacity")  );
             var berries_op  = parseFloat($("#mytree_berries").css("opacity") );

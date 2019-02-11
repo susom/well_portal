@@ -63,8 +63,10 @@
                 $supp_tooltips     = $supp_project_notes["tooltips"];
                 foreach($supp_instrument_ids as $supp_instrument_id){
                   $surveycomplete     = in_array($supp_instrument_id,$completed_timestamps);
-                  $instrument_label   = $_SESSION["use_lang"] !== "en" && isset($supp_title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $supp_title_trans[$_SESSION["use_lang"]][$supp_instrument_id] :  SurveysConfig::$supp_surveys[$supp_instrument_id];
+
+                  $instrument_label   = $_SESSION["use_lang"] != "en" && isset($supp_title_trans[$_SESSION["use_lang"]][$supp_instrument_id]) ?  $supp_title_trans[$_SESSION["use_lang"]][$supp_instrument_id] :  SurveysConfig::$supp_surveys[$supp_instrument_id];
                   $instrument_label   = str_replace("_"," ",$instrument_label);
+
                   $surveylabel        = ucwords(str_replace("And","&",$instrument_label));
                   $iconcss            = $fitness[$supp_instrument_id];
 
