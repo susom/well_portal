@@ -41,7 +41,8 @@ class Project {
 			$all_instruments 		= array_map(function($event){
 				global $loggedInUser;
 				$instrument_id 		= $event["form"];
-                $instrument_label   = $_SESSION["use_lang"] != "en" && isset($supp_title_trans[$_SESSION["use_lang"]][$instrument_id]) ?  $supp_title_trans[$_SESSION["use_lang"]][$instrument_id] :  SurveysConfig::$supp_surveys[$instrument_id];
+//				print_rr($event);
+//                $instrument_label   = $_SESSION["use_lang"] != "en" && isset($supp_title_trans[$_SESSION["use_lang"]][$instrument_id]) ?  $supp_title_trans[$_SESSION["use_lang"]][$instrument_id] :  SurveysConfig::$supp_surveys[$instrument_id];
 				$instrument_label 	= str_replace("_"," ",$instrument_label);
 				$instrument_label  	= strtolower($instrument_label) == "wellbeing questions" ? "Well-being Questions" : $instrument_label;
 				$user_current_event = !empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm  : REDCAP_PORTAL_EVENT ;
