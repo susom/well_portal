@@ -213,6 +213,9 @@ function getBodyConstitution($constitutions,$type){
         $min_check_hi = 0;
         $min_check_lo = 0;
         foreach($check_fields_score as $field){
+            if(!isset($tcm_answers[$field])){
+                continue;
+            }
             if($tcm_answers[$field] >= 4){
                 $min_check_hi++;
             }

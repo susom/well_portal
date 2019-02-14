@@ -78,7 +78,7 @@ if(!isset($_SESSION["completed_timestamps"]) || true){
 		'exportSurveyFields' => true
 	);
 	$core_answers		= RC::callApi($extra_params, true, $CORE_API_URL, $CORE_API_TOKEN);
-	$core_answers 		= current($core_answers);
+	$core_answers 		= !empty($core_answers) ? current($core_answers) : array();
 
 	$extra_params 		= array(
 		'content'     	=> 'record',
@@ -87,18 +87,18 @@ if(!isset($_SESSION["completed_timestamps"]) || true){
 		'events'		=> $user_event_arm,
 		'exportSurveyFields' => true
 	);
-	$supp_answers		= RC::callApi($extra_params, true, SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"]); 
-	$supp_answers 		= current($supp_answers);
-	$_SESSION["user_arm_answers"] = array_merge($core_answers, $supp_answers);
+	$supp_answers		= RC::callApi($extra_params, true, SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"]);
+    $supp_answers       = !empty($supp_answers) ? current($supp_answers) : array();
+	$what_the_fuck = $_SESSION["user_arm_answers"] = array_merge($core_answers, $supp_answers);
+
 	foreach($all_instruments as $instrument_id){
         $completion_flag        = $instrument_id . "_complete";
-		$completion_timestamp   = $instrument_id . "_timestamp";
+        $completion_timestamp   = $instrument_id . "_timestamp";
 		if(!empty($_SESSION["user_arm_answers"][$completion_timestamp]) || !empty($_SESSION["user_arm_answers"][$completion_flag])){
 			array_push($_SESSION["completed_timestamps"],$instrument_id);
 		}
 	}
 }
-
 if(!isset($_SESSION["core_timestamps"])){
     $core_timestamps_complete = array();
     $extra_params 		= array(

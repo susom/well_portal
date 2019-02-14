@@ -24,7 +24,7 @@ $supp_icons         = SurveysConfig::$supp_icons;
 $completed_surveys  = array();
 $incomplete_surveys = array();
 
-foreach($completed_timestamps as $completed_sid){
+foreach(array_unique($completed_timestamps) as $completed_sid){
     if(isset($core_icons[$completed_sid])){
         $completed_surveys[] = "<a href='#' class='fruit ".$core_icons[$completed_sid]." draggable' title='$completed_sid' data-sid='$completed_sid' data-fruit='".$core_icons[$completed_sid]."'></a>";
     }elseif(isset($supp_icons[$completed_sid])){
@@ -32,7 +32,6 @@ foreach($completed_timestamps as $completed_sid){
     }
 }
 $total_badges       = count($completed_surveys);
-
 
 $coords = array();
 //GET SAVED XY COORDS

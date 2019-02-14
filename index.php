@@ -127,89 +127,69 @@ if(isset($_GET["survey_complete"])){
   unset($_SESSION["core_timestamps"]);
 
   $completed_timestamps = $_SESSION["completed_timestamps"];
-  
   include("models/inc/surveys_data.php");
-  if(array_key_exists($surveyid,$surveys)){
-    $index  = array_search($surveyid, $all_survey_keys);
-    $survey = $surveys[$surveyid];
-    if(!isset($all_survey_keys[$index+1])) {
-        if(!in_array($surveyid , $_SESSION["persist_points"])){
-            array_push($_SESSION["persist_points"],$surveyid);
-            $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
-            $persist_pts      = $pt_val["value"] * 2;
-            $data           = array();
-            $data[]         = array(
-                "record"            => $loggedInUser->id,
-                "field_name"        => "annual_persist_points",
-                "value"             => json_encode($_SESSION["persist_points"]),
-                "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
-            );
-            $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
-            $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
-        }
 
-        //CALCULATE WELL SCORES
-        if ($core_surveys_complete) {
-            // ONLY CALCULATE LONG SCORE DURING LONG YEARS
-            $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
-        }
+  $complete_surveys_keys    = array_keys(SurveysConfig::$supp_surveys);
+  $final_well_core          = "your_feedback";
+  array_push($complete_surveys_keys, $final_well_core);
+  if(in_array($surveyid,$complete_surveys_keys)){
+      //wtf is this
+      $completed_timestamps  = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
 
-        $success_arr = array();
+      $success_arr = array();
+      $success_arr[] = "<div id='confirm_email'>";
+      if($surveyid == $final_well_core){
+          //CALCULATE WELL SCORES
+          if ($core_surveys_complete) {
+              // ONLY CALCULATE LONG SCORE DURING LONG YEARS
+              $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
+          }
 
-        $success_arr[] = "<div id='confirm_email'>";
-        $success_arr[] = $lang["CONGRATS_FRUITS"];
-
-        if ($loggedInUser->user_event_arm == "enrollment_arm_1" || $loggedInUser->user_event_arm == "") {
-            $success_arr[] = $lang["CONGRATS_CERT"];
-
-            $success_arr[] = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
-            $success_arr[] = "<input type='submit' value='confirm'></div>";
-            $success_arr[] = "</div>";
-        }
-      $success_arr[]  = "<div id='cert_n_score'>";
-
-      //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
-      $filename = "PDF/generatePDFcertificate.php";
-
-      $success_arr[]  = lang("THANKS") ."<br><br>";
-      $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
-
-      $completed_timestamps   = $_SESSION["completed_timestamps"]  = array_merge($_SESSION["completed_timestamps"],$core_instrument_ids);
-
-      $long_score     = empty($long_score) ? "NA" : $long_score;
-      // if this is the first one just show the orange ball, otherwise show comparison graph
-
-      $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
-
-
-       // CUSTOM FLOW FOR UO1 Pilot STUDY
-      if(isset($all_completed["core_group_id"]) && $all_completed["core_group_id"] == 1001){
-        $success_arr[]  = "<p class='alert_reminder'>".lang("UO1_REMINDER")."</p>";
+          $success_arr[] = $lang["CONGRATS_FRUITS"];
+          if ($loggedInUser->user_event_arm == "enrollment_arm_1" || $loggedInUser->user_event_arm == "") {
+              $success_arr[] = $lang["CONGRATS_CERT"];
+              $success_arr[] = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
+              $success_arr[] = "<input type='submit' value='confirm'></div>";
+              $success_arr[] = "</div>";
+          }
+          $success_arr[]  = "<div id='cert_n_score'>";
+          //GENERATE CERTIFICATE REAL TIME ONLY ,  NO CACHE
+          $filename = "PDF/generatePDFcertificate.php";
+          $success_arr[]  = lang("THANKS") ."<br><br>";
+          $success_arr[]  = "<a target='blank' href='$filename'>[".lang("CERT_DL")."]</a>";
+          $long_score     = empty($long_score) ? "NA" : $long_score;
+          // if this is the first one just show the orange ball, otherwise show comparison graph
+          $success_arr[]  = "<p>".lang("WELL_SCORE_YEAR", array($current_year, round($long_score,2) ))."</p>";
       }else{
-       // $success_arr[]   = "<hr/><p class='organize'><a href='activity.php' target='blank'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+          $success_arr[] = $lang["YOUVE_BEEN_AWARDED"];
+          $icon_class    = SurveysConfig::$supp_icons[$surveyid];
+          $success_arr[] = "<div class='myrewards $icon_class'></div>";
+          $success_arr[] = $lang["FITNESS_BADGE"];
       }
-
       $success_arr[]  = "</div>";
-
       $success_msg      = implode($success_arr);
       addSessionMessage( $success_msg , "success");
-    }
-  }else{
-      if(!in_array($surveyid , $_SESSION["persist_points"])){
-          array_push($_SESSION["persist_points"],$surveyid);
-          $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
-          $persist_pts      = $pt_val["value"];
-          $data             = array();
-          $data[]           = array(
-              "record"            => $loggedInUser->id,
-              "field_name"        => "annual_persist_points",
-              "value"             => json_encode($_SESSION["persist_points"]),
-              "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
-          );
-          $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
-          $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
-      }
   }
+
+  // ONCE PER YEAR COMPLETION POINTS FOR SURVEYS
+  if(!in_array($surveyid , $_SESSION["persist_points"])){
+    array_push($_SESSION["persist_points"],$surveyid);
+    $pt_val           = json_decode($game_points["gamify_pts_survey_complete"],1);
+    $persist_pts      = $pt_val["value"];
+    $data             = array();
+    $data[]           = array(
+        "record"            => $loggedInUser->id,
+        "field_name"        => "annual_persist_points",
+        "value"             => json_encode($_SESSION["persist_points"]),
+        "redcap_event_name" => (!empty($loggedInUser->user_event_arm) ? $loggedInUser->user_event_arm : REDCAP_PORTAL_EVENT)
+    );
+    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+    $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+  }
+
+
+
+
 }
 // markPageLoadTime("END HEAD AREA");
 
@@ -370,6 +350,20 @@ $(document).ready(function(){
 include_once("models/inc/gl_foot.php");
 ?>
 <style>
+.myrewards{
+    width:60px;
+    height:60px;
+    display:block;
+    margin:10px auto;
+}
+.myrewards.running{
+    background: url(assets/img/anim_pug.gif) 43% 50% no-repeat;
+    background-size: 210%;
+}
+.myrewards.tbone{
+    background:url(assets/img/anim_corgi.gif) 50% 50%   no-repeat;
+    background-size:150%;
+}
 body{
     background: url(assets/img/bg/<?php echo $portal_bg ;?>) 50% 0 no-repeat;
     background-size:cover;

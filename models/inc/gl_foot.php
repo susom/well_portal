@@ -1,6 +1,61 @@
 	<?php include_once("gl_socialfoot.php") ?>
+    </div>
 </div>
+<div id="dialog" class="">
+    <div class="dialog_inner">
+        <h3>Mini Challenge</h3>
+        <p>You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href="rewards.php">Rewards Page</a>.</p>
+        <p>Click to continue to the mini-challenge.</p>
+        <a href="#" class="btn btn-success" data-action="openmini">Go to Mini-Challenge</a> <button class="btn btn-danger">Cancel</button>
+    </div>
 </div>
+<style>
+#dialog.show{
+    opacity:1;
+    top:50%;
+    z-index:500;
+}
+#dialog {
+    position: fixed;
+    top:40%;
+    left:50%;
+    width: 500px;
+    margin-left: -250px;
+    height: 350px;
+    margin-top: -175px;
+    background: #fff url(assets/img/bg/bg_frame_autumn.png) no-repeat;
+    background-size:contain;
+    border:1px solid darkgrey;
+    border-radius: 5px;
+    box-shadow: 0 0 10px darkgreen;
+    text-align:center;
+    opacity:0;
+    z-index:-999;
+    transition:.5s opacity, .3s top ease-in-out;
+}
+#dialog .dialog_inner{
+    margin:50px auto;
+    padding:0 50px;
+}
+#dialog.celebrate:before{
+    content:"";
+    width: 35%;
+    height: 100%;
+    background: url(assets/img/bg/bg_frame_poppers.png) no-repeat;
+    position: absolute;
+    left: -35%;
+    background-size: 203%;
+}
+#dialog.celebrate:after{
+    content:"";
+    width: 35%;
+    height: 100%;
+    background: url(assets/img/bg/bg_frame_poppers.png) 98% 0 no-repeat;
+    position: absolute;
+    left: 100%;
+    background-size: 203%;
+}
+</style>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 <!-- Bootstrap -->
 <script src="assets/js/bootstrap.js"></script>
@@ -83,7 +138,23 @@ $(document).ready(function(){
         });
     });
 
-    $(".mini_challenges a").on("click",function(){
+    //OPEN MINI CHALLENGE
+    $("#dialog .btn").on("click",function(e){
+        $("#dialog").removeClass("show");
+        if($(this).data("action") == "openmini"){
+            var minihref= $(this).attr("href");
+            window.open(minihref, "_blank");
+        }
+
+        e.preventDefault();
+    });
+
+    //RECORD POINTS FOR MINI C
+    $(".mini_challenges a").on("click",function(e){
+        var minihref= $(this).attr("href");
+        $("#dialog .btn").attr("href",minihref);
+        $("#dialog").addClass("show");
+
         var dataurl = "&mini_clicked=" + $(this).parent("li").attr("class");
         $.ajax({
             url:  "index.php",
@@ -94,9 +165,9 @@ $(document).ready(function(){
                 console.log(result);
             }
         });
-        return;
-    });
 
+        e.preventDefault();
+    });
 });
 
 
