@@ -177,6 +177,30 @@ function clearSession() {
 	//$loggedInUser = NULL;
 }
 
+function getEventYears($consent_ts,$user_event_arm){
+    $consent_date       = strToTime($consent_ts);
+    $first_year         = Date("Y", $consent_date);
+
+    $extra_params = array(
+        'content'   => 'event',
+    );
+    $events_dictionary  = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+    $events             = array();
+    foreach($events_dictionary as $event){
+        $events[$event["unique_event_name"]] = 1;
+        if($event["unique_event_name"] == $user_event_arm){
+            break;
+        }
+    }
+    $arm_years  = array();
+    foreach(array_keys($events) as $armname){
+        $arm_years[$armname] = $first_year;
+        $first_year++;
+    }
+
+    return $arm_years;
+}
+
 function getSessionEventYears(){
 	global $loggedInUser,$user_event_arm;
 

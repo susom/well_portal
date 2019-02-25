@@ -8,8 +8,103 @@ if(isset($_SERVER['argv'][1])){
 }
 include("models/inc/scoring_functions.php");
 
-$API_URL      = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-$API_TOKEN    = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+
+function getScriptOutput($path, $display_year, $user_id, $well_sum_score){
+    ob_start();
+    $csv_file = $user_id . "_" . $display_year . "_";
+    include $path;
+    return ob_get_clean();
+}
+
+$domain_desc = array(
+    "0" =>  lang("DOMAIN_EC_DESC" ),
+    "1" =>  lang("DOMAIN_LB_DESC" ),
+    "2" =>  lang("DOMAIN_SC_DESC"),
+    "3" =>  lang("DOMAIN_SR_DESC" ),
+    "4" =>  lang("DOMAIN_EE_DESC" ),
+    "5" =>  lang("DOMAIN_SS_DESC" ),
+    "6" =>  lang("DOMAIN_PH_DESC" ),
+    "7" =>  lang("DOMAIN_PM_DESC" ),
+    "8" =>  lang("DOMAIN_FS_DESC" ),
+    "9" =>  lang("DOMAIN_RS_DESC" ),
+);
+
+//FIRST GET THE RECENTLY UPLOADED
+$API_URL    = "https://redcap.stanford.edu/api/";
+$API_TOKEN  = "287BA2B137F30F559120779A0DAB3377";
+$extra_params = array(
+     "content"   => "record"
+    ,"fields"   => array("id","well_fp_email")
+    ,"type"     => "flat"
+    ,"filterLogic" => "[well_fp_radarchart] = ''"
+);
+$records        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+$id_email       = array();
+foreach($records as $record){
+    $id_email[$record["id"]] = $record["well_fp_email"];
+};
+
+//NOW GET ALL THE WELL SCORES FOR ABOVE IDS
+$API_TOKEN  = "9886C95CAE55C659264663EE1C24C47A";
+$extra_params = array(
+    "content"  => "record"
+    ,"fields"   => array("id","well_long_score_json","well_score_long","portal_consent_ts")
+    ,"type"     => "flat"
+    ,"records"  => array_keys($id_email)
+);
+$records        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+
+//NOW GET THE LATEST OF EACH WELL SCORE
+$id_longjson    = array();
+$id_consent     = array();
+foreach($records as $record){
+    //THIS IS FOR GETTING THEIR RELATIVE START TIMES
+    if($record["redcap_event_name"] == "enrollment_arm_1"){
+        $id_consent[$record["id"]] = $record["portal_consent_ts"];
+    }
+    $id_longjson[$record["id"]] = array("event" => $record["redcap_event_name"] , "well_long_score_json" => $record["well_long_score_json"], "well_score" => $record["well_score_long"]);
+}
+
+$data = array();
+foreach($id_longjson as $user_id =>  $user){
+    $event          = $user["event"];
+    $user_ev_years  = getEventYears($id_consent[$user_id], $event);
+
+    $result_year    = $user_ev_years[$event];
+    $users_file_csv = "RadarUserCSV/".$user_id."_".$result_year."_Results.csv";
+
+    $long_scores    = json_decode($user["well_long_score_json"],1);
+    $sum_long_score = round($user["well_score"]);
+
+    if(!file_exists($users_file_csv) && !empty($long_scores)){
+        $ct         = 0;
+        $csv_data   = "group, axis, value, description\n";
+        foreach ($long_scores as $key => $value){
+            $display = $value;
+            $display = number_format($display,2,".","");
+            $csv_data .= "Year ".$result_year.", ". $key .", ". $display .", ". $domain_desc[$ct]."\n";
+            $ct++;
+        }
+        $sum_long_score = round(array_sum($long_scores));
+        file_put_contents($users_file_csv, $csv_data);
+    }
+
+    $html = getScriptOutput("inline_radar_chart_template.php", $result_year, $user_id, "$sum_long_score/100");
+
+    $obfuscated_user_id = substr(md5(uniqid($user_id, true)), 0, 8);
+    print_rr($obfuscated_user_id);
+    file_put_contents("results/".$obfuscated_user_id.".html", $html);
+
+    $data[] = array(
+        "record"            => $user_id,
+        "field_name"        => "well_fp_radarchart",
+        "value"             => "https://wellforlife-portal.stanford.edu/results/" . $obfuscated_user_id . ".html"
+    );
+}
+$API_TOKEN  = "287BA2B137F30F559120779A0DAB3377";
+//$result     = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
+exit;
+
 
 // ONE TIME ACTION TO UPDATE the generated well_long_score_json variables.
 if(isset($_REQUEST["action"])){
@@ -17,8 +112,8 @@ if(isset($_REQUEST["action"])){
     if($action == "update_domain_json"){
         $extra_params = array(
             "content"  => "record"
-        ,"type"     => "flat"
-        ,"fields"   => array("well_long_score_json","id")
+            ,"type"     => "flat"
+            ,"fields"   => array("well_long_score_json","id")
         );
 
         $records      = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
