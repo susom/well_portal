@@ -81,8 +81,11 @@ if(isset($_REQUEST["ajax"])){
         }
     }
     echo json_encode(array("points_added" => $points_added));
+}elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "persist_points"){
+    $points_added   = isset($_POST["value"]) ? $_POST["value"] : 0;
+    $result_pts     = updateGlobalPersistPoints($loggedInUser->id, $points_added);
+    echo json_encode(array("points_added" => $points_added));
 }
-
 
 
 exit;

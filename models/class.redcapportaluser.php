@@ -261,7 +261,8 @@ class RedcapPortalUser
 
       logIt("updateUser data1:".print_r($data,true), "DEBUG");
 
-      if ($flushLog && count($this->log_entry > 0)) {
+      $thislogentry = is_array($this->log_entry) ? $this->log_entry : array();
+      if ($flushLog && count($thislogentry)) {
          $newLog = array(getRF('log') => implode("\n",$this->log_entry));
          $data = array_merge($data,$newLog);
          //$this->log_entry = array();

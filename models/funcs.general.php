@@ -993,5 +993,5 @@ function updateGlobalPersistPoints($record_id, $point_value){
         "redcap_event_name" => "enrollment_arm_1"
     );
     $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), $API_URL, $API_TOKEN);
-    return $result;
+    return $points;
 }

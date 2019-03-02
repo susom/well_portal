@@ -8,6 +8,13 @@ function initDrawingCanvas() {
     // drawingCanvas.addEventListener('mouseup',   checkEndDrag);
     // drawingCanvas.addEventListener('mouseout',  checkEndDrag);
     drawingCanvas.addEventListener('click',  function(){
+        var curpoints = parseInt($("#global_points a").text());
+        if(curpoints < Math.abs(spincost)){
+            alert("You need at least 500 WELL Points to spin.  Navigate around the site to earn some points!");
+            return false;
+        }
+        var ok = updateWOFPoints(spincost);
+
         var x = 150, y=190;
         var random_velo = Math.floor(Math.random() * ((y-x) + 1) + x);
         console.log(random_velo);
@@ -17,7 +24,7 @@ function initDrawingCanvas() {
             if ( Math.abs(wheel.body.angularVelocity) > 7.5) {
                 wheelSpinning = true;
                 wheelStopped  = false;
-                statusLabel.innerHTML = 'Big Money! Big Money! Big Money!';
+                statusLabel.innerHTML = 'Big Money! Big Money!';
             } else {
                 statusLabel.innerHTML = 'Spin Harder!';
             }
@@ -48,6 +55,13 @@ function checkStartDrag(e) {
 }
 
 function checkEndDrag(e) {
+    var curpoints = parseInt($("#global_points a").text());
+    if(curpoints < Math.abs(spincost)){
+        alert("You need at least 500 WELL Points to spin.  Navigate around the site to earn some points!");
+        return false;
+    }
+    updateWOFPoints(spincost);
+
     PlaySound("assets/sounds/wheel_of_fortune.mp3");
     if (mouseConstraint) {
         world.removeConstraint(mouseConstraint);
@@ -57,7 +71,7 @@ function checkEndDrag(e) {
             if ( Math.abs(wheel.body.angularVelocity) > 7.5) {
                 wheelSpinning = true;
                 wheelStopped  = false;
-                statusLabel.innerHTML = 'Big Money! Big Money! Big Money!';
+                statusLabel.innerHTML = 'Big Money! Big Money!';
             } else {
                 statusLabel.innerHTML = 'Spin Harder!';
             }
@@ -81,7 +95,7 @@ function initPhysics() {
     arrowMaterial   = new p2.Material();
     pinMaterial     = new p2.Material();
     contactMaterial = new p2.ContactMaterial(arrowMaterial, pinMaterial, {
-        friction:0.0,
+        friction:0.1,
         restitution:0.1
     });
     world.addContactMaterial(contactMaterial);
@@ -229,7 +243,11 @@ Wheel.prototype = {
         if(curpoints == "Bankrupt"){
             PlaySound("assets/sounds/bankrupt.mp3");
             statusLabel.innerHTML   = 'Woops, you\'ve bankrupted';
-            $("#totalpoints b").text(0);
+
+            var byepoints = parseInt($("#totalpoints b").text()) * -1;
+            console.log(byepoints);
+            updateWOFPoints(byepoints);
+
             $("#guessvalue b").text(0);
             window.wheelSpun        = false;
             return false;
@@ -329,7 +347,7 @@ function drawText(deg, text, x, y) {
     ctx.font          = 'bold 26px sans-serif';
     var xstart        = -170;
     var ystart        = 9.5;
-    var dolla         = "\$";
+    var dolla         = " pts";
     if(typeof text == "string"){
         ystart      = 5;
         dolla       = "";
@@ -339,7 +357,7 @@ function drawText(deg, text, x, y) {
     if(text == "Lose Turn"){
         ystart      = 9;
     }
-    ctx.fillText(dolla+text, xstart, ystart);
+    ctx.fillText(text+dolla, xstart, ystart);
     ctx.restore();
 }
 

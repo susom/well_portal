@@ -3,10 +3,7 @@
 </div>
 <div id="dialog" class="">
     <div class="dialog_inner">
-        <h3>Mini Challenge</h3>
-        <p>You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href="rewards.php">Rewards Page</a>.</p>
-        <p>Click to continue to the mini-challenge.</p>
-        <a href="#" class="btn btn-success" data-action="openmini">Go to Mini-Challenge</a> <button class="btn btn-danger">Cancel</button>
+
     </div>
 </div>
 <style>
@@ -43,6 +40,7 @@
     height: 100%;
     background: url(assets/img/bg/bg_frame_poppers.png) no-repeat;
     position: absolute;
+    top:20px;
     left: -35%;
     background-size: 203%;
 }
@@ -52,8 +50,33 @@
     height: 100%;
     background: url(assets/img/bg/bg_frame_poppers.png) 98% 0 no-repeat;
     position: absolute;
+    top:20px;
     left: 100%;
     background-size: 203%;
+}
+#dialog .btn {
+    margin-right:5px;
+}
+
+#dialog.apple{
+    position: fixed;
+    top:40%;
+    left:50%;
+    width: 500px;
+    margin-left: -250px;
+    height: 350px;
+    margin-top: -175px;
+    background: #D4ECDA url(assets/img/icon_apple_teacher.png) 0 100% no-repeat;
+    background-size:40%;
+    border:1px solid darkgrey;
+    border-radius: 5px;
+}
+#dialog.apple li, #dialog.apple h3 {
+    text-align:left;
+}
+#dialog.apple button{
+    float: right;
+    margin-top: 100px;
 }
 </style>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
@@ -139,8 +162,8 @@ $(document).ready(function(){
     });
 
     //OPEN MINI CHALLENGE
-    $("#dialog .btn").on("click",function(e){
-        $("#dialog").removeClass("show");
+    $("#dialog").on("click",".btn",function(e){
+        $("#dialog").removeClass("show").removeClass("celebrate");
         if($(this).data("action") == "openmini"){
             var minihref= $(this).attr("href");
             window.open(minihref, "_blank");
@@ -152,8 +175,20 @@ $(document).ready(function(){
     //RECORD POINTS FOR MINI C
     $(".mini_challenges a").on("click",function(e){
         var minihref= $(this).attr("href");
-        $("#dialog .btn").attr("href",minihref);
+
+        $("#dialog .dialog_inner").empty();
+        var title   = $("<h3>").html("Mini Challenge");
+        var p1      = $("<p>").html("You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href='rewards.php'>Rewards Page</a>.");
+        var p2      = $("<p>").text("Click to continue to the mini-challenge.");
+        var btn     = $("<a>").html("Go to Mini-Challenge").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",minihref);
+        var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("Cancel");
+        $("#dialog .dialog_inner").append(title);
+        $("#dialog .dialog_inner").append(p1);
+        $("#dialog .dialog_inner").append(p2);
+        $("#dialog .dialog_inner").append(btn);
+        $("#dialog .dialog_inner").append(cancel);
         $("#dialog").addClass("show");
+
 
         var dataurl = "&mini_clicked=" + $(this).parent("li").attr("class");
         $.ajax({
@@ -168,6 +203,24 @@ $(document).ready(function(){
 
         e.preventDefault();
     });
+
+    <?php
+        if( $one_off_wof_unlocked ){
+            ?>
+            var gamehref = "game.php";
+            $("#dialog .dialog_inner").removeClass("celebrate").empty();
+            var title   = $("<h3>").html("Congrats, You've unlocked <br>The WELL OF FORTUNE game");
+            var p1      = $("<p>").html("You will now be able to use the WELL points that you have earned to play <a href='game.php'>WELL OF FORTUNE</a> and earn more prizes!");
+            var btn     = $("<a>").html("Go to WELL OF FORTUNE").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",gamehref);
+            var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("Cancel");
+            $("#dialog .dialog_inner").append(title);
+            $("#dialog .dialog_inner").append(p1);
+            $("#dialog .dialog_inner").append(btn);
+            $("#dialog .dialog_inner").append(cancel);
+            $("#dialog").addClass("show").addClass("celebrate");
+            <?php
+        }
+    ?>
 });
 
 

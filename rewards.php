@@ -95,6 +95,10 @@ $extra_params       = array(
 );
 $mini_c_results   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
 
+if(!$loggedInUser->portal_wof_unlocked){
+    $locked_icon = "locked";
+}
+
 $pageTitle          = "Well v2 Rewards";
 $bodyClass          = "rewards";
 include_once("models/inc/gl_head.php");
@@ -136,16 +140,16 @@ include_once("models/inc/gl_head.php");
                     </ul>
                 </aside>
 
-                <aside class="well_of_fortune">
+                <aside class="well_of_fortune <?php echo $locked_icon; ?>">
                     <h4>WELL of Fortune</h4>
 
                     <div class="stats">
                         <div id="guesscount">
-                            <h5><a href="game.php" class="">Spins</a></h5>
+                            <h5><a href="game.php" class="">Total Spins Used</a></h5>
                             <b>0</b>
                         </div>
                         <div id="totalpoints">
-                            <h5>Total Prize</h5>
+                            <h5>Total Earned Points</h5>
                             <b>0</b>
                         </div>
                     </div>
@@ -340,6 +344,29 @@ include_once("models/inc/gl_head.php");
 .quotes cite{
     display:block;
     text-align:center;
+}
+
+.locked{
+    position:relative;
+    min-height: 400px;
+}
+.locked:before{
+    position:absolute;
+    content:"Unlock by earning 5000 WELL points";
+    top:62px;
+    left:0;
+    width:100%;
+    height:calc(100% - 62px);
+    background:#ccc url(https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.4.8/collection/icon/svg/ios-lock.svg) 50% no-repeat;
+    background-size:20%;
+    opacity:.8;
+    border-radius:8px;
+
+    text-align:center;
+    font-size: 150%;
+    line-height: 420%;
+    min-height: 360px;
+    color:#000;
 }
 </style>
 <?php 

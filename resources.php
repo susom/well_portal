@@ -31,7 +31,7 @@ $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 $extra_params   = array();
 $loc            = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
 $cats           = array();
-$domain         = isset($_REQUEST["nav"])  ? str_replace("resources-","",$_REQUEST["nav"]) + 1: 0;
+$domain         = isset($_REQUEST["nav"]) && strpos($_REQUEST["nav"],"-") ? str_replace("resources-","",$_REQUEST["nav"]) + 1: 0;
 
 $filterlogic                    = array();
 $filterlogic[]                  = "[well_cms_loc] = $loc";

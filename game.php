@@ -1,62 +1,44 @@
 <?php 
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
+if(!$loggedInUser->portal_wof_unlocked){
+    print_rr("Game is not unlocked");
+}
 
 $navon          = array("home" => "", "reports" => "", "game" => "on", "resources" => "", "rewards" => "", "activity" => "");
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+$extra_params   = array(
+    'content'   => 'record',
+    'format'    => 'json',
+    "records"   => 9999,
+    "fields"    => "wof_quotes"
+);
+$results        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
+$quotes         = !empty($results) ? current($results) : array();
+$full_json      = isset($quotes["wof_quotes"]) && !is_null($quotes["wof_quotes"]) ? $quotes["wof_quotes"] : "[]";
+$quotes         = json_decode($full_json,1);
+$quotes_pool    = array_column($quotes,"quote");
+
+$API_URL        = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+$API_TOKEN      = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+$extra_params   = array(
+    'content'   => 'record',
+    'format'    => 'json',
+    "records"   => $loggedInUser->id,
+    "fields"    => "portal_wof_solved",
+    "events"    => "enrollment_arm_1"
+);
+$results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
+$quotes         = !empty($results) ? current($results) : array();
+$quotes_solved  = !empty($quotes["portal_wof_solved"]) ? array_column(json_decode($quotes["portal_wof_solved"],1),"quote") : array();
+
+$available_quotes = array_diff($quotes_pool,$quotes_solved);
 
 if(isset($_REQUEST["ajax"])){
-
   print_r("pretend it saved");
   exit;
-
-  if(isset($_REQUEST["surveycomplete"])){
-    $result = RC::callApi(array(
-        "hash"    => $_REQUEST["hash"], 
-        "format"  => "csv"
-      ), true, $custom_surveycomplete_API, REDCAP_API_TOKEN);
-    exit;
-  }
-
-  //WRITE TO API
-  //ADD OVERIDE PARAMETER 
-  $data = array();
-  foreach($_POST as $field_name => $value){
-    if($value === 0){
-      $value = "0";
-    }
-
-    if($value == ""){
-      $value = NULL;
-    }
-
-    $data[] = array(
-      "record"            => $_SESSION[SESSION_NAME]["user"]->id,
-      "redcap_event_name" => $_SESSION[SESSION_NAME]["survey_context"]["event"],
-      "field_name"        => $field_name,
-      "value"             => $value
-    );
-    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), REDCAP_API_URL, REDCAP_API_TOKEN);
-  }
-  exit;
 }
-
-$active_survey = null;
-// foreach($surveys as $survey){
-//   if($survey["survey_complete"]){
-//     continue;
-//   }else{
-//     $survey_data    = $surveys[$survey["instrument_name"]];
-//     //LOAD UP THE SURVEY PRINTER HERE
-//     $active_survey  = new Survey($survey_data);
-
-//     //ON SURVEY PAGE STORE THIS FOR USE WITH THE AJAX EVENTS 
-//     $_SESSION[SESSION_NAME]["survey_context"] = array("event" => $survey_data["event"]);
-//     break;
-//   }
-// }
-
 
 $pageTitle = "Well v2 Game";
 $bodyClass = "game";
@@ -70,66 +52,44 @@ include_once("models/inc/gl_head.php");
                     <span></span>
                     <div class="stats">
                       <div id="guesscount">
-                        <h4>Spins</h4>
-                        <b>0</b> 
-                        <i>Answer questions to get more spins</i>
+                        <h4>Puzzles Solved</h4>
+                        <b><?php echo count($quotes_solved) ?></b>
                       </div>
                       <div id="totalpoints">
                         <h4>Total Prize</h4>
-                        <b>0</b>
+                        <b><?php echo $loggedInUser->portal_game_points; ?></b>
                       </div>
                       <div id="solved">
-                        <h4>Puzzles Solved</h4>
-                        <b>0</b>
+                        <h4>Top Points Leader</h4>
+                        <b>?</b>
                       </div>
                     </div>
                   </h1>
                   
                   <?php
-                  if($active_survey || 1){
+                  if( 1){
                   ?>
-                  <!-- <div id="survey_series" class="col-sm-6">
-                    <div id="current_survey">
-                      <h3><?php echo $active_survey->surveyname ?></h3>
-                      <?
-                      $num_questions = array_filter($active_survey->raw, function($item){
-                        $hidden = (strpos($item["field_annotation"],"HIDDEN") > -1 ? false : true);
-                        $desc   = ($item["field_type"] == "descriptive" ? false : true);
-                        return ($hidden && $desc);
-                      });
-
-                      $num_questions  = count($num_questions);
-                      for($i = 1; $i <= $num_questions; $i++){
-                        $curclass = ($i == 1 ? " class='current'" : "");
-                        echo "<span $curclass>$i</span>";
-                      }
-                      ?>
-                    </div>
-                    <div id="current_question" name="<?php echo $survey["instrument_name"];?>">
-                      <?php
-                        //PRINT OUT THE HTML FOR THIS SURVEY
-                        // $active_survey->printGameHTML();
-                      ?>
-                    </div>
-                  </div> -->
-
                   <div id="gameboard" class="col-sm-6">
                     <div id="board">
-                      <i>A clue about the puzzle?</i>
-                      <a href="#" id="solveit" class="btn btn-success">I'd like to solve the puzzle!</a>
-                      <a href="#" id="newgame" class="btn btn-success">Start New Game</a>
+                      <a href="#" id="howtoplay" class="points_none">How to Play?</a>
+                      <a href="#" id="solveit" class="btn btn-info points_none">I'd like to solve the puzzle!</a>
+                      <a href="#" id="newgame" class="btn btn-info points_none">Start New Game</a>
                     </div>
                     <div id="bigwheel" class="centered">
-                      <div id="status_label">loading...</div>
+                      <hgroup>
+                        <h2>Step 1</h2><h3>Spin the Wheel!</h3>
+                      </hgroup>
                       <canvas id="drawing_canvas"></canvas>
+                      <div id="status_label">loading...</div>
                     </div>
                     <form id="letterpicker">
+                        <hgroup>
+                            <h2>Step 2</h2><h3>Pick a letter or Buy a vowel</h3>
+                        </hgroup>
                     </form>
                   </div>
                   <?php
-                  }else{
-                    echo "<h3>You don't have any surveys to take at the moment.</h3>"  ;                      
-                  } 
+                  }
                   ?>
                 </div>
             </article>
@@ -140,34 +100,35 @@ include_once("models/inc/gl_foot.php");
 ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
 <script>
-  var surveyhash = '<?php echo !empty($active_survey) ? $active_survey->hash["hash"] : "" ?>';
-  function saveFormData(elem){
-    var dataDump = "game.php?ajax=1";
-
-    if(!elem.val()){
-      elem.val(null);
-    }
-
-    $.ajax({
-      url:  dataDump,
-      type:'POST',
-      data: elem.serialize(),
-      success:function(result){
-        console.log("Data Saved",result);
-        
-        //REMOVE THE SPINNER
-        // setTimeout(function(){
-        //   $(".hasLoading").removeClass("hasLoading");
-        // },250);
-      }
-    });
-  }
-  
   window.activepuzzle;
+
+  var spincost = -500;
+
+  function updateWOFPoints(newpoints){
+      $.ajax({
+            url : "ajax_handler.php",
+            type: 'POST',
+            data: "action=persist_points&value="+newpoints,
+            datatype: 'JSON',
+            success:function(result){
+                console.log(result);
+                //update the points box
+                var result = JSON.parse(result);
+                if(result.hasOwnProperty("points_added")){
+                    var curpoints = parseInt($("#global_points a").text());
+                    curpoints = curpoints + parseInt(result.points_added);
+                    $("#totalpoints b,#global_points a").text(curpoints);
+                }
+            }
+      });
+      return;
+  }
+
   function makeGameBoard(secretmessage){
-    window.activepuzzle = secretmessage;
+    window.activepuzzle = secretmessage.replace(/\./g,'');
+console.log(window.activepuzzle);
     var letters_per_row = 10;
-    var msglen          = secretmessage.length;
+    var msglen          = window.activepuzzle.length;
     var rows            = Math.ceil(msglen/letters_per_row);
     var filler          = (rows*letters_per_row) - msglen;
 
@@ -176,7 +137,7 @@ include_once("models/inc/gl_foot.php");
 
     var gameboard = $("<div id='flipboard'></div>");
     for(var i = 0; i < msglen; i++){
-      var letter = secretmessage[i].toUpperCase();
+      var letter = window.activepuzzle[i].toUpperCase();
       var fc = $("<div class='flip-container'></div>").addClass(letter);
       var fp = $("<div class='flipper'></div>");
       var fr = $("<div class='front'></div>");
@@ -186,7 +147,7 @@ include_once("models/inc/gl_foot.php");
       fp.append(fr).append(ba);
       fc.append(fp);
 
-      if(secretmessage[i] == " "){
+      if(window.activepuzzle[i] == " "){
         fr.addClass("space");
       }
       gameboard.append(fc);
@@ -200,9 +161,6 @@ include_once("models/inc/gl_foot.php");
     // }
 
     $("#board").prepend(gameboard);
-
-    $("#guesscount b").text(1000);
-    $("#guessvalue b").text(10);
     return;
   }
 
@@ -213,7 +171,7 @@ include_once("models/inc/gl_foot.php");
     //remove existing old trays.
     $("#lettertray,#voweltray").remove();
 
-    var tray    = $("<div id='lettertray'><h4>Pick a Letter and press the 'Guess Letter' Button</h4><h5 id='guessvalue'>Each matching letter will be worth <b>10</b> points</h5></div>");
+    var tray    = $("<div id='lettertray'><h5 id='guessvalue'>Each matching letter will be worth <b>(SPIN!)</b> points</h5></div>");
     for(var i in runes){
       var label   = $("<label>"+runes[i]+"</label>");
       var letter  = $("<input type='checkbox' name='letters' value='"+runes[i]+"'>");
@@ -250,9 +208,9 @@ include_once("models/inc/gl_foot.php");
     }
     $("#letterpicker").append(tray);
     tray.append($("<button id='pickit' class='btn btn-info'>Guess Letter</button>"));
-    $("#letterpicker").append($("<h2>OR</h2>"));
+    $("#letterpicker").append($("<h6>OR</h6>"));
 
-    var tray    = $("<div id='voweltray'><h4>Pick a Vowel and press the 'Buy Vowel' Button</h4><h5>Reveal all matching vowels for a flat cost of -10 points</h5></div>");
+    var tray    = $("<div id='voweltray'><h5>Reveal all matching vowels for a flat cost of -250 points</h5></div>");
     for(var i in vowels){
       var label   = $("<label>"+vowels[i]+"</label>");
       var letter  = $("<input type='checkbox' name='vowels' value='"+vowels[i]+"'>");
@@ -315,81 +273,9 @@ include_once("models/inc/gl_foot.php");
   }
 
   $(document).ready(function(){
-    //SET UP THE SURVEY QUESTIONS
-    $("#current_question dl").first().addClass("on");
-
-    $("#survey_questions").submit(function(e){
-      e.preventDefault(); //SUBMITTING TWICE FOR SOME REASON
-      e.stopImmediatePropagation();
-
-      var active  = $("#current_question dl.on");
-      var elem    = active.find(":input"); 
-
-      if(elem.length && ( (elem.is(":text,select,textarea") && elem.val() && elem.val()!== "-") || elem.is(":checked") ) ){
-        // saveFormData(elem);
-
-        //INCREMENT AVAILABLE GUESSES
-        var guesscount  = parseInt($("#guesscount b").text());
-        $("#guesscount b").text(guesscount+1);
-
-        // SHOW NEXT QUESTION      
-        var nextq = active.next();
-        if(nextq && nextq.is("dl")){
-          if(nextq.hasClass("hasBranching")){
-            if(!nextq.hasClass("showBranch")){
-              nextnextq = nextq.next();
-              $("#current_survey span").last().remove();
-              nextq.remove();
-              nextq = nextnextq;
-            }
-          }
-          nextq.addClass("on");
-          active.removeClass("on");
-
-          // SHOW THE Q#
-          var nextqnum = $("#current_survey span.current").next();
-          $("#current_survey span.current").removeClass("current");
-          nextqnum.addClass("current");
-        }else{
-          //NO MORE NEXT ONE, SO...CALL IT OVER AND REFRESH THE PAGE TO GET THE NEXT SURVEY?
-          console.log("no next, so this be last one");
-
-          //SUBMIT ALL THOSE HIDDEN FORMS NOW
-          $("#current_question input[type='hidden']").each(function(){
-            saveFormData($(this));
-          });
-
-          //SUBMIT AN ALL COMPLETE
-          //REDIRECT TO HOME WITH A MESSAGE
-          var dataURL         = "game.php?ajax=1&surveycomplete=1";
-          var instrument_name = $("#current_question").attr("name");
-          $.ajax({
-            url:  dataURL,
-            type:'POST',
-            data: surveyhash,
-            success:function(result){
-              // console.log(result);
-              location.href="index.php?survey_complete=" + instrument_name;
-            }
-          });
-        }
-      }else{
-        console.log("No Answer Submitted.");
-      }
-      return false;
-    });
-
-
     //SET UP THE FIRST PUZZLE AND LETTER TRAY
-    var phrasing = [
-       "An apple a day keeps the doctor away"
-      ,"Laughter is the best medicine"
-      ,"Let food be thy medicine, and medicine be thy food"
-    ];
-    
-    var rando    = Math.floor(Math.random() * phrasing.length);
-    newGame(phrasing[rando]);
-    phrasing.splice(rando,1);
+    var phrasing = <?php echo json_encode($available_quotes); ?>;
+    newGame(phrasing.shift());
 
     $("#letterpicker button.btn").click(function() {
         $("#letterpicker button.btn").removeAttr("clicked");
@@ -397,15 +283,14 @@ include_once("models/inc/gl_foot.php");
     });
 
     window.wheelSpun = false;
+
     //RESOLVING A GUESS
     $("#letterpicker").submit(function(event){
       var btn = $("button[clicked=true]").attr("id"); 
 
       //CHECK IF GUESSES AVAILABLE
-      var guesscount  = parseInt($("#guesscount b").text()); 
-      if(guesscount > 0){
-
-
+      var curpoints = parseInt($("#totalpoints b").text());
+      if(curpoints >= 0){
         //GUESS SUBMITTED, SO LOCK IN GUESS, DISABLE THE INPUT
         if($(this).find(".selected").length){
           $(this).find(".selected").each(function(el){
@@ -414,7 +299,6 @@ include_once("models/inc/gl_foot.php");
 
             //CHECK WHAT CURRENT POINT MULTIPLIER IS
             var pointmult     = parseInt($("#guessvalue b").text());
-            var curpoints     = parseInt($("#totalpoints b").text());
 
             var letter_guess  = el.find("input").val();
             el.removeClass("selected");
@@ -447,12 +331,12 @@ include_once("models/inc/gl_foot.php");
             el.find("input").remove();
             el.addClass("picked");
             //DECREMENT GUESSES
-            guesscount--; 
+
             
-            $("#guesscount b").text(guesscount);
             $("#guessvalue b").text(pointmult);
             $("#lettertray h5 b").text(pointmult);
-            $("#totalpoints b").text(curpoints+points_earned);
+
+            updateWOFPoints(points_earned);
 
             $(".flip-container."+letter_guess).addClass("rotate");
             window.wheelSpun = false;
@@ -488,12 +372,31 @@ include_once("models/inc/gl_foot.php");
     });
 
     $("#newgame").click(function(){
-      var rando    = Math.floor(Math.random() * phrasing.length);
-      newGame(phrasing[rando]);
-      phrasing.splice(rando,1);
+      newGame(phrasing.shift());
       return false;
     });
+
+    $("#howtoplay").click(function(){
+          $("#dialog .dialog_inner").empty();
+          var title   = $("<h3>").html("How to play WELL of Fortune!");
+          var p1      = $("<li>").html("First Spin the Wheel! Each spin costs 500 WELL points");
+          var p2      = $("<li>").text("Then pick a letter or buy a vowel for 250 WELL points.");
+          var p3      = $("<li>").text("Each letter matched will be worth the points spun.");
+          var p4      = $("<li>").text("Be careful not to land on Bankrupt!");
+
+          var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("Close");
+          $("#dialog .dialog_inner").append(title);
+          $("#dialog .dialog_inner").append(p1);
+          $("#dialog .dialog_inner").append(p2);
+          $("#dialog .dialog_inner").append(p3);
+          $("#dialog .dialog_inner").append(p4);
+          $("#dialog .dialog_inner").append(cancel);
+          $("#dialog").addClass("show").addClass("apple");
+          return false;
+      });
   });
+
+
 </script>
 <link rel="stylesheet" type="text/css" href="assets/css/wheel_of_fortune.css">
 <script src="assets/js/wheel_of_fortune.js"></script>
@@ -590,6 +493,6 @@ window.onload = function() {
     initDrawingCanvas();
     initPhysics();
     requestAnimationFrame(loop);
-    statusLabel.innerHTML = 'Click or Drag to give it a good spin!';
+    statusLabel.innerHTML = '<h4>Click or Drag to give it a good spin!</h4>';
 };
 </script>
