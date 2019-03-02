@@ -17,8 +17,8 @@ $extra_params   = array(
 $results        = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
 $quotes         = !empty($results) ? current($results) : array();
 $full_json      = isset($quotes["wof_quotes"]) && !is_null($quotes["wof_quotes"]) ? $quotes["wof_quotes"] : "[]";
-$quotes         = json_decode($full_json,1);
-$quotes_pool    = array_column($quotes,"quote");
+$quotes_full    = json_decode($full_json,1);
+$quotes_pool    = array_column($quotes_full,"quote");
 
 $API_URL        = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
@@ -31,13 +31,31 @@ $extra_params   = array(
 );
 $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
 $quotes         = !empty($results) ? current($results) : array();
-$quotes_solved  = !empty($quotes["portal_wof_solved"]) ? array_column(json_decode($quotes["portal_wof_solved"],1),"quote") : array();
+$quotes_solved  = !empty($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
+$quotes_mine    = array_column($quotes_solved,"quote");
+$available_quotes = array_values(array_diff($quotes_pool,$quotes_mine));
 
-$available_quotes = array_diff($quotes_pool,$quotes_solved);
+//UPDATE THE SOLVED PUZZLES
+if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "solved_puzzle"){
+    $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
+    $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
-if(isset($_REQUEST["ajax"])){
-  print_r("pretend it saved");
-  exit;
+    $quote_cite = $quotes_full[array_search($_REQUEST["value"],$quotes_pool)];
+    print_rr( $quotes_solved ) ;
+
+    array_push($quotes_solved, $quote_cite);
+    $data   = array();
+    $data[] = array(
+        "record"            => $loggedInUser->id,
+        "field_name"        => "portal_wof_solved",
+        "value"             => json_encode($quotes_solved),
+        "redcap_event_name" => "enrollment_arm_1"
+    );
+    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), $API_URL, $API_TOKEN);
+
+    print_rr($quote_cite);
+    print_rr( $quotes_solved ) ;
+    exit;
 }
 
 $pageTitle = "Well v2 Game";
@@ -52,16 +70,16 @@ include_once("models/inc/gl_head.php");
                     <span></span>
                     <div class="stats">
                       <div id="guesscount">
-                        <h4>Puzzles Solved</h4>
-                        <b><?php echo count($quotes_solved) ?></b>
+                        <h4>Points Leader</h4>
+                          <b>?</b>
                       </div>
                       <div id="totalpoints">
                         <h4>Total Prize</h4>
                         <b><?php echo $loggedInUser->portal_game_points; ?></b>
                       </div>
                       <div id="solved">
-                        <h4>Top Points Leader</h4>
-                        <b>?</b>
+                        <h4>Puzzles Solved</h4>
+                        <b><?php echo count($quotes_solved) ?></b>
                       </div>
                     </div>
                   </h1>
@@ -101,6 +119,7 @@ include_once("models/inc/gl_foot.php");
 <script src="//cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
 <script>
   window.activepuzzle;
+  window.activepuzzle_raw;
 
   var spincost = -500;
 
@@ -125,8 +144,8 @@ include_once("models/inc/gl_foot.php");
   }
 
   function makeGameBoard(secretmessage){
+    window.activepuzzle_raw = secretmessage;
     window.activepuzzle = secretmessage.replace(/\./g,'');
-console.log(window.activepuzzle);
     var letters_per_row = 10;
     var msglen          = window.activepuzzle.length;
     var rows            = Math.ceil(msglen/letters_per_row);
@@ -275,7 +294,9 @@ console.log(window.activepuzzle);
   $(document).ready(function(){
     //SET UP THE FIRST PUZZLE AND LETTER TRAY
     var phrasing = <?php echo json_encode($available_quotes); ?>;
-    newGame(phrasing.shift());
+    var next_phrase = phrasing.shift();
+    console.log(next_phrase);
+    newGame(next_phrase);
 
     $("#letterpicker button.btn").click(function() {
         $("#letterpicker button.btn").removeAttr("clicked");
@@ -363,6 +384,16 @@ console.log(window.activepuzzle);
 
           revealPuzzle(function(){
             resetLetters();
+          });
+
+          $.ajax({
+              url : "game.php",
+              type: 'POST',
+              data: "action=solved_puzzle&value="+window.activepuzzle_raw,
+              datatype: 'JSON',
+              success:function(result){
+                  console.log(result);
+              }
           });
       }else{
           PlaySound("assets/sounds/Buzzer.mp3");
