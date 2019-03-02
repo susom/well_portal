@@ -287,16 +287,19 @@ include_once("models/inc/gl_foot.php");
   }
 
   function newGame(phrase){
+    if(!phrase){
+        alert("Sorry there are no new puzzles at the moment.  Check back soon!");
+        return;
+    }
     makeGameBoard(phrase);
     makeLetterTray();
   }
 
   $(document).ready(function(){
     //SET UP THE FIRST PUZZLE AND LETTER TRAY
-    var phrasing = <?php echo json_encode($available_quotes); ?>;
-    var next_phrase = phrasing.shift();
-    console.log(next_phrase);
-    newGame(next_phrase);
+    var phrasing    = <?php echo json_encode($available_quotes); ?>;
+    var phrase      = phrasing.length ?  phrasing.shift() : false;
+    newGame(phrase);
 
     $("#letterpicker button.btn").click(function() {
         $("#letterpicker button.btn").removeAttr("clicked");
@@ -403,7 +406,8 @@ include_once("models/inc/gl_foot.php");
     });
 
     $("#newgame").click(function(){
-      newGame(phrasing.shift());
+      var phrase = phrasing.length ?  phrasing.shift() : false;
+      newGame(phrase);
       return false;
     });
 
