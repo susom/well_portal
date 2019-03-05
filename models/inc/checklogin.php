@@ -43,7 +43,7 @@ if(!isUserLoggedIn()) {
 
     $one_off_wof_unlocked = false;
     // Monitor Points on Every Page?
-    if(!$loggedInUser->portal_wof_unlocked && $loggedInUser->portal_game_points >= 5000){
+    if((!isset($loggedInUser->portal_wof_unlocked) || !$loggedInUser->portal_wof_unlocked) && $loggedInUser->portal_game_points >= 5000){
         $loggedInUser->portal_wof_unlocked = 1;
         $one_off_wof_unlocked = true;
         $loggedInUser->updateUser(array("portal_wof_unlocked" => 1));
