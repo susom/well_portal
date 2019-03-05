@@ -1419,19 +1419,23 @@ footer .li a{
 
 .alert-success {
     /*background:#f0f8ff;*/
+    background: honeydew url(../img/icon_apple_teacher.png) 0 100% no-repeat;
+    background-size: 40%;
 }
 
 .alert {
     position: fixed;
     /*transition: .9s top ease;*/
     z-index: 1100;
-    top: 35%;
     left: 50%;
     width: 40%;
     margin-left: -20%;
     box-shadow: 0 0 3px #000;
     transform: translateY(-50%);
     opacity:0;
+
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .alert + section {

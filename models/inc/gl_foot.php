@@ -20,8 +20,8 @@
     margin-left: -250px;
     height: 350px;
     margin-top: -175px;
-    background: #fff url(assets/img/bg/bg_frame_autumn.png) no-repeat;
-    background-size:contain;
+    background: honeydew url(assets/img/icon_apple_teacher.png) 0 100% no-repeat;
+    background-size:40%;
     border:1px solid darkgrey;
     border-radius: 5px;
     box-shadow: 0 0 10px darkgreen;
@@ -66,7 +66,7 @@
     margin-left: -250px;
     height: 350px;
     margin-top: -175px;
-    background: #D4ECDA url(assets/img/icon_apple_teacher.png) 0 100% no-repeat;
+    background: honeydew url(assets/img/icon_apple_teacher.png) 0 100% no-repeat;
     background-size:40%;
     border:1px solid darkgrey;
     border-radius: 5px;

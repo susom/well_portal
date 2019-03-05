@@ -16,6 +16,7 @@ if(isset($_GET["user_record_id"]) ){
     unset($_SESSION["core_timestamps"]);
     unset($_SESSION["supplemental_surveys"]);
     unset($_SESSION["user_survey_data"]);
+    unset($_SESSION["user_anniversary"]);
     setSessionUser($checkuser);
     header("location:index.php");
     exit;

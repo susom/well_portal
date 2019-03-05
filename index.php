@@ -128,7 +128,6 @@ if(isset($_GET["survey_complete"])){
 
   $completed_timestamps = $_SESSION["completed_timestamps"];
   include("models/inc/surveys_data.php");
-
   $complete_surveys_keys    = array_keys(SurveysConfig::$supp_surveys);
   $final_well_core          = "your_feedback";
   array_push($complete_surveys_keys, $final_well_core);
@@ -144,8 +143,9 @@ if(isset($_GET["survey_complete"])){
               // ONLY CALCULATE LONG SCORE DURING LONG YEARS
               $long_score = calculateLongScore($loggedInUser, $loggedInUser->user_event_arm, $_CFG, $all_completed);
           }
+          $pts_survey_complete = json_decode($game_points["gamify_pts_survey_complete"],1);
 
-          $success_arr[] = $lang["CONGRATS_FRUITS"];
+          $success_arr[] = $lang["CONGRATS_FRUITS"] . "<br> <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span> <br><br>";
           if ($loggedInUser->user_event_arm == "enrollment_arm_1" || $loggedInUser->user_event_arm == "") {
               $success_arr[] = $lang["CONGRATS_CERT"];
               $success_arr[] = "<div class='input_group'><input type='text' name='confirm_email' placeholder='Confirm Email'/> ";
@@ -479,6 +479,10 @@ body{
     padding: 5px 8px;
     border-radius: 7px;
     border: 1px solid #ccc;
+}
+
+.earned_points{
+    color: orange;
 }
 <?php
 if($loggedInUser->user_event_arm == "enrollment_arm_1"  || $loggedInUser->user_event_arm == ""){
