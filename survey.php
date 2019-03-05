@@ -404,6 +404,8 @@ if(isset($_GET["survey_complete"])){
     $surveyid = $_GET["survey_complete"];
 
     if(array_key_exists($surveyid,$surveys)){
+      $pts_survey_complete = json_decode($game_points["gamify_pts_survey_complete"],1);
+
       $index        = array_search($surveyid, $all_survey_keys);
       $survey       = $surveys[$surveyid];
       $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . SurveysConfig::$fruits[$index] . "'></span> " ;
@@ -414,7 +416,7 @@ if(isset($_GET["survey_complete"])){
           $forsleep_complete_only_bs = 1;
           $success_msg .=  "<hr/><p class='organize'><a id='aftersleep_redirect' href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
         }else{
-          $success_msg .= $lang["GET_WHOLE_BASKET"];
+          $success_msg .= $lang["GET_WHOLE_BASKET"] . "<br> <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span>";
         }
         addSessionMessage( $success_msg , "success");
       }
