@@ -10,7 +10,7 @@ function initDrawingCanvas() {
     drawingCanvas.addEventListener('click',  function(){
         var curpoints = parseInt($("#global_points a").text());
         if(curpoints < Math.abs(spincost)){
-            alert("You need at least 500 WELL Points to spin.  Navigate around the site to earn some points!");
+            alert("You need at least "+spincost+" WELL Points to spin.  Navigate around the site to earn some points!");
             return false;
         }
         var ok = updateWOFPoints(spincost);
@@ -57,7 +57,7 @@ function checkStartDrag(e) {
 function checkEndDrag(e) {
     var curpoints = parseInt($("#global_points a").text());
     if(curpoints < Math.abs(spincost)){
-        alert("You need at least 500 WELL Points to spin.  Navigate around the site to earn some points!");
+        alert("You need at least"+ spincost +"WELL Points to spin.  Navigate around the site to earn some points!");
         return false;
     }
     updateWOFPoints(spincost);

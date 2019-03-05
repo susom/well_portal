@@ -121,7 +121,8 @@ include_once("models/inc/gl_foot.php");
   window.activepuzzle;
   window.activepuzzle_raw;
 
-  var spincost = -500;
+  var spincost  = -500;
+  var vowelcost = -250;
 
   function updateWOFPoints(newpoints){
       $.ajax({
@@ -145,42 +146,118 @@ include_once("models/inc/gl_foot.php");
 
   function makeGameBoard(secretmessage){
     window.activepuzzle_raw = secretmessage;
-    window.activepuzzle = secretmessage.replace(/\./g,'');
+    secretmessage           = secretmessage.replace(/\./g,'');
+    secretmessage           = secretmessage.replace(/\;/g,'');
+    secretmessage           = secretmessage.replace(/\,/g,'');
+    window.activepuzzle     = secretmessage.replace(/\-/g,' ');
+    var words               = window.activepuzzle.split(" ");
+
     var letters_per_row = 10;
+    var tile_width      = 40;
+
     var msglen          = window.activepuzzle.length;
-    var rows            = Math.ceil(msglen/letters_per_row);
-    var filler          = (rows*letters_per_row) - msglen;
 
     //remove old gameboard if there
     $("#flipboard").remove();
-
     var gameboard = $("<div id='flipboard'></div>");
-    for(var i = 0; i < msglen; i++){
-      var letter = window.activepuzzle[i].toUpperCase();
-      var fc = $("<div class='flip-container'></div>").addClass(letter);
+    $("#board").prepend(gameboard);
+    var board_width     = gameboard.width();
+    var max_tiles_row   = Math.floor(board_width/tile_width);
+
+    var row_words = {};
+    var n         = 0;
+    var rowlength = 0;
+    var row_chars = {};
+    for(var i in words){
+        var word        = words[i];
+        var wordlen     = word.length;
+        rowlength       += wordlen;
+        var remainder   = max_tiles_row - rowlength;
+
+        if(remainder < 1){
+            rowlength = 0;
+            rowlength       += wordlen;
+            n++;
+        }
+
+        if(!row_words.hasOwnProperty(n)){
+            row_words[n] = [];
+            row_chars[n] = 0;
+        }
+        rowlength += 1;
+        row_chars[n] += wordlen;
+        row_words[n].push(word);
+    }
+
+    if(1 == 1) {
+        for(var n in row_words){
+            var words           = row_words[n];
+            var row_chars_cnt   = row_chars[n];
+            var filler_cnt      = max_tiles_row - row_chars_cnt - (words.length-1);
+            var front_filler    = Math.ceil(filler_cnt/2);
+            var back_filler     = Math.floor(filler_cnt/2);
+
+            var row_char_count  = 0;
+            for (m in words){
+                var word    = words[m];
+                var wordlen = word.length;
+                for (var i = 0; i < wordlen; i++) {
+
+                    if(m == 0 && i == 0){
+                        //first letter of first word
+                        for (var x = 0; x < front_filler; x++){
+                            row_char_count++;
+                            var fc = makeLetterTile("");
+                            gameboard.append(fc);
+                        }
+                    }
+
+                    var fc = makeLetterTile(word[i]);
+                    gameboard.append(fc);
+                    row_char_count++;
+
+                    if(i == (wordlen - 1)){
+                        //last letter
+                        var remaining_spaces = back_filler;
+                        if(m != (words.length - 1)){
+                            //last word
+                            remaining_spaces = 1;
+                        }
+
+                        if(remaining_spaces > 0){
+                            for (var x = 0; x < remaining_spaces; x++){
+                                row_char_count++;
+
+                                //add space character if < than max tile count
+                                var fc = makeLetterTile("");
+                                gameboard.append(fc);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return;
+  }
+
+  function makeLetterTile(theletter){
+      var fc = $("<div class='flip-container'></div>");
       var fp = $("<div class='flipper'></div>");
       var fr = $("<div class='front'></div>");
       var ba = $("<div class='back'></div>");
 
+      var letter = theletter.toUpperCase();
+      fc.addClass(letter);
       ba.text(letter);
       fp.append(fr).append(ba);
       fc.append(fp);
-
-      if(window.activepuzzle[i] == " "){
-        fr.addClass("space");
+      if(theletter == "") {
+          fr.addClass("space");
       }
-      gameboard.append(fc);
-    }
-    // for(var i = 0; i < filler; i++){
-    //   var fc = $("<div class='flip-container'></div>");
-    //   var fp = $("<div class='flipper'></div>");
-    //   var fr = $("<div class='front'></div>");
-    //   var ba = $("<div class='back'></div>");
-    //   gameboard.append(fc);
-    // }
 
-    $("#board").prepend(gameboard);
-    return;
+      return fc;
   }
 
   function makeLetterTray(){
@@ -333,12 +410,12 @@ include_once("models/inc/gl_foot.php");
             var points_earned   = ["A","E","I","O","U"].indexOf(letter_guess) > -1 ? letters_matched : letters_matched * pointmult;
 
             if(["A","E","I","O","U"].indexOf(letter_guess) > -1){
-              if(curpoints < 250){
+              if(curpoints < (vowelcost*-1)){
                 alert("You don't have enough to buy a vowel");
                 return false;
               }
               //vowels should cost
-              var points_earned = -250;
+              var points_earned = vowelcost;
             }else{
               if(!window.wheelSpun){
                 alert("Spin the Wheel First!");
