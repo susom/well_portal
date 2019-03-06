@@ -159,7 +159,7 @@ include("models/inc/gl_header.php");
 							<?php 
 								}
 							?>
-							<input type="text" placeholder="<?php echo lang("FORGOTPASS_RECOVERY_ANSWER") ?>" class="form-control" aria-label="password recovery answer" name="<?php echo $pair['answer'] ?>" id="<?php echo $pair['answer'] ?>" value="<?php echo $loggedInUser->$pair['answer'] ?>">
+							<input type="text" placeholder="<?php echo lang("FORGOTPASS_RECOVERY_ANSWER") ?>" class="form-control" aria-label="password recovery answer" name="<?php echo $pair['answer'] ?>" id="<?php echo $pair['answer'] ?>" value="<?php echo $loggedInUser->{$pair['answer']} ?>">
 						</div><!-- /input-group -->
 					</div>
 					<?php

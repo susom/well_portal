@@ -221,6 +221,13 @@ $(document).ready(function(){
             <?php
         }
     ?>
+
+    var js_update_points = <?php echo isset($js_update_points) ? $js_update_points : 0 ; ?>;
+    if(js_update_points){
+        var curpoints = parseInt($("#global_points a").text());
+        curpoints = curpoints + parseInt(js_update_points);
+        $("#global_points a").text(curpoints);
+    }
 });
 
 

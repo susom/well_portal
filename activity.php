@@ -188,7 +188,7 @@ include_once("models/inc/gl_foot.php");
 
     function addModal(msg){
     	var div = $("<div>").addClass("alert").addClass("alert-success").addClass("text-center").addClass("mb-30");
-    	var button = $("<button>").addClass("alert").addClass("btn-success").addClass("alert").attr("data-dismiss","").text("OK");
+    	var button = $("<button>").addClass("btn").addClass("btn-success").attr("data-dismiss","").text("OK");
 		var ul = $("<ul>");
 		var li = $("<li>");
 		var strong = $("<strong>").text(msg);

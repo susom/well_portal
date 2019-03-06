@@ -210,6 +210,7 @@ p.organize a {
     font-size: 106%;
     line-height: 120%;
     text-align: left;
+    margin-bottom: 100px;
 }
 .organize{
     display: inline-block;
@@ -226,10 +227,7 @@ p.organize a {
     background:url(../img/ico_domain_ranking.png) no-repeat;
     background-size:contain;
 }
-.organize:hover{
-    background: #f2f2f2;
-    border-radius:5px;
-}
+
 #reorder_img{
     max-height: 30px;
     max-width: 28px;
@@ -240,11 +238,6 @@ p.organize a {
 #reorder_title{
     display: inline-block;
     margin-left:5px;
-}
-.organize:hover,
-.organize:visited {
-    color: #000;
-    background: #f2f2f2;
 }
 
 #drop_menu a:hover{

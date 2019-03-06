@@ -408,15 +408,15 @@ if(isset($_GET["survey_complete"])){
 
       $index        = array_search($surveyid, $all_survey_keys);
       $survey       = $surveys[$surveyid];
-      $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . SurveysConfig::$fruits[$index] . "'></span> " ;
+      $success_msg  = $lang["YOUVE_BEEN_AWARDED"] . " : <span class='fruit " . SurveysConfig::$fruits[$index] . "'></span>" ;
       if(isset($all_survey_keys[$index+1])){
         $nextlink     = "survey.php?sid=". $all_survey_keys[$index+1];
         $nextsid      = $all_survey_keys[$index+1];
         if($surveyid == "your_sleep_habits"){
           $forsleep_complete_only_bs = 1;
-          $success_msg .=  "<hr/><p class='organize'><a id='aftersleep_redirect' href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p><hr/>";
+          $success_msg .=  " <br> <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span> <hr/><p class='organize'><a id='aftersleep_redirect' href='activity.php?nextsid=$nextsid'>".lang("DOMAIN_RANKING_PROMPT")."</a></p>";
         }else{
-          $success_msg .= $lang["GET_WHOLE_BASKET"] . "<br> <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span>";
+          $success_msg .= " <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span>";
         }
         addSessionMessage( $success_msg , "success");
       }
@@ -445,6 +445,9 @@ if(isset($_GET["survey_complete"])){
         );
         $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
         $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+
+
+        $js_update_points = $persist_pts;
     }
 }
 
@@ -496,7 +499,7 @@ include_once("models/inc/gl_head.php");
             ?>
         </div> <!-- #main -->
     </div> <!-- #main-container -->
-<?php 
+<?php
 include_once("models/inc/gl_foot.php");
 ?>
 <script src="assets/js/custom_assessments.js"></script>
@@ -635,6 +638,7 @@ include_once("models/inc/gl_foot.php");
       },5000);
     }
   });
+
 
   // CUSTOM FLOW FOR UO1 Pilot STUDY
   // $("#core_group_id").on("change",function(){

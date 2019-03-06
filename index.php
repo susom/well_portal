@@ -185,6 +185,8 @@ if(isset($_GET["survey_complete"])){
     );
     $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
     $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
+
+    $js_update_points = $persist_pts;
   }
 
 
@@ -472,6 +474,7 @@ body{
 }
 #confirm_email .input_group{
     text-align:left;
+    margin-left: 20%;
 }
 #confirm_email input[type='text']{
     width: 60%;
