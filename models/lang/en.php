@@ -190,7 +190,7 @@
 		,"YOUVE_BEEN_AWARDED" 						=> "Congrats, You've been awarded a "
 		,"GET_WHOLE_BASKET" 						=> "Get the whole fruit basket!"
 		,"CONTINUE_SURVEY" 							=> "Continue the rest of the survey."
-        ,"CONGRATS_FRUITS" 							=> "Congratulations, you've completed all of <br>the wellbeing questions! "
+        ,"CONGRATS_FRUITS" 							=> "Congratulations, you've completed all of <br>the well-being questions! "
         ,"CONGRATS_CERT" 							=> "Before we present you with your WELL score<br/> and completion certifcate.<br/> Please confirm your email address.<br><br>"
         ,"THANKS" 							        => "For a more in-depth report of your WELL score,<br> visit the 'Reports' tab."
         ,"FITNESS_BADGE" 							=> "You can view your badges on your <a href='tree.php'>reward tree</a> page."

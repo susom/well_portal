@@ -164,7 +164,7 @@ if(isset($_GET["survey_complete"])){
           $success_arr[] = $lang["YOUVE_BEEN_AWARDED"];
           $icon_class    = SurveysConfig::$supp_icons[$surveyid];
           $success_arr[] = "<div class='myrewards $icon_class'></div>";
-          $success_arr[] = $lang["FITNESS_BADGE"];
+          $success_arr[] = $lang["FITNESS_BADGE"] . "<br> <span class='earned_points'>You've earned <b>".$pts_survey_complete["value"]."</b> WELL Points!</span> <br><br>";
       }
       $success_arr[]  = "</div>";
       $success_msg      = implode($success_arr);
@@ -188,10 +188,6 @@ if(isset($_GET["survey_complete"])){
 
     $js_update_points = $persist_pts;
   }
-
-
-
-
 }
 // markPageLoadTime("END HEAD AREA");
 
