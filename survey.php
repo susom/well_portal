@@ -447,7 +447,7 @@ if(isset($_GET["survey_complete"])){
         $result = updateGlobalPersistPoints($loggedInUser->id, $persist_pts);
 
 
-        $js_update_points = $persist_pts;
+//        $js_update_points = $persist_pts;
     }
 }
 
