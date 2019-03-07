@@ -95,7 +95,7 @@ $extra_params       = array(
 );
 $mini_c_results   = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
 
-if(!$loggedInUser->portal_wof_unlocked){
+if(!isset($loggedInUser->portal_wof_unlocked) || !$loggedInUser->portal_wof_unlocked){
     $locked_icon = "locked";
 }
 
