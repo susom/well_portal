@@ -154,8 +154,8 @@
 
         //DIALOG BOXES
         "WELL_CHALLENGE"                        => "WELL Challenge",
-        "WELL_CHALLENGE_BODY1"                  => "You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href='rewards.php'>Rewards Page</a>.",
-        "WELL_CHALLENGE_BODY2"                  => "Click to continue to the well-challenge.",
+        "WELL_CHALLENGE_BODY1"                  => "You will recieve points and a background as reward for completing WELL-Challenges. View your rewards on the <a href='rewards.php'>Rewards Page</a>.",
+        "WELL_CHALLENGE_BODY2"                  => "Click to continue to the WELL-Challenge.",
         "WELL_CHALLENGE_BTN"                    => "Go to WELL-Challenge",
 
         "WOF_UNLOCKED"                          => "Congrats, You've unlocked <br>The WELL OF FORTUNE game",
