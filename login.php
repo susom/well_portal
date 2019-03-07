@@ -89,7 +89,11 @@ if( !empty($_POST) && isset($_POST['new_login']) ) {
 			if(!$loggedInUser->active){
 				$destination 	= "consent.php";
 			}else{
-                updateGlobalPersistPoints($loggedInUser->id, 10);
+                $gamify                 = new Gamify(SurveysConfig::$projects["ADMIN_CMS"]["URL"],SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"]);
+                $game_points            = $gamify->showPoints() ;
+                $pts_login              = json_decode($game_points["gamify_pts_login"],1);
+
+                updateGlobalPersistPoints($loggedInUser->id, $pts_login["value"]);
 				$destination 	= getSessionRedirectOr($websiteUrl.'index.php');
 			}
 

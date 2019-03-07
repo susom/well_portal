@@ -134,7 +134,10 @@ if(!empty($_POST['submit_new_user'])){
                         $loggedInUser->{$proj_name} = $supp_id;
                     }
 
-                    updateGlobalPersistPoints($loggedInUser->id, 50);
+                    $gamify                 = new Gamify(SurveysConfig::$projects["ADMIN_CMS"]["URL"],SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"]);
+                    $game_points            = $gamify->showPoints() ;
+                    $pts_register           = json_decode($game_points["gamify_pts_register"],1);
+                    updateGlobalPersistPoints($loggedInUser->id, $pts_register["value"]);
                     setSessionUser($loggedInUser);
 
 //					addSessionMessage( lang("ACCOUNT_NEW_ACTIVATION_SENT"), "success");
