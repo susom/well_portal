@@ -177,11 +177,11 @@ $(document).ready(function(){
         var minihref= $(this).attr("href");
 
         $("#dialog .dialog_inner").empty();
-        var title   = $("<h3>").html("Mini Challenge");
-        var p1      = $("<p>").html("You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href='rewards.php'>Rewards Page</a>.");
-        var p2      = $("<p>").text("Click to continue to the mini-challenge.");
-        var btn     = $("<a>").html("Go to Mini-Challenge").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",minihref);
-        var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("Cancel");
+        var title   = $("<h3>").html("<?php echo lang("WELL_CHALLENGE") ?>");
+        var p1      = $("<p>").html("<?php echo lang("WELL_CHALLENGE_BODY1") ?>");
+        var p2      = $("<p>").text("<?php echo lang("WELL_CHALLENGE_BODY2") ?>");
+        var btn     = $("<a>").html("<?php echo lang("WELL_CHALLENGE_BTN") ?>").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",minihref);
+        var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("<?php echo lang("CANCEL") ?>");
         $("#dialog .dialog_inner").append(title);
         $("#dialog .dialog_inner").append(p1);
         $("#dialog .dialog_inner").append(p2);
@@ -209,18 +209,18 @@ $(document).ready(function(){
             ?>
             var gamehref = "game.php";
             $("#dialog .dialog_inner").removeClass("celebrate").empty();
-            var title   = $("<h3>").html("Congrats, You've unlocked <br>The WELL OF FORTUNE game");
-            var p1      = $("<p>").html("You will now be able to use the WELL points that you have earned to play <a href='game.php'>WELL OF FORTUNE</a> and earn more prizes!");
-            var btn     = $("<a>").html("Go to WELL OF FORTUNE").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",gamehref);
-            var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("Cancel");
+            var title   = $("<h3>").html("<?php echo lang("WOF_UNLOCKED") ?>");
+            var p1      = $("<p>").html("<?php echo lang("WOF_UNLOCKED_BODY") ?>");
+            var btn     = $("<a>").html("<?php echo lang("WOF_UNLOCKED_BTN") ?>").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",gamehref);
+            var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("<?php echo lang("CANCEL") ?>");
             $("#dialog .dialog_inner").append(title);
             $("#dialog .dialog_inner").append(p1);
             $("#dialog .dialog_inner").append(btn);
             $("#dialog .dialog_inner").append(cancel);
             $("#dialog").addClass("show").addClass("celebrate");
             <?php
-        }
-    ?>
+            }
+        ?>
 
     var js_update_points = <?php echo isset($js_update_points) ? $js_update_points : 0 ; ?>;
     if(js_update_points){

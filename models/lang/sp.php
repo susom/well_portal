@@ -150,6 +150,19 @@
 		"DOMAIN_EC_DESC" 						=> "Tener oportunidades para crecer como persona y explorar nuevas experiencias y formas de pensar.",
         "RESULTS_SUMMARY"                       => "Results Summary",
         "PRINT"                                 => "Print",
+
+		//DIALOG BOXES
+		"WELL_CHALLENGE"                        => "WELL Challenge",
+		"WELL_CHALLENGE_BODY1"                  => "You will recieve points and a background as reward for completing Mini-Challenges. View your rewards on the <a href='rewards.php'>Rewards Page</a>.",
+		"WELL_CHALLENGE_BODY2"                  => "Click to continue to the well-challenge.",
+		"WELL_CHALLENGE_BTN"                    => "Go to WELL-Challenge",
+
+		"WOF_UNLOCKED"                          => "Congrats, You've unlocked <br>The WELL OF FORTUNE game",
+		"WOF_UNLOCKED_BODY"                     => "You will now be able to use the WELL points that you have earned to play <a href='game.php'>WELL OF FORTUNE</a> and earn more prizes!",
+		"WOF_UNLOCKED_BTN"                      => "Go to WELL OF FORTUNE",
+
+
+		"CANCEL"                                => "Cancel",
 	));
 
 	//DASHBOARD TRANSLATIONS
