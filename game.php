@@ -2,7 +2,9 @@
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
 if(!$loggedInUser->portal_wof_unlocked){
-    print_rr("Game is not unlocked");
+
+    header("location:index.php");
+    exit;
 }
 
 $navon          = array("home" => "", "reports" => "", "game" => "on", "resources" => "", "rewards" => "", "activity" => "");
