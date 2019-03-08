@@ -115,6 +115,21 @@ $(document).ready(function(){
     }
     ?>
 
+    function unlockWOF(){
+        var gamehref = "game.php";
+        $("#dialog .dialog_inner").removeClass("celebrate").empty();
+        var title   = $("<h3>").html("<?php echo lang("WOF_UNLOCKED") ?>");
+        var p1      = $("<p>").html("<?php echo lang("WOF_UNLOCKED_BODY") ?>");
+        var btn     = $("<a>").html("<?php echo lang("WOF_UNLOCKED_BTN") ?>").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",gamehref);
+        var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("<?php echo lang("CANCEL") ?>");
+        $("#dialog .dialog_inner").append(title);
+        $("#dialog .dialog_inner").append(p1);
+        $("#dialog .dialog_inner").append(btn);
+        $("#dialog .dialog_inner").append(cancel);
+        $("#dialog").addClass("show").addClass("celebrate");
+        return;
+    }
+
     //CHECK SESSION BEFORE SCORING
     // .resourceEntry a
     // .resource_links figcaption a
@@ -205,22 +220,26 @@ $(document).ready(function(){
     });
 
     <?php
+        echo "var wof_status = " . ((!isset($loggedInUser->portal_wof_unlocked) || !$loggedInUser->portal_wof_unlocked) ? 0 : 1) . ";\r\n";
+        echo "console.log(wof_status);";
+
         if( $one_off_wof_unlocked ){
             ?>
-            var gamehref = "game.php";
-            $("#dialog .dialog_inner").removeClass("celebrate").empty();
-            var title   = $("<h3>").html("<?php echo lang("WOF_UNLOCKED") ?>");
-            var p1      = $("<p>").html("<?php echo lang("WOF_UNLOCKED_BODY") ?>");
-            var btn     = $("<a>").html("<?php echo lang("WOF_UNLOCKED_BTN") ?>").data("action","openmini").addClass("btn-success").addClass("btn").attr("href",gamehref);
-            var cancel  = $("<button>").addClass("btn btn-danger").addClass("btn btn-danger").html("<?php echo lang("CANCEL") ?>");
-            $("#dialog .dialog_inner").append(title);
-            $("#dialog .dialog_inner").append(p1);
-            $("#dialog .dialog_inner").append(btn);
-            $("#dialog .dialog_inner").append(cancel);
-            $("#dialog").addClass("show").addClass("celebrate");
+            unlockWOF();
             <?php
             }
         ?>
+
+    $("body").on('DOMSubtreeModified', "#global_points a", function() {
+        //maybe ajax to see if its been called once yet?
+        console.log(wof_status);
+
+        if(parseInt($(this).text()) >=5000 && !wof_status){
+            wof_status = 1;
+            unlockWOF();
+        }
+    });
+
 
     var js_update_points = <?php echo isset($js_update_points) ? $js_update_points : 0 ; ?>;
     if(js_update_points){
@@ -229,7 +248,6 @@ $(document).ready(function(){
         $("#global_points a").text(curpoints);
     }
 });
-
 
 $(document).on('click', function(event) {
     if ($(event.target).not("[target='blank']").closest('.alert').length && !$(event.target).closest("#confirm_email").length) {
