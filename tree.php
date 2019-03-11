@@ -96,10 +96,10 @@ include_once("models/inc/gl_head.php");
             <?php
             echo implode(" ",$completed_surveys);
             ?>
-            <div class="redeem_points on">
-                <p>You've placed all your award badges.</p>
-                <button class="btn btn-success ">Redeem Bonus Points!</button>
-            </div>
+<!--            <div class="redeem_points on">-->
+<!--                <p>You've placed all your award badges.</p>-->
+<!--                <button class="btn btn-success ">Redeem Bonus Points!</button>-->
+<!--            </div>-->
         </div>
 
     </div> <!-- #main -->
