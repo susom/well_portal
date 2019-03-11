@@ -244,7 +244,7 @@ Wheel.prototype = {
             PlaySound("assets/sounds/bankrupt.mp3");
             statusLabel.innerHTML   = 'Woops, you\'ve bankrupted';
 
-            var byepoints = parseInt($("#totalpoints b").text()) * -1;
+            var byepoints = (parseInt($("#totalpoints b").text()) + spincost) * -1;
             console.log(byepoints);
             updateWOFPoints(byepoints);
 

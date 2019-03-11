@@ -1,12 +1,14 @@
 <?php 
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
-if(!$loggedInUser->portal_wof_unlocked){
 
+//MAKE SURE WOF UNLOCKED
+if(!$loggedInUser->portal_wof_unlocked){
     header("location:index.php");
     exit;
 }
 
+//GET ALL AVAILABLE QUOTES
 $navon          = array("home" => "", "reports" => "", "game" => "on", "resources" => "", "rewards" => "", "activity" => "");
 $API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
@@ -22,41 +24,65 @@ $full_json      = isset($quotes["wof_quotes"]) && !is_null($quotes["wof_quotes"]
 $quotes_full    = json_decode($full_json,1);
 $quotes_pool    = array_column($quotes_full,"quote");
 
+//GET USERS SOLVED PUZZLES
 $API_URL        = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN      = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 $extra_params   = array(
     'content'   => 'record',
     'format'    => 'json',
     "records"   => $loggedInUser->id,
-    "fields"    => "portal_wof_solved",
+    "fields"    => array("portal_wof_solved", "portal_wof_inprogress"),
     "events"    => "enrollment_arm_1"
 );
 $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
 $quotes         = !empty($results) ? current($results) : array();
 $quotes_solved  = !empty($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
+$in_progress    = !empty($quotes["portal_wof_inprogress"]) ? $quotes["portal_wof_inprogress"] : "[]";
 $quotes_mine    = array_column($quotes_solved,"quote");
 $available_quotes = array_values(array_diff($quotes_pool,$quotes_mine));
 
-//UPDATE THE SOLVED PUZZLES
-if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "solved_puzzle"){
-    $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
-    $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
-
-    $quote_cite = $quotes_full[array_search($_REQUEST["value"],$quotes_pool)];
-    print_rr( $quotes_solved ) ;
-
-    array_push($quotes_solved, $quote_cite);
-    $data   = array();
-    $data[] = array(
-        "record"            => $loggedInUser->id,
-        "field_name"        => "portal_wof_solved",
-        "value"             => json_encode($quotes_solved),
-        "redcap_event_name" => "enrollment_arm_1"
-    );
-    $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"), $API_URL, $API_TOKEN);
-
-    print_rr($quote_cite);
-    print_rr( $quotes_solved ) ;
+//UPDATE THE SOLVED PUZZLES - AJAX
+if(isset($_REQUEST["action"])){
+    if($_REQUEST["action"] == "solved_puzzle"){
+        $quote_cite = $quotes_full[array_search($_REQUEST["value"],$quotes_pool)];
+        array_push($quotes_solved, $quote_cite);
+        $data   = array();
+        $data[] = array(
+            "record"            => $loggedInUser->id,
+            "field_name"        => "portal_wof_solved",
+            "value"             => json_encode($quotes_solved),
+            "redcap_event_name" => "enrollment_arm_1"
+        );
+        $data[] = array(
+            "record"            => $loggedInUser->id,
+            "field_name"        => "portal_wof_inprogress",
+            "value"             => "[]",
+            "redcap_event_name" => "enrollment_arm_1"
+        );
+        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"),  SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+    }else if($_REQUEST["action"] == "current_pick"){
+        $inprogress = json_decode($in_progress,1);
+        array_push($inprogress, $_REQUEST["value"]);
+        print_rr( $_REQUEST["value"] );
+        $data   = array();
+        $data[] = array(
+            "record"            => $loggedInUser->id,
+            "field_name"        => "portal_wof_inprogress",
+            "value"             => json_encode($inprogress),
+            "redcap_event_name" => "enrollment_arm_1"
+        );
+        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"),  SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        print_rr($inprogress);
+    }else if($_REQUEST["action"] == "clear_puzzle"){
+        $data   = array();
+        $data[] = array(
+            "record"            => $loggedInUser->id,
+            "field_name"        => "portal_wof_inprogress",
+            "value"             => "[]",
+            "redcap_event_name" => "enrollment_arm_1"
+        );
+        $result = RC::writeToApi($data, array("overwriteBehavior" => "overwrite", "type" => "eav"),  SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+    }
     exit;
 }
 
@@ -123,8 +149,9 @@ include_once("models/inc/gl_foot.php");
   window.activepuzzle;
   window.activepuzzle_raw;
 
-  var spincost  = -500;
-  var vowelcost = -250;
+  var spincost      = -500;
+  var vowelcost     = -250;
+  window.inprogress    = <?php echo $in_progress ?>;
 
   function updateWOFPoints(newpoints){
       $.ajax({
@@ -133,7 +160,6 @@ include_once("models/inc/gl_foot.php");
             data: "action=persist_points&value="+newpoints,
             datatype: 'JSON',
             success:function(result){
-                console.log(result);
                 //update the points box
                 var result = JSON.parse(result);
                 if(result.hasOwnProperty("points_added")){
@@ -146,7 +172,7 @@ include_once("models/inc/gl_foot.php");
       return;
   }
 
-  function makeGameBoard(secretmessage){
+  function makeGameBoard(secretmessage, inprogress){
     window.activepuzzle_raw = secretmessage;
     secretmessage           = secretmessage.replace(/\./g,'');
     secretmessage           = secretmessage.replace(/\;/g,'');
@@ -204,7 +230,6 @@ include_once("models/inc/gl_foot.php");
                 var word    = words[m];
                 var wordlen = word.length;
                 for (var i = 0; i < wordlen; i++) {
-
                     if(m == 0 && i == 0){
                         //first letter of first word
                         for (var x = 0; x < front_filler; x++){
@@ -214,7 +239,7 @@ include_once("models/inc/gl_foot.php");
                         }
                     }
 
-                    var fc = makeLetterTile(word[i]);
+                    var fc = makeLetterTile(word[i], inprogress.indexOf(word[i].toUpperCase()));
                     gameboard.append(fc);
                     row_char_count++;
 
@@ -244,11 +269,15 @@ include_once("models/inc/gl_foot.php");
     return;
   }
 
-  function makeLetterTile(theletter){
+  function makeLetterTile(theletter, picked){
       var fc = $("<div class='flip-container'></div>");
       var fp = $("<div class='flipper'></div>");
       var fr = $("<div class='front'></div>");
       var ba = $("<div class='back'></div>");
+
+      if(picked > -1){
+        fc.addClass("rotate");
+      }
 
       var letter = theletter.toUpperCase();
       fc.addClass(letter);
@@ -262,7 +291,7 @@ include_once("models/inc/gl_foot.php");
       return fc;
   }
 
-  function makeLetterTray(){
+  function makeLetterTray(inprogress){
     var runes   = ["B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"];
     var vowels  = ["A","E","I","O","U"];
     
@@ -272,36 +301,39 @@ include_once("models/inc/gl_foot.php");
     var tray    = $("<div id='lettertray'><h5 id='guessvalue'>Each matching letter will be worth <b>(SPIN!)</b> points</h5></div>");
     for(var i in runes){
       var label   = $("<label>"+runes[i]+"</label>");
-      var letter  = $("<input type='checkbox' name='letters' value='"+runes[i]+"'>");
-      
-      var btn     = $("button[clicked=true]").attr("id");
-     
-      //MAKING A GUESS
-      letter.change(function(){
-        if($(this).is(":checked")){
-          //REMOVE "SELECTED" CLASS FROM ANY SIBLINGS (NOT ALREADY BURNED)
-          
-          // if(btn == "solveit"){
-          //   if(!$(this).hasClass("picked")){
-          //     $(this).find(":input").attr("checked",false);
-          //   }
-          // }else{
-            $(this).parent().siblings().removeClass(function() {
-              if(!$(this).hasClass("picked")){
-                $(this).find(":input").attr("checked",false);
-                return $( this ).attr( "class" );
-              }
-            });
-          // }
-          
-          $(this).parent().addClass("selected");
-        }else{
-          $(this).parent().removeClass("selected");
-        }  
-        return false;
-      });
+      if(inprogress.indexOf(runes[i].toUpperCase()) > -1){
+          label.addClass("picked");
+      }else{
+          var letter  = $("<input type='checkbox' name='letters' value='"+runes[i]+"'>");
 
-      label.append(letter);
+          //MAKING A GUESS
+          letter.change(function(){
+              if($(this).is(":checked")){
+                  //REMOVE "SELECTED" CLASS FROM ANY SIBLINGS (NOT ALREADY BURNED)
+
+                  // if(btn == "solveit"){
+                  //   if(!$(this).hasClass("picked")){
+                  //     $(this).find(":input").attr("checked",false);
+                  //   }
+                  // }else{
+                  $(this).parent().siblings().removeClass(function() {
+                      if(!$(this).hasClass("picked")){
+                          $(this).find(":input").attr("checked",false);
+                          return $( this ).attr( "class" );
+                      }
+                  });
+                  // }
+
+                  $(this).parent().addClass("selected");
+              }else{
+                  $(this).parent().removeClass("selected");
+              }
+              return false;
+          });
+
+          label.append(letter);
+      }
+      var btn     = $("button[clicked=true]").attr("id");
       tray.append(label);
     }
     $("#letterpicker").append(tray);
@@ -311,26 +343,31 @@ include_once("models/inc/gl_foot.php");
     var tray    = $("<div id='voweltray'><h5>Reveal all matching vowels for a flat cost of -250 points</h5></div>");
     for(var i in vowels){
       var label   = $("<label>"+vowels[i]+"</label>");
-      var letter  = $("<input type='checkbox' name='vowels' value='"+vowels[i]+"'>");
-      
-      //MAKING A GUESS
-      letter.change(function(){
-        if($(this).is(":checked")){
-          //REMOVE "SELECTED" CLASS FROM ANY SIBLINGS (NOT ALREADY BURNED)
-          $(this).parent().siblings().removeClass(function() {
-            if(!$(this).hasClass("picked")){
-              $(this).find(":input").attr("checked",false);
-              return $( this ).attr( "class" );
-            }
-          });
-          $(this).parent().addClass("selected");
+        if(inprogress.indexOf(runes[i].toUpperCase()) > -1){
+            label.addClass("picked");
         }else{
-          $(this).parent().removeClass("selected");
-        }  
-        return false;
-      });
+            var letter  = $("<input type='checkbox' name='vowels' value='"+vowels[i]+"'>");
 
-      label.append(letter);
+            //MAKING A GUESS
+            letter.change(function(){
+                if($(this).is(":checked")){
+                    //REMOVE "SELECTED" CLASS FROM ANY SIBLINGS (NOT ALREADY BURNED)
+                    $(this).parent().siblings().removeClass(function() {
+                        if(!$(this).hasClass("picked")){
+                            $(this).find(":input").attr("checked",false);
+                            return $( this ).attr( "class" );
+                        }
+                    });
+                    $(this).parent().addClass("selected");
+                }else{
+                    $(this).parent().removeClass("selected");
+                }
+                return false;
+            });
+
+            label.append(letter);
+        }
+
       tray.append(label);
     }
     $("#letterpicker").append(tray);
@@ -365,20 +402,20 @@ include_once("models/inc/gl_foot.php");
     
   }
 
-  function newGame(phrase){
+  function newGame(phrase, inprogress){
     if(!phrase){
         alert("Sorry there are no new puzzles at the moment.  Check back soon!");
         return;
     }
-    makeGameBoard(phrase);
-    makeLetterTray();
+    makeGameBoard(phrase, inprogress);
+    makeLetterTray(inprogress);
   }
 
   $(document).ready(function(){
     //SET UP THE FIRST PUZZLE AND LETTER TRAY
     var phrasing    = <?php echo json_encode($available_quotes); ?>;
     var phrase      = phrasing.length ?  phrasing.shift() : false;
-    newGame(phrase);
+    newGame(phrase, window.inprogress);
 
     $("#letterpicker button.btn").click(function() {
         $("#letterpicker button.btn").removeAttr("clicked");
@@ -442,6 +479,16 @@ include_once("models/inc/gl_foot.php");
             updateWOFPoints(points_earned);
 
             $(".flip-container."+letter_guess).addClass("rotate");
+
+            $.ajax({
+                url : "game.php",
+                type: 'POST',
+                data: "action=current_pick&value="+letter_guess,
+                datatype: 'JSON',
+                success:function(result){
+                    window.inprogress.push(letter_guess);
+                }
+            });
             window.wheelSpun = false;
           });
         }else{
@@ -456,8 +503,10 @@ include_once("models/inc/gl_foot.php");
     $("#solveit").click(function(){
       var solve = prompt("Solve the Puzzle!");
       if (solve.toLowerCase() == window.activepuzzle.toLowerCase()) {
+          window.inprogress = [];
           PlaySound("assets/sounds/solved.mp3");
           spawnPartices();
+
           statusLabel.innerHTML = 'You\'ve Solved the Puzzle!';
 
           var solved = parseInt($("#solved b").text() );
@@ -485,9 +534,18 @@ include_once("models/inc/gl_foot.php");
     });
 
     $("#newgame").click(function(){
-      var phrase = phrasing.length ?  phrasing.shift() : false;
-      newGame(phrase);
-      return false;
+        var phrase = phrasing.length ?  phrasing.shift() : false;
+        $.ajax({
+            url : "game.php",
+            type: 'POST',
+            data: "action=clear_puzzle",
+            datatype: 'JSON',
+            success:function(result){
+                console.log(result);
+            }
+        });
+        newGame(phrase,window.inprogress);
+        return false;
     });
 
     $("#howtoplay").click(function(){
