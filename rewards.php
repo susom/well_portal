@@ -25,6 +25,8 @@ if(isset($_POST["mini_clicked"])){
 
 $API_URL            = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN          = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
+$CMS_API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+$CMS_API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
 
 //ACTIVE BG
 $extra_params       = array(
@@ -41,51 +43,33 @@ if(!empty($results)){
     }
 }
 
-//COMPLETED MINI CHALLENGES
-$mini_rewards       = array(
-     "mini_bettersleep_2016"                => "forest"
-    ,"mini_creativity_2016"                 => "forest_river"
-    ,"mini_getoutside_2016"                => "halloween"
-    ,"mini_mindfulspending_2016"            => "mountain_lake"
-    ,"mini_mindbodyspirit_2016"             => "sand_dune"
-    ,"mini_movemoresitless_2016"            => "space"
-    ,"mini_purposemeaning_2016"             => "spring"
-    ,"mini_socialconnectedness_2016"        => "summer_village"
-    ,"mini_bettersleep_2017"                => "treasure_chest"
-    ,"mini_creativity_2017"                 => "tropical"
-    ,"mini_getoutside_2017"                => "winter"
-    ,"mini_mindfulspending_2017"            => "winter_2"
-    ,"mini_mindbodyspirit_2017"             => "forest"
-    ,"mini_movemoresitless_2017"            => "forest_river"
-    ,"mini_purposemeaning_2017"             => "halloween"
-    ,"mini_socialconnectedness_2017"        => "mountain_lake"
-    ,"mini_bettersleep_2018"                => "sand_dune"
-    ,"mini_creativity_2018"                 => "space"
-    ,"mini_getoutside_2018"                => "spring"
-    ,"mini_mindfulspending_2018"            => "summer_village"
-    ,"mini_mindbodyspirit_2018"             => "treasure_chest"
-    ,"mini_movemoresitless_2018"            => "tropical"
-    ,"mini_purposemeaning_2018"             => "forest"
-    ,"mini_socialconnectedness_2018"        => "forest_river"
-    ,"mini_bettersleep_2019"                => "halloween"
-    ,"mini_creativity_2019"                 => "mountain_lake"
-    ,"mini_getoutside_2019"                => "sand_dune"
-    ,"mini_mindfulspending_2019"            => "space"
-    ,"mini_mindbodyspirit_2019"             => "spring"
-    ,"mini_movemoresitless_2019"            => "summer_village"
-    ,"mini_purposemeaning_2019"             => "treasure_chest"
-    ,"mini_socialconnectedness_2019"        => "tropical"
+//MINI C
+$extra_params   = array(
+    'content'   => 'record',
+    'format'    => 'json',
+    "fields"    => array("id", "portal_mc_name","portal_mc_year"),
+    "filterLogic" => "[portal_mc_name] != '' "
 );
-$mini_formatted = array(
-     "mini_bettersleep"                 => "Better Sleep"
-    ,"mini_creativity"                  => "Creativity"
-    ,"mini_getoutside"                  => "Get Outside"
-    ,"mini_mindfulspending"             => "Mindful Spending"
-    ,"mini_mindbodyspirit"              => "Mind-Body-Spirit"
-    ,"mini_movemoresitless"             => "Move More, Sit Less"
-    ,"mini_purposemeaning"              => "Purpose & Meaning"
-    ,"mini_socialconnectedness"         => "Social Connectedness"
-);
+$minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
+
+$mini_formatted = array();
+$mini_rewards   = array();
+foreach($minics as $minic){
+    $recordid   = $minic["id"];
+    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
+    if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+        $eventpic = base64_encode($file_curl["file_body"]);
+    }
+
+    // make formatted name
+    $formatted = str_replace(",", "", strtolower($minic["portal_mc_name"]));
+    $formatted = str_replace("-", "", $formatted);
+    $formatted = str_replace(" and ", "", $formatted);
+    $formatted = str_replace(" ", "", $formatted);
+    $mini_formatted["mini_".$formatted] = $minic["portal_mc_name"];
+    $mini_rewards["mini_".$formatted."_".$minic["portal_mc_year"]] = $eventpic;
+}
+
 $arm_years          = getSessionEventYears();
 $extra_params       = array(
     'content'     	=> 'record'
@@ -133,8 +117,8 @@ include_once("models/inc/gl_head.php");
                             foreach($mini_c_results as $result){
                                 $year   = $arm_years[$result["redcap_event_name"]];
                                 $field  = $result["field_name"];
-                                $active = $portal_bg == $mini_rewards[$field ."_" .$year] ? " active" :"";
-                                echo "<li class='".$mini_rewards[$field ."_" .$year] ."$active'/>".$mini_formatted[$field]." (".$year.")</li>\r";
+                                $active = $portal_bg == $field ."_" .$year ? " active" :"";
+                                echo "<li class='".$field ."_" .$year ."$active' data-minic='".$mini_formatted[$field]."'>".$mini_formatted[$field]." (".$year.")</li>\r";
                             }
                         ?>
                     </ul>
@@ -277,50 +261,16 @@ include_once("models/inc/gl_head.php");
     filter:initial;
     cursor:pointer;
 }
-.mini_challenges li.forest_river{
-    background: url(assets/img/bg/bg_forest_river.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
+
+<?php
+echo "//wtpho\r";
+foreach($mini_rewards as $mcyear => $base64img){
+    echo ".mini_challenges li.$mcyear { \r";
+    echo "background: url(data:image/gif;base64,$base64img) 50% 0 no-repeat;\r";
+    echo "background-size: auto 85px; }\r\r";
 }
-.mini_challenges li.halloween{
-    background: url(assets/img/bg/bg_halloween.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.mountain_lake{
-    background: url(assets/img/bg/bg_mountain_lake.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.sand_dune{
-    background: url(assets/img/bg/bg_sand_dune.png) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.space{
-    background: url(assets/img/bg/bg_space.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.spring{
-    background: url(assets/img/bg/bg_spring.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.summer_village{
-    background: url(assets/img/bg/bg_summer_village.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.treasure_chest{
-    background: url(assets/img/bg/bg_treasure_chest.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.tropical{
-    background: url(assets/img/bg/bg_tropical.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.winter{
-    background: url(assets/img/bg/bg_winter.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
-.mini_challenges li.winter_2{
-    background: url(assets/img/bg/bg_winter_2.jpg) 50% 0 no-repeat;
-    background-size: auto 85px;
-}
+?>
+
 .core_complete li.complete{
     filter: initial;
 }
@@ -377,7 +327,9 @@ $(document).ready(function(){
     $(".mini_challenges li").on("click",function(){
         $(".mini_challenges li").removeClass("active");
         var miniclass   = $(this).attr("class");
-        var dataurl     = "&mini_clicked=" + miniclass;
+        var mininame    = $(this).data("minic");
+
+        var dataurl     = "&mini_clicked=" + mininame;
         $(this).addClass("active");
         $.ajax({
             url:  "rewards.php",

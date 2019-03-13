@@ -252,7 +252,7 @@ $portal_bg = "";
 if(!empty($results)){
     $result     = current($results);
     if(isset($result["portal_bg"])) {
-        $portal_bg = "bg_" . $result["portal_bg"] . ".jpg";
+        $portal_bg =  $result["portal_bg"];
     }
 }
 
@@ -348,6 +348,31 @@ $(document).ready(function(){
 include_once("models/inc/gl_foot.php");
 ?>
 <style>
+<?php
+$CMS_API_URL    = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+$CMS_API_TOKEN  = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+$extra_params   = array(
+    'content'   => 'record',
+    'format'    => 'json',
+    "fields"    => array("id", "portal_mc_name","portal_mc_year"),
+    "filterLogic" => "[portal_mc_name] = '$portal_bg' "
+);
+$minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
+
+foreach($minics as $minic){
+    $recordid   = $minic["id"];
+    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
+    if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+        $eventpic = base64_encode($file_curl["file_body"]);
+    }
+
+    echo "body { \r";
+    echo "background: url(data:image/gif;base64,$eventpic) 50% 0 no-repeat;\r";
+    echo "background-size: cover; \r\r";
+    echo "background-attachment: fixed;} \r\r";
+    break;
+}
+?>
 .myrewards{
     width:60px;
     height:60px;
