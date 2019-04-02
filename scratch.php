@@ -1,15 +1,16 @@
 <?php
-phpinfo();
-exit;
 require_once("models/config.php");
 if(isset($_SERVER['argv'][1])){
     $temp               = explode("=",$_SERVER['argv'][1]);
     $_REQUEST["action"] = $temp[1];
 }else{
-     include("models/inc/checklogin.php");
+     //include("models/inc/checklogin.php");
 }
 include("models/inc/scoring_functions.php");
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 function getScriptOutput($path, $display_year, $user_id, $well_sum_score){
     ob_start();
