@@ -78,31 +78,27 @@ $pageTitle          = "Well v2 Resource Links";
 $bodyClass          = "rewards";
 include_once("models/inc/gl_head.php");
 ?>
-<div class="main-container">
-    <div class="main wrapper clearfix">
-
-        <div class="box droppable">
-            <span id="mytree_bg"></span>
-            <div id="mytree" >
-                <h3 id="mywelltree"><?php echo lang("MYWELLTREE") ?></h3>
-                <span id="mytree_leaves"></span>
-            </div>
-
-
+<div class="main row">
+    <div class="box droppable">
+        <span id="mytree_bg"></span>
+        <div id="mytree" >
+            <h3 id="mywelltree"><?php echo lang("MYWELLTREE") ?></h3>
+            <span id="mytree_leaves"></span>
         </div>
 
-        <div class='myrewards complete'>
-            <blockquote><b>To claim your badges:</b> Drag your rewarded badges to your WELL tree.</blockquote>
-            <?php
-            echo implode(" ",$completed_surveys);
-            ?>
+
+    </div>
+
+    <div class='myrewards complete'>
+        <blockquote><b>To claim your badges:</b> Drag your rewarded badges to your WELL tree.</blockquote>
+        <?php
+        echo implode(" ",$completed_surveys);
+        ?>
 <!--            <div class="redeem_points on">-->
 <!--                <p>You've placed all your award badges.</p>-->
 <!--                <button class="btn btn-success ">Redeem Bonus Points!</button>-->
 <!--            </div>-->
-        </div>
-
-    </div> <!-- #main -->
+    </div>
 </div> <!-- #main-container -->
 <?php 
 include_once("models/inc/gl_foot.php");

@@ -1,9 +1,8 @@
-<aside>
+<aside class="col-sm-12 col-md-4">
     <h3><?php echo lang("MY_WELL") ?></h3>
     <ul class="nav">
-        <li class="surveys">
-
-            <ol class="core_supp">
+        <li class="surveys container">
+            <ol class="core_supp row">
                 <?php
                 // markPageLoadTime("BEGIN GL_surveynav");
                 $new                    = null;
@@ -24,20 +23,20 @@
                   $instrument_label     = str_replace("_"," ",$instrument_label);
                   $surveylabel          = ucwords(str_replace("And","&",$instrument_label));
                   $newbadge             = is_null($new) && !$surveycomplete ? "<b class='badge bg-danger pull-right'>new!</b>" :"<b class='badge bg-danger pull-right'>new!</b>";
-                  
+
                   if(!$surveycomplete){
                     $next_survey  =  $surveylink;
                     break;
                   }
                 }
-                
+
                 if(in_array($umbrella_sid, $core_instrument_ids)){
-                  // if we are on survey page for supplemental survey , that means core surveys are complete. 
+                  // if we are on survey page for supplemental survey , that means core surveys are complete.
                   if(!empty($pid) && array_key_exists($pid, SurveysConfig::$projects)){
                     $surveycomplete = true;
                   }
                   $incomplete_complete = $surveycomplete ? "completed_surveys" : "core_surveys";
-                  array_push($$incomplete_complete, "<li class='".$surveyon[$umbrella_sid]."'>
+                  array_push($$incomplete_complete, "<li class='".$surveyon[$umbrella_sid]." col-sm-12'>
                     <a href='$surveylink' class='auto points_survey' title='".$surveylabel."'>
                       $newbadge                                                   
                       <span class='fruit'></span>
@@ -46,7 +45,7 @@
                   </li>\n");
                 }
                 echo implode("",$core_surveys);
-                
+
                 // CUSTOM FLOW FOR UO1 Pilot STUDY
                 $uo1 = array(  "how_well_do_you_sleep"
                               ,"find_out_your_body_type_according_to_chinese_medic");
@@ -57,7 +56,7 @@
                   }
                 }
                 $uo1_complete = array_sum($uo1_completes) == 2 ? true : false;
-                
+
                 $fitness           = SurveysConfig::$supp_icons;
                 $supp_title_trans  = $supp_project_notes["translations"];
                 $supp_tooltips     = $supp_project_notes["tooltips"];
@@ -74,10 +73,10 @@
                   if($core_surveys_complete && isset($user_arm_answers["core_group_id"]) && $user_arm_answers["core_group_id"] == 1001){
                     $custom_flow = true;
                     if($uo1_complete){
-                      $custom_flow = false; 
+                      $custom_flow = false;
                     }else{
                       if(in_array($supp_instrument_id,$uo1)){
-                        $custom_flow = false; 
+                        $custom_flow = false;
                       }
                     }
                   }else{
@@ -93,11 +92,11 @@
                   $incomplete_complete                = $surveycomplete ? "completed_surveys" : "suppsurvs";
 
                   if(!empty($na)){
-                    array_push($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]."'>
+                    array_push($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]." col-sm-12'>
                                       ".$survey_alinks[$supp_instrument_id]." 
                                   </li>");
                   }else{
-                    array_unshift($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]."'>
+                    array_unshift($$incomplete_complete,  "<li class='fitness $na $icon_update $iconcss  ".$surveyon[$supp_instrument_id]." col-sm-12'>
                                       ".$survey_alinks[$supp_instrument_id]." 
                                   </li>");
                   }
@@ -125,10 +124,10 @@
                   }
                 }
                 echo implode("",$suppsurvs);
-                ?>  
+                ?>
             </ol>
             <h4><?php echo lang("COMPLETED_SURVEYS") ?></h4>
-            <ol class="completed">
+            <ol class="completed row">
             <?php
               echo implode("",$completed_surveys);
               // markPageLoadTime("END GL_surveynav");
@@ -136,7 +135,7 @@
             </ol>
 
             <h4><?php echo lang("NAV_CHALLENGES") ?></h4>
-            <ol class="mini_challenges">
+            <ol class="mini_challenges row">
                 <?php
                 $extra_params   = array(
                     'content'       => 'record',
@@ -152,7 +151,7 @@
                     $shortname = str_replace("-","",$shortname);
                     $shortname = str_replace("and","",$shortname);
                     $shortname = str_replace(",","",$shortname);
-                    echo "<li class='mini_".$shortname."'><a href='".$minic["portal_mc_link"]."' class='points_mini_challenge' target='_blank'>".$minic["portal_mc_name"]."</a></li>\n";
+                    echo "<li class='mini_".$shortname." col-sm-4 col-md-12'><a href='".$minic["portal_mc_link"]."' class='points_mini_challenge' target='_blank'>".$minic["portal_mc_name"]."</a></li>\n";
                 }
                 ?>
             </ol>

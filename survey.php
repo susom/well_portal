@@ -465,40 +465,39 @@ $pageTitle = "Well v2 Survey";
 $bodyClass = "survey";
 include_once("models/inc/gl_head.php");
 ?>
-    <div class="main-container">
-        <div class="main wrapper clearfix">
-            <article class="surveyFrame">
-                <?php
-                  if(!$active_survey->surveycomplete){
-                      ?>
-                      <div id="survey_progress" class='progress progress-striped active'>
-                        <div class='progress-bar bg-info lter' data-toggle='tooltip' data-original-title='<?php echo $percent_complete?>' style='width: <?php echo $percent_complete?>'></div>
-                        <div class='section_progress'><?php echo "Section $survey_num of $survey_count"; ?></div>
-                      </div>
-                      <?php    
-                  }
+<div class="main row">
+    <?php
+    include_once("models/inc/gl_surveynav.php");
+    ?>
+    <article class="surveyFrame col-sm">
+        <?php
+          if(!$active_survey->surveycomplete){
+              ?>
+              <div id="survey_progress" class='progress progress-striped active'>
+                <div class='progress-bar bg-info lter' data-toggle='tooltip' data-original-title='<?php echo $percent_complete?>' style='width: <?php echo $percent_complete?>'></div>
+                <div class='section_progress'><?php echo "Section $survey_num of $survey_count"; ?></div>
+              </div>
+              <?php
+          }
 
-                  //PRINT OUT THE HTML FOR THIS SURVEY
-                  $active_survey->printHTML($survey_data["event"], $sid);
-                  if($sid == "wellbeing_questions" && $active_survey->surveycomplete){
-                    //for long well_being questions, it wraps up all 11 instruments so we need to print out the other 10 as well
-                   
-                    foreach($surveys as $survey_id => $survey_data){
-                      if($survey_id == $sid){
-                        continue;
-                      }
-                      //LOAD UP THE SURVEY PRINTER HERE
-                      $other_core_survey  = new Survey($survey_data);
-                      $other_core_survey->printHTML($survey_data["event"], $survey_id);
-                    }
-                  }
-                ?>
-            </article>
-            <?php 
-            include_once("models/inc/gl_surveynav.php");
-            ?>
-        </div> <!-- #main -->
-    </div> <!-- #main-container -->
+          //PRINT OUT THE HTML FOR THIS SURVEY
+          $active_survey->printHTML($survey_data["event"], $sid);
+          if($sid == "wellbeing_questions" && $active_survey->surveycomplete){
+            //for long well_being questions, it wraps up all 11 instruments so we need to print out the other 10 as well
+
+            foreach($surveys as $survey_id => $survey_data){
+              if($survey_id == $sid){
+                continue;
+              }
+              //LOAD UP THE SURVEY PRINTER HERE
+              $other_core_survey  = new Survey($survey_data);
+              $other_core_survey->printHTML($survey_data["event"], $survey_id);
+            }
+          }
+        ?>
+    </article>
+
+</div> <!-- #main-container -->
 <?php
 include_once("models/inc/gl_foot.php");
 ?>

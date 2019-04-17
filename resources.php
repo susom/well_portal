@@ -75,29 +75,27 @@ $pageTitle = "Well v2 Resource Links";
 $bodyClass = "resources";
 include_once("models/inc/gl_head.php");
 ?>
-    <div class="main-container">
-        <div class="main wrapper clearfix">
-          <div class="domains">
-                <?php  
-                if(!is_numeric($domain_page)){
-                    foreach($radar_domains as $key=>$val){
-                  ?>
-                    <section class="domain_big">
-                        <a href = "resources.php?nav=resources-<?php echo $key; ?>"> 
-                          <img src = assets/img/0<?php echo $key;?>-domain.png> 
-                          <?php echo $radar_domains[$key]; ?>
-                        </a>
-                    </section>
-                <?php 
-                    }//foreach
-                }//if isset
-                else{
-                   include_once("models/inc/gl_domainSideNav.php");
-                }
-                ?>
-          </div>
-        </div> <!-- #main -->
-    </div> <!-- #main-container -->
+<div class="main">
+    <div class="domains row">
+        <?php
+        if(!is_numeric($domain_page)){
+            foreach($radar_domains as $key=>$val){
+          ?>
+            <section class="domain_big col-sm-3">
+                <a href = "resources.php?nav=resources-<?php echo $key; ?>">
+                  <img src = assets/img/0<?php echo $key;?>-domain.png>
+                  <?php echo $radar_domains[$key]; ?>
+                </a>
+            </section>
+        <?php
+            }//foreach
+        }//if isset
+        else{
+           include_once("models/inc/gl_domainSideNav.php");
+        }
+        ?>
+    </div>
+</div> <!-- #main-container -->
 <?php
 include_once("models/inc/gl_foot.php");
 ?>
@@ -105,11 +103,7 @@ include_once("models/inc/gl_foot.php");
 li{
   display: block;
 }
-section{
-  width:200px;
-  height: 100px;
-  display: inline-block;
-}
+
 .resourcetype{
   float:left; 
   margin:20px;
@@ -119,7 +113,7 @@ section{
 
 
 .domain_big {
-    margin:30px 0;
+    margin-bottom:30px;
 }
 .domain_big a{
   display:block; 

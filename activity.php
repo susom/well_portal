@@ -355,7 +355,8 @@ button.btn-success.alert{
 	cursor:pointer;
 	text-align: left;
 	padding-left: 10px;
-	margin-bottom:10px; 
+	margin-bottom:10px;
+    font-size:88%;
 }
 
 .ten_domains{
@@ -387,7 +388,8 @@ button.btn-success.alert{
   cursor:pointer;
   text-align: left;
   padding-left: 10px;
-  margin-bottom:10px; 
+  margin-bottom:10px;
+    font-size:88%;
 }
 
 .domain{

@@ -8,21 +8,27 @@
 <title><?php echo $pageTitle ?></title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="assets/css/normalize.min.css">
-<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />
-<link rel="stylesheet" rev="index.css" href="assets/css/animate.css" type="text/css" />
-<link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />
-<link rel="stylesheet" href="assets/css/icon.css" type="text/css" />
-<link rel="stylesheet" href="assets/css/font.css" type="text/css" />
-<link rel="stylesheet" href="assets/css/roundslider.css" />
-<link rel="stylesheet" href="assets/css/main.css">
-<!-- <script src="assets/js/jquery.min.js"></script> -->
+
+<link rel="stylesheet" href="assets/css/mini-default.min.css">
+
+<!--how much do we really need these?-->
+<!--<link rel="stylesheet" href="assets/css/normalize.min.css">-->
+<!--<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />-->
+<!--<link rel="stylesheet" rev="index.css" href="assets/css/animate.css" type="text/css" />-->
+<!--<link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />-->
+<!--<link rel="stylesheet" href="assets/css/icon.css" type="text/css" />-->
+<!--<link rel="stylesheet" href="assets/css/font.css" type="text/css" />-->
+<!--<link rel="stylesheet" href="assets/css/roundslider.css" />-->
+
+
+<link rel="stylesheet" href="assets/css/main_rwd.css">
+
 <script src="assets/js/jquery-1.12.4.js"></script>
 <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="assets/js/main.js"></script>
-<!-- <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script> -->
 <script src="assets/js/jquery-ui.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+
 <!-- Facebook Pixel Code -->
 <!-- <?php
 $trackpage = isset($trackpage) ? $trackpage : $bodyClass;
@@ -49,5 +55,5 @@ if(isset($_SESSION["admin_user"])){
 }
 ?>
 <div id="outter_rim">
-<div id="inner_rim">
+<div id="inner_rim" class="container">
 	<?php include("gl_headernav.php"); ?>

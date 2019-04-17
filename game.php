@@ -90,57 +90,57 @@ $pageTitle = "Well v2 Game";
 $bodyClass = "game";
 include_once("models/inc/gl_head.php");
 ?>
-    <div class="main-container">
-        <div class="main wrapper clearfix">
-            <article>
-                <div id="wof_game">
-                  <h1 class="title" title="Well Being Paradise!">
-                    <span></span>
-                    <div class="stats">
-                      <div id="guesscount">
-                        <h4>Points Leader</h4>
-                          <b>?</b>
-                      </div>
-                      <div id="totalpoints">
-                        <h4>Total Prize</h4>
-                        <b><?php echo $loggedInUser->portal_game_points; ?></b>
-                      </div>
-                      <div id="solved">
-                        <h4>Puzzles Solved</h4>
-                        <b><?php echo count($quotes_solved) ?></b>
-                      </div>
-                    </div>
-                  </h1>
-                  
-                  <?php
-                  if( 1){
-                  ?>
-                  <div id="gameboard" class="col-sm-6">
-                    <div id="board">
-                      <a href="#" id="howtoplay" class="points_none">How to Play?</a>
-                      <a href="#" id="solveit" class="btn btn-info points_none">I'd like to solve the puzzle!</a>
-                      <a href="#" id="newgame" class="btn btn-info points_none">Start New Game</a>
-                    </div>
-                    <div id="bigwheel" class="centered">
-                      <hgroup>
-                        <h2>Step 1</h2><h3>Spin the Wheel!</h3>
-                      </hgroup>
-                      <canvas id="drawing_canvas"></canvas>
-                      <div id="status_label">loading...</div>
-                    </div>
-                    <form id="letterpicker">
-                        <hgroup>
-                            <h2>Step 2</h2><h3>Pick a letter or Buy a vowel</h3>
-                        </hgroup>
-                    </form>
+<div class="main row">
+        <article class="col-sm-12">
+            <div id="wof_game">
+              <h1 class="title" title="Well Being Paradise!">
+                <span></span>
+                <div class="stats">
+                  <div id="guesscount">
+                    <h4>Points Leader</h4>
+                      <b>?</b>
                   </div>
-                  <?php
-                  }
-                  ?>
+                  <div id="totalpoints">
+                    <h4>Total Prize</h4>
+                    <b><?php echo $loggedInUser->portal_game_points; ?></b>
+                  </div>
+                  <div id="solved">
+                    <h4>Puzzles Solved</h4>
+                    <b><?php echo count($quotes_solved) ?></b>
+                  </div>
                 </div>
-            </article>
-        </div> <!-- #main -->
-    </div> <!-- #main-container -->
+              </h1>
+
+              <?php
+              if( 1){
+              ?>
+              <div id="gameboard" class="col-sm-12">
+                <div id="board">
+                  <a href="#" id="howtoplay" class="points_none">How to Play?</a>
+                  <a href="#" id="solveit" class="btn btn-info points_none">I'd like to solve the puzzle!</a>
+                  <a href="#" id="newgame" class="btn btn-info points_none">Start New Game</a>
+                </div>
+
+                <div id="bigwheel" class="centered col-sm-12 col-md-5">
+                  <hgroup>
+                    <h2>Step 1</h2><h3>Spin the Wheel!</h3>
+                  </hgroup>
+                  <canvas id="drawing_canvas"></canvas>
+                  <div id="status_label">loading...</div>
+                </div>
+
+                <form id="letterpicker" class="col-sm-12 col-md-6">
+                    <hgroup>
+                        <h2>Step 2</h2><h3>Pick a letter or Buy a vowel</h3>
+                    </hgroup>
+                </form>
+              </div>
+              <?php
+              }
+              ?>
+            </div>
+        </article>
+</div> <!-- #main-container -->
 <?php 
 include_once("models/inc/gl_foot.php");
 ?>

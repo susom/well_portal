@@ -11,6 +11,9 @@
       min-width: 370px;
       width:52%;
       position:relative;
+      background:none;
+      bordeR:none;
+      padding:0; margin:0;
   }
   
   #letterpicker h6 {

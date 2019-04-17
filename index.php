@@ -66,7 +66,7 @@ foreach($cats as $cat){
               if(!file_exists($file)){
                 file_put_contents($file, $file_curl["file_body"]);
               }
-              $eventpic = "<a href='$file' target='blank'><img class='event_img' src='$file'></a>";
+              $eventpic = "<a href='$file' target='blank' class='col-sm-12 col-md-3'><img class='event_img' src='$file'></a>";
             }
 
             $order = intval($event["well_cms_displayord"]) - 1;
@@ -261,6 +261,88 @@ $bodyClass = "home";
 $trackpage = "dashboard_home";
 include_once("models/inc/gl_head.php");
 ?>
+<div class="main row">
+    <?php
+        include_once("models/inc/gl_surveynav.php");
+    ?>
+    <div class="hidden-sm col-md-1"></div>
+    <article class="resource_links col-sm-12 col-md-7 ">
+        <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
+        <?php
+        // markPageLoadTime("BEGIN CONTENT AREA");
+        if(isset($cats[0])){
+            $content_html = array();
+            foreach($cats[0] as $event){
+                $content_html[] = "<section class=''>";
+                $content_html[] = "<figure  class='row'>";
+
+                $content_html[] = $event["pic"];
+
+                $content_html[] = "<figcaption class='col-sm-12 col-md-7'>";
+                $content_html[] = "<h2>".$event["subject"]."</h2>";
+                $content_html[] = "<p>".$event["content"]."</p>";
+                if(!empty($event["link"])){
+                    if(in_array($event["link"], $supp_instrument_ids )){
+                        $content_html[] = "<a class='points_survey' href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
+                    }else{
+                        $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
+                        $content_html[] = "<a class='".($event["link"] == "wellbeing_questions" ? "points_survey" : "points_resources")."' href='".$read_more_link."'>".lang("READ_MORE")."</a>";
+                    }
+                }
+                $content_html[] = "</figcaption>";
+                $content_html[] = "</figure>";
+                $content_html[] = "</section>";
+            }
+            echo implode("\r\n",$content_html);
+        }
+        // markPageLoadTime("END CONTENT AREA");
+        ?>
+    </article>
+</div>
+<?php 
+include_once("models/inc/gl_foot.php");
+?>
+<style>
+<?php
+$CMS_API_URL    = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+$CMS_API_TOKEN  = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+$extra_params   = array(
+    'content'   => 'record',
+    'format'    => 'json',
+    "fields"    => array("id", "portal_mc_name","portal_mc_year"),
+    "filterLogic" => "[portal_mc_name] = '$portal_bg' "
+);
+$minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
+
+foreach($minics as $minic){
+    $recordid   = $minic["id"];
+    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
+    if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
+        $eventpic = base64_encode($file_curl["file_body"]);
+    }
+
+    echo "body { \r";
+    echo "background: url(data:image/gif;base64,$eventpic) 50% 0 no-repeat;\r";
+    echo "background-size: cover; \r\r";
+    echo "background-attachment: fixed;} \r\r";
+    break;
+}
+?>
+body{
+    background: url(assets/img/bg/<?php echo $portal_bg ;?>) 50% 0 no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+}
+<?php
+if($loggedInUser->user_event_arm == "enrollment_arm_1"  || $loggedInUser->user_event_arm == ""){
+?>
+#cert_n_score {
+    display: none;
+}
+<?php
+}
+?>
+</style>
 <script>
 $(document).ready(function(){
     $("#confirm_email input[type='submit']").on("click",function(){
@@ -301,219 +383,7 @@ $(document).ready(function(){
             }
         });
     });
-
-
 });
 </script>
-    <div class="main-container">
-        <div class="main wrapper clearfix">
-            <?php
-            include_once("models/inc/gl_surveynav.php");
-            ?>
-            <article class="resource_links">
-                <h3><?php echo lang("ENHANCE_WELLBEING") ?></h3>
-                <?php
-                // markPageLoadTime("BEGIN CONTENT AREA");
-                if(isset($cats[0])){
-                    $content_html = array();
-                    foreach($cats[0] as $event){
-                        $content_html[] = "<section>";
-                        $content_html[] = "<figure>";
-
-                        $content_html[] = $event["pic"];
-
-                        $content_html[] = "<figcaption>";
-                        $content_html[] = "<h2>".$event["subject"]."</h2>";
-                        $content_html[] = "<p>".$event["content"]."</p>";
-                        if(!empty($event["link"])){
-                            if(in_array($event["link"], $supp_instrument_ids )){
-                                $content_html[] = "<a class='points_survey' href='survey.php?sid=".$event["link"]."&project=Supp'>".lang("GO_TO_SURVEY")."</a>";
-                            }else{
-                                $read_more_link = $event["link"] == "wellbeing_questions" ? "survey.php?sid=".$event["link"] : $event["link"];
-                                $content_html[] = "<a class='".($event["link"] == "wellbeing_questions" ? "points_survey" : "points_resources")."' href='".$read_more_link."'>".lang("READ_MORE")."</a>";
-                            }
-                        }
-                        $content_html[] = "</figcaption>";
-                        $content_html[] = "</figure>";
-                        $content_html[] = "</section>";
-                    }
-                    echo implode("\r\n",$content_html);
-                }
-                // markPageLoadTime("END CONTENT AREA");
-                ?>
-            </article>
-        </div> <!-- #main -->
-    </div> <!-- #main-container -->
-<?php 
-include_once("models/inc/gl_foot.php");
-?>
-<style>
-<?php
-$CMS_API_URL    = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-$CMS_API_TOKEN  = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
-$extra_params   = array(
-    'content'   => 'record',
-    'format'    => 'json',
-    "fields"    => array("id", "portal_mc_name","portal_mc_year"),
-    "filterLogic" => "[portal_mc_name] = '$portal_bg' "
-);
-$minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
-
-foreach($minics as $minic){
-    $recordid   = $minic["id"];
-    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
-    if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
-        $eventpic = base64_encode($file_curl["file_body"]);
-    }
-
-    echo "body { \r";
-    echo "background: url(data:image/gif;base64,$eventpic) 50% 0 no-repeat;\r";
-    echo "background-size: cover; \r\r";
-    echo "background-attachment: fixed;} \r\r";
-    break;
-}
-?>
-.myrewards{
-    width:60px;
-    height:60px;
-    display:block;
-    margin:10px auto;
-}
-.myrewards.running{
-    background: url(assets/img/anim_pug.gif) 43% 50% no-repeat;
-    background-size: 210%;
-}
-.myrewards.tbone{
-    background:url(assets/img/anim_corgi.gif) 50% 50%   no-repeat;
-    background-size:150%;
-}
-body{
-    background: url(assets/img/bg/<?php echo $portal_bg ;?>) 50% 0 no-repeat;
-    background-size:cover;
-    background-attachment: fixed;
-}
-
-.well_scores{
-  margin:20px 0 20px;
-  text-align:left;
-}
-.well_scores .anchor {
-  border-top:3px dashed #ccc;
-  color:#8a6d3b;
-  font-weight:bold;
-  padding-top:5px;
-  position:relative;
-}
-.well_scores .anchor:after{
-  position: absolute;
-  content: "";
-  top: -12px;
-  right: -2px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #ccc;
-}
-.well_scores .hundred{
-  float:right;
-}
-.well_scores .fifty{
-  position:absolute;
-  left:50%;
-  top:5px;
-}
-.well_score{
-  margin-bottom:10px;
-  height:30px;
-  background:#efefef;
-}
-.well_score b{
-  display:inline-block; 
-  vertical-align:middle;
-  position: absolute;
-}
-.well_score span {
-  display:inline-block;
-  height:30px;
-  vertical-align:middle;
-  margin-right:10px;
-  min-width:46px;
-}
-
-.well_score span i {
-  font-style: normal;
-  font-weight:bold;
-  font-size:120%;
-  color:#fff;
-  line-height: 160%;
-  margin-left: 5px;
-  display: inline-block;
-}
-
-.user_score span{
-  background:#0BA5A3;
-  box-shadow:0 0 5px #28D1D8;
-}
-.user_score.yearx span{
-  background:#FEC83B;
-  box-shadow:0 0 5px #9ABC46;
-}
-.user_score.yearxx span{
-  background:#126C97;
-  box-shadow:0 0 5px #9ABC46;
-}
-.user_score.yearxxx span{
-  background:#E02141;
-  box-shadow:0 0 5px #9ABC46;
-}
-.user_score.yearxxxx span{
-  background:#328443;
-  box-shadow:0 0 5px #9ABC46;
-}
-
-.other_score span{
-  background:#FEC83B;
-  box-shadow:0 0 5px #9ABC46;
-}
-
-.alert.text-center ul {
-  margin:20px 40px 20px;
-}
-
-.alert_reminder{
-      background: #ffc;
-    border-radius: 5px;
-    padding: 10px 5px;
-    line-height: 120%;
-    font-size: 24px;
-    color: darkorange;
-    font-weight: normal;
-}
-#confirm_email{
-    margin-bottom:30px;
-}
-#confirm_email .input_group{
-    text-align:left;
-    margin-left: 20%;
-}
-#confirm_email input[type='text']{
-    width: 60%;
-    margin: 0 10px 5px;
-    padding: 5px 8px;
-    border-radius: 7px;
-    border: 1px solid #ccc;
-}
-
-<?php
-if($loggedInUser->user_event_arm == "enrollment_arm_1"  || $loggedInUser->user_event_arm == ""){
-?>
-#cert_n_score {
-    display: none;
-}
-<?php
-}
-?>
-</style>
 <?php
 // markPageLoadTime("end page load");

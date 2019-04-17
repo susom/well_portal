@@ -87,81 +87,81 @@ $pageTitle          = "Well v2 Rewards";
 $bodyClass          = "rewards";
 include_once("models/inc/gl_head.php");
 ?>
-<div class="main-container">
-    <div class="main wrapper clearfix">
-            <div id="myrewards" >
-                <h3><?php echo lang("NAV_REWARDS") ?></h3>
+<div class="main row">
+    <div class="wrapper ">
+        <div id="myrewards" >
+        <h3><?php echo lang("NAV_REWARDS") ?></h3>
 
-                <aside class="core_complete">
-                    <h4>Completed Core Surveys</h4>
-                    <ul>
-                        <?php
-                            $tree_years     = $arm_years;
+        <aside class="core_complete">
+            <h4>Completed Core Surveys</h4>
+            <ul>
+                <?php
+                    $tree_years     = $arm_years;
 
-                            $current_ann    = array_pop($tree_years);
-                            $i              = 1;
-                            foreach($tree_years as $ayear){
-                                echo "<li class='complete'>Year $i ($ayear)</li>\n";
-                                $i++;
-                            }
-                            echo "<li class=''><a class='' href='tree.php'>Year $i (".$current_ann.")</a></li>\n";
-                        ?>
-                    </ul>
-                </aside>
+                    $current_ann    = array_pop($tree_years);
+                    $i              = 1;
+                    foreach($tree_years as $ayear){
+                        echo "<li class='complete'>Year $i ($ayear)</li>\n";
+                        $i++;
+                    }
+                    echo "<li class=''><a class='' href='tree.php'>Year $i (".$current_ann.")</a></li>\n";
+                ?>
+            </ul>
+        </aside>
 
-                <aside class="mini_challenges">
-                    <h4>Mini Challenges Rewards (click to set site background)</h4>
-                    <ul>
-                        <li class="default <?php echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
-                        <?php
-                            foreach($mini_c_results as $result){
-                                $year   = $arm_years[$result["redcap_event_name"]];
-                                $field  = $result["field_name"];
-                                $active = $portal_bg == $field ."_" .$year ? " active" :"";
-                                echo "<li class='".$field ."_" .$year ."$active' data-minic='".$mini_formatted[$field]."'>".$mini_formatted[$field]." (".$year.")</li>\r";
-                            }
-                        ?>
-                    </ul>
-                </aside>
+        <aside class="mini_challenges">
+            <h4>Mini Challenges Rewards (click to set site background)</h4>
+            <ul>
+                <li class="default <?php echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
+                <?php
+                    foreach($mini_c_results as $result){
+                        $year   = $arm_years[$result["redcap_event_name"]];
+                        $field  = $result["field_name"];
+                        $active = $portal_bg == $field ."_" .$year ? " active" :"";
+                        echo "<li class='".$field ."_" .$year ."$active' data-minic='".$mini_formatted[$field]."'>".$mini_formatted[$field]." (".$year.")</li>\r";
+                    }
+                ?>
+            </ul>
+        </aside>
 
-                <aside class="well_of_fortune <?php echo $locked_icon; ?>">
-                    <h4>WELL of Fortune</h4>
+        <aside class="well_of_fortune <?php echo $locked_icon; ?>">
+            <h4>WELL of Fortune</h4>
 
-                    <div class="stats">
-                        <div id="guesscount">
-                            <h5><a href="game.php" class="">Total Spins Used</a></h5>
-                            <b>0</b>
-                        </div>
-                        <div id="totalpoints">
-                            <h5>Total Earned Points</h5>
-                            <b>0</b>
-                        </div>
-                    </div>
+            <div class="stats">
+                <div id="guesscount">
+                    <h5><a href="game.php" class="">Total Spins Used</a></h5>
+                    <b>0</b>
+                </div>
+                <div id="totalpoints">
+                    <h5>Total Earned Points</h5>
+                    <b>0</b>
+                </div>
+            </div>
 
-                    <h5>Solved Puzzles</h5>
-                    <ul class="quotes">
-                        <?php
-                            $extra_params   = array(
-                                'content'   => 'record',
-                                'format'    => 'json',
-                                "records"   => $loggedInUser->id,
-                                "fields"    => "portal_wof_solved",
-                                "events"    => "enrollment_arm_1"
-                            );
-                            $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
-                            $quotes         = !empty($results) ? current($results) : array();
-                            $quotes         = !empty($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
+            <h5>Solved Puzzles</h5>
+            <ul class="quotes">
+                <?php
+                    $extra_params   = array(
+                        'content'   => 'record',
+                        'format'    => 'json',
+                        "records"   => $loggedInUser->id,
+                        "fields"    => "portal_wof_solved",
+                        "events"    => "enrollment_arm_1"
+                    );
+                    $results        = RC::callApi($extra_params, true,  $API_URL, $API_TOKEN);
+                    $quotes         = !empty($results) ? current($results) : array();
+                    $quotes         = !empty($quotes["portal_wof_solved"]) ? json_decode($quotes["portal_wof_solved"],1) : array();
 
-                            $quotes_html  = array();
-                            foreach($quotes as $idx => $quote){
-                                $quotes_html[] = "<li><blockquote>".$quote["quote"]."</blockquote><cite>~ ".$quote["cite"]."</cite></li>";
-                            }
-                            $quotes_html = implode("\r\n",$quotes_html);
-                            echo $quotes_html;
-                        ?>
-                    </ul>
-                </aside>
-           </div>
+                    $quotes_html  = array();
+                    foreach($quotes as $idx => $quote){
+                        $quotes_html[] = "<li><blockquote>".$quote["quote"]."</blockquote><cite>~ ".$quote["cite"]."</cite></li>";
+                    }
+                    $quotes_html = implode("\r\n",$quotes_html);
+                    echo $quotes_html;
+                ?>
+            </ul>
+        </aside>
+        </div>
     </div> <!-- #main -->
 </div> <!-- #main-container -->
 <style>
@@ -190,7 +190,7 @@ include_once("models/inc/gl_head.php");
 #myrewards aside h4 {
     font-weight:bold;
     font-size:120%;
-    margin-bottom:15px;
+    margin:0 0 15px;
     color:#C3242F
 }
 
@@ -209,11 +209,11 @@ include_once("models/inc/gl_head.php");
 
 .core_complete li{
     display:inline-block;
-    width:100px;
+    width:110px;
     text-align:center;
     background:url(assets/img/well_logo_treeonly.png) 50% 0 no-repeat;
     background-size:80%;
-    padding-top:100px;
+    padding-top:120px;
     margin-right:30px;
     filter: grayscale(100%);
 }
@@ -287,7 +287,8 @@ foreach($mini_rewards as $mcyear => $base64img){
     padding: 0;
     margin: 0;
     font-size: 20px;
-    border-left: none;
+    border: none;
+
     text-align:center;
     color:#333;
 }
