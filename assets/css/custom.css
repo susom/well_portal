@@ -558,4 +558,39 @@ and (device-width : 320px){
 	.alert.text-center ul{
 		margin: 0 10px 50px;
 	}
+
+	#register_steps {
+		top: 170px;
+		right: 0px;
+	}
+}
+
+@media only screen
+and (max-width : 500px){
+	.alert{
+		width:90%;
+		margin-left:-45%;
+	}
+
+	.alert.text-center ul{
+		margin: 0 10px 50px;
+	}
+
+	.consent_slides section h2:first-child {
+		margin-top: 50px;
+	}
+
+	#main-content .well {
+		background-position: 50% 50px;
+	}
+
+	#register_steps {
+		top: 170px;
+		right: 0px;
+	}
+
+	.accountSetup form{
+		margin-top:50px;
+	}
+
 }

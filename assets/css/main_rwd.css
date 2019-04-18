@@ -402,7 +402,7 @@ nav a:visited {
     margin-left: 20%;
 }
 #confirm_email input[type='text']{
-    width: 60%;
+    width: 50%;
     margin: 0 10px 5px;
     padding: 5px 8px;
     border-radius: 7px;
@@ -488,6 +488,7 @@ footer .li a{
 }
 #dialog .btn {
     margin-right:5px;
+    color:#fff;
 }
 
 #dialog.apple{
@@ -1274,9 +1275,42 @@ figcaption p{
     line-height:140%;
 }
 
-
-
-
+.btn:link{
+    text-decoration: none;
+    color:#fff;
+}
+.btn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin:initial;
+}
+.btn-success{
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
 
 .alert-info {
     background: #f0f8ff;

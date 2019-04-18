@@ -126,6 +126,7 @@
                 echo implode("",$suppsurvs);
                 ?>
             </ol>
+
             <h4><?php echo lang("COMPLETED_SURVEYS") ?></h4>
             <ol class="completed row">
             <?php

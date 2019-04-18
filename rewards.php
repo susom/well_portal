@@ -88,58 +88,62 @@ $bodyClass          = "rewards";
 include_once("models/inc/gl_head.php");
 ?>
 <div class="main row">
-    <div class="wrapper ">
-        <div id="myrewards" >
+    <div class="wrapper col-sm">
+        <div id="myrewards" class="container">
         <h3><?php echo lang("NAV_REWARDS") ?></h3>
 
-        <aside class="core_complete">
-            <h4>Completed Core Surveys</h4>
-            <ul>
+        <aside class="core_complete row">
+            <h4 class="col-sm-12">Completed Core Surveys</h4>
+            <div class="col-sm-12">
+            <ul class="container">
                 <?php
                     $tree_years     = $arm_years;
 
                     $current_ann    = array_pop($tree_years);
                     $i              = 1;
                     foreach($tree_years as $ayear){
-                        echo "<li class='complete'>Year $i ($ayear)</li>\n";
+                        echo "<li class='col-sm-2 complete'>Year $i ($ayear)</li>\n";
                         $i++;
                     }
-                    echo "<li class=''><a class='' href='tree.php'>Year $i (".$current_ann.")</a></li>\n";
+                    echo "<li class='col-sm-2'><a class='' href='tree.php'>Year $i (".$current_ann.")</a></li>\n";
                 ?>
             </ul>
+            </div>
         </aside>
 
-        <aside class="mini_challenges">
-            <h4>Mini Challenges Rewards (click to set site background)</h4>
-            <ul>
-                <li class="default <?php echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
+        <aside class="mini_challenges row">
+            <h4 class="col-sm">Mini Challenges Rewards (click to set site background)</h4>
+            <div class="col-sm-12">
+            <ul class="container">
+                <li class="col-sm-2 default <?php echo ($portal_bg == "default" ? " active" :"") ?>">Default (Blank)</li>
                 <?php
                     foreach($mini_c_results as $result){
                         $year   = $arm_years[$result["redcap_event_name"]];
                         $field  = $result["field_name"];
                         $active = $portal_bg == $field ."_" .$year ? " active" :"";
-                        echo "<li class='".$field ."_" .$year ."$active' data-minic='".$mini_formatted[$field]."'>".$mini_formatted[$field]." (".$year.")</li>\r";
+                        echo "<li class='col-sm-2  ".$field ."_" .$year ."$active' data-minic='".$mini_formatted[$field]."'>".$mini_formatted[$field]." (".$year.")</li>\r";
                     }
                 ?>
             </ul>
+            </div>
         </aside>
 
-        <aside class="well_of_fortune <?php echo $locked_icon; ?>">
-            <h4>WELL of Fortune</h4>
+        <aside class="well_of_fortune <?php echo $locked_icon; ?> row">
+            <h4 class="col-sm-12 row">WELL of Fortune</h4>
 
-            <div class="stats">
-                <div id="guesscount">
+            <div class="stats col-sm-12 row">
+                <div id="guesscount" class="col-sm-5">
                     <h5><a href="game.php" class="">Total Spins Used</a></h5>
                     <b>0</b>
                 </div>
-                <div id="totalpoints">
+                <div id="totalpoints" class="col-sm-5 col-sm-offset-2">
                     <h5>Total Earned Points</h5>
                     <b>0</b>
                 </div>
             </div>
 
-            <h5>Solved Puzzles</h5>
-            <ul class="quotes">
+            <h5 class="col-sm-12 row">Solved Puzzles</h5>
+            <ul class="quotes col-sm-12 row">
                 <?php
                     $extra_params   = array(
                         'content'   => 'record',
@@ -154,7 +158,7 @@ include_once("models/inc/gl_head.php");
 
                     $quotes_html  = array();
                     foreach($quotes as $idx => $quote){
-                        $quotes_html[] = "<li><blockquote>".$quote["quote"]."</blockquote><cite>~ ".$quote["cite"]."</cite></li>";
+                        $quotes_html[] = "<li class='col-sm-12'><blockquote>".$quote["quote"]."</blockquote><cite>~ ".$quote["cite"]."</cite></li>";
                     }
                     $quotes_html = implode("\r\n",$quotes_html);
                     echo $quotes_html;
