@@ -16,7 +16,6 @@ if(empty($pid)){
         $sesh_name 	= SESSION_NAME;
 
 		$user_survey_data = new Project($loggedInUser, $sesh_name, $api_url, $api_token);
-
 		$user_survey_data->refreshData();
 		$_SESSION["user_survey_data"] 	= $user_survey_data;
 		// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 

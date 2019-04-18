@@ -11,7 +11,6 @@ nav * {
     padding:initial;
 }
 body {
-    font: 16px/26px Calibri, Arial;
     background:none;
 }
 
@@ -1317,7 +1316,7 @@ figcaption p{
 }
 
 .alert-danger {
-    /*background:#f0f8ff;*/
+    background:#f0f8ff;
 }
 
 .alert-success {
@@ -1342,6 +1341,9 @@ figcaption p{
     border-radius:15px;
 }
 
+.alert li{
+    list-style:none;
+}
 
 .earned_points{
     color: orange;

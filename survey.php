@@ -364,12 +364,12 @@ if(array_key_exists($sid, $surveys)){
             $older_completed  = array_merge($older_completed, $newer_completed); //this order so the new stuf will override the old
         }
         $survey_data["completed_fields"] = array_merge($older_completed, $survey_data["completed_fields"]);
-    }
 
-    //FOLLOW UP YEARS CAN SKIP THESE QUESTIONs
-    foreach( $followup_surveys_exclude as $fieldname){
-        $hide_field = array_search($fieldname,array_column($survey_data["raw"],"field_name"));
-        $survey_data["raw"][$hide_field]["field_annotation"] = "@HIDDEN";
+        //FOLLOW UP YEARS CAN SKIP THESE QUESTIONs
+        foreach( $followup_surveys_exclude as $fieldname){
+            $hide_field = array_search($fieldname,array_column($survey_data["raw"],"field_name"));
+            $survey_data["raw"][$hide_field]["field_annotation"] = "@HIDDEN";
+        }
     }
 
     if($survey_data["project"] == "REDCAP_PORTAL"){
@@ -381,7 +381,6 @@ if(array_key_exists($sid, $surveys)){
     $_SESSION[SESSION_NAME]["survey_context"] = array("event" => $survey_data["event"]);
 
     //LOAD UP THE SURVEY PRINTER HERE
-//    print_rr($survey_data);
     $active_survey  = new Survey($survey_data);
 }else{
   //IF BAD SURVEY ID PASSED, REDIRECT BACK TO DASHBOARD
