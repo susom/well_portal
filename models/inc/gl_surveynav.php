@@ -135,7 +135,7 @@
             ?>
             </ol>
 
-            <h4><?php echo lang("NAV_CHALLENGES") ?></h4>
+            <h4 class="mini_challenge_header"><?php echo lang("NAV_CHALLENGES") ?></h4>
             <ol class="mini_challenges row">
                 <?php
                 $extra_params   = array(
@@ -159,3 +159,16 @@
         </li>
     </ul>
 </aside>
+<script>
+$(document).ready(function(){
+    $(".survey h4.mini_challenge_header").next().slideUp("fast");
+
+    $("h4.mini_challenge_header").click(function(){
+        if($(this).next().is(":hidden")){
+            $(this).next().slideDown();
+        }else{
+            $(this).next().slideUp();
+        }
+    });
+})
+</script>

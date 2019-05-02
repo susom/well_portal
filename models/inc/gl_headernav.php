@@ -3,6 +3,7 @@
         <li class="<?php echo $navon["home"]; ?>"><a href="index.php?nav=home" class=""><?php echo lang("NAV_HOME") ?></a></li>
         <li class="<?php echo $navon["reports"]; ?>"><a href="reports.php?nav=reports" class=""><?php echo lang("NAV_REPORTS") ?></a></li>
         <li class="<?php echo $navon["resources"]; ?>"><a href="resources.php?nav=resources" class=""><?php echo lang("NAV_RESOURCES") ?></a></li>
+        <li class="<?php echo $navon["activity"]; ?>"><a href="activity.php?nav=activity" class=""><?php echo lang("NAV_ACTIVITY") ?></a></li>
         <li class="<?php echo $navon["rewards"]; ?>"><a href="rewards.php?nav=rewards" class=""><?php echo lang("NAV_REWARDS") ?></a></li>
     </ul>
 

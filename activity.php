@@ -343,7 +343,7 @@ domain_image{
 
 #bottom_ranking li,#top_ranking li{
     width: 100%;
-    max-width: 100%;
+    max-width: 97%;
 }
 .domain_prefer li{
 	list-style-position: inside;

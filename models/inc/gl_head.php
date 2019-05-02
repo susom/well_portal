@@ -8,19 +8,7 @@
 <title><?php echo $pageTitle ?></title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link rel="stylesheet" href="assets/css/mini-default.min.css">
-
-<!--how much do we really need these?-->
-<!--<link rel="stylesheet" href="assets/css/normalize.min.css">-->
-<!--<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />-->
-<!--<link rel="stylesheet" rev="index.css" href="assets/css/animate.css" type="text/css" />-->
-<!--<link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />-->
-<!--<link rel="stylesheet" href="assets/css/icon.css" type="text/css" />-->
-<!--<link rel="stylesheet" href="assets/css/font.css" type="text/css" />-->
-<!--<link rel="stylesheet" href="assets/css/roundslider.css" />-->
-
-
 <link rel="stylesheet" href="assets/css/main_rwd.css">
 
 <script src="assets/js/jquery-1.12.4.js"></script>
@@ -30,7 +18,8 @@
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 
 <!-- Facebook Pixel Code -->
-<!-- <?php
+<!--
+<?php
 $trackpage = isset($trackpage) ? $trackpage : $bodyClass;
 ?>
 <script>
@@ -42,17 +31,17 @@ fbq('track', '<?php echo $trackpage; ?>');
 </script>
 <noscript>
 <img height="1" width="1" src="https://www.facebook.com/tr?id=411269625926334&ev=<?php echo $trackpage; ?>&noscript=1"/>
-</noscript> -->
+</noscript>
+-->
 <!-- End Facebook Pixel Code -->
 </head>
 <body class="<?php echo $bodyClass ?>">
 <?php
-  print getSessionMessages();
-?>
-<?php
-if(isset($_SESSION["admin_user"])){
-	echo "<a href='cms.php' id='returnadmin'>Return to admin</a>";
-}
+    print getSessionMessages();
+
+    if(isset($_SESSION["admin_user"])){
+        echo "<a href='cms.php' id='returnadmin'>Return to admin</a>";
+    }
 ?>
 <div id="outter_rim">
 <div id="inner_rim" class="container">

@@ -629,6 +629,9 @@ function getLongScores($domain_fields, $user_completed_fields){
                 $non_answered     = $num_fields - $num_answered;
                 $dq_num           = ceil($num_fields*.3);
 
+                $domain_items["well_score_ls_diet"] = "NA";
+                $domain_items["well_score_ls_diet_old"] = "NA";
+                
                 if($non_answered < $dq_num){
                     $diet_score = array();
                     if(isset($user_completed_fields["core_vegatables_intro_v2"])){

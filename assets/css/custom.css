@@ -585,8 +585,12 @@ and (max-width : 500px){
 	}
 
 	#register_steps {
-		top: 170px;
+		top: 140px;
 		right: 0px;
+	}
+
+	.well #register_steps li {
+		width: 90px;
 	}
 
 	.accountSetup form{

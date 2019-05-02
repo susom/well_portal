@@ -464,7 +464,7 @@ $pageTitle = "Well v2 Survey";
 $bodyClass = "survey";
 include_once("models/inc/gl_head.php");
 ?>
-<div class="main row">
+<div class="main row survey">
     <?php
     include_once("models/inc/gl_surveynav.php");
     ?>

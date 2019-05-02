@@ -1,4 +1,3 @@
-<!doctype html>
 <article>
 	<?php
 	$empty_flag = True; 

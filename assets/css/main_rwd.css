@@ -101,12 +101,11 @@ nav{
     margin:initial;
 
     position:absolute;
-    width:370px;
+    width:450px;
     left:50%;
     top:25px;
-    margin-left: -180px;
+    margin-left: -225px;
     z-index: 1001;
-    background:1px solid red;
 }
 nav:after {
     content: "";
@@ -400,13 +399,7 @@ nav a:visited {
     text-align:left;
     margin-left: 20%;
 }
-#confirm_email input[type='text']{
-    width: 50%;
-    margin: 0 10px 5px;
-    padding: 5px 8px;
-    border-radius: 7px;
-    border: 1px solid #ccc;
-}
+
 
 
 
@@ -1684,5 +1677,23 @@ figcaption p{
     figcaption p{
         margin:0 0 10px;
         padding:0 ;
+    }
+
+    #survey_progress {
+        width: 90%;
+        margin: 0 auto 20px -45%;
+        top: 10px;
+        left: 50%;
+    }
+    .section_progress{
+        width: 93%;
+        text-align: center;
+    }
+    .surveyHeader {
+        font-size: 140%;
+        width:auto;
+        text-align:center;
+        margin-top: 70px;
+        margin-bottom:0;
     }
 }
