@@ -236,53 +236,54 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
             // 2. ANy MISSING SuB DOmAIN IN LifeSTYLE (eg < 5)
             // 4. ANY MISSING POS/NEG SUBSCore of EMotions/Stress (eg < 4)
             // 3. 30% missing questions total (hmm ah below, gotta branch with new or old diet)
-            if(array_key_exists("well_score_ls_diet_old",$sub_scores)){
-                $remove_from_fields = array( "core_vegatables_intro_v2"
-                ,"core_fruit_intro_v2"
-                ,"core_grain_intro_v2"
-                ,"core_bean_intro_v2"
-                ,"core_sweet_intro_v2"
-                ,"core_meat_intro_v2"
-                ,"core_nuts_intro_v2"
-                ,"core_sodium_intro_v2"
-                ,"core_sugar_intro_v2"
-                ,"core_fish_intro_v2"
-                ,"core_cook_intro_v2"
-                ,"core_fastfood_intro_v2" );
-            }else{
-                $remove_from_fields = array("core_vegatables_intro"
-                ,"core_desserts_intro"
-                ,"core_fastfood_day"
-                ,"core_sweet_drinks"
-                ,"core_processed_intro");
-            }
+            if(array_search("NA",$long_scores)) {
+                if (array_key_exists("well_score_ls_diet_old", $sub_scores)) {
+                    $remove_from_fields = array("core_vegatables_intro_v2"
+                    , "core_fruit_intro_v2"
+                    , "core_grain_intro_v2"
+                    , "core_bean_intro_v2"
+                    , "core_sweet_intro_v2"
+                    , "core_meat_intro_v2"
+                    , "core_nuts_intro_v2"
+                    , "core_sodium_intro_v2"
+                    , "core_sugar_intro_v2"
+                    , "core_fish_intro_v2"
+                    , "core_cook_intro_v2"
+                    , "core_fastfood_intro_v2");
+                } else {
+                    $remove_from_fields = array("core_vegatables_intro"
+                    , "core_desserts_intro"
+                    , "core_fastfood_day"
+                    , "core_sweet_drinks"
+                    , "core_processed_intro");
+                }
 
-            $check_fields_dq  = array_diff($check_fields_dq, $remove_from_fields);
-            $dq_threshold     = ceil(count($check_fields_dq) * .3);
-            $missing_keys     = array_diff($check_fields_dq, array_keys($check_user_completed_dq));
-            if(count($long_scores) < 10 || count($sub_scores) < 5 || count($pos_neg_vals) < 4 || count($missing_keys) >= $dq_threshold){
-                $minimumData = false;
-            }
+                $check_fields_dq = array_diff($check_fields_dq, $remove_from_fields);
+                $dq_threshold = ceil(count($check_fields_dq) * .3);
+                $missing_keys = array_diff($check_fields_dq, array_keys($check_user_completed_dq));
+                if (count($long_scores) < 10 || count($sub_scores) < 5 || count($pos_neg_vals) < 4 || count($missing_keys) >= $dq_threshold) {
+                    $minimumData = false;
+                }
 
-            // SAVE ALL THE SUB SCORES
-            $data         = array();
-            $save_scores  = array_merge($long_scores,$sub_scores, $pos_neg_vals);
-            foreach($save_scores as $well_var => $well_val){
-                $data[] = array(
-                    "record"            => $record_id,
-                    "field_name"        => $well_var,
-                    "value"             => $well_val,
-                    "redcap_event_name" => $user_event_arm
-                );
-            }
-            $result =  RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
+                // SAVE ALL THE SUB SCORES
+                $data = array();
+                $save_scores = array_merge($long_scores, $sub_scores, $pos_neg_vals);
+                foreach ($save_scores as $well_var => $well_val) {
+                    $data[] = array(
+                        "record" => $record_id,
+                        "field_name" => $well_var,
+                        "value" => $well_val,
+                        "redcap_event_name" => $user_event_arm
+                    );
+                }
+                $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
 
-            // PREPARE JSON BLOCK FOR RADAR CHART MAPPING
-            $remapped_long_scores = array();
-            foreach($long_scores as $rc_var => $value){
-                $remapped_long_scores[$domain_mapping[$rc_var]] = $value;
+                // PREPARE JSON BLOCK FOR RADAR CHART MAPPING
+                $remapped_long_scores = array();
+                foreach ($long_scores as $rc_var => $value) {
+                    $remapped_long_scores[$domain_mapping[$rc_var]] = $value;
+                }
             }
-
             if($minimumData){
                 $data       = array();
                 $data[]     = array(
