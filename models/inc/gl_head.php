@@ -8,7 +8,8 @@
 <title><?php echo $pageTitle ?></title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="assets/css/mini-default.min.css">
+<!--<link rel="stylesheet" href="assets/css/mini-default.min.css">-->
+<link rel="stylesheet" href="assets/css/mini-default.css">
 <link rel="stylesheet" href="assets/css/roundslider.css" />
 <link rel="stylesheet" href="assets/css/main_rwd.css">
 

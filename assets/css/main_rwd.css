@@ -1667,8 +1667,6 @@ span.rs-number {
 
 
 
-
-
 #tcm_results {
     margin-top:30px;
     width:100%;
@@ -1759,6 +1757,40 @@ span.rs-number {
 
 
 
+.constitutions{
+    background: #efefef;
+    padding: 20px;
+    border-radius: 5px;
+    color:#fff;
+    font-size:120%;
+}
+.constitutions h3{
+    color:#333;
+}
+.constitutions dl {
+    padding: 20px;
+    border-radius: 5px;
+    background: goldenrod;
+}
+.constitutions dt {
+    cursor:pointer;
+}
+.constitutions dd {
+    display:none;
+}
+.constitutions ol{
+    margin:0;
+    padding:0 0 0 15px;
+}
+.constitutions dl.hidetcm {
+    display:none;
+}
+.constitutions dl.positive{
+    background:green;
+}
+.constitutions dl.tendency{
+
+}
 
 
 
