@@ -1562,8 +1562,200 @@ figcaption p{
 
 }
 
+/*SLEEP */
+.psqi_desc {
+    border-radius: 10px;
+    padding: 20px;
+    padding: 20px 0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background:#FFF1CE;
+}
+
+.psqi_desc div{
+    display:none;
+    margin:0 20px;
+}
+.psqi_desc a {
+    color: #369;
+    text-decoration: underline;
+}
+#psqi_results{
+    padding-top:20px;
+}
+#psqi_results p {
+    font-size:115%;
+    margin:0 20px 20px;
+}
+#psqi_results h3 {
+    font-size: 24px;
+    margin: 0 20px 10px;
+}
+
+#PSQIDISTB{
+    background:#DAE3F2;
+}
+#PSQILATEN{
+    background:#E2F0DA;
+}
+#PSQIDAYDYS{
+}
+#PSQIHSE{
+    background:#FAE5D7;
+}
+#PSQISLPQUAL{
+    background:#DAE3F2;
+}
+#PSQIMEDS{
+    background:#E2F0DA;
+}
+
+#psqi_slider{
+    width: 100% !important;
+    min-height: 150px !important;
+    margin-bottom:5px;
+}
+
+/*For handle customization*/
+.rs-container{
+    margin: 30px auto;
+}
+.rs-container span.rs-bar:nth-child(5) .rs-number{
+    margin-left: -25px !important;
+}
+.rs-container span.rs-bar:nth-child(16) .rs-number{
+    left: -36px !important;
+    top:-3px !important;
+}
+.rs-container span.rs-bar:nth-child(26) .rs-number{
+    margin-left: -38px !important;
+}
+.rs-handle  {
+    background-color: transparent;
+    border: 8px solid transparent;
+    border-right-color: black;
+    margin: -6px 0px 0px 14px !important;
+    border-width: 6px 120px 6px 4px;
+}
+.rs-handle:before  {
+    display: block;
+    content: " ";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    background: black;
+    right: -11px;
+    bottom: -11px;
+    border-radius: 100px;
+}
+
+/* color */
+.rs-path-color {
+    background: silver;
+}
+.rs-bar .rs-seperator {
+    border-color: #424242;
+}
+.rs-bg-color {
+    background-color: #f8f8f8 !important;
+}
+span.rs-number {
+    position: absolute;
+    top: -10px;
+    left: -26px;
+}
 
 
+
+
+
+#tcm_results {
+    margin-top:30px;
+    width:100%;
+    margin-bottom:40px;
+}
+#tcm_results table{
+    width:100%;
+}
+#tcm_results td {
+    width:10%;
+    position:relative;
+    vertical-align: bottom;
+    line-height: 120%;
+}
+#tcm_results td div {
+    height:200px;
+    margin:0 2px;
+    background:green;
+}
+#tcm_results td .neg {
+    height:5px;
+    background:lightslategray;
+}
+#tcm_results td .mayb {
+    height:100px;
+    background:goldenrod;
+}
+
+#tcm_results .type td {
+    text-align:right;
+    vertical-align:top;
+    text-align:center;
+}
+#tcm_results .type span {
+    writing-mode: vertical-lr;
+    transform: rotate(200deg);
+    white-space: nowrap;
+    display: inline-block;
+}
+#tcm_results .group {
+    width:33%;
+    text-align:center;
+    display:inline-block;
+    vertical-align:middle;
+}
+#tcm_results .subgroup{
+    margin:0 auto;
+    border-radius: 50%;
+    width:100%;
+    min-width:220px;
+    padding:50px 0 70px;
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+
+    /*animation-name: spin;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;*/
+}
+
+#tcm_results .subgroup.Negative{
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, orange 0%, red 100%, red 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, orange, red);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, orange 0%, red 100%, red 95%);
+}
+
+#tcm_results .subgroup.Positive{
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, green 100%, red 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, green);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, green 100%, red 95%);
+}
+#tcm_results .subgroup h4 {
+    font-size:18px;
+    line-height:140%;
+}
+#tcm_results .subgroup ul {
+    list-style:none;
+    margin:0; padding:0;
+}
+#tcm_results .subgroup li {
+    display:block;
+    margin:0; padding:0;
+}
+#tcm_results .subgroup h4 span {
+    white-space:nowrap;
+}
 
 
 
@@ -1706,5 +1898,12 @@ figcaption p{
         text-align:center;
         margin-top: 70px;
         margin-bottom:0;
+    }
+
+    #dialog{
+        left: 50%;
+        width: 96%;
+        margin-left: -48%;
+        height:initial;
     }
 }
