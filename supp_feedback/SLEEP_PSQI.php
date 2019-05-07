@@ -10,7 +10,9 @@ foreach($sleepar as $i => $q){
 $results 		= array();
 
 // DURATION OF SLEEP
-$actual_sleep 	= ($qs["psqi_actual_sleep_mm"] + ($qs["psqi_actual_sleep_hh"]*60))/60;
+$actual_mm      = isset($qs["psqi_actual_sleep_mm"]) && is_int($qs["psqi_actual_sleep_mm"]) ?  $qs["psqi_actual_sleep_mm"] : 0;
+$actual_hh      = isset($qs["psqi_actual_sleep_hh"]) && is_int($qs["psqi_actual_sleep_hh"]) ? $qs["psqi_actual_sleep_hh"] : 0;
+$actual_sleep 	= ($actual_mm + ($actual_hh*60))/60;
 
 
 if($actual_sleep >= 6 && $actual_sleep < 7){
@@ -101,7 +103,9 @@ if($qs["psqi_gotten_up_ampm"] == 1){
 		$wake_hour = 12;
 	}
 }
-$wake_seconds = ($wake_hour * 60 * 60) +  ($qs["psqi_gotten_up_min"] * 60);
+
+$gotten_up_min = isset($qs["psqi_gotten_up_min"]) && is_int($qs["psqi_gotten_up_min"]) ? $qs["psqi_gotten_up_min"] : 0;
+$wake_seconds = ($wake_hour * 60 * 60) +  ($gotten_up_min * 60);
 if($qs["psqi_to_bed_ampm"] > $qs["psqi_gotten_up_ampm"]){
 	//normal sleep pm, wake am
 	$sleep_seconds = (24*60*60) - $tobed_seconds + $wake_seconds;
