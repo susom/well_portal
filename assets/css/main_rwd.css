@@ -1556,7 +1556,11 @@ figcaption p{
 
 
 
+#kaltura_player{
+    max-width:100vmin !important;
+    max-height:100vmin !important;
 
+}
 
 
 
@@ -1642,10 +1646,17 @@ figcaption p{
 
 
     .alert{
-        width: 80%;
-        margin-left: -40%;
+        width: 88%;
+        margin-left: -44%;
     }
 
+    #confirm_email .input_group {
+        margin-left: 0%;
+    }
+    .alert.text-center ul {
+        margin: 30px 10px 50px;
+        list-style: none;
+    }
 
 
 

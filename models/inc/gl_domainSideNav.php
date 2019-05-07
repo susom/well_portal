@@ -1,11 +1,12 @@
-<article>
+<article class="col-sm-12 col-md-8 col-sm-first col-md-last">
 	<?php
 	$empty_flag = True; 
 	foreach($cats as $domainEntry){
 		if($domainEntry["domain"]-1 == $domain_page){
 			$empty_flag=False;
 	?> 
-			<div class="resourceEntry">
+			<div class="resourceEntry col-sm-12 row">
+                <div class="col-sm-12 col-md-3">
 				<?php 
 				if(isset($domainEntry["image-catagory"])){
 					switch($domainEntry["image-catagory"]){
@@ -30,12 +31,13 @@
 					}
 
 				}
-
 				echo $domainEntry["pic"];
 				?>
-				<h2><a class="points_resources" target="_blank" href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
-				<p> <?php echo $domainEntry["content"]; ?></p>
-				
+                </div>
+                <div class="col-sm-12 col-md-9">
+                    <h2><a class="points_resources" target="_blank" href="<?php echo $domainEntry["link"];?>"> <?php echo $domainEntry["link-text"];?></a></h2>
+                    <p> <?php echo $domainEntry["content"]; ?></p>
+                </div>
 			</div>
 	<?php
 		} //if
@@ -46,7 +48,7 @@
 	?>
 </article>
 
-<aside class="sidenav">
+<aside class="sidenav col-sm-12 col-md-3 col-sm-last col-md-first">
 	<h4>My Resources</h4>
 	<ul class="domains">
 		<li>
@@ -87,19 +89,15 @@
 
 <style>
 .resourceEntry{
-	display:block;
-	width:100%;
 	background-color: #f2f2f2;
-	margin:10px;
+	margin:10px 0;
+    padding:10px 0;
 	border-radius: 10px;
 	overflow:hidden;
 }
 
-.resourceEntry h2 {
-	margin:10px 0 0 120px;
-}
-.resourceEntry p{
-
+.resourcetype{
+    max-width:80%;
 }
 ul,li{
 	list-style: none;

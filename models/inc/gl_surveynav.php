@@ -1,7 +1,7 @@
 <aside class="col-sm-12 col-md-4">
-    <h3><?php echo lang("MY_WELL") ?></h3>
     <ul class="nav">
         <li class="surveys container">
+            <h4 class="mini_header"><?php echo lang("MY_WELL") ?></h4>
             <ol class="core_supp row">
                 <?php
                 // markPageLoadTime("BEGIN GL_surveynav");
@@ -127,7 +127,7 @@
                 ?>
             </ol>
 
-            <h4><?php echo lang("COMPLETED_SURVEYS") ?></h4>
+            <h4 class="mini_header"><?php echo lang("COMPLETED_SURVEYS") ?></h4>
             <ol class="completed row">
             <?php
               echo implode("",$completed_surveys);
@@ -135,7 +135,7 @@
             ?>
             </ol>
 
-            <h4 class="mini_challenge_header"><?php echo lang("NAV_CHALLENGES") ?></h4>
+            <h4 class="mini_header"><?php echo lang("NAV_CHALLENGES") ?></h4>
             <ol class="mini_challenges row">
                 <?php
                 $extra_params   = array(
@@ -161,9 +161,9 @@
 </aside>
 <script>
 $(document).ready(function(){
-    $(".survey h4.mini_challenge_header").next().slideUp("fast");
+    $(".survey h4.mini_header").next().slideUp("fast");
 
-    $("h4.mini_challenge_header").click(function(){
+    $("h4.mini_header").click(function(){
         if($(this).next().is(":hidden")){
             $(this).next().slideDown();
         }else{

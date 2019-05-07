@@ -81,7 +81,7 @@ include_once("models/inc/gl_head.php");
         if(!is_numeric($domain_page)){
             foreach($radar_domains as $key=>$val){
           ?>
-            <section class="domain_big col-sm-3">
+            <section class="domain_big col-sm-12">
                 <a href = "resources.php?nav=resources-<?php echo $key; ?>">
                   <img src = assets/img/0<?php echo $key;?>-domain.png>
                   <?php echo $radar_domains[$key]; ?>
@@ -102,13 +102,6 @@ include_once("models/inc/gl_foot.php");
 <style>
 li{
   display: block;
-}
-
-.resourcetype{
-  float:left; 
-  margin:20px;
-  max-width: 80px;
-  max-height: 80px;
 }
 
 

@@ -72,89 +72,87 @@ include_once("models/inc/gl_head.php");
 ?>
 
 <div class="main-container">
-    <div class ="reorganize">
-        <div id="center" class="row">
-            <h4 style = "text-align:left" class="col-sm-12"><strong><?php echo lang("DOMAIN_ORDER_INSTRUCTION") ?></strong></h4>
+    <div class ="reorganize row">
+        <h4 style = "text-align:left" class="col-sm-12"><strong><?php echo lang("DOMAIN_ORDER_INSTRUCTION") ?></strong></h4>
 
-            <div class="col-sm-12 row">
-                <div class="domain_prefer col-sm-6">
-                    <h3><?php echo lang("MOST_IMPORTANT") ?></h3>
-                    <ol id="top_ranking" class="connectedSortable">
-                        <?php
-                        $top_r = array();
-                        foreach(array(1,2,3) as $key){
-                            if(isset($ranked[$key])){
-                                $domain_code= $ranked[$key];
-                                $real_key 	= array_search($domain_code,$redcap_variables);
-                                $domain 	= $radar_domains[$real_key];
-                                $tooltip 	= $domain_desc[$real_key];
-                                $topli =  "<li id='$domain' title='$tooltip'>\r";
-                                $topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
-                                $topli .= $domain;
-                                $topli .= "</li>\r";
-                                $top_r[] = $topli;
+        <div class="col-sm-12 row">
+            <div class="domain_prefer col-sm-6">
+                <h3><?php echo lang("MOST_IMPORTANT") ?></h3>
+                <ol id="top_ranking" class="connectedSortable">
+                    <?php
+                    $top_r = array();
+                    foreach(array(1,2,3) as $key){
+                        if(isset($ranked[$key])){
+                            $domain_code= $ranked[$key];
+                            $real_key 	= array_search($domain_code,$redcap_variables);
+                            $domain 	= $radar_domains[$real_key];
+                            $tooltip 	= $domain_desc[$real_key];
+                            $topli =  "<li id='$domain' title='$tooltip'>\r";
+                            $topli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+                            $topli .= $domain;
+                            $topli .= "</li>\r";
+                            $top_r[] = $topli;
 
-                                unset($ranked[$key]);
-                            }
+                            unset($ranked[$key]);
                         }
-                        echo implode("\r",$top_r);
-                        ?>
-                    </ol>
-                </div>
-                <div class="domain_prefer col-sm-6">
-                    <h3><?php echo lang("LEAST_IMPORTANT") ?></h3>
-                    <ol id="bottom_ranking" class="connectedSortable">
-                        <?php
-                        $bot_r = array();
-                        foreach(array(8,9,10) as $key){
-                            if(isset($ranked[$key])){
-                                $domain_code= $ranked[$key];
-                                $real_key 	= array_search($domain_code,$redcap_variables);
-                                $domain 	= $radar_domains[$real_key];
-                                $tooltip 	= $domain_desc[$real_key];
-                                $botli = "<li id='$domain' title='$tooltip'>\r";
-                                $botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
-                                $botli .= $domain;
-                                $botli .= "</li>\r";
-                                $bot_r[] = $botli;
+                    }
+                    echo implode("\r",$top_r);
+                    ?>
+                </ol>
+            </div>
+            <div class="domain_prefer col-sm-6">
+                <h3><?php echo lang("LEAST_IMPORTANT") ?></h3>
+                <ol id="bottom_ranking" class="connectedSortable">
+                    <?php
+                    $bot_r = array();
+                    foreach(array(8,9,10) as $key){
+                        if(isset($ranked[$key])){
+                            $domain_code= $ranked[$key];
+                            $real_key 	= array_search($domain_code,$redcap_variables);
+                            $domain 	= $radar_domains[$real_key];
+                            $tooltip 	= $domain_desc[$real_key];
+                            $botli = "<li id='$domain' title='$tooltip'>\r";
+                            $botli .= "<img class='domain' src=assets/img/0".($real_key)."-domain.png>\r";
+                            $botli .= $domain;
+                            $botli .= "</li>\r";
+                            $bot_r[] = $botli;
 
-                                unset($ranked[$key]);
-                            }
+                            unset($ranked[$key]);
                         }
-                        echo implode("\r",array_reverse($bot_r));
-                        ?>
-                    </ol>
-                </div>
-
-                <div class='ten_domains col-sm-12'>
-                    <h3><?php echo lang("TEN_DOMAINS") ?></h3>
-                    <ul id="items" class="connectedSortable row">
-                        <?php
-                            $unranked 	= array_merge($unranked,$ranked);
-                            $unordered 	= isset($dom) ? $unranked : $radar_domains;
-                            $forshuffle = $unordered;
-                            shuffle($forshuffle);
-                            foreach($forshuffle as $domain){
-                                $real_key = array_search($domain, $unordered);
-
-                                if(isset($dom)){
-                                    $real_key 	= array_search($domain, $redcap_variables);
-                                    $domain = $radar_domains[$real_key];
-                                }
-                                $tooltip 	= $domain_desc[$real_key];
-                                echo "<li id='$domain' title='$tooltip' class='col-sm-12 col-md-6 row domain_item'>\r";
-                                echo "<div class='col-sm-2 domain_image' style='background:url(assets/img/0".$real_key."-domain.png) 50% no-repeat; background-size:contain'></div>\r";
-                                echo "<div class='col-sm-10 domain_text'>$domain</div>";
-                                echo "</li>\r";
-                            }
-                        ?>
-                    </ul>
-                </div>
+                    }
+                    echo implode("\r",array_reverse($bot_r));
+                    ?>
+                </ol>
             </div>
 
-            <div id="fin" class="col-sm-12 ">
-                <button id = "finish" class = "btn-success">Save My Result</button>
+            <div class='ten_domains col-sm-12'>
+                <h3><?php echo lang("TEN_DOMAINS") ?></h3>
+                <ul id="items" class="connectedSortable row">
+                    <?php
+                        $unranked 	= array_merge($unranked,$ranked);
+                        $unordered 	= isset($dom) ? $unranked : $radar_domains;
+                        $forshuffle = $unordered;
+                        shuffle($forshuffle);
+                        foreach($forshuffle as $domain){
+                            $real_key = array_search($domain, $unordered);
+
+                            if(isset($dom)){
+                                $real_key 	= array_search($domain, $redcap_variables);
+                                $domain = $radar_domains[$real_key];
+                            }
+                            $tooltip 	= $domain_desc[$real_key];
+                            echo "<li id='$domain' title='$tooltip' class='col-sm-12 col-md-6 row domain_item'>\r";
+                            echo "<div class='col-sm-2 domain_image' style='background:url(assets/img/0".$real_key."-domain.png) 50% no-repeat; background-size:contain'></div>\r";
+                            echo "<div class='col-sm-10 domain_text'>$domain</div>";
+                            echo "</li>\r";
+                        }
+                    ?>
+                </ul>
             </div>
+        </div>
+
+        <div id="fin" class="col-sm-12 ">
+            <button id = "finish" class = "btn-success">Save My Result</button>
         </div>
     </div>
 </div>
@@ -422,7 +420,6 @@ and (max-device-width : 480px){
 		max-width:30px;
 	}
 	#finish{
-		height:9vw;
 		margin:0px;
 	}
 

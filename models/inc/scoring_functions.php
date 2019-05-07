@@ -236,6 +236,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
             // 2. ANy MISSING SuB DOmAIN IN LifeSTYLE (eg < 5)
             // 4. ANY MISSING POS/NEG SUBSCore of EMotions/Stress (eg < 4)
             // 3. 30% missing questions total (hmm ah below, gotta branch with new or old diet)
+            $remapped_long_scores = array();
             if(array_search("NA",$long_scores)) {
                 if (array_key_exists("well_score_ls_diet_old", $sub_scores)) {
                     $remove_from_fields = array("core_vegatables_intro_v2"
@@ -279,7 +280,6 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
                 $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $_CFG->REDCAP_API_URL, $_CFG->REDCAP_API_TOKEN);
 
                 // PREPARE JSON BLOCK FOR RADAR CHART MAPPING
-                $remapped_long_scores = array();
                 foreach ($long_scores as $rc_var => $value) {
                     $remapped_long_scores[$domain_mapping[$rc_var]] = $value;
                 }
