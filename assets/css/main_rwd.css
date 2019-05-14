@@ -392,6 +392,9 @@ nav a:visited {
     color: darkorange;
     font-weight: normal;
 }
+.alert-danger {
+    background:#f0f8ff;
+}
 #confirm_email{
     margin-bottom:30px;
 }

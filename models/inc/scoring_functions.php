@@ -549,7 +549,8 @@ function getLongScores($domain_fields, $user_completed_fields){
                 }
 
                 //sleep
-                $sleep_req  = array( "core_sleep_hh"                   => 1
+                $sleep_req  = array(
+                 "core_sleep_hh"                   => 1
                 ,"core_sleep_mm"                   => 1
                 ,"core_fallasleep_min"             => 1
                 ,"core_fallasleep"                 => 1
@@ -566,14 +567,14 @@ function getLongScores($domain_fields, $user_completed_fields){
                     $num_fields--;
                 }
                 $dq_num           = ceil($num_fields*.3);
-                if($non_answered < $dq_num){
+                if($non_answered < $dq_num && isset($user_completed_fields["core_sleep_hh"])){
                     $sleep_score = array();
-                    if(isset($user_completed_fields["core_sleep_hh"]) || isset($user_completed_fields["core_sleep_mm"])){
-                        $sleep_hr   = isset($user_completed_fields["core_sleep_hh"]) ? $user_completed_fields["core_sleep_hh"] : 0;
-                        $sleep_min  = isset($user_completed_fields["core_sleep_mm"]) ? $user_completed_fields["core_sleep_mm"] : 0;
-                        $core_sleep_total   = 60*$sleep_hr + $sleep_min;
-                        $sleep_score["sleep_min"]         = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 1 : 0;
-                    }
+
+                    $sleep_hr   = $user_completed_fields["core_sleep_hh"];
+                    $sleep_min  = isset($user_completed_fields["core_sleep_mm"]) ? $user_completed_fields["core_sleep_mm"] : 0;
+                    $core_sleep_total = 60 * $sleep_hr + $sleep_min;
+                    $sleep_score["sleep_min"] = $core_sleep_total >= 420 && $core_sleep_total <= 540 ? 1 : 0;
+
                     if(isset($user_completed_fields["core_fallasleep_min"])){
                         $sleep_score["fallasleep_min"]    = (7-$user_completed_fields["core_fallasleep_min"])/6;
                     }

@@ -15,7 +15,9 @@ $extra_params       = array(
     ,"events"       => $user_event_arm
 );
 $events             = RC::callApi($extra_params, true, $API_URL, $API_TOKEN);
-$event              = current($events);
+
+
+$event              = !empty($events) ? current($events) : array();
 $fruit_positions    = !empty($event["reward_tree_positions"]) ? json_decode($event["reward_tree_positions"],1) : false;
 
 //GET THE ICONS FOR THE FRUItS REPRESENTING THE SURVEYS
@@ -86,10 +88,14 @@ include_once("models/inc/gl_head.php");
             <span id="mytree_leaves"></span>
         </div>
 
-
+        <div class="alert alert-danger hidden-md hidden-lg">
+            <p>This feature will only work on the desktop browser.</p>
+        </div>
     </div>
 
-    <div class='myrewards complete'>
+
+
+    <div class='myrewards complete hidden-sm'>
         <blockquote><b>To claim your badges:</b> Drag your rewarded badges to your WELL tree.</blockquote>
         <?php
         echo implode(" ",$completed_surveys);
@@ -317,6 +323,34 @@ include_once("models/inc/gl_foot.php");
 
 .myrewards .fruit.na:before{
     background-position:top right;
+}
+
+@media only screen and (max-width: 768px) {
+    #mytree {
+        float:initial;
+        width:100vw; height:100vh;
+        margin:initial;
+    }
+
+
+    #mytree_bg.bg_green_hills{
+        background: url(assets/img/bg_green_hills.png) -30px -540px no-repeat;
+        background-size:200%;
+    }
+
+    #mytree_leaves{
+        width:100vw; height:100vh;
+    }
+}
+
+.alert-danger{
+    background-color:#f8d7da;
+    color:#721c24;
+    border-color:#f5c6cb;
+    min-height:initial;
+}
+.alert-danger p{
+    margin:20px;
 }
 </style>
 <script>

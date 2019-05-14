@@ -49,13 +49,13 @@
                 // CUSTOM FLOW FOR UO1 Pilot STUDY
                 $uo1 = array(  "how_well_do_you_sleep"
                               ,"find_out_your_body_type_according_to_chinese_medic");
-                $uo1_completes = array();
-                foreach($uo1 as $supp_instrument_id){
-                  if(isset($supp_instruments[$supp_instrument_id]) && $supp_instruments[$supp_instrument_id]["survey_complete"]){
-                    $uo1_completes[] = 1;
-                  }
-                }
-                $uo1_complete = array_sum($uo1_completes) == 2 ? true : false;
+//                $uo1_completes = array();
+//                foreach($uo1 as $supp_instrument_id){
+//                  if(isset($supp_instruments[$supp_instrument_id]) && $supp_instruments[$supp_instrument_id]["survey_complete"]){
+//                    $uo1_completes[] = 1;
+//                  }
+//                }
+                $uo1_complete = true;//array_sum($uo1_completes) == 2 ? true : false;
 
                 $fitness           = SurveysConfig::$supp_icons;
                 $supp_title_trans  = $supp_project_notes["translations"];
