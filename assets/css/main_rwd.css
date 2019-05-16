@@ -1796,6 +1796,80 @@ span.rs-number {
 }
 
 
+/*PHYSICAL ACTIVITY RESULTS*/
+
+.mat_title {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.mat_quote {
+    font-style: italic;
+    color: #999;
+}
+
+#mat_results {
+    position: relative;
+    z-index: -4;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 8px;
+    background: #CF9494;
+    color: #770000;
+}
+
+#mat_results.hundo {
+    color: #619361;
+    background: #E1FBEE;
+}
+
+#mat_score {
+    display: none;
+}
+
+#mat_pic {
+    display: block;
+}
+#mat_pic ul{
+    margin:0; padding:0;
+    display:block;
+    background: #fff;
+    margin: 0 20px;
+    padding: 20px 0;
+    border-radius: 10px;
+}
+#mat_pic li {
+    display: inline-block;
+    height: 89px;
+    width: 88px;
+    background: url(../img/people_cutout_running.png) top left no-repeat;
+    position: relative;
+    background-size: 90%;
+    margin-left:-28px;
+}
+#mat_pic li:first-child{
+    margin-left:0;
+}
+#mat_pic li.dead.goGray {
+    background-position:bottom left;
+}
+
+#mat_text {
+    font-size: 140%;
+    font-weight: bold;
+    padding: 5px 20px 0px;
+    line-height: 110%;
+}
+
+.video_frame {
+    text-align: left;
+    padding: 20px 0;
+}
+
+
+
+
 
 
 
