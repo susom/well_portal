@@ -82,7 +82,7 @@
 		"CONSENT_BULLET_3" 						=> "We will check back in with you every few months",
 		"CONSENT_BULLET_4" 						=> "We will add new surveys, materials, and content and invite you to participate over time",
 		"CONSENT_WELCOME" 						=> "WELCOME!",
-		"CONSENT_CONTACT" 						=> "FOR QUESTIONS ABOUT THE STUDY, CONTACT the Protocol Director, John Ioannidis at (650) 725-5465 or the Protocol Co-Director, Sandra Winter at 650-723-8513.",
+		"CONSENT_CONTACT" 						=> "FOR QUESTIONS ABOUT THE STUDY, CONTACT the Protocol Director, John Ioannidis at (650) 725-5465.",
 		"CONSENT_I_AGREE" 						=> "I Agree",
 		"CONSENT_PRINT" 						=> "Print",
 		

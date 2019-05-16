@@ -82,7 +82,7 @@
 		"CONSENT_BULLET_3" 						=> "Nos comunicaremos con usted cada varios meses",
 		"CONSENT_BULLET_4" 						=> "Vamos a añadir nuevas encuestas, materiales y contenido y le invitaremos a participar a través del tiempo",
 		"CONSENT_WELCOME" 						=> "¡BIENVENIDOS!",
-		"CONSENT_CONTACT" 						=> "PARA PREGUNTAS SOBRE EL ESTUDIO, COMUNIQUESE CON el Director del Protocolo, John Ioannidis al (650) 725-5465 o la Co-Directora del Protocolo, Sandra Winter a (650) 723-8513.",
+		"CONSENT_CONTACT" 						=> "PARA PREGUNTAS SOBRE EL ESTUDIO, COMUNIQUESE CON el Director del Protocolo, John Ioannidis al (650) 725-5465.",
 		"CONSENT_I_AGREE" 						=> "Estoy de acuerdo",
 		"CONSENT_PRINT" 						=> "Imprimir",
 

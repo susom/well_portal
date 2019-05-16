@@ -82,7 +82,7 @@
 		"CONSENT_BULLET_3" 						=> "每隔幾個月我們會联系您有關WELL的最新資訊。",
 		"CONSENT_BULLET_4" 						=> "我們將會持續加入新的問卷，材料和內容，並邀請您參與。",
 		"CONSENT_WELCOME" 						=> "歡迎加入!",
-		"CONSENT_CONTACT" 						=> "如您對本研究有任何問題，請聯繫總監 John Ioannidis 650-725-5465 或Sandra Winter 副總監650-723-8513。",
+		"CONSENT_CONTACT" 						=> "如您對本研究有任何問題，請聯繫總監 John Ioannidis 650-725-5465。",
 		"CONSENT_I_AGREE" 						=> "我同意",
 		"CONSENT_PRINT" 						=> "列印",
 		

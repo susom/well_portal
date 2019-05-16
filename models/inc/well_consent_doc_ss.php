@@ -67,7 +67,7 @@
 	<p>You do not have to provide your authorization. But if you do not, you will not be able to participate in this research study. Providing your authorization is not a condition for receiving any medical care outside the study.</p>
 
 	<h3>If I provide my authorization, can I revoke it or withdraw from the research later?</h3>
-	<p>If you decide to participate, you are free to withdraw your authorization regarding the use and disclosure of your health information (and to discontinue any other participation in the study) at any time. After any revocation, your health information will no longer be used or disclosed in the study, except to the extent that the law allows us to continue using your information (e.g., necessary to maintain integrity of research). If you wish to revoke your authorization for the research use or disclosure of your health information in this study, you must write to: the Protocol Director, John Ioannidis, Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X306. 1265 Welch Road. Stanford, CA 94305-5411, or e-mail sjwinter@stanford.edu</p>
+	<p>If you decide to participate, you are free to withdraw your authorization regarding the use and disclosure of your health information (and to discontinue any other participation in the study) at any time. After any revocation, your health information will no longer be used or disclosed in the study, except to the extent that the law allows us to continue using your information (e.g., necessary to maintain integrity of research). If you wish to revoke your authorization for the research use or disclosure of your health information in this study, you must write to: the Protocol Director, John Ioannidis, Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X306. 1265 Welch Road. Stanford, CA 94305-5411</p>
 
 	<h3>What Personal Information Will Be Obtained, Used or Disclosed?</h3>
 	<p>Your health information related to this study, may be used or disclosed in connection with this research study, including, but not limited to the following protected health information:</p>
@@ -173,7 +173,7 @@
 	<p>No tiene que proveer su autorización. Pero si no la provee, no podrá participar en esta investigación. Proveer su autorización no es una condición para recibir cuido médico fuera de este estudio.</p>
 
 	<p>¿Si proveo mi autorización, puedo revocarla o salirme del estudio más tarde?</p>
-	<p>Si decide participar, puede retirar su autorización para el uso de su información de salud (y descontinuar cualquier otra participación en el estudio) a cualquier momento. Después de la revocación, su información de salud no será utilizada o revelada en el estudio, solo lo que la ley nos permita y sea necesario para mantener la integridad de la investigación. Si desea revocar su autorización para el uso investigativo o el uso de su información de salud en este estudio, tiene que escribirle a la directora del protocolo: Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411 o comuníquese con sjwinter@stanford.edu.</p>
+	<p>Si decide participar, puede retirar su autorización para el uso de su información de salud (y descontinuar cualquier otra participación en el estudio) a cualquier momento. Después de la revocación, su información de salud no será utilizada o revelada en el estudio, solo lo que la ley nos permita y sea necesario para mantener la integridad de la investigación. Si desea revocar su autorización para el uso investigativo o el uso de su información de salud en este estudio, tiene que escribirle a la directora del protocolo: Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
 
 	<h3>¿Qué información personal será obtenida, utilizada, o revelada?</h3>
 	<p>Su información de salud relacionada con este estudio puede ser utilizada o revelada en conexión con este proyecto incluyendo, pero no limitado, a la siguiente información de salud:</p>
@@ -281,7 +281,7 @@
 	<p>我們不要求您必須提供個人健康信息使用的授權，但是如果不提供該授權，您將失去參與本研究的資格。您是否提供信息使用授權，將不會影響您享受本研究項目以外的任何醫療服務。</p>
 
 	<p>在我提供信息使用授權後，我是否可以撤銷授權或退出研究？ </p>
-	<p>在您授權後，您仍然可以隨時撤銷授權或退出研究。您撤銷授權後，若非法律允許，您的健康信息將不會被用於本研究。（比如為保持研究的完整性，法律可能會允許我們繼續使用您的信息）如果您希望撤銷信息使用授權或退出研究，請您寫信給項目聯合負責任： Stanford 預防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411, 或電郵 sjwinter@stanford.edu.</p>
+	<p>在您授權後，您仍然可以隨時撤銷授權或退出研究。您撤銷授權後，若非法律允許，您的健康信息將不會被用於本研究。（比如為保持研究的完整性，法律可能會允許我們繼續使用您的信息）如果您希望撤銷信息使用授權或退出研究，請您寫信給項目聯合負責任： Stanford 預防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
 
 	<h3>本研究將獲得，使用，或分享披露您的那些信息？</h3>
 	<p>您與本研究相關的健康信息，可能與本研究報告一併使用或被分享披露，包括但不限於以下受保護的健康信息：</p>
@@ -387,7 +387,7 @@
 	<p>我们不要求您必须提供个人健康信息使用的授权，但是如果不提供该授权，您将失去参与本研究的资格。您是否提供信息使用授权，将不会影响您享受本研究项目以外的任何医疗服务。</p>
 
 	<p>在我提供信息使用授权后，我是否可以撤销授权或退出研究？ </p>
-	<p>在您授权后，您仍然可以随时撤销授权或退出研究。您撤销授权后，若非法律允许，您的健康信息将不会被用于本研究。 （比如为保持研究的完整性，法律可能会允许我们继续使用您的信息）如果您希望撤销信息使用授权或退出研究，请您写信给项目联合负责任： Stanford预防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411, 或电邮 sjwinter@stanford.edu.</p>
+	<p>在您授权后，您仍然可以随时撤销授权或退出研究。您撤销授权后，若非法律允许，您的健康信息将不会被用于本研究。 （比如为保持研究的完整性，法律可能会允许我们继续使用您的信息）如果您希望撤销信息使用授权或退出研究，请您写信给项目联合负责任： Stanford预防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
 
 	<h3>本研究将获得，使用，或分享您的那些信息？</h3>
 	<p>您与本研究相关的健康信息，可能与本研究报告一并使用或被分享，包括但不限于以下受保护的健康信息：</p>
