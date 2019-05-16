@@ -560,13 +560,12 @@ section  figure{
 }
 
 
-figure img {
-    float:left;
-    /*3:4 ratio?*/
-    max-width:126px;
-    max-height:168px;
-
-}
+/*figure img {*/
+    /*float:left;*/
+    /*!*3:4 ratio?*!*/
+    /*max-width:126px;*/
+    /*max-height:168px;*/
+/*}*/
 figcaption {
     float:left;
     width:calc(100% - 200px);
@@ -1970,14 +1969,14 @@ span.rs-number {
         margin:10px;
     }
 
-    figure img {
-        float: none;
-        width: auto;
-        max-width: 100vw;
-        max-height: 100vh;
-        margin: 0 auto;
-        display: block;
-    }
+    /*figure img {*/
+        /*float: none;*/
+        /*width: auto;*/
+        /*max-width: 100vw;*/
+        /*max-height: 100vh;*/
+        /*margin: 0 auto;*/
+        /*display: block;*/
+    /*}*/
     figcaption {
         float: none;
         width: auto;
