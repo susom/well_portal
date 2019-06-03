@@ -118,6 +118,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
 
             ,"core_bngdrink_female_freq"
             ,"core_bngdrink_male_freq"
+            ,"core_alcohol_day"
             ,"core_smoke_100"
             ,"core_smoke_freq")
         );
@@ -530,7 +531,8 @@ function getLongScores($domain_fields, $user_completed_fields){
                     || (isset($user_completed_fields["core_bngdrink_female_freq"]) && $user_completed_fields["core_bngdrink_female_freq"] == 1 )){
                     $domain_items["well_score_ls_alchohol"] =  0;
                 }else{
-                    if( (isset($user_completed_fields["core_bngdrink_male_freq"]) ) || (isset($user_completed_fields["core_bngdrink_female_freq"]) )){
+                    if( (isset($user_completed_fields["core_bngdrink_male_freq"]) ) || (isset($user_completed_fields["core_bngdrink_female_freq"]) ) 
+                        || (isset($user_completed_fields["core_alcohol_day"]) && $user_completed_fields["core_alcohol_day"] == 0)){
                         $domain_items["well_score_ls_alchohol"] = 10;
                     }else{
                         $domain_items["well_score_ls_alchohol"] = "NA";
