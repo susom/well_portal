@@ -299,6 +299,11 @@ nav a:visited {
     background:url(../img/anim_corgi.gif) 50% 50%   no-repeat;
     background-size:150%;
 }
+.myrewards.cardio{
+    background:url(../img/anim_shibainu.gif) 50% 50%   no-repeat;
+    background-size:100%;
+}
+
 .well_scores{
     margin:20px 0 20px;
     text-align:left;

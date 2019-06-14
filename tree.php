@@ -298,7 +298,11 @@ include_once("models/inc/gl_foot.php");
     background:url(assets/img/anim_corgi.gif) 50% 50%   no-repeat;
     background-size:150%;
 }
-
+.myrewards .fruit.cardio{
+    background:url(assets/img/anim_shibainu.gif) top left  no-repeat;
+    background-size:100%;
+}
+.myreward
 
 .myrewards .fruit.biking{
     background:url(assets/img/ico_met.png) top left no-repeat;
@@ -308,11 +312,7 @@ include_once("models/inc/gl_foot.php");
     background:url(assets/img/ico_stress.png) top left no-repeat;
     background-size:200%;
 }
-.myrewards .fruit.cardio{
-    background:url(assets/img/ico_sleep.png) top left  no-repeat;
-    background-size:200%;
-}
-.myrewards .fruit.carrot{
+s .fruit.carrot{
     background:url(assets/img/ico_ipaq.png) top left  no-repeat;
     background-size:200%;
 }

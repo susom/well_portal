@@ -355,9 +355,9 @@ if(array_key_exists($sid, $surveys)){
             'fields'        => $followup_surveys_carryover,
             'exportSurveyFields' => true
         );
-        $core_answers	    = RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
-
-        $older_completed    = array_filter(array_shift($core_answers));
+        $core_answers	      = RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        $core_answers       = empty($core_answers) ? array() : $core_answers;
+        $older_completed    = empty($core_answers) ? array() : array_filter(array_shift($core_answers));
         foreach($core_answers as $arm_core_answers){
             //first time through, over write older completed with current completed to = latest completed;
             $newer_completed  = array_filter($arm_core_answers);
