@@ -131,8 +131,7 @@ $(document).ready(function(){
         $("#dialog .dialog_inner").append(cancel);
         $("#dialog").addClass("show");
 
-
-        var dataurl = "&mini_clicked=" + $(this).parent("li").attr("class");
+        var dataurl = "&mini_clicked=" + $(this).data("challenge");
         $.ajax({
             url:  "index.php",
             type:'POST',

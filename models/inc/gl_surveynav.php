@@ -152,7 +152,7 @@
                     $shortname = str_replace("-","",$shortname);
                     $shortname = str_replace("and","",$shortname);
                     $shortname = str_replace(",","",$shortname);
-                    echo "<li class='mini_".$shortname." col-sm-4 col-md-12'><a href='".$minic["portal_mc_link"]."' class='points_mini_challenge' target='_blank'>".$minic["portal_mc_name"]."</a></li>\n";
+                    echo "<li class='mini_".$shortname." col-sm-4 col-md-12'><a href='".$minic["portal_mc_link"]."' class='points_mini_challenge' data-challenge='mini_".$shortname."' target='_blank'>".$minic["portal_mc_name"]."</a></li>\n";
                 }
                 ?>
             </ol>

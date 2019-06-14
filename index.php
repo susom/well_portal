@@ -327,13 +327,7 @@ foreach($minics as $minic){
     echo "background-attachment: fixed;} \r\r";
     break;
 }
-?>
-body{
-    background: url(assets/img/bg/<?php echo $portal_bg ;?>) 50% 0 no-repeat;
-    background-size:cover;
-    background-attachment: fixed;
-}
-<?php
+
 if($loggedInUser->user_event_arm == "enrollment_arm_1"  || $loggedInUser->user_event_arm == ""){
 ?>
 #cert_n_score {
