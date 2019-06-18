@@ -69,7 +69,6 @@ foreach($minics as $minic){
     $mini_formatted["mini_".$formatted] = $minic["portal_mc_name"];
     $mini_rewards["mini_".$formatted."_".$minic["portal_mc_year"]] = $eventpic;
 }
-
 $arm_years          = getSessionEventYears();
 $extra_params       = array(
     'content'     	=> 'record'
@@ -267,7 +266,6 @@ include_once("models/inc/gl_head.php");
 }
 
 <?php
-echo "//wtpho\r";
 foreach($mini_rewards as $mcyear => $base64img){
     echo ".mini_challenges li.$mcyear { \r";
     echo "background: url(data:image/gif;base64,$base64img) 50% 0 no-repeat;\r";
