@@ -800,6 +800,14 @@ figcaption p{
     background: url(../img/02-domain.png) 0 no-repeat;
     background-size:contain;
 }
+.main > aside .mini_challenges li.mini_mindfulness:before{
+    background: url(../img/04-domain.png) 0 no-repeat;
+    background-size:contain;
+}
+.main > aside .mini_challenges li.mini_masteringyourmind:before{
+    background: url(../img/03-domain.png) 0 no-repeat;
+    background-size:contain;
+}
 .main > aside .mini_challenges li:before{
     background-size:contain;
 }
