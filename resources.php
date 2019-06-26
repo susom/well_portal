@@ -2,6 +2,27 @@
 require_once("models/config.php"); 
 include("models/inc/checklogin.php");
 
+$API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
+$API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+
+// $extra_params   = array(
+//     'content'       => 'record',
+//     'format'        => 'json',
+//     "fields"        => array("id", "portal_mc_name","portal_mc_year","portal_mc_link"),
+//     "filterLogic"   => "[portal_mc_name] != '' AND [portal_mc_year] = '".Date("Y")."'"
+// );
+// $minics        = RC::callApi($extra_params, true, SurveysConfig::$projects["ADMIN_CMS"]["URL"], SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"]);
+// $radar_domains = array();
+// foreach($minics as $minic){
+//     $shortname = strtolower($minic["portal_mc_name"]);
+//     $shortname = str_replace(" ","",$shortname);
+//     $shortname = str_replace("-","",$shortname);
+//     $shortname = str_replace("and","",$shortname);
+//     $shortname = str_replace(",","",$shortname);
+//     echo $shortname;
+//     $radar_domains[] = lang($shortname);
+// }                    
+
 $radar_domains = array(
   "0" => lang("RESOURCE_CREATIVITY"),
   "1" => lang("RESOURCE_LIFESTYLE"),
@@ -26,8 +47,7 @@ if(isset($_GET["nav"]) && in_array($_GET["nav"],array_keys($domain_on) )){
   $domain_on[$_GET["nav"]] = "on";
 }
 
-$API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-$API_TOKEN      = SurveysConfig::$projects["ADMIN_CMS"]["TOKEN"];
+
 $extra_params   = array();
 $loc            = !isset($_REQUEST["loc"])  ? 1 : 2; //1 US , 2 Taiwan
 $cats           = array();
@@ -81,7 +101,7 @@ include_once("models/inc/gl_head.php");
         if(!is_numeric($domain_page)){
             foreach($radar_domains as $key=>$val){
           ?>
-            <section class="domain_big col-sm-12">
+            <section class="domain_big col-sm-12 col-md-3">
                 <a href = "resources.php?nav=resources-<?php echo $key; ?>">
                   <img src = assets/img/0<?php echo $key;?>-domain.png>
                   <?php echo $radar_domains[$key]; ?>

@@ -1,6 +1,6 @@
 <article class="col-sm-12 col-md-8 col-sm-first col-md-last">
 	<?php
-	$empty_flag = True; 
+	$cats = array_reverse($cats);
 	foreach($cats as $domainEntry){
 		if($domainEntry["domain"]-1 == $domain_page){
 			$empty_flag=False;
