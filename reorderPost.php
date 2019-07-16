@@ -29,11 +29,14 @@ $redcap_variables = array(
 if($_POST["domains"]){
 	$doms          = $_POST["domains"];
   $top_bot       = $_POST["top_bot"];
+
 	$API_URL       = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 	$API_TOKEN     = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
   $reset_others  = array();
   $order_keys    = array(1,2,3,4,5,6,7,8,9);
+  $used_keys     = array();
+
 	foreach($doms as $key => $val){
 		$in             = array_search($val, $radar_domains);
     $user_event_arm = empty($loggedInUser->user_event_arm) ? REDCAP_PORTAL_EVENT : $loggedInUser->user_event_arm;
@@ -48,17 +51,18 @@ if($_POST["domains"]){
     $used_keys[]    = $key;
     $reset_others[] = $redcap_variables[$in];
   }
-  // $diff_domains = array_diff($redcap_variables, $reset_others);
-  // $diff_keys    = array_diff($order_keys, $used_keys);
+  
+  $diff_domains = array_diff($redcap_variables, $reset_others);
+  $diff_keys    = array_diff($order_keys, $used_keys);
 
-  // foreach($diff_domains as $val){
-  //   $data[] = array(
-  //     "redcap_event_name" => $user_event_arm,
-  //     "record"            => $loggedInUser->id,
-  //     "field_name"        => $val,
-  //     "value"             => array_shift($diff_keys)
-  //   );
-  // }
+  foreach($diff_domains as $val){
+    $data[] = array(
+      "redcap_event_name" => $user_event_arm,
+      "record"            => $loggedInUser->id,
+      "field_name"        => $val,
+      "value"             => 0
+    );
+  }
 
 
   // UPDATE ACTIVITy TIMESTAMPS/COUNTER
