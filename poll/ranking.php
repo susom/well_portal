@@ -104,7 +104,7 @@ if(isset($_POST["domains"]) && isset($_POST["siggy"]) && $_POST["siggy"] == $_SE
 
         $html[] =  "<li id='".$domain."' title='$tooltip' class='col-sm-12 row domain_item'>\r";
         $html[] =  "<div class='col-sm-2 domain_image' style='background:url(../assets/img/0".$real_key."-domain.png) 50% no-repeat; background-size:contain'></div>\r";
-        $html[] =  "<div class='col-sm-10 domain_text'><span>$i</span> $domain</div>";
+        $html[] =  "<div class='col-sm-10 domain_text'><span>$i.</span> $domain</div>";
         $html[] =  "</li>\r";
         $i++;
     }
@@ -221,7 +221,8 @@ fbq('track', '<?php echo $trackpage; ?>');
             </div>
 
             <div id="fin" class="col-sm-12 ">
-                <button id = "finish" class = "btn-success">Compare My Result</button>
+                <button id="resetpoll" href='ranking.php' class="btn-info">Reset Poll</button>
+                <button id="finish" class="btn-success">Compare My Result</button>
             </div>
         </div>
     </div>
@@ -264,8 +265,10 @@ fbq('track', '<?php echo $trackpage; ?>');
 	    }
 	    return vars;
 	}
-
-    $("#fin").click(function(){
+    $("#resetpoll").click(function(){
+        location.href=$(this).attr("href");
+    });
+    $("#finish").click(function(){
     	var redirect  	= getUrlVars()["nextsid"];
     	var top 		= $("#top_ranking").sortable("toArray",{attribute: 'id'});
 
@@ -280,11 +283,11 @@ fbq('track', '<?php echo $trackpage; ?>');
 	      data 		: {"domains" : order, "siggy" : "<?php echo $_SESSION["poll_ts"]?>"},
           success 	: function(result){
           	// Calculate and Show
-          	console.log(result);
 
             $(".ten_domains h3").html("Community Aggregate Rankings");
             $("#items").addClass("show_results").html(result);
 
+            $("#fin").unbind();
           },
           function(err){
           	console.log(err);
