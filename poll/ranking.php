@@ -51,8 +51,8 @@ $var_map = array(
 );
 
 //GET THE TOTAL
-$API_URL        = SurveysConfig::$projects["ADMIN_CMS"]["URL"];
-$API_TOKEN      = "AE67F694D57AE9EB9FFAD159CF0A7B9B";
+$API_URL        = SurveysConfig::$projects["POLL_PROJECT"]["URL"];
+$API_TOKEN      = SurveysConfig::$projects["POLL_PROJECT"]["TOKEN"];
 
 if(!isset($_SESSION["poll_ts"])){
     $_SESSION["poll_ts"] = md5(time());
