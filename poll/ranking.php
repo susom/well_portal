@@ -70,7 +70,7 @@ if(isset($_POST["domains"]) && isset($_POST["siggy"]) && $_POST["siggy"] == $_SE
         'fields'    => $redcap_variables
     );
     $result = RC::callApi($data, true, $API_URL , $API_TOKEN);
-    if(current($result)) {
+    if(!empty($result) && current($result)) {
         $current_totals = current($result);
     }else{
         // ALL Start at 0
