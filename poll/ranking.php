@@ -277,7 +277,12 @@ fbq('track', '<?php echo $trackpage; ?>');
     		order[parseInt(i)+1] = top[i];
     	}
 
-    	$.ajax({
+    	if($("#top_ranking .domain_text").length){
+    	    alert("Please rank all the Domains of Well-Being.");
+    	    return false;
+        }
+
+        $.ajax({
 	      url  		: "ranking.php",
 	      type 		: 'POST',
 	      data 		: {"domains" : order, "siggy" : "<?php echo $_SESSION["poll_ts"]?>"},
