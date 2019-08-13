@@ -291,7 +291,7 @@ fbq('track', '<?php echo $trackpage; ?>');
 
             $(".ten_domains h3").addClass("show_results").html("Community Aggregate Rankings");
             $("#items").addClass("show_results").html(result);
-
+            $("#items.show_results").unbind();
             $("#fin").unbind();
           },
           function(err){
