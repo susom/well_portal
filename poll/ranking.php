@@ -277,7 +277,7 @@ fbq('track', '<?php echo $trackpage; ?>');
     		order[parseInt(i)+1] = top[i];
     	}
 
-    	if($("#top_ranking .domain_text").length){
+    	if($("#top_ranking .domain_text").length < 10){
     	    alert("Please rank all the Domains of Well-Being.");
     	    return false;
         }
