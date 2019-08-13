@@ -289,7 +289,7 @@ fbq('track', '<?php echo $trackpage; ?>');
           success 	: function(result){
           	// Calculate and Show
 
-            $(".ten_domains h3").html("Community Aggregate Rankings");
+            $(".ten_domains h3").addClass("show_results").html("Community Aggregate Rankings");
             $("#items").addClass("show_results").html(result);
 
             $("#fin").unbind();
@@ -519,6 +519,17 @@ and (max-device-width : 480px){
 	}
 }
 
+h3.show_results{
+    color:#8c1515;
+    font-weight:bold;
+}
+#items.show_results{
+    background:#8c1515;
 
+}
+#items.show_results li{
+    background: #F9F6EF;
+    color:#2F2424;
+}
 </style>
 
