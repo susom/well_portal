@@ -200,8 +200,18 @@ if(!empty($_POST) && isset($_POST["action"])){
 
             $result   = RC::writeToApi($data, array("format" => "json", "overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
         }
-    }
+    }elseif($_POST["action"] == "raffle"){
+      $tmpName        = $_FILES['csv']['tmp_name'];
+      $winners_cnt    = $_REQUEST["winners_cnt"] ?: 1;
+      $csvAsArray     = array_map('str_getcsv', file($tmpName));
+      $pool_length    = count($csvAsArray);
+      $random_winners = [];
 
+      do {
+        $rand                     = rand(0, $pool_length - 1);
+        $random_winners[$rand]    = $csvAsArray[$rand][0];
+      } while( count($random_winners) < $winners_cnt );
+    }
 }
 
 // DEFAULT VALUES
@@ -934,33 +944,62 @@ textarea[name='full_json']{
               <hr>
           </div>
           <?php
-        }else{
-          ?>
-          <div >
-            <form id="viewas" method="GET">
-              <fieldset>
-                <h3>View portal as a User:</h3>
-                <label>
-                  <b>User Id:</b>
-                  <input type="number" name="user_record_id"/>
-                  <input type="submit"  value="Go"/>
-                </label>
-              </fieldset>
-            </form>
-            <hr>
-
-            <div class="actions">
-              <h3>One off actions</h3>
-              <ul>
-                <li><a href="scratch.php?action=well_score_calc">Recalculate Well Score</a></li>
-                <li><a href="scratch.php?action=calc_bmi_edu">Recalculate BMI and Education</a></li>
-                <li><a href="scratch.php?action=update_domain_json">Recalculate Domain JSON scores/labels</a></li>
-              </ul>
-            </div>
-          </div>
-          <?php
-        }
+      }else{
         ?>
+        <div >
+          <form id="viewas" method="GET">
+            <fieldset>
+              <h3>View portal as a User:</h3>
+              <label>
+                <b>User Id:</b>
+                <input type="number" name="user_record_id"/>
+                <input type="submit"  value="Go"/>
+              </label>
+            </fieldset>
+          </form>
+          <hr>
+          
+          <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="raffle"/>
+            <p><label>CSV of Raffle Contestants (Emails) : 
+            <input type="file" name="csv"  />
+            </label></p>
+
+            <p><label>
+            # of Winners<br>
+            <input type='text' name='winners_cnt' />
+            </label></p>
+
+            <p><label>
+            <input type="submit" name="raffle" value='Choose Winners'/>
+            </label></p>
+              
+            <blockquote>
+            <?php 
+              if(isset($random_winners)){
+                echo "<h4>Raffle Random Winners</h4>";
+                foreach($random_winners as $wtf => $winner){
+                    echo $winner ."<br>";
+                }
+              }
+            ?>
+            </blockquote>
+
+          </form>
+
+          <hr>
+          <div class="actions">
+            <h3>One off actions</h3>
+            <ul>
+              <li><a href="scratch.php?action=well_score_calc">Recalculate Well Score</a></li>
+              <li><a href="scratch.php?action=calc_bmi_edu">Recalculate BMI and Education</a></li>
+              <li><a href="scratch.php?action=update_domain_json">Recalculate Domain JSON scores/labels</a></li>
+            </ul>
+          </div>
+        </div>
+        <?php
+      }
+      ?>
       </div>  
     </div>
   </div>

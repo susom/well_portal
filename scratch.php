@@ -12,6 +12,49 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+if( isset($_POST["raffle"]) ) {
+    $tmpName        = $_FILES['csv']['tmp_name'];
+    $winners_cnt    = $_REQUEST["winners_cnt"] ?: 1;
+    $csvAsArray     = array_map('str_getcsv', file($tmpName));
+    $pool_length    = count($csvAsArray);
+    $random_winners = [];
+
+    do {
+      $rand                     = rand(0, $pool_length - 1);
+      $random_winners[$rand]    = $csvAsArray[$rand][0];
+    } while( count($random_winners) < $winners_cnt );
+
+    foreach($random_winners as $wtf => $winner){
+        print_rr($winner);
+    }
+}
+
+?>
+<form method="post" enctype="multipart/form-data">
+<tr>
+<p><label>CSV of emails : 
+<input type="file" name="csv"  />
+</label></p>
+
+<p><label>
+# of Winners<br>
+<input type='text' name='winners_cnt' />
+</label></p>
+
+<p><label>
+<input type="submit" name="raffle" value='Choose Winners'/>
+</label></p>
+
+</form>
+<?php
+
+
+
+
+
+
+exit;
 function getScriptOutput($path, $display_year, $user_id, $well_sum_score){
     ob_start();
     $csv_file = $user_id . "_" . $display_year . "_";
