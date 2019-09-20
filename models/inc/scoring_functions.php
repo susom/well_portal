@@ -238,7 +238,7 @@ function calculateLongScore($loggedInUser, $user_event_arm, $_CFG, $all_complete
             // 4. ANY MISSING POS/NEG SUBSCore of EMotions/Stress (eg < 4)
             // 3. 30% missing questions total (hmm ah below, gotta branch with new or old diet)
             $remapped_long_scores   = array();
-            if(!array_search("NA",$long_scores)) {
+            if(!array_search("NA",$long_scores, "strict")) {
                 if (array_key_exists("well_score_ls_diet_old", $sub_scores)) {
                     $remove_from_fields = array("core_vegatables_intro_v2"
                     , "core_fruit_intro_v2"
@@ -795,8 +795,7 @@ function getLongScores($domain_fields, $user_completed_fields){
                             $diet_score[$secondary_var]   = $temp_ar[$user_completed_fields[$primary_var]][$user_completed_fields[$secondary_var]];
                         }
                     }
-
-                    $temp_score     = array_sum($diet_score)/count($diet_score);
+                    $temp_score     = count($diet_score) ? array_sum($diet_score)/count($diet_score) : 0;
                     $domain_items["well_score_ls_diet"] = $temp_score;//round(scaleDomainScore($temp_score, count($diet_score), 12),4);
                 }else{
                     $domain_items["well_score_ls_diet"] = "NA";

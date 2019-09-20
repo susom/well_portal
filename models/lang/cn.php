@@ -28,6 +28,7 @@
 		"ACCOUNT_NEED_LOCATION"					=> "请输入您的邮政编码或城市。",
 		"ACCOUNT_TOO_YOUNG"						=> "您尚未年满18岁。",
 		"ACCOUNT_NOT_IN_USA"					=> "本研究计划仅适用于居住在美国的参与者。",
+		"ACCOUNT_NOT_IN_ELIGIBLE_LOCATION" 		=> "本研究计划仅适用于居住在美国的参与者。",
 		"ACTIVATION_MESSAGE"					=> "您需要首先激活您的帐户，然后才能登录。请按照以下链接激活您的帐户。 \n\n%m1%register.php?activation=%m2%",							
 		"ACCOUNT_ERROR_TRY_AGAIN"				=> "再试一次... ", 
 		"ACCOUNT_ERROR_ATTEMPTS"				=> " 剩余尝试次数。",

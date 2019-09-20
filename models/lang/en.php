@@ -28,6 +28,7 @@
 		"ACCOUNT_NEED_LOCATION"					=> "Please enter your Zip Code or City",
 		"ACCOUNT_TOO_YOUNG"						=> "You are not yet 18 years of age.",
 		"ACCOUNT_NOT_IN_USA"					=> "This study is only for participants living in the USA.",
+		"ACCOUNT_NOT_IN_ELIGIBLE_LOCATION"		=> "This study is only for participants living in eligible locations.",
 		"ACTIVATION_MESSAGE"					=> "You will need to first activate your account before you can login.  Follow the link below to activate your account. \n\n%m1%register.php?activation=%m2%",							
 		"ACCOUNT_ERROR_TRY_AGAIN"				=> "Try again... ", 
 		"ACCOUNT_ERROR_ATTEMPTS"				=> " attempts remaining.",

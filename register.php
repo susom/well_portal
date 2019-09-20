@@ -49,6 +49,7 @@ if(!empty($_POST['submit_new_user'])){
 
 	$nextyear 	= (isset($_POST["nextyear"]) 	? $_POST["nextyear"] 	:null ) ;
 	$in_usa 	= (isset($_POST["in_usa"]) 		? $_POST["in_usa"] 		:null ) ;
+	$in_denmark = (isset($_POST["in_denmark"]) 	? $_POST["in_denmark"] 		:null ) ;
 	$oldenough 	= (isset($_POST["oldenough"]) 	? $_POST["oldenough"] 	: null) ;
 	$birthyear 	= (isset($_POST["birthyear"]))  ? intval($_POST["birthyear"]) : null;
 	$optin 		= (isset($_POST["optin"]) 		? $_POST["optin"] 		:null ) ;
@@ -110,7 +111,7 @@ if(!empty($_POST['submit_new_user'])){
 		}else{
 			//IF THEY DONT PASS ELIGIBILITY THEN THEY GET A THANK YOU , BUT NO ACCOUNT CREATION 
 			//BUT NEED TO STORE THEIR STUFF FOR CONTACT
-			if($in_usa && $oldenough && $optin && $actualage >= 18){
+			if( ($in_usa || $in_denmark == 2001) && $oldenough && $optin && $actualage >= 18 ){
 				//Attempt to add the user to the database, carry out finishing  tasks like emailing the user (if required)
 
                 if($newuid = $auth->createNewUser($password)){
@@ -140,6 +141,11 @@ if(!empty($_POST['submit_new_user'])){
                     updateGlobalPersistPoints($loggedInUser->id, $pts_register["value"]);
                     setSessionUser($loggedInUser);
 
+                    //SPECIAL CASE FOR DENMARK FOR NOW
+                    if($in_denmark == 2001){
+				   		$loggedInUser->updateUser(array("core_group_id" => 2001));
+                    }
+
 //					addSessionMessage( lang("ACCOUNT_NEW_ACTIVATION_SENT"), "success");
                     header("Location: consent.php");
 //					header("Location: register.php?step=2");
@@ -155,8 +161,8 @@ if(!empty($_POST['submit_new_user'])){
 					$reason = lang("ACCOUNT_TOO_YOUNG");
 				}
 
-				if(!$in_usa){
-					$reason = lang("ACCOUNT_NOT_IN_USA");
+				if(!$in_usa && $in_denmark != 2001){
+					$reason = lang("ACCOUNT_NOT_IN_ELIGIBLE_LOCATION");
 				}
 				
 				addSessionMessage( lang("ACCOUNT_NOT_YET_ELIGIBLE",array($reason)), "notice" );
