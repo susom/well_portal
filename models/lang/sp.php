@@ -28,6 +28,7 @@
 		"ACCOUNT_NEED_LOCATION"					=> "Por favor entre su código postal o ciudad",
 		"ACCOUNT_TOO_YOUNG"						=> "Todavía no tiene 18 años.", 
 		"ACCOUNT_NOT_IN_USA"					=> "Este estudio es sólo para participantes viviendo en los Estados Unidos.", 
+		"ACCOUNT_NOT_IN_ELIGIBLE_LOCATION" 		=> "Este estudio es sólo para participantes viviendo en los Estados Unidos.",
 		"ACTIVATION_MESSAGE"					=> "Tiene que activar su cuenta para poder entrar. Siga la siguiente página para activar su cuenta. \n\n%m1%register.php?activation=%m2%",
 		"ACCOUNT_ERROR_TRY_AGAIN"				=> "Intente  otra vez…. Le queda ", 
 		"ACCOUNT_ERROR_ATTEMPTS"				=> " oportunidades.",

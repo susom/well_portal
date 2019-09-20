@@ -105,7 +105,20 @@
           </div>
         </div>
       </fieldset>
-
+      <fieldset class="eli_one_b">
+        <div class="form-group" style='height:50px;'>
+          <label class="control-label col-sm-6 ">Where are you located</label>
+          <div class="col-sm-6" > 
+            <label>
+              <select name="in_denmark">
+              <option>Choose One:</option>
+              <option value=2001>Denmark</option>
+              <option value=9999>Other</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </fieldset>
       <fieldset class="eli_two">
         <div class="form-group">
           <label class="control-label col-sm-6"><?php echo lang("ACCOUNT_18_PLUS") ?></label>
@@ -170,6 +183,9 @@
     position:absolute; 
     z-index:-1;
   }
+  .eli_one_b{
+    display:none;
+  }
   </style>
   <script>
     var eligible_map    = <?php echo $eligible_map ?>;
@@ -229,6 +245,17 @@
 
     $("input[name='in_usa']").click(function(){
       if($(this).val() == 1) {
+        $(".eli_two").slideDown("medium");
+        $(".eli_one_b").slideUp("fast");
+      }else{
+        $(".eli_one_b").slideDown("medium");
+        $(".eli_two").slideUp("fast");
+      }
+    });
+
+    $("select[name='in_denmark']").change(function(){
+      var select_other = $(this).val();
+      if(select_other == 2001) {
         $(".eli_two").slideDown("medium");
       }else{
         $(".eli_two").slideUp("fast");
