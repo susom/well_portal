@@ -31,11 +31,21 @@ $supp_project_notes		= $_SESSION["project_info"]["supp_project_notes"];
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
 if(!isset($_SESSION["user_anniversary"])){
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
-	if( $days_active > 1093 ){
+	if( $days_active > 1821 ){
+		if($user_event_arm != REDCAP_PORTAL_EVENT_5){
+			$user_event_arm = REDCAP_PORTAL_EVENT_5;
+			$update_arm = true;
+		}
+	}else if( $days_active > 1457 && $days_active <= 1821 ){
+		if($user_event_arm != REDCAP_PORTAL_EVENT_4){
+			$user_event_arm = REDCAP_PORTAL_EVENT_4;
+			$update_arm = true;
+		}
+	}else if( $days_active > 1093 && $days_active <= 1457 ){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
 			$user_event_arm = REDCAP_PORTAL_EVENT_3;
 			$update_arm = true;
-		}
+		}c
 	}else if( $days_active > 729 && $days_active <= 1093 ){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_2){
 			$user_event_arm = REDCAP_PORTAL_EVENT_2;

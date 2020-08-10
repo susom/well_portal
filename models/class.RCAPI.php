@@ -53,7 +53,7 @@ class RC {
 	}
 	
 	// Write to the API
-	public function writeFileToApi($file, $record, $field, $event, $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN) {
+	public static function writeFileToApi($file, $record, $field, $event, $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN) {
 		// Prepare upload file
 		$curlFile 	= curl_file_create($file["tmp_name"], $file["type"], $file["name"]);
 		$data 		= array(
@@ -214,3 +214,4 @@ class RC {
 		}
 	}
 }
+
