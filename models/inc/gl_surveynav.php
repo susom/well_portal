@@ -106,7 +106,7 @@
                 if(!$core_surveys_complete){
                   // JUST PUSH DUMMY TEXT
                   $a_nutrilink  = "<a href='#' class='nutrilink points_survey points_none' title='".$lang["TAKE_BLOCK_DIET"]."' target='_blank'>".$lang["HOW_WELL_EAT"]."</a>"; // &#128150
-                  array_unshift($suppsurvs ,"<li class='fitness na food'>".$a_nutrilink."</li>");
+                  // array_unshift($suppsurvs ,"<li class='fitness na food'>".$a_nutrilink."</li>");
                 }else{
                   // THIS IS EXPENSIVE OPERATION, DONT DO IT EVERYTIME, AND DONT BOTHER UNLESS CORE SURVEY IS COMPLETE
                   if(isset($_SESSION[$proj_name])){

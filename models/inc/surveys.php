@@ -45,7 +45,7 @@ if(!isset($_SESSION["user_anniversary"])){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
 			$user_event_arm = REDCAP_PORTAL_EVENT_3;
 			$update_arm = true;
-		}c
+		}
 	}else if( $days_active > 729 && $days_active <= 1093 ){
 		if($user_event_arm != REDCAP_PORTAL_EVENT_2){
 			$user_event_arm = REDCAP_PORTAL_EVENT_2;
