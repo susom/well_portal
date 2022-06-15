@@ -340,6 +340,13 @@ class Survey {
     $theHTML      = array();
     $yourAnswers  = (!$this->surveycomplete ? "" : " : Your Answers");
     $surveyname   = isset($this->title_trans[$_SESSION["use_lang"]][$this->surveyid]) ?  $this->title_trans[$_SESSION["use_lang"]][$this->surveyid] : $this->surveyname;
+
+    //TODO NEED TO GET THIS IN , FIGURE OUT ACTUAL FIX LATER
+    if($instrument_id == "find_out_your_body_type_according_to_traditional_c"){
+        $surveyname = "Find Out Your Body Type According To TCM";
+    }
+
+
     $theHTML[]    =  "<h2 class='surveyHeader'>".$surveyname."</h2>";
     
     if($this->surveycomplete){

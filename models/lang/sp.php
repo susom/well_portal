@@ -79,11 +79,11 @@
 		"IRB_ONLY" 								=> "Solo para uso del IRB",
 		"IRB_EXPIRATION"						=> "Fecha de Expiración",
 		"CONSENT_BULLET_1" 						=> "Necesitamos su permiso antes de hacer preguntas, por favor lea el documento de consentimiento informado",
-		"CONSENT_BULLET_2" 						=> "La encuesta inicial tomará 20-30 minutos para completar – pero no tiene que llenarla toda a la vez",
+		"CONSENT_BULLET_2" 						=> "La encuesta inicial tomará 30 minutos para completar – pero no tiene que llenarla toda a la vez",
 		"CONSENT_BULLET_3" 						=> "Nos comunicaremos con usted cada varios meses",
 		"CONSENT_BULLET_4" 						=> "Vamos a añadir nuevas encuestas, materiales y contenido y le invitaremos a participar a través del tiempo",
 		"CONSENT_WELCOME" 						=> "¡BIENVENIDOS!",
-		"CONSENT_CONTACT" 						=> "PARA PREGUNTAS SOBRE EL ESTUDIO, COMUNIQUESE CON el Director del Protocolo, John Ioannidis al (650) 725-5465.",
+		"CONSENT_CONTACT" 						=> "PARA PREGUNTAS SOBRE EL ESTUDIO, COMUNIQUESE CON el Director del Protocolo, Dr. Ann Hsing at annhsing@stanford.edu.",
 		"CONSENT_I_AGREE" 						=> "Estoy de acuerdo",
 		"CONSENT_PRINT" 						=> "Imprimir",
 

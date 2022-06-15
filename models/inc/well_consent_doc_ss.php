@@ -1,13 +1,13 @@
 <section class="lang en">
 	<h2>PURPOSE OF RESEARCH</h2>
 	<p>The WELL for Life Initiative aims to identify factors that contribute to wellbeing and health. The WELL for Life Initiative has been created by the Stanford Prevention Research Center in the Stanford University School of Medicine.</p> 
-	<p>You are being invited to enter the WELL for Life Registry, which is gathering information on people’s health and wellbeing. As a WELL for Life Registry participant you will be invited to take part in future WELL for Life Projects. Our goal is to enroll 10,000 people living in the San Francisco Bay Area. In the future, we hope to enroll participants from all across the US.</p>
-	<p>Your participation in this study is voluntary. If you decide to end your participation in this study, you should notify John Ioannidis at (650) 725-5465.</p>
+	<p>You are invited to enter the WELL for Life Registry, which is gathering information on people’s health and wellbeing. As a WELL for Life Registry participant you will be invited to take part in future WELL for Life Projects. We hope to enroll participants from all across the US.</p>
+	<p>Your participation in this study is voluntary. If you decide to end your participation in this study, you should notify Dr. Ann Hsing at annhsing@stanford.edu.</p>
 </section>
 
 <section class="lang en">
 	<h2>PROGRAM ACTIVITIES</h2> 
-	<p>The WELL for Life Registry consists of a number of online surveys. The first survey takes about 20-30 minutes and asks for your contact details and about your basic demographics (e.g., age, gender, language), lifestyle habits and behaviors (e.g., diet, physical activity, sleep, and the use of alcohol, tobacco and marijuana), and your community. Later surveys will ask similar questions about your lifestyle habits, health, and wellness. You also may be asked to provide a photograph, voice or video recording as a measure of wellbeing. You have the right to refuse to answer particular questions.</p>
+	<p>The WELL for Life Registry consists of a number of online surveys. The first survey takes about 30 minutes and asks for your contact details and about your basic demographics (e.g., age, gender, language), lifestyle habits and behaviors (e.g., diet, physical activity, sleep, and the use of alcohol, tobacco and marijuana), and your community. Later surveys will ask similar questions about your lifestyle habits, health, and wellness. You also may be asked to provide a photograph, voice or video recording as a measure of wellbeing. You have the right to refuse to answer particular questions.</p>
 	<p>We will test different strategies to make participation in the WELL for Life Registry engaging. For example, we may “gamify” the survey, provide you with varying types of feedback, change the order in which you answer the surveys or the messages and reminders that we send you, and provide you with informational content.</p>
 	<p>You may be asked if you would be interested in being interviewed about your experience as a WELL for Life participant. If you do NOT wish to be contacted about being interviewed, please indicate that on the first survey.</p>
 	<p>You may also be asked if you would be interested in being contacted about participating in other non-WELL related studies in the future.  If you do NOT wish to be contacted, please indicate that on the first survey.</p>
@@ -44,7 +44,7 @@
 
 <section class="lang en">
 	<h2>FOR QUESTIONS ABOUT THE STUDY</h2>
-	<p>Questions, Concerns, or Complaints: If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, you should ask the Protocol Director, John Ioannidis at (650) 725-5465.</p>
+	<p>Questions, Concerns, or Complaints: If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, you should ask the Protocol Director, Dr. Ann Hsing at annhsing@stanford.edu.</p>
 	<p>Independent Contact: If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-5244 or toll free at 1-866-680-2906. You can also write to the Stanford IRB:
 
 	<br><br>
@@ -67,7 +67,7 @@
 	<p>You do not have to provide your authorization. But if you do not, you will not be able to participate in this research study. Providing your authorization is not a condition for receiving any medical care outside the study.</p>
 
 	<h3>If I provide my authorization, can I revoke it or withdraw from the research later?</h3>
-	<p>If you decide to participate, you are free to withdraw your authorization regarding the use and disclosure of your health information (and to discontinue any other participation in the study) at any time. After any revocation, your health information will no longer be used or disclosed in the study, except to the extent that the law allows us to continue using your information (e.g., necessary to maintain integrity of research). If you wish to revoke your authorization for the research use or disclosure of your health information in this study, you must write to: the Protocol Director, John Ioannidis, Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X306. 1265 Welch Road. Stanford, CA 94305-5411</p>
+	<p>If you decide to participate, you are free to withdraw your authorization regarding the use and disclosure of your health information (and to discontinue any other participation in the study) at any time. After any revocation, your health information will no longer be used or disclosed in the study, except to the extent that the law allows us to continue using your information (e.g., necessary to maintain integrity of research). If you wish to revoke your authorization for the research use or disclosure of your health information in this study, you must write to: the Protocol Director, Dr. Ann Hsing, Stanford Prevention Research Center, Department of Medicine, Stanford University, Stanford Research Park, 3180 Porter Drive, Palo Alto, California 94304</p>
 
 	<h3>What Personal Information Will Be Obtained, Used or Disclosed?</h3>
 	<p>Your health information related to this study, may be used or disclosed in connection with this research study, including, but not limited to the following protected health information:</p>
@@ -109,7 +109,7 @@
 	<h2>PROPOSITO DE INVESTIGACION</h2>
 	<p>La Iniciativa de WELL Bien Para Vida tiene como meta identificar factores que contribuyen al bienestar y la salud. La Iniciativa de WELL Bien Para Vida ha sido creada por el Centro de Investigación de Prevención de Stanford en la escuela de medicina de Stanford.</p> 
 	<p>Usted ha sido invitado(a) a ser parte del registro de WELL Bien Para Vida, cual está recolectando información sobre la salud y el bienestar. Como participante de WELL Bien Para Vida, usted será invitado(a) a participar en los futuros proyectos de WELL Bien Para Vida. Nuestra meta es inscribir participantes de todas partes de los Estados Unidos.</p>
-	<p>Su participación en este estudio es voluntaria. Si decide ceder su participación en este estudio, debería notificar a John Ioannidis a 650-725-5465.</p>
+	<p>Su participación en este estudio es voluntaria. Si decide ceder su participación en este estudio, debería notificar a Dr. Ann Hsing at annhsing@stanford.edu.</p>
 </section>
 
 <section class="lang sp">
@@ -150,7 +150,7 @@
 
 <section class="lang sp">
 	<h2>PARA PREGUNTAS SOBRE ESTE ESTUDIO, FAVOR CONTACTAR</h2>
-	<p>Preguntas, preocupaciones o quejas: Si tiene algunas preguntas, preocupaciones, o quejas sobre este estudio, los procedimientos, riesgos y beneficios, debería hablar con el director del protocolo, John Ioannidis. Puede ponerse en comunicación ahora o después a 650-725-6465.</p>
+	<p>Preguntas, preocupaciones o quejas: Si tiene algunas preguntas, preocupaciones, o quejas sobre este estudio, los procedimientos, riesgos y beneficios, debería hablar con el director del protocolo, Dr. Ann Hsing. Puede ponerse en comunicación ahora o después a annhsing@stanford.edu.</p>
 	<p>Si no esta satisfecho(a) con la manera en que este estudio esta siendo conducido, o si tiene algunas preocupaciones, quejas o preguntas generales sobre la investigación o sus derechos como participante, favor contactar el Institutional Review Board (IRB) de Stanford para hablar con alguien independiente del equipo investigativo al (650) 723-5244 o sin costo al 1-866-680-2906. También puede escribirle al:
 
 	<br><br>
@@ -173,7 +173,7 @@
 	<p>No tiene que proveer su autorización. Pero si no la provee, no podrá participar en esta investigación. Proveer su autorización no es una condición para recibir cuido médico fuera de este estudio.</p>
 
 	<p>¿Si proveo mi autorización, puedo revocarla o salirme del estudio más tarde?</p>
-	<p>Si decide participar, puede retirar su autorización para el uso de su información de salud (y descontinuar cualquier otra participación en el estudio) a cualquier momento. Después de la revocación, su información de salud no será utilizada o revelada en el estudio, solo lo que la ley nos permita y sea necesario para mantener la integridad de la investigación. Si desea revocar su autorización para el uso investigativo o el uso de su información de salud en este estudio, tiene que escribirle a la directora del protocolo: Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
+	<p>Si decide participar, puede retirar su autorización para el uso de su información de salud (y descontinuar cualquier otra participación en el estudio) a cualquier momento. Después de la revocación, su información de salud no será utilizada o revelada en el estudio, solo lo que la ley nos permita y sea necesario para mantener la integridad de la investigación. Si desea revocar su autorización para el uso investigativo o el uso de su información de salud en este estudio, tiene que escribirle a la directora del protocolo: Stanford Prevention Research Center, Department of Medicine, Stanford University, Stanford Research Park, 3180 Porter Drive, Palo Alto, California 94304.</p>
 
 	<h3>¿Qué información personal será obtenida, utilizada, o revelada?</h3>
 	<p>Su información de salud relacionada con este estudio puede ser utilizada o revelada en conexión con este proyecto incluyendo, pero no limitado, a la siguiente información de salud:</p>
@@ -217,7 +217,7 @@
 	<p>『WELL人生』致力探詢助於大眾身心健康的因素及提升健康的方法。『WELL人生』計劃由Stanford預防研究中心創建。</p> 
 	<p>我們誠意邀請您在此註冊『WELL人生』項目。該項目是收集關於大眾身心健康的信息。做為參與者，您將有機會被邀請加入其它『WELL人生』的相關活動。我們現階段的目標是招募10,000名居住在舊金山灣區的民眾。隨著項目的擴大，我們希望在不久的將來也可以招募來自美國各地的參與者。
 </p>
-	<p>請按照您的個人意願決定是否加入本研究。加入研究後，如果您中途決定結束參與本研究，請您通知John Ioannidis (650)725-5465。</p>
+	<p>請按照您的個人意願決定是否加入本研究。加入研究後，如果您中途決定結束參與本研究，請您通知Dr. Ann Hsing at annhsing@stanford.edu。</p>
 </section>
 
 <section class="lang tw">
@@ -258,7 +258,7 @@
 
 <section class="lang tw">
 	<h2>研究課題相關問題</h2>
-	<p>疑慮或投訴：如果您對研究項目本身，研究過程中的哪一步驟，及相關風險或收益感到疑慮或不滿, 請聯繫項目負責人John Ioannidis（650）725-5465。</p>
+	<p>疑慮或投訴：如果您對研究項目本身，研究過程中的哪一步驟，及相關風險或收益感到疑慮或不滿, 請聯繫項目負責人Dr. Ann Hsing at annhsing@stanford.edu。</p>
 	<p>獨立監督聯繫人：如果您對項目中哪些操作感到不滿，對該項目仍然存在疑慮，或者有其他項目相關的問題，請聯繫Stanford機構審查委員會（IRB），對項目外部的監督員進行會報或訊問。聯繫方式為（650）-723-5244或免費電話1-866-680-2906. 您還可以直接寫信給機構審查委員會：
 
 	<br><br>
@@ -281,7 +281,7 @@
 	<p>我們不要求您必須提供個人健康信息使用的授權，但是如果不提供該授權，您將失去參與本研究的資格。您是否提供信息使用授權，將不會影響您享受本研究項目以外的任何醫療服務。</p>
 
 	<p>在我提供信息使用授權後，我是否可以撤銷授權或退出研究？ </p>
-	<p>在您授權後，您仍然可以隨時撤銷授權或退出研究。您撤銷授權後，若非法律允許，您的健康信息將不會被用於本研究。（比如為保持研究的完整性，法律可能會允許我們繼續使用您的信息）如果您希望撤銷信息使用授權或退出研究，請您寫信給項目聯合負責任： Stanford 預防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
+	<p>在您授權後，您仍然可以隨時撤銷授權或退出研究。您撤銷授權後，若非法律允許，您的健康信息將不會被用於本研究。（比如為保持研究的完整性，法律可能會允許我們繼續使用您的信息）如果您希望撤銷信息使用授權或退出研究，請您寫信給項目聯合負責任： Stanford 預防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Stanford Research Park, 3180 Porter Drive, Palo Alto, California 94304.</p>
 
 	<h3>本研究將獲得，使用，或分享披露您的那些信息？</h3>
 	<p>您與本研究相關的健康信息，可能與本研究報告一併使用或被分享披露，包括但不限於以下受保護的健康信息：</p>
@@ -323,7 +323,7 @@
 	<h2>研究目的</h2>
 	<p>『WELL人生』致力探询助于大众身心健康的因素及提升健康的方法。『WELL人生』计划由Stanford预防研究中心创建。</p> 
 	<p>我们诚意邀请您在此注册『WELL人生』項目。该项目是收集关于大众身心健康的信息。做为参与者，您将有机会被邀请加入其它『WELL人生』的相关活动。我们现阶段的目标是招募10,000名居住在旧金山湾区的民众。随着项目的扩大，我们希望在不久的将来也可以招募来自美国各地的参与者。</p>
-	<p>请按照您的个人意愿决定是否加入本研究。加入研究后，如果您中途决定结束参与本研究，请您通知John Ioannidis (650)725-5465。</p>
+	<p>请按照您的个人意愿决定是否加入本研究。加入研究后，如果您中途决定结束参与本研究，请您通知Dr. Ann Hsing at annhsing@stanford.edu。</p>
 </section>
 
 <section class="lang cn">
@@ -364,7 +364,7 @@
 
 <section class="lang cn">
 	<h2>研究课题相关问题</h2>
-	<p>疑虑或投诉：如果您对研究项目本身，研究过程中的哪一步骤，及相关风险或收益感到疑虑或不满, 请联系项目负责人John Ioannidis（650）725-5465。</p>
+	<p>疑虑或投诉：如果您对研究项目本身，研究过程中的哪一步骤，及相关风险或收益感到疑虑或不满, 请联系项目负责人Dr. Ann Hsing at annhsing@stanford.edu。</p>
 	<p>独立监督联系人：如果您对项目中哪些操作感到不满，对该项目仍然存在疑虑，或者有其他项目相关的问题，请联系Stanford机构审查委员会（IRB），对项目外部的监督员进行会报或讯问。联系方式为（650）-723-5244或免费电话1-866-680-2906. 您还可以直接写信给机构审查委员会：
 
 	<br><br>
@@ -387,7 +387,7 @@
 	<p>我们不要求您必须提供个人健康信息使用的授权，但是如果不提供该授权，您将失去参与本研究的资格。您是否提供信息使用授权，将不会影响您享受本研究项目以外的任何医疗服务。</p>
 
 	<p>在我提供信息使用授权后，我是否可以撤销授权或退出研究？ </p>
-	<p>在您授权后，您仍然可以随时撤销授权或退出研究。您撤销授权后，若非法律允许，您的健康信息将不会被用于本研究。 （比如为保持研究的完整性，法律可能会允许我们继续使用您的信息）如果您希望撤销信息使用授权或退出研究，请您写信给项目联合负责任： Stanford预防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Medical School Office Building, X3C02. 1265 Welch Road. Stanford, CA 94305-5411.</p>
+	<p>在您授权后，您仍然可以随时撤销授权或退出研究。您撤销授权后，若非法律允许，您的健康信息将不会被用于本研究。 （比如为保持研究的完整性，法律可能会允许我们继续使用您的信息）如果您希望撤销信息使用授权或退出研究，请您写信给项目联合负责任： Stanford预防研究中心，Stanford Prevention Research Center, Department of Medicine, Stanford University, Stanford Research Park, 3180 Porter Drive, Palo Alto, California 94304.</p>
 
 	<h3>本研究将获得，使用，或分享您的那些信息？</h3>
 	<p>您与本研究相关的健康信息，可能与本研究报告一并使用或被分享，包括但不限于以下受保护的健康信息：</p>

@@ -79,11 +79,11 @@
 		"IRB_ONLY" 								=> "IRB Use Only",
 		"IRB_EXPIRATION"						=> "Expiration Date",
 		"CONSENT_BULLET_1" 						=> "我们需要您的许可，我们才能向您提出任何问题，因此请阅读以下同意文件",
-		"CONSENT_BULLET_2" 						=> "初步问卷需时20-30分钟完成。但你不需要一次性填写完。",
+		"CONSENT_BULLET_2" 						=> "初步问卷需时30分钟完成。但你不需要一次性填写完。",
 		"CONSENT_BULLET_3" 						=> "每隔几个月我们会联系您有关WELL的最新资讯。",
 		"CONSENT_BULLET_4" 						=> "我们将会持续加入新的问卷，材料和内容，并邀请您参与。",
 		"CONSENT_WELCOME" 						=> "欢迎加入!",
-		"CONSENT_CONTACT" 						=> "如您对本研究有任何问题，请联系总监 John Ioannidis 650-725-5465。",
+		"CONSENT_CONTACT" 						=> "如您对本研究有任何问题，请联系总监 Dr. Ann Hsing at annhsing@stanford.edu。",
 		"CONSENT_I_AGREE" 						=> "我同意",
 		"CONSENT_PRINT" 						=> "列印",
 		

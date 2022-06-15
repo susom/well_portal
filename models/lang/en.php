@@ -79,11 +79,11 @@
 		"IRB_ONLY" 								=> "IRB Use Only",
 		"IRB_EXPIRATION"						=> "Expiration Date",
 		"CONSENT_BULLET_1" 						=> "We need your permission before we can ask you any questions, so please read the following Informed Consent Document",
-		"CONSENT_BULLET_2" 						=> "The initial survey will take 20-30 minutes to complete – but you don't need to fill it all out at one time",
+		"CONSENT_BULLET_2" 						=> "The initial survey will take about 30 minutes to complete – but you don't need to fill it all out at one time",
 		"CONSENT_BULLET_3" 						=> "We will check back in with you every few months",
 		"CONSENT_BULLET_4" 						=> "We will add new surveys, materials, and content and invite you to participate over time",
 		"CONSENT_WELCOME" 						=> "WELCOME!",
-		"CONSENT_CONTACT" 						=> "FOR QUESTIONS ABOUT THE STUDY, CONTACT the Protocol Director, John Ioannidis at (650) 725-5465.",
+		"CONSENT_CONTACT" 						=> "FOR QUESTIONS ABOUT THE STUDY, CONTACT the Protocol Director, Dr. Ann Hsing at annhsing@stanford.edu.",
 		"CONSENT_I_AGREE" 						=> "I Agree",
 		"CONSENT_PRINT" 						=> "Print",
 		

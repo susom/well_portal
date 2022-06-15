@@ -6,3 +6,4 @@ models/my_settings.php
 nohup.*
 temp/*
 .idea/*
+.DS_Store

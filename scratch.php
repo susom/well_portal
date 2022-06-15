@@ -1,4 +1,6 @@
 <?php
+exit("These aren't the droids you are looking for.");
+
 require_once("models/config.php");
 if(isset($_SERVER['argv'][1])){
     $temp               = explode("=",$_SERVER['argv'][1]);
