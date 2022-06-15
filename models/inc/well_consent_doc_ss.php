@@ -114,7 +114,7 @@
 
 <section class="lang sp">
 	<h2>ACTIVIDADES DEL PROGRAMA</h2> 
-	<p>El Registro de WELL Bien Para Vida consiste de un número de encuestas computadorizadas. La primera encuesta tomará alrededor de 20-30 minutos y le pide sus detalles de contacto y sobre detalles demográficos básicos (ej. Edad, género, lenguaje), hábitos y estilo de vida, y su comunidad. Después, las encuestas incluirán preguntas similares sobre su estilo de vida, salud, y bienestar. También puede ser que le pediremos que provea una foto o grabación de video. Usted tiene el derecho de decidir a no contestar preguntas específicas.</p>
+	<p>El Registro de WELL Bien Para Vida consiste de un número de encuestas computadorizadas. La primera encuesta tomará alrededor de 30 minutos y le pide sus detalles de contacto y sobre detalles demográficos básicos (ej. Edad, género, lenguaje), hábitos y estilo de vida, y su comunidad. Después, las encuestas incluirán preguntas similares sobre su estilo de vida, salud, y bienestar. También puede ser que le pediremos que provea una foto o grabación de video. Usted tiene el derecho de decidir a no contestar preguntas específicas.</p>
 	<p>Intentaremos diferentes estrategias para convertir su experiencia con WELL Bien Para Vida en una experiencia entretenida. Por ejemplo, algunas encuestas podrían ser como “juegos,” podríamos proveerle diferentes tipos de sugerencias, cambiar el orden en que contesta las encuestas o los mensajes que le enviamos, y proveerle contenido informacional.</p>
 	<p>Le podríamos preguntar si está interesado(a) en ser entrevistado(a) sobre su experiencia como participante de WELL Bien Para Vida. Si NO desea ser contactado(a) para ser entrevistado(a), por favor indíquelo en la primera encuesta.</p>
 	<p>También le podríamos preguntar si está interesado(a) en ser contactado(a) para participar en otros estudios fuera de WELL en el futuro. Si NO desea ser contactado(a), por favor indíquelo en la encuesta.</p>
@@ -222,7 +222,7 @@
 
 <section class="lang tw">
 	<h2>活動介紹</h2> 
-	<p>『WELL人生』包括多個線上問卷調查。第一次問卷調查大約需要20-30分鐘，包括詢問您的聯繫方式和您的其他基本信息（例如年齡，性別，語言），生活和行為習慣（例如飲食，身體活動，煙草使用）和您所居的社區特徵。之後的調查將更進一步的訊問關於您生活方式習慣，身體健康和身體素質的相關問題。您還可能被要求提供照片，聲音或視頻記錄作為健康的衡量標準。您有權拒絕回答調查問卷中的任何問題。</p>
+	<p>『WELL人生』包括多個線上問卷調查。第一次問卷調查大約需要30分鐘，包括詢問您的聯繫方式和您的其他基本信息（例如年齡，性別，語言），生活和行為習慣（例如飲食，身體活動，煙草使用）和您所居的社區特徵。之後的調查將更進一步的訊問關於您生活方式習慣，身體健康和身體素質的相關問題。您還可能被要求提供照片，聲音或視頻記錄作為健康的衡量標準。您有權拒絕回答調查問卷中的任何問題。</p>
 	<p>我們將使用不同的研究方法，使『WELL人生』的參與者時刻感到新鮮有趣。例如我們可能會將調查問卷以遊戲的形式呈現，為您提供不同類型的生動反饋個人評估報告，更改您回答問題的順序模式，給您發送相關的消息和提醒，並為您提供新穎的健康相關信息及內容。</p>
 	<p>我們有可能會邀您進行面對面的座談，以便了解您作為『WELL人生』參與者的體驗。如果您不希望被邀請參與座談，請在第一次問卷調查中告知。</p>
 	<p>您可能會被問及是否有興趣在未來參與其他除『WELL人生』之外的研究。如果您不希望參與，請在第一次問卷調查中告知。</p>
@@ -328,7 +328,7 @@
 
 <section class="lang cn">
 	<h2>活动介绍</h2> 
-	<p>『WELL人生』包括多个线上问卷调查。第一次问卷调查大约需要20-30分钟，包括询问您的联系方式和您的其他基本信息（例如年龄，性别，语言），生活和行为习惯（例如饮食，身体活动，烟草使用）和您所居的社区特征。之后的调查将更进一步的讯问关于您生活方式习惯，身体健康和身体素质的相关问题。您还可能被要求提供照片，声音或视频记录作为健康的衡量标准。您有权拒绝回答调查问卷中的任何问题。</p>
+	<p>『WELL人生』包括多个线上问卷调查。第一次问卷调查大约需要30分钟，包括询问您的联系方式和您的其他基本信息（例如年龄，性别，语言），生活和行为习惯（例如饮食，身体活动，烟草使用）和您所居的社区特征。之后的调查将更进一步的讯问关于您生活方式习惯，身体健康和身体素质的相关问题。您还可能被要求提供照片，声音或视频记录作为健康的衡量标准。您有权拒绝回答调查问卷中的任何问题。</p>
 	<p>我们将使用不同的研究方法，使『WELL人生』的参与者时刻感到新鲜有趣。例如我们可能会将调查问卷以游戏的形式呈现，为您提供不同类型的个人评估报告，更改您回答问题的顺序模式，给您发送相关的消息和提醒，并为您提供新颖的健康相关信息及内容。</p>
 	<p>我们有可能会邀您进行面对面的座谈，以便了解您作为『WELL人生』参与者的体验。如果您不希望被邀请参与座谈，请在第一次问卷调查中告知。</p>
 	<p>您可能会被问及是否有兴趣在未来参与其他除『WELL人生』之外的研究。如果您不希望参与，请在第一次问卷调查中告知。</p>
