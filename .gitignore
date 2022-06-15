@@ -7,3 +7,4 @@ nohup.*
 temp/*
 .idea/*
 .DS_Store
+results/*
