@@ -31,32 +31,57 @@ $supp_project_notes		= $_SESSION["project_info"]["supp_project_notes"];
 // CHECK TO SEE IF THEY STARTED THIS CORESURVEY TO DETERMINE SHORT SCALE
 if(!isset($_SESSION["user_anniversary"])){
 	//ON ANNIVERSARY UPDATE THEIR EVENT ARM AND USE DIFFERENT PROJECT!!
-	if( $days_active > 1821 ){
-		if($user_event_arm != REDCAP_PORTAL_EVENT_5){
-			$user_event_arm = REDCAP_PORTAL_EVENT_5;
-			$update_arm = true;
-		}
-	}else if( $days_active > 1457 && $days_active <= 1821 ){
-		if($user_event_arm != REDCAP_PORTAL_EVENT_4){
-			$user_event_arm = REDCAP_PORTAL_EVENT_4;
-			$update_arm = true;
-		}
-	}else if( $days_active > 1093 && $days_active <= 1457 ){
-		if($user_event_arm != REDCAP_PORTAL_EVENT_3){
-			$user_event_arm = REDCAP_PORTAL_EVENT_3;
-			$update_arm = true;
-		}
-	}else if( $days_active > 729 && $days_active <= 1093 ){
-		if($user_event_arm != REDCAP_PORTAL_EVENT_2){
-			$user_event_arm = REDCAP_PORTAL_EVENT_2;
-			$update_arm = true;
-		}
-	}else if( $days_active > 364 && $days_active <= 729 ){
-		if($user_event_arm != REDCAP_PORTAL_EVENT_1 ){
-			$user_event_arm = REDCAP_PORTAL_EVENT_1;
-			$update_arm = true;
-		}
-	}
+    if ($days_active >= 3650) { // More than 10 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_10) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_10;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 3285 && $days_active < 3650) { // More than 9 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_9) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_9;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 2920 && $days_active < 3285) { // More than 8 years and up to 9 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_8) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_8;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 2555 && $days_active < 2920) { // More than 7 years and up to 8 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_7) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_7;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 2190 && $days_active < 2555) { // More than 6 years and up to 7 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_6) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_6;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 1825 && $days_active < 2190) { // More than 5 years and up to 6 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_5) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_5;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 1460 && $days_active < 1825) { // More than 4 years and up to 5 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_4) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_4;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 1095 && $days_active < 1460) { // More than 3 years and up to 4 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_3) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_3;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 730 && $days_active < 1095) { // More than 2 years and up to 3 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_2) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_2;
+            $update_arm = true;
+        }
+    } else if ($days_active >= 365 && $days_active < 730) { // More than 1 year and up to 2 years
+        if ($user_event_arm != REDCAP_PORTAL_EVENT_1) {
+            $user_event_arm = REDCAP_PORTAL_EVENT_1;
+            $update_arm = true;
+        }
+    }
 		
 	if($update_arm){
 		unset($_SESSION["user_survey_data"]);
