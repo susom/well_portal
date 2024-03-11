@@ -53,18 +53,35 @@ $(document).ready(function(){
         var dataURL         = "survey.php?ajax=1&surveycomplete=1";
         var instrument_name = $("#customform").attr("name");
         var next_instrument = $("#customform").data("next");
-        var project         = "&project=" + $("#customform").data("project") + "&sid=" + instrument_name ;
+        var record_id       = $("#customform").data("recordid");
+        var eventname       = $("#customform").data("event");
+        var project         = $("#customform").data("project");
+        var dataObject = {
+            "record_id": record_id, // Variable holds the record ID
+            "redcap_event_name": eventname, // Variable holds the redcap event name
+            "sid" : instrument_name,
+            "project" : project
+        };
+        console.log("data object to push complete ", dataObject);
+
         $.ajax({
           url:  dataURL,
           type:'POST',
-          data: surveyhash + project,
+          dataType: 'json',
+          data: dataObject,
           success:function(result){
             var customIPAQSCORE = "";
             if(next_instrument){
+              console.log("next instrument right?", result);
               location.href="survey.php?sid=" + next_instrument + "&survey_complete=" + instrument_name;
             }else{
               location.href="index.php?survey_complete=" + instrument_name;
             }
+          },
+          error: function(xhr, status, error) {
+            console.log("An error occurred: " + error);
+            console.log("Status: " + status);
+            console.log("Response: " + xhr.responseText);
           }
         });
       }    

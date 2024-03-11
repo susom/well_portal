@@ -18,7 +18,8 @@ $MAT_videos['Terrain_5']                           = "https://cdnapisec.kaltura.
 //LOAD UP THE SURVEY HERE AND PRINT OUT THE HTML
 class Survey {
   PUBLIC $surveyname;
-  PUBLIC $surveyid; 
+  PUBLIC $surveyid;
+  PUBLIC $event;
   PUBLIC $surveytotal;
   PUBLIC $completed;
   PUBLIC $surveycomplete;
@@ -37,6 +38,7 @@ class Survey {
     $this->surveytotal    = $survey_data["total_questions"];
     $this->completed      = $survey_data["completed_fields"];
     $this->surveycomplete = $survey_data["survey_complete"];
+    $this->event          = $survey_data["event"];
     $this->surveypercent  = 0;
     $this->raw            = $survey_data["raw"];
     $this->project        = $survey_data["project"];
@@ -336,7 +338,7 @@ class Survey {
   }
 
   public function printHTML($event, $instrument_id){
-    global $MAT_videos;
+    global $MAT_videos , $loggedInUser;
     $theHTML      = array();
     $yourAnswers  = (!$this->surveycomplete ? "" : " : Your Answers");
     $surveyname   = isset($this->title_trans[$_SESSION["use_lang"]][$this->surveyid]) ?  $this->title_trans[$_SESSION["use_lang"]][$this->surveyid] : $this->surveyname;
@@ -374,7 +376,7 @@ class Survey {
       $theHTML[]        = "<style>.surveyFrame{ height:auto; }</style>";
     }else{
         $formname         = !empty($this->raw) ? $this->raw[0]["form_name"] : null;
-        $theHTML[]        = "<form class='customform' id='customform' name='".$formname."' data-project='".$this->project."' data-instrument='".$this->surveyid."'>";
+        $theHTML[]        = "<form class='customform' id='customform' name='".$formname."' data-recordid='".$loggedInUser->user_id."' data-event='".$this->event."' data-project='".$this->project."' data-instrument='".$this->surveyid."'>";
         
         //CONTAINERS FOR BUILDING FORM COMPONENTS
         $sections         = array();

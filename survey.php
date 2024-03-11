@@ -240,13 +240,17 @@ if(isset($_REQUEST["ajax"])){
   $event_name   = $project_name !== $_CFG->SESSION_NAME ? null : $_SESSION[$_CFG->SESSION_NAME]["survey_context"]["event"];
 
   $survey_id    = isset($_REQUEST["sid"]) ? $_REQUEST["sid"] : null;
-  
+  $complete_data = array();
+
   //IF DOING A END OF SURVEY FINAL SUBMIT
   if(isset($_REQUEST["surveycomplete"])){
-    $result     = RC::callApi(array(
-        "hash"    => $_REQUEST["hash"], 
-        "format"  => "csv"
-      ), true, $custom_surveycomplete_API, $API_TOKEN);
+      $complete_data[] = array(
+            "record" => $record_id,
+            "redcap_event_name" => $event_name,
+            "field_name" => $survey_id."_complete",
+            "value" => "2"
+      );
+      $result = RC::writeToApi($complete_data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
   }
 
   //WRITE TO API
@@ -281,7 +285,7 @@ if(isset($_REQUEST["ajax"])){
     // print_r($data);
     // print_r($result);
   }
-  exit;
+  exit(json_encode($complete_data));
 }
 
 //GET THE CURRENT TOP NAV CATEGORy

@@ -193,10 +193,11 @@ class Project {
 				break;
 			}
 			
-			$proper_completed_timestamp = $instrument_id . "_timestamp";
-			$user_actually_completed 	= isset($user_arm_answers[$proper_completed_timestamp]) ? $user_arm_answers[$proper_completed_timestamp] : null; //= "[not completed]"
-			$instrument_complete 		= $user_actually_completed == "[not completed]" || $user_actually_completed == ""   ? 0 : 1;
-			if(!$instrument_complete && in_array($instrument_id, $this->instrument_list)){
+			$proper_completed           = $instrument_id . "_complete";
+			$user_actually_completed 	= isset($user_arm_answers[$proper_completed]) ? $user_arm_answers[$proper_completed] : null; //= "[not completed]"
+            $instrument_complete 		= $user_actually_completed == 2 ? 1 : 0;
+
+            if(!$instrument_complete && in_array($instrument_id, $this->instrument_list)){
 				$this->active_surveys_complete = false;
 			}
 
