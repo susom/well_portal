@@ -1,0 +1,26 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - well-prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_DEPLOY_SA_KEY }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy
+        run: |
+          gcloud compute ssh wellforlife-vm1 \
+            --zone=us-west1-b \
+            --project=som-well-for-life \
+            --tunnel-through-iap \
+            --command="docker exec well-portal git -C /var/www/html pull && docker exec well-portal kill -USR2 1"
