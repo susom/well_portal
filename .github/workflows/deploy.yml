@@ -23,4 +23,5 @@ jobs:
             --zone=us-west1-b \
             --project=som-well-for-life \
             --tunnel-through-iap \
+            --ssh-flag="-o StrictHostKeyChecking=no" \
             --command="docker exec well-portal git -C /var/www/html pull && docker exec well-portal kill -USR2 1"
