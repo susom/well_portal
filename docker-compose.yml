@@ -1,0 +1,7 @@
+services:
+  web:
+    image: andy123/docker-nginx-php-git:latest
+    ports:
+      - "7070:80"
+    volumes:
+      - .:/var/www/html
