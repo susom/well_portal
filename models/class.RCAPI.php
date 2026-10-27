@@ -46,7 +46,10 @@ class RC {
 		}
 
 		$result = self::callApi($extra_params, $json_expected, $api_url, $api_token);
-		if (!empty($result) && !(is_array($result) && isset($result["error"]))) {
+		// raw (non-json) results are only cached when they are a URL, e.g. a survey link
+		$ok = $json_expected ? (!empty($result) && !(is_array($result) && isset($result["error"])))
+		                     : (is_string($result) && strncmp($result, "http", 4) === 0);
+		if ($ok) {
 			if (!is_dir($dir)) @mkdir($dir, 0700, true);
 			$tmp = $file . "." . getmypid();
 			if (@file_put_contents($tmp, serialize($result)) !== false) @rename($tmp, $file);

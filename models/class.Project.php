@@ -116,7 +116,7 @@ class Project {
 			'instrument' 	=> $instrument,
 			'event' 		=> $event
 		);
-		$result = RC::callApi($extra_params, false, $this->API_URL, $this->API_TOKEN);
+		$result = RC::callApiCached($extra_params, false, $this->API_URL, $this->API_TOKEN, 86400); // a record's survey link does not change
 		return $result;
 	}
 
