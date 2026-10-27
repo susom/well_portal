@@ -46,6 +46,9 @@ WORKDIR /var/www/html
 # Locally, docker-compose bind-mounts the repo over this.
 COPY . /var/www/html
 
+# pear/pecl CLIs aren't needed at runtime and are a known LFI gadget
+RUN rm -f /usr/local/lib/php/pearcmd.php /usr/local/lib/php/peclcmd.php
+
 RUN mkdir -p /run/nginx temp results RadarUserCSV \
  && chown -R nginx:nginx temp results RadarUserCSV
 
