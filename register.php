@@ -39,7 +39,7 @@ if(!empty($_POST['submit_new_user'])){
 
 	// use the email as the username if configured
 	$username 	= $portal_config['useEmailAsUsername'] ? $email : trim($_POST["username"]);
-	$password 	= md5("somelongthingsurewhynot" . $username); //USE A TEMP PASSWORD FOR NOW
+	$password 	= bin2hex(random_bytes(16)); //USE A RANDOM TEMP PASSWORD FOR NOW
 	
 	$fname 		= (!empty($_POST["firstname"]) 	? $_POST["firstname"] : null ) ;
 	$lname 		= (!empty($_POST["lastname"]) 	? $_POST["lastname"] : null) ;

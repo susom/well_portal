@@ -61,6 +61,8 @@ class RedcapAuth {
    public function verifyPassword($login_pass) {
       // The password contains 25 characters as a salt and then then generated password by SHA1 encrypting the salt+pass.
       foreach ($this->username_matches as $id => $record){
+         // Accounts that never set a password still have the old guessable temp password from register.php; never accept it
+         if ($login_pass === md5("somelongthingsurewhynot" . $record[getRF('username')])) continue;
          // Trim the database-stored password
          $record_salt_pass = $record[getRF('password')];         
          // Take the first 25 characters as the salt
