@@ -1,6 +1,11 @@
 <?php
 require_once("models/config.php");
 
+if(!isUserLoggedIn()){
+  http_response_code(401);
+  exit(json_encode(array("error" => "not logged in")));
+}
+
 $API_URL    = SurveysConfig::$projects["REDCAP_PORTAL"]["URL"];
 $API_TOKEN  = SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"];
 
