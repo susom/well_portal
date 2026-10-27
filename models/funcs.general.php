@@ -673,6 +673,12 @@ function linkSupplementalProject($api, $portalUser, $ev_name = "") {
 	$fk_field 		= $api["Foreign_Key"];
 	$portalUserId 	= $portalUser->id;
 
+	// Without an event the result is always $portalUserId, and the write below can only
+	// succeed for projects keyed on "id" with a foreign key (the rest return HTTP 400)
+	if( empty($ev_name) && (empty($fk_field) || $pk_field !== "id") ){
+		return $portalUserId;
+	}
+
 	$params 				= array( "fields" => array($pk_field) ); //record id + foreignKey
 	$params["filterLogic"] 	= "[$fk_field] = '$portalUserId'"; //foreign key filter
 	if(!empty($ev_name)){
@@ -696,6 +702,9 @@ function linkSupplementalProject($api, $portalUser, $ev_name = "") {
             	}
             }
         } while ($found && $i < 99);
+	}elseif( !empty($q) && in_array((string)$new_id, array_map("strval", array_column($q, $pk_field)), true) ){
+		// already linked, the write below would not change anything
+		return $new_id;
 	}
 	$data = array("id"=> $new_id, $fk_field => $portalUserId);
 	if(!empty($ev_name)){
