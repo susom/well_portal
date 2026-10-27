@@ -337,6 +337,13 @@ function isUserLoggedIn() {
 	return (isset($loggedInUser) && !empty($loggedInUser));
 }
 
+// Radar chart CSVs live outside the webroot; served only to their owner by radar_csv.php
+function radarCsvPath($user_id, $year) {
+	$dir = sys_get_temp_dir() . "/well_radar";
+	if(!is_dir($dir)) mkdir($dir, 0700, true);
+	return $dir . "/" . intval($user_id) . "_" . intval($year) . "_Results.csv";
+}
+
 // Returns true if user object is defined globally
 function isUserConsented() {
     global $loggedInUser;

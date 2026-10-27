@@ -1,4 +1,8 @@
 <?php
+// Disabled: no admin check, any logged-in user could impersonate others. Edit content in REDCap pid 12482.
+http_response_code(403);
+exit("Forbidden");
+
 require_once("models/config.php");
 include("models/inc/checklogin.php");
 

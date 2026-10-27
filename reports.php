@@ -218,7 +218,7 @@ include_once("models/inc/gl_head.php");
                             $count_year   = $armyears[$e_arms["redcap_event_name"]];
                             $long_scores  = json_decode($e_arms["well_long_score_json"],1);
                             if(!empty($long_scores)){
-                                $users_file_csv = "RadarUserCSV/".$loggedInUser->id."_".$count_year."_Results.csv";
+                                $users_file_csv = radarCsvPath($loggedInUser->id, $count_year);
 
                                 $ct = 0;
                                 foreach ($long_scores as $key => $value){
@@ -242,7 +242,7 @@ include_once("models/inc/gl_head.php");
                         }//foreach project year (event arm)
 
                         if($compare_all){
-                            file_put_contents("RadarUserCSV/".$loggedInUser->id."_99_Results.csv", $csv_data);
+                            file_put_contents(radarCsvPath($loggedInUser->id, 99), $csv_data);
                         }
 
                         //GET THIS YEARS LATEST LIFESTYLE PRIORITIES

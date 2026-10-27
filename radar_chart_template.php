@@ -7,7 +7,6 @@ if(!isset($_SESSION["radarchart"])){
     exit;
 }
 $display_year   = $_SESSION["radarchart"]["display_year"];
-$csv_file       = $loggedInUser->id . "_" . $display_year . "_";
 ?>
 <!DOCTYPE html>
 <html ng-app="RadarChart">
@@ -16,7 +15,7 @@ $csv_file       = $loggedInUser->id . "_" . $display_year . "_";
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
   <link rel="stylesheet" href="assets/css/Radarstyle.css" />
 </head>
-<body class="container" ng-controller="MainCtrl as radar" data-csvfile="RadarUserCSV/<?php echo $csv_file ?>Results">
+<body class="container" ng-controller="MainCtrl as radar" data-csvfile="radar_csv.php?f=Results">
   <div class="main container">
     <h2><?php echo lang("RESULTS_SUMMARY"); ?> <button id="print_btn" onclick="javascript:window.print()"><?php echo lang("PRINT"); ?></button></h2>
     <div class="visualization">
