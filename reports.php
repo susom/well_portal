@@ -88,7 +88,7 @@ include_once("models/inc/gl_head.php");
 
                           //WILL NEED TO GET RESULTS FROM PREVIOUS YEARS TO SHOW RESULTS/FEEDBACK
                           if(!isset($_SESSION["supp_surveys"][$year])){
-                            $_SESSION["supp_surveys"][$year] = new Project($loggedInUser, "Supp", SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"], $arm);
+                            $_SESSION["supp_surveys"][$year] = new Project($loggedInUser, SurveysConfig::$projects["Supp"]["URL"], SurveysConfig::$projects["Supp"]["TOKEN"], "Supp", $arm);
                           }
                           $r_supp_surveys["Supp"]   = $_SESSION["supp_surveys"][$year];
                           $r_supp_instruments       = array();

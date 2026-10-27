@@ -57,6 +57,7 @@ if( !empty($_POST) && isset($_POST['new_login']) ) {
 
 		// Valid credentials
 		if($auth->authenticated_user_id != Null) {
+			session_regenerate_id(true);
 			// Log user in
 			$loggedInUser 		= new RedcapPortalUser($auth->authenticated_user_id);
 
@@ -70,7 +71,7 @@ if( !empty($_POST) && isset($_POST['new_login']) ) {
 		    $API_TOKEN    = $projects["REDCAP_PORTAL"]["TOKEN"];
 		    $API_URL      = $projects["REDCAP_PORTAL"]["URL"];
 		    $result       = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-		    $_SESSION["REDCAP_PORTAL"]['user']->lang = $use_lang;
+		    $loggedInUser->lang = $use_lang;
 
 			//CHECK THIS ON EVERY LOGIN? SURE
 			$supp_proj 		= SurveysConfig::$projects;

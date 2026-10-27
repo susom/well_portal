@@ -1,4 +1,5 @@
 <?php
+#[AllowDynamicProperties]
 class Project {
 	protected $LOGGED_IN_USER;
 	protected $API_URL;
@@ -20,7 +21,7 @@ class Project {
 	protected $current_arm 				 	= 0; //WHAT EVEN IS THIS
 	protected $name                       	= "";
 
-	public function __construct($loggedInUser, $projectName="", $api_url, $api_token, $specific_event=null){
+	public function __construct($loggedInUser, $api_url, $api_token, $projectName="", $specific_event=null){
 		//DO ALL THE ONE TIME CALLS OUT HERE
 		//THEN I CAN GRANULARLY REFRESH JUST THE LIVE DATA
 		//WHILE LEAVING THE OBJECT ITSELF STORED IN THE SESSION

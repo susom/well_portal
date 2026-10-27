@@ -32,6 +32,15 @@ $default_replace 			= array( $_CFG->WEBSITE["Name"]
 
 // Start Session and determine if we are authenticated
 // Authenticated means user+pass has matched, but does NOT mean the account is active
+if (PHP_VERSION_ID >= 70300) { // array form needs 7.3+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path'     => '/',
+        'secure'   => isset($_SERVER['HTTPS']) || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https'),
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+}
 session_start();
 
 $loggedInUser = getSessionUser($_CFG->SESSION_NAME);

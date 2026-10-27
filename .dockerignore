@@ -1,0 +1,14 @@
+.git
+.github
+.claude
+.idea
+.DS_Store
+Dockerfile
+docker-compose.yml
+supervisord.pid
+nohup.*
+models/my_settings.php
+PDF/certs/*
+RadarUserCSV/*
+results/*
+temp/*

@@ -13,6 +13,7 @@
 */
 
 // The logged in user - stored in the $_SESSION
+#[AllowDynamicProperties]
 class RedcapPortalUser
 {
    public $errors = array();

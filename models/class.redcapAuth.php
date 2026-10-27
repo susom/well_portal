@@ -13,6 +13,7 @@
 */
 
 // A class used for looking up users and matching credentials.
+#[AllowDynamicProperties]
 class RedcapAuth {
    public   $username;
    public   $username_raw;

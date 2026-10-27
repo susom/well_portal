@@ -15,7 +15,7 @@ if(empty($pid)){
         $api_token 	= $_CFG->REDCAP_API_TOKEN;
         $sesh_name 	= SESSION_NAME;
 
-		$user_survey_data = new Project($loggedInUser, $sesh_name, $api_url, $api_token);
+		$user_survey_data = new Project($loggedInUser, $api_url, $api_token, $sesh_name);
 		$user_survey_data->refreshData();
 		$_SESSION["user_survey_data"] 	= $user_survey_data;
 		// WILL NEED TO REFRESH THIS WHEN SURVEY SUBMITTED OR ELSE STALE DATA 
@@ -70,7 +70,7 @@ if(empty($pid)){
 		}else{
 			$proj_name 	 				= "Supp";
 			$supp_surveys 				= array();
-			$supplementalProject 		= new Project($loggedInUser, $proj_name, SurveysConfig::$projects[$proj_name]["URL"], SurveysConfig::$projects[$proj_name]["TOKEN"]);
+			$supplementalProject 		= new Project($loggedInUser, SurveysConfig::$projects[$proj_name]["URL"], SurveysConfig::$projects[$proj_name]["TOKEN"], $proj_name);
 			$suppsurveys 				= $supplementalProject->getActiveAll();
 			$supp_branching 			= $supplementalProject->getAllInstrumentsBranching();
 			if(!empty($supp_branching)){

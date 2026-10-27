@@ -712,7 +712,7 @@ function getRF($property) {
 
 // lowercase and strip tags
 function sanitize($str) {
-	return strtolower(strip_tags(trim(($str))));
+	return strtolower(strip_tags(trim($str ?? '')));
 }
 
 

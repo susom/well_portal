@@ -121,7 +121,7 @@ if(isset($_REQUEST["mat"])){
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
   $data   = array_shift($data);
   $data["matstring"] = $matstring;
-  print_r( json_encode($data) );
+  echo json_encode($data);
   exit;
 }
 
@@ -149,7 +149,7 @@ if(isset($_REQUEST["met"])){
     $data[0]["redcap_event_name"] = $event_name;
   }
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  print_r($data);
+  echo json_encode($data);
   exit;
 }
 
@@ -177,7 +177,7 @@ if(isset($_REQUEST["sleep"])){
     $data[0]["redcap_event_name"] = $event_name;
   }
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  print_r($data);
+  echo json_encode($data);
   exit;
 }
 
@@ -224,7 +224,7 @@ if(isset($_REQUEST["ipaq"])){
     $data[3]["redcap_event_name"] = $event_name;
   }
   $result = RC::writeToApi($data, array("overwriteBehavior" => "overwite", "type" => "eav"), $API_URL, $API_TOKEN);
-  print_r($data);
+  echo json_encode($data);
   exit;
 }
 

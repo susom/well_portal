@@ -1,6 +1,6 @@
 services:
   web:
-    image: andy123/docker-nginx-php-git:latest
+    build: .
     ports:
       - "7070:80"
     volumes:
