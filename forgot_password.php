@@ -35,7 +35,8 @@ if( !empty($_GET["confirm"]) ){
 	//THIS GOES STRAIGHT TO THE PASSWORD RESET FORM IF NO ERRORS
 	if (count($errors) == 0){
 		$pass_reset_form 	= true;
-		$email 				= $user->email; 
+		$email 				= $user->email;
+		$_SESSION["pw_reset_verified"] = strtolower($user->email); // identity proven by email token
 	}else{
 		foreach($errors as $error){
 			addSessionAlert($error);
@@ -176,6 +177,7 @@ if(!empty($_POST['submitPasswordResetAnswers'])){
 		//QUESTIONS ANSWERED CORRECTLY , PASS THROUGH TO PASSWORD RESET FORM
 		addSessionMessage('Identity verified - Set new password.','success');
 		$pass_reset_form = true;
+		$_SESSION["pw_reset_verified"] = strtolower($user->email); // identity proven by security answers
 	}elseif ($attempt >= 3){
 		// If still incorrect after 3 tries, then cancel and redirect
 		$errors[] 			= "Too many incorrect attempts - password reset cancelled";
@@ -199,6 +201,14 @@ if(!empty($_POST['submitPasswordResetAnswers'])){
 
 //THIS HANDLES SAVING NEW PASSWORDS
 if(!empty($_POST['saveResetPassword'])){
+	// Only allow saving for the account this session verified via token or security answers
+	if(empty($user) || ($_SESSION["pw_reset_verified"] ?? null) !== strtolower($user->email)){
+		addSessionAlert("Password reset session is not valid - please start again");
+		header("Location: login.php");
+		exit;
+	}
+	unset($_SESSION["pw_reset_verified"]);
+
 	//validate and save - if okay, redirect to home page, if bad, clear session and make them start over?
 	$password_new 		= trim($_POST["password_new"]);
 	$password_new_again = trim($_POST["password_new_again"]);

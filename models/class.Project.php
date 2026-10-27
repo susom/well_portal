@@ -416,7 +416,7 @@ class PreGenAccounts extends Project{
 
 	//BUT... IT WILL NEED ALSO ITS API URL AND API TOKEN?
 	public function __construct($loggedInUser, $projectName, $api_url, $api_token){
-		parent::__construct($loggedInUser,$projectName, $api_url, $api_token);
+		parent::__construct($loggedInUser, $api_url, $api_token, $projectName);
     }
 
     public function getAccount(){

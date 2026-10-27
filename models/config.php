@@ -52,7 +52,9 @@ if( !empty($loggedInUser) ){
 	}
 }
 
-if(isset($_GET["lang"]) && is_file(dirname(__FILE__) . "/lang/".$_GET["lang"] .".php" )){
+// Only these language files may be included (?lang= was a local file include)
+$allowed_langs = array("en", "sp", "cn", "tw");
+if(isset($_GET["lang"]) && in_array($_GET["lang"], $allowed_langs, true)){
 	$_SESSION["use_lang"] = $_GET["lang"];
 	if(isset($loggedInUser->lang)){
 		$loggedInUser->lang = $_GET["lang"];
@@ -116,6 +118,9 @@ if(isset($loggedInUser->lang)){
 	languageSwitch($loggedInUser->lang);
 }
 
+if(!in_array($_SESSION["use_lang"] ?? null, $allowed_langs, true)){
+	$_SESSION["use_lang"] = "en";
+}
 require_once( dirname(__FILE__) . "/lang/".$_SESSION["use_lang"].".php");
 $PAGE = basename($_SERVER["SCRIPT_FILENAME"]);
 
