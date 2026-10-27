@@ -27,7 +27,7 @@ class Gamify {
             "records"   => 9999,
             "fields"    => "wof_quotes"
         );
-        $results        = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);
+        $results        = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);
         $quotes         = !empty($results) ? current($results) : array();
         $quotes         = isset($quotes["wof_quotes"]) ? json_decode($quotes["wof_quotes"],1) : array();
         return $quotes;
@@ -42,7 +42,7 @@ class Gamify {
             "records"   => 9999,
             "fields"    => $gamify_fields
         );
-        $results        = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);
+        $results        = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);
         $points         = !empty($results) ? current($results) : $gamify_fields;
         return $points;
     }

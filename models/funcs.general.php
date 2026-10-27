@@ -184,7 +184,7 @@ function getEventYears($consent_ts,$user_event_arm){
     $extra_params = array(
         'content'   => 'event',
     );
-    $events_dictionary  = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+    $events_dictionary  = RC::callApiCached($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
     $events             = array();
     foreach($events_dictionary as $event){
         $events[$event["unique_event_name"]] = 1;
@@ -211,7 +211,7 @@ function getSessionEventYears(){
 		$extra_params = array(
 		  'content'   => 'event',
 		);
-		$_SESSION["events"] = RC::callApi($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
+		$_SESSION["events"] = RC::callApiCached($extra_params, true, REDCAP_API_URL, REDCAP_API_TOKEN);
 		$events = array();
 		foreach($_SESSION["events"] as $event){
 			$events[$event["unique_event_name"]] = 1;

@@ -35,6 +35,25 @@ class RC {
       	return $result;
 	}
 	
+	// callApi for project-wide data that is the same for every user (metadata, events, settings).
+	// Cached on local disk for $ttl seconds; failed or empty results are never cached.
+	public static function callApiCached($extra_params = null, $json_expected = true, $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN, $ttl = 600) {
+		$dir  = sys_get_temp_dir() . "/well_cache";
+		$file = $dir . "/" . hash("sha256", $api_url . "|" . $api_token . "|" . serialize($extra_params) . "|" . (int)$json_expected);
+		if (is_file($file) && (time() - filemtime($file)) < $ttl) {
+			$cached = @unserialize(file_get_contents($file), array("allowed_classes" => false));
+			if ($cached !== false) return $cached;
+		}
+
+		$result = self::callApi($extra_params, $json_expected, $api_url, $api_token);
+		if (!empty($result) && !(is_array($result) && isset($result["error"]))) {
+			if (!is_dir($dir)) @mkdir($dir, 0700, true);
+			$tmp = $file . "." . getmypid();
+			if (@file_put_contents($tmp, serialize($result)) !== false) @rename($tmp, $file);
+		}
+		return $result;
+	}
+
 	// Write to the API
 	public static function writeToApi($data, $extra_params = array(), $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN) {
 		// Force data into an array of arrays if not already set

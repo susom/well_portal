@@ -95,7 +95,7 @@ class Project {
 		$extra_params = array(
 			'content' 	=> 'formEventMapping',
 		);
-		$result = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);	
+		$result = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);	
 		return $result;
 	}
 
@@ -104,7 +104,7 @@ class Project {
 		$extra_params = array(
 			'content' 	=> 'instrument',
 		);
-		$result = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);	
+		$result = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);	
 		return $result;
 	}
 
@@ -126,7 +126,7 @@ class Project {
 			'content' 	=> 'metadata',
 			'forms'		=> ($instruments?: null)
 		);
-		$result = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);
+		$result = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);
 		return $result;
 	}
 
@@ -135,7 +135,7 @@ class Project {
 		$extra_params = array(
 			'content' 	=> 'project',
 		);
-		$result = RC::callApi($extra_params, true, $this->API_URL, $this->API_TOKEN);
+		$result = RC::callApiCached($extra_params, true, $this->API_URL, $this->API_TOKEN);
 		return $result;
 	}
 

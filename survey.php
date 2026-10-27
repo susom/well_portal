@@ -349,7 +349,7 @@ if(array_key_exists($sid, $surveys)){
         $extra_params = array(
             'content' 	=> 'formEventMapping',
         );
-        $result = RC::callApi($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
+        $result = RC::callApiCached($extra_params, true,SurveysConfig::$projects["REDCAP_PORTAL"]["URL"], SurveysConfig::$projects["REDCAP_PORTAL"]["TOKEN"]);
         $all_events = array_unique(array_column($result,"unique_event_name"));
         $extra_params 		= array(
             'content'     	=> 'record',
