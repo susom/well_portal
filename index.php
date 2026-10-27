@@ -310,7 +310,7 @@ $extra_params   = array(
     'content'   => 'record',
     'format'    => 'json',
     "fields"    => array("id", "portal_mc_name","portal_mc_year"),
-    "filterLogic" => "[portal_mc_name] = '$portal_bg' "
+    "filterLogic" => "[portal_mc_name] = '" . str_replace("'", "", $portal_bg) . "' "
 );
 $minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
 
