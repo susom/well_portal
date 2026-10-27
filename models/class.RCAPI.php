@@ -110,8 +110,8 @@ class RC {
 		$ch = curl_init($api_url);
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 105200);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -149,8 +149,8 @@ class RC {
 
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 105200);
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 
@@ -197,7 +197,7 @@ class RC {
 		if (function_exists('curl_init')) {
 			// Use cURL
 			$curlpost = curl_init();
-			curl_setopt($curlpost, CURLOPT_SSL_VERIFYPEER, FALSE);  //THIS SHOULD BE TRUE TO DISALLOW MiM attack?
+			curl_setopt($curlpost, CURLOPT_SSL_VERIFYPEER, TRUE);
 			curl_setopt($curlpost, CURLOPT_VERBOSE, 0);
 			curl_setopt($curlpost, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($curlpost, CURLOPT_AUTOREFERER, true);

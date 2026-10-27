@@ -975,7 +975,7 @@ function sendMailRelay($mail_relay_endpoint, $mail_api_token, $email_subject, $e
     $process            = curl_init($mail_relay_endpoint);
     curl_setopt($process, CURLOPT_TIMEOUT, 30);
     curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($process, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($process, CURLOPT_SSL_VERIFYPEER, TRUE);
 
     if (!empty($data)) curl_setopt($process, CURLOPT_POSTFIELDS, $data);
     if (!empty($method)) curl_setopt($process, CURLOPT_CUSTOMREQUEST, $method);
