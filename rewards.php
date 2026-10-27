@@ -56,7 +56,7 @@ $mini_formatted = array();
 $mini_rewards   = array();
 foreach($minics as $minic){
     $recordid   = $minic["id"];
-    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
+    $file_curl  = RC::callFileApiCached($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
     if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
         $eventpic = base64_encode($file_curl["file_body"]);
     }

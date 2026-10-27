@@ -57,6 +57,24 @@ class RC {
 		return $result;
 	}
 
+	// callFileApi for site-wide CMS images (same for every user). Only image responses are cached.
+	public static function callFileApiCached($recordid, $fieldname, $event = null, $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN, $ttl = 3600) {
+		$dir  = sys_get_temp_dir() . "/well_cache";
+		$file = $dir . "/file_" . hash("sha256", $api_url . "|" . $api_token . "|" . $recordid . "|" . $fieldname . "|" . $event);
+		if (is_file($file) && (time() - filemtime($file)) < $ttl) {
+			$cached = @unserialize(file_get_contents($file), array("allowed_classes" => false));
+			if ($cached !== false) return $cached;
+		}
+
+		$result = self::callFileApi($recordid, $fieldname, $event, $api_url, $api_token);
+		if (strpos($result["headers"]["content-type"][0] ?? "", "image") !== false) {
+			if (!is_dir($dir)) @mkdir($dir, 0700, true);
+			$tmp = $file . "." . getmypid();
+			if (@file_put_contents($tmp, serialize($result)) !== false) @rename($tmp, $file);
+		}
+		return $result;
+	}
+
 	// Write to the API
 	public static function writeToApi($data, $extra_params = array(), $api_url = REDCAP_API_URL, $api_token = REDCAP_API_TOKEN) {
 		// Force data into an array of arrays if not already set

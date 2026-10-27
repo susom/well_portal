@@ -55,7 +55,7 @@ foreach($cats as $cat){
         foreach($events as $event){
             $recordid   = $event["id"];
             $eventpic   = "";
-            $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
+            $file_curl  = RC::callFileApiCached($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
             if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
               $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
               $mime     = $split[0];
@@ -95,7 +95,7 @@ foreach($cats as $cat){
         if(!empty($events)){
           $recordid   = $events[0]["id"];
           $eventpic   = "";
-          $file_curl  = RC::callFileApi($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
+          $file_curl  = RC::callFileApiCached($recordid, "well_cms_pic", null, $API_URL,$API_TOKEN);
           if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
             $split    = explode("; ",$file_curl["headers"]["content-type"][0]);
             $mime     = $split[0];
@@ -316,7 +316,7 @@ $minics = RC::callApi($extra_params, true, $CMS_API_URL, $CMS_API_TOKEN);
 
 foreach($minics as $minic){
     $recordid   = $minic["id"];
-    $file_curl  = RC::callFileApi($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
+    $file_curl  = RC::callFileApiCached($recordid, "portal_mc_img", null, $CMS_API_URL,$CMS_API_TOKEN);
     if(strpos($file_curl["headers"]["content-type"][0],"image") > -1){
         $eventpic = base64_encode($file_curl["file_body"]);
     }
