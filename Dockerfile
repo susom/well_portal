@@ -1,7 +1,7 @@
 FROM php:8.5.12-fpm-alpine
 
 RUN apk add --no-cache \
-    nginx \
+    "nginx>=1.30.7-r0" \
     supervisor \
     git \
     openssh-client \
